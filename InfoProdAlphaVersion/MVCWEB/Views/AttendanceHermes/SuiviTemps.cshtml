@@ -1,0 +1,198 @@
+﻿@model  MVCWEB.Models.EvaluationViewModel
+
+@{
+    ViewBag.Title = "SuiviTemps";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+
+@section test{
+<script src="~/Scripts/datepicker.min.js"></script>
+
+<div class="col-2">
+    <h6 class="col-xs-2 control-label">Sélectionner Date</h6>
+    <div class="col-xs-4 date">
+        <div class="input-group input-append date">
+            <input type="text" class="form-control" name="date" id="datePicker" value="2019-01-01" />
+            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+    </div>
+</div>
+  
+    <table class="table table-active" id="Grid" style="text-align: center;">
+        <thead>
+            <tr>
+                <th style="text-align: center;">Image</th>
+                <th style="text-align: center;">Agent</th>
+                <th style="text-align: center;">Login Hermes</th>
+                <th style="text-align: center;">Activité</th>
+                <th style="text-align: center;">Arrivé</th>
+                <th style="text-align: center;">Depart</th>
+                <th style="text-align: center;">Retard Arrivé</th>
+                <th style="text-align: center;">Avance Depart</th>
+                <th style="text-align: center;">Cumul Retard</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+   
+    <script>
+        $('#datePicker')
+               .datepicker({
+
+                   format: 'yyyy-mm-dd',
+                   autoclose: true,
+                   setDate: new Date()
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+        //$("#datePicker").datepicker("setDate", new Date());
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetHermesValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    date: $("#datePicker").val()
+                },
+
+                success: function (c) {
+                    var tblHtml = "";
+
+                    $.each(c, function (index, cal) {
+
+                        tblHtml += "<tr><td> <img src= " + cal.Image + " class='img-circle img-lg' alt=''></td>";
+                        tblHtml += "<td>" + cal.Agent + "</td>";
+                        tblHtml += "<td >" + cal.IdHermes + "</td>";
+                        tblHtml += "<td >" + cal.groupe + "</td>";
+                        tblHtml += "<td >" + cal.Arrive + "</td>";
+                        tblHtml += "<td >" + cal.Depart + "</td>";
+                        if (cal.typearrive == 'positif') {
+                            tblHtml += "<td><span class='text-success'><i class='icon-stats-growth2 position-left'></i>" + cal.RetardArrive + "</span></td>";
+                        }
+                        if (cal.typearrive == 'negatif') {
+                            tblHtml += "<td><span class='text-danger'><i class='icon-stats-decline2 position-left'>&nbsp;" + cal.RetardArrive + "</span></td>";
+                        }
+                        if (cal.RetardArrive == '-') {
+                            tblHtml += "<td>" + cal.RetardArrive + "</td>";
+                        }
+
+                        if (cal.typedepart == 'positif') {
+                            tblHtml += "<td><span class='text-success'><i class='icon-stats-growth2 position-left'></i>" + cal.RetardDepart + "</span></td>";
+                        }
+                        if (cal.typedepart == 'negatif') {
+                            tblHtml += "<td><span class='text-danger'><i class='icon-stats-decline2 position-left'>&nbsp;" + cal.RetardDepart + "</span></td>";
+                        }
+                        if (cal.RetardDepart == '-') {
+                            tblHtml += "<td>" + cal.RetardDepart + "</td>";
+                        }
+
+                        if (cal.typecumul == 'positif') {
+                            tblHtml += "<td><span class='text-success'><i class='icon-stats-growth2 position-left'></i>" + cal.CumulRetard + "</span></td>";
+                        }
+                        if (cal.typecumul == 'negatif') {
+                            tblHtml += "<td><span class='text-danger'><i class='icon-stats-decline2 position-left'>&nbsp;" + cal.CumulRetard + "</span></td>";
+                        }
+                        if (cal.CumulRetard == '-') {
+                            tblHtml += "<td>" + cal.CumulRetard + "</td>";
+                        }
+
+                    });
+
+                    $("#Grid > tbody").html(tblHtml);
+                },
+                error: function () { },
+            });
+        })
+
+        $('#datePicker').on('changeDate', function () {
+            $.ajax({
+                url: '@Url.Action("GetHermesValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    date: $("#datePicker").val()
+                },
+                success: function (c) {
+                    var tblHtml = "";
+
+                    $.each(c, function (index, cal) {
+
+                        tblHtml += "<tr><td> <img src= " + cal.Image + " class='img-circle img-lg' alt=''></td>";
+                        tblHtml += "<td>" + cal.Agent + "</td>";
+                        tblHtml += "<td >" + cal.IdHermes + "</td>";
+                        tblHtml += "<td >" + cal.groupe + "</td>";
+                        tblHtml += "<td >" + cal.Arrive + "</td>";
+                        tblHtml += "<td >" + cal.Depart + "</td>";
+                        if (cal.typearrive == 'positif') {
+                            tblHtml += "<td><span class='text-success'><i class='icon-stats-growth2 position-left'></i>" + cal.RetardArrive + "</span></td>";
+                        }
+                        if (cal.typearrive == 'negatif') {
+                            tblHtml += "<td><span class='text-danger'><i class='icon-stats-decline2 position-left'>&nbsp;" + cal.RetardArrive + "</span></td>";
+                        }
+                        if (cal.RetardArrive == '-') {
+                            tblHtml += "<td>" + cal.RetardArrive + "</td>";
+                        }
+                        if (cal.typedepart == 'positif') {
+                            tblHtml += "<td><span class='text-success'><i class='icon-stats-growth2 position-left'></i>" + cal.RetardDepart + "</span></td>";
+                        }
+                        if (cal.typedepart == 'negatif') {
+                            tblHtml += "<td><span class='text-danger'><i class='icon-stats-decline2 position-left'>&nbsp;" + cal.RetardDepart + "</span></td>";
+                        }
+                        if (cal.RetardDepart == '-') {
+                            tblHtml += "<td>" + cal.RetardDepart + "</td>";
+                        }
+                        if (cal.typecumul == 'positif') {
+                            tblHtml += "<td><span class='text-success'><i class='icon-stats-growth2 position-left'></i>" + cal.CumulRetard + "</span></td>";
+                        }
+                        if (cal.typecumul == 'negatif') {
+                            tblHtml += "<td><span class='text-danger'><i class='icon-stats-decline2 position-left'>&nbsp;" + cal.CumulRetard + "</span></td>";
+                        }
+                        if (cal.CumulRetard == '-') {
+                            tblHtml += "<td>" + cal.CumulRetard + "</td>";
+                        }
+                    });
+                    $("#Grid > tbody").html(tblHtml);
+                },
+                error: function () { },
+            });
+        })
+    </script>
+
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Suivi Temps</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i>Suivi Temps</a></li>
+    <li class="active">Login-Logout</li>
+}

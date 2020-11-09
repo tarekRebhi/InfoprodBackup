@@ -1,0 +1,88 @@
+﻿@section test {
+@model MVCWEB.Models.EmployeeViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user.login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdHermes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdHermes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.userName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pseudoName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pseudoName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.role)
+        </dd>
+
+    </dl>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control" id="typeGenerator" name="typeGenerator">
+                <option>Select</option>
+                <option>jpg</option>
+                <option>png</option>
+                <option>bmp</option>
+            </select>
+            <input type="file" name="file" />
+
+            @*@Html.DropDownList("SelectedItem", Model.listItems, "-----Select----")*@
+        </div>
+    </div>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+    }

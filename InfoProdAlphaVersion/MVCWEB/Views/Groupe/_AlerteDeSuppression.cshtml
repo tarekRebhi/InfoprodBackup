@@ -1,0 +1,26 @@
+﻿@model Domain.Entity.Groupe
+
+
+@Html.AntiForgeryToken()
+<div class="modal fade" id="modifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <p> Vouez étes sure de supprimer le groupe  @Html.DisplayFor(modelItem => modelItem.nom)</p>
+            </div>
+            @using (Html.BeginForm("Delete", "Groupe", new { id = Model.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

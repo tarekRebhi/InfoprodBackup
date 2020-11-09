@@ -1,0 +1,162 @@
+﻿@model MVCWEB.Models.EvaluationViewModel
+<div class="modal fade" id="Result2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-image:url('../../Content/template/Layout 1/.JPG');">
+            <div class="modal-header" style="background-color:#26A69A;">
+                <button type="button" id="fermer" class="close" data-dismiss="modal">&times;</button>
+                <h5><font color="white">Resultat : Evaluation</font></h5>
+            </div>
+            <div class="modal-body">
+                @*<h7 style="text-align:center"> <b><font color="bleu">vous venez d'évaluer Cet Enregistrement</font></b></h7>*@
+                <br />
+                <div class="row">
+                    <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"> <b>Date et temps d'évaluation</b></font></h6>
+                    <div class="col-lg-4">
+                            <a><h6>@Html.DisplayFor(modelItem => modelItem.dateTempEvaluation)</h6></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nom Agent:</b></font></h6>
+                        <div class="col-lg-4">
+                            <a><h6>@Html.DisplayFor(modelItem => modelItem.agentName)</h6></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Acceuil / Présentation</b></font></h6>
+
+                        <div class="col-xs-4">
+                            <a> <h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.acceuilPresentation)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+          
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Decouvertes des Besoins</b></font></h6>
+                        <div class="col-xs-4">
+                            <a> <h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.decouverteBesoins)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+             
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Objet de L'appel</b></font></h6>
+                        <div class="col-xs-4">
+                            <a> <h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.objetAppel)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Présentation  et proposition de l'offre</b> </font> </h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.ppOffre)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Gestion des objections</b></font> </h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.gestionObjection)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Verrouillage et conclusion du contact</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.vCContrat)</h6></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Proposition Cross</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.pCross)</h6></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Discours</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.discours)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Attitude</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.attitude)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Prise de congé</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.priseConge)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @{
+
+                    String str = Model.pourcentageNotes.ToString("N2");
+                }
+                <p>
+                    <h5 style="text-align:center"><b>Score: <font color="red">@str %</font></b> </h5>
+
+
+                    @*<h10>
+                        </h10>*@
+
+                    @*<br />*@
+
+
+                    @*<h10>
+                            Chemin Complet du dossier Parent @Html.DisplayFor(modelItem => modelItem.directoryName)
+                        </h10>*@
+
+                    @*<h10>
+                            <b>Nom d'Enregistrement selectionnée :</b><br /><br />
+                            <font color="black">@Html.DisplayFor(modelItem => modelItem.pseudoName)</font>
+                        </h10>*@
+                </p>
+                <div class="text-right">
+                    @*<button type="submit" id="play" data-id="@Model.enregistrementName" class="btn btn-primary" data-title="Sauvegarder Alerte" value="Enregistrer" data-toggle="modal">Ouvrir Enregistrement <i class="icon-arrow-right14 position-fixed"></i></button>*@
+
+                    @*<button type="submit" id="play2" data-id="@Model.enregistrementName" class="btn btn-success" data-title="Play Sound" value="Play" data-toggle="modal">Play <i class="icon-play position-fixed"></i></button>
+                        <button type="submit" id="stop2" data-id="@Model.enregistrementName" class="btn btn-danger" data-title="Stop Sound" value="Stop" data-toggle="modal">Stop <i class="icon-stop position-fixed"></i></button>
+                        @*<button type="submit" id="pause2" data-id="@Model.enregistrementName" class="btn btn-success" data-title="Pause Sound" value="Pause" data-toggle="modal">Pause <i class="icon-pause position-fixed"></i></button>*@
+                    @*<button type="submit" id="download" data-id="@Model.enregistrementName" class="btn btn-primary" data-title="Sauvegarder Alerte" value="Enregistrer" data-toggle="modal">Download <i class="icon-arrow-right14 position-fixed"></i></button>*@
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer" style="background-color:#26A69A;">
+            <button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+            @*<button type="button" class="btn bg-teal-400">Evaluer</button>*@
+
+        </div>
+    </div>
+</div>

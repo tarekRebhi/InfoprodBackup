@@ -1,0 +1,382 @@
+﻿@if (ViewBag.role == "Qualité")
+{
+    ViewBag.Title = "Ref_QR_VecteurPlus";
+
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité")
+{
+    ViewBag.Title = "Ref_QR_VecteurPlus";
+
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+@if (ViewBag.role == "Agent_QR")
+{
+    ViewBag.Title = "Ref_QR_VecteurPlus";
+
+    Layout = "~/Views/Shared/_Layout_agent_QR.cshtml";
+}
+ 
+@section test{
+
+
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold">Grille d'écoute et Référentiel QR Vecteur Plus Comonline</h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr style="background-color:darkblue;">
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Items</font> </th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Définition</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Evaluation</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Ponderation</font></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Présentation et Identification</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller se présente personnellement et présente le service "Vecteur+ du groupe Moniteur"
+                            <br />
+                            -  identifie le responsable et/ou le service 
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b> OK/KO/AA</b>
+                      </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Presenter l'objet de l'appel</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Presenter clairement et efficacement  l'objet et le motif de l'appel
+                            
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>  OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Mutualisation</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur doit respecter la limite de la mutualisation a trois marché
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Marché Renouvelable</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit poser systématiquement la question: "Est-ce que le marché sera relancé a l'echeance?
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Durée du marché</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit poser systématiquement la question: "Est-ce que le marché a une durée de 2,3 ou 4...?" et attendre la confirmation  du MOA
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Vérifier les coordonnées attributaire</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur doit poser la question pour avoir le nom du prestataire et sa localisation
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Montant du marché en HT ou en TTC</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur doit poser la question pour avoir le montant du marché et preciser s'il est en HT ou TTC
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Personne responsable du marché</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur doit poser la question pour  avoir le nom du responsable du marché (faire épeler le nom du responsable )
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Adresse Mail du Contact</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Priorité 1 : Adresse mail nominative ( Le collaborateur doit poser la question pour avoir l'adresse mail du responsable , elle permettra à nos clients de savoir vers qui se diriger pour tous renseignements concernant le marché actuel ou le futur marché ) .                                                                                                                                                                                                              
+                            <br />  
+                            Priorité 2: Adresse mail générique qui concerne les marchés publics .
+                            <br />
+                             Priorité 3 : Adresses globales comme accueil,,, , contact,,, , info,,, .
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Traitement des objections</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur doit imperativement rebondir et traiter toutes les objections afin de retenir le client pour collecter les informations necessaires
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Transcription des informations /Champs (marché rejeté)</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur doit retranscrire sur l'outil WEBAR les informations obtenues par telephone/ Et en cas de marché rejeté le collaborateur doit renseigner le champs commentaire en precisant les motifs de rejet
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Envoi de Mail</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur doit suivre impérativement les consignes d'envoi de mail ( Chart et mail type)
+                         </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Discours</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                             Le Collaborateur:
+                            <br />
+                            - Il adopte un rythme maîtrisé : une idée par phrase (ni hachuré, ni surchargé), une pause pondérée en fin de phrase (ni saccadé, ni maculé de blancs).
+                            <br />
+                              - Il respecte la règle des 4C (court, clair, concret, cohérent).
+                            <br />
+                             - Langage = professionnel, simple, présent, positif.
+                            <br />
+                               Le collaborateur utilise un vocabulaire bien choisi et fait preuve d'une bonne qualité d'expression garantissant la compréhension du client et favorisant une bonne communication:
+                            <br />
+                             - Choix des termes (vocabulaire + synchronisation verbale).
+                            <br />
+                             - Forme de termes (grammaire).
+                            <br />
+                              - Conjugaison des verbes.
+                            <br />
+                              - Structure de la phrase (syntaxe).
+                            <br />
+                              - Débit adapté
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 6</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Empathie / Attitude</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur met en place un climat chaleureux (sourire, intonation, écoute)
+                            <br />
+                            - Il se montre disponible, aimable et dynamique durant tout l'appel 
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Prise de congé</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Assurer une prise de congé courtoise avec au minimum une formule de politesse et laisser l’initiative au client de raccrocher.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'écoute et Référentiel</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'écoute et Référentiel</a></li>
+    <li class="active">QR Vecteur Plus</li>
+}

@@ -1,0 +1,1313 @@
+﻿@model MVCWEB.Models.EvaluationViewModel
+
+@{
+    ViewBag.Title = "IPD_ParAgent";
+    Layout = "~/Views/Shared/_Layout_ManagerIPD.cshtml";
+}
+@section extract {
+    <li> <a onclick="tablesToExcel(['Grid'], ['Suivi IPD Par Agent'], 'Suivi_IPD_ParAgent.xls', 'Excel')"> <span class="glyphicon glyphicon-export"></span>Télécharger Excel</a></li>
+}
+<script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+<script type="text/javascript" src="~/Scripts/picker_date.js"></script>
+<script type="text/javascript" src="~/Scripts/daterangepicker.js"></script>
+@section test{
+<script src="~/Scripts/zingchart.min.js"></script>
+        <!--Détails Qualifs IPD Par Agent -->
+        <div class="panel panel-flat">
+    <div class="panel-heading">
+
+        <form id="eventForm">
+            <div class="row">
+                <div class="col-1">
+                    <h6 class="col-xs-2 control-label">Dates Début / Fin de Traitement</h6>
+                    <div class="col-xs-3 date">
+                        <div class="input-group input-append date">
+                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                            <input type="text" class="form-control daterange-basic" name="dateSelected" id="dateSelected" value="2019-01-01 / 2019-01-31">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <h6 class="col-xs-1 control-label">Nom Agent</h6>
+                    <div class="col-xs-3">
+                        <select class="form-control" id="agentDropDown" style="height: 35px;" onchange="getSelected()">
+                            @foreach (var ag in ViewBag.AgentItems as IEnumerable<SelectListItem>)
+                            {
+                                <option value="@ag.Value">@ag.Text</option>
+                            }
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+                <li><a data-action="close"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-flat">
+
+                <div class="panel-heading">
+                    <h6 class="panel-title"><i class="glyphicon glyphicon-th-list"></i> <span style="font-size: 16px;">Table des détails de Qualifications</span></h6><hr />
+                </div>
+                <div class="container-fluid">
+                    <div class="row-md-12">
+                        <ul class="list-inline text-center" style="font-size: 16px;">
+                            <li>
+                                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                            </li>
+                            <li class="text-left">
+                                <div class="text-semibold">Fiches Crées</div>
+                                <div id="fcrees"></div>
+                            </li>
+
+                            <li>
+                                <a href="#" class="btn border-teal text-teal btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                            </li>
+                            <li class="text-left">
+                                <div class="text-semibold">Total Appels</div>
+                                <div id="totApp"></div>
+                            </li>
+
+                            <li>
+                                <a href="#" class="btn border-pink text-pink btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                            </li>
+                            <li class="text-left">
+                                <div class="text-semibold">Total Appels Aboutis</div>
+                                <div id="totaboutis"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row-md-12">
+                        <ul class="list-inline text-center" style="font-size: 16px;">
+                            <li>
+                                <a href="#" class="btn border-success text-success btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                            </li>
+                            <li class="text-left">
+                                <div class="text-semibold">Fiches Traitées</div>
+                                <div id="ftraitees"></div>
+                            </li>
+                            
+                              <li>
+                                <a href="#" class="btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                            </li>
+                            <li class="text-left">
+                                <div class="text-semibold">Fiches Cloturées</div>
+                                <div id="fclotures"></div>
+                            </li>
+
+                            <li>
+                                <a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                            </li>
+                            <li class="text-left">
+                                <div class="text-semibold">Contacts Argumentés</div>
+                                <div id="arg"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <br />
+                    <div>
+                        <table class="table" style="font-size: 14px;">
+                            <thead>
+                                <tr class="bg-grey">
+                                    <th style="width:100px; text-align: center;">Type</th>
+                                    <th style="width: 400px; text-align: center;">Détails Qualifications</th>
+                                    <th style="width: 200px;text-align: center;">Nombre</th>
+                                    <th style="width: 200px;text-align: center;">Pourcentage</th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                    <div>
+                        <table class="table" id="Grid" style="font-size: 14px;">
+
+                            <tbody style="text-align: center;"></tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title"><i class="icon-pie-chart5"></i> <span style="font-size: 16px;">Taux d'exploitation VS Taux d'accord</span></h6><hr />
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div id="myChartRing1"></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div id="myChartRing2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title"><i class="icon-stats-bars3"></i> <span style="font-size: 16px;">Répartition Ok VS Refus</span></h6><hr />
+                </div>
+                <div class="container-fluid">
+                    <div>
+                        <div id="myChart"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /Détails Qualifs IPD Par Agent -->
+</div>
+
+
+    <script>
+
+        var tablesToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+            , tmplWorkbookXML = '<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
+              + '<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office"><Author>Axel Richter</Author><Created>{created}</Created></DocumentProperties>'
+              + '<Styles>'
+              + '<Style ss:ID="Currency"><NumberFormat ss:Format="Currency"></NumberFormat></Style>'
+              + '<Style ss:ID="Date"><NumberFormat ss:Format="Medium Date"></NumberFormat></Style>'
+              + '</Styles>'
+              + '{worksheets}</Workbook>'
+            , tmplWorksheetXML = '<Worksheet ss:Name="{nameWS}"><Table>{rows}</Table></Worksheet>'
+            , tmplCellXML = '<Cell{attributeStyleID}{attributeFormula}><Data ss:Type="{nameType}">{data}</Data></Cell>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (tables, wsnames, wbname, appname) {
+                var ctx = "";
+                var workbookXML = "";
+                var worksheetsXML = "";
+                var rowsXML = "";
+
+                for (var i = 0; i < tables.length; i++) {
+                    if (!tables[i].nodeType) tables[i] = document.getElementById(tables[i]);
+                    for (var j = 0; j < tables[i].rows.length; j++) {
+                        rowsXML += '<Row>'
+                        for (var k = 0; k < tables[i].rows[j].cells.length; k++) {
+                            var dataType = tables[i].rows[j].cells[k].getAttribute("data-type");
+                            var dataStyle = tables[i].rows[j].cells[k].getAttribute("data-style");
+                            var dataValue = tables[i].rows[j].cells[k].getAttribute("data-value");
+                            dataValue = (dataValue) ? dataValue : tables[i].rows[j].cells[k].innerHTML;
+                            var dataFormula = tables[i].rows[j].cells[k].getAttribute("data-formula");
+                            dataFormula = (dataFormula) ? dataFormula : (appname == 'Calc' && dataType == 'DateTime') ? dataValue : null;
+                            ctx = {
+                                attributeStyleID: (dataStyle == 'Currency' || dataStyle == 'Date') ? ' ss:StyleID="' + dataStyle + '"' : ''
+                                   , nameType: (dataType == 'Number' || dataType == 'DateTime' || dataType == 'Boolean' || dataType == 'Error') ? dataType : 'String'
+                                   , data: (dataFormula) ? '' : dataValue
+                                   , attributeFormula: (dataFormula) ? ' ss:Formula="' + dataFormula + '"' : ''
+                            };
+                            rowsXML += format(tmplCellXML, ctx);
+                        }
+                        rowsXML += '</Row>'
+                    }
+                    ctx = { rows: rowsXML, nameWS: wsnames[i] || 'Sheet' + i };
+                    worksheetsXML += format(tmplWorksheetXML, ctx);
+                    rowsXML = "";
+                }
+
+                ctx = { created: (new Date()).getTime(), worksheets: worksheetsXML };
+                workbookXML = format(tmplWorkbookXML, ctx);
+
+                console.log(workbookXML);
+
+                var link = document.createElement("A");
+                link.href = uri + base64(workbookXML);
+                link.download = wbname || 'Workbook.xls';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        })();
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetIPDParAgentValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    idHermes: $("#agentDropDown").val(),
+                    dateSel: $("#dateSelected").val()
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var crees = "";
+                    var totApp = "";
+                    var aboutis = "";
+                    var clotures = "";
+                    var traitees = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    var texp = 0;
+                    var tacc = 0;
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 14) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Système") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 14) {
+                            crees += cal.nombre;
+                        }
+                        if (index == 15) {
+                            totApp += cal.nombre;
+                        }
+                        if (index == 16) {
+                            aboutis += cal.nombre;
+                        }
+                        if (index == 17) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                            texp = cal.pourcentage;
+                        }
+                        if (index == 18) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                            tacc = cal.pourcentage;
+                        }
+                        if (index == 19) {
+                            traitees += cal.nombre;
+                        }
+                    });
+
+                    $("#Grid > tbody").html(tblHtml);
+                    $("#fcrees").html(crees);
+                    $("#totApp").html(totApp);
+                    $("#totaboutis").html(aboutis);
+                    $("#fclotures").html(clotures);
+                    $("#ftraitees").html(traitees);
+                    $("#arg").html(ca);
+                    $("#exploi").html(tauxexploitation);
+                    $("#acc").html(tauxaccord);
+
+                    var myConfig = {
+                        "graphset": [
+                            {
+                                "type": "bar",
+                                "background-color": "white",
+                                "tooltip": {
+                                    "text": "%v %",
+                                    "font-color": "#000"
+                                },
+                                "plotarea": {
+                                    "margin": "100 60 100 50",
+                                    "y": "100px"
+                                },
+                                "legend": {
+                                    "layout": "h",
+                                    "y": "0%",
+                                    "x": "10%",
+                                  
+                                    "alpha": 0.05,
+                                    "shadow": false,
+                                    "marker": {
+                                        "type": "circle",
+                                        "border-color": "none",
+                                        "size": "8px"
+                                    },
+                                    "border-width": 0,
+                                    "maxItems": 6,
+                                    "toggle-action": "remove",
+                                   
+                                },
+                                "plot": {
+                                    "animation": {
+                                        "effect": "ANIMATION_SLIDE_BOTTOM"
+                                    }
+                                },
+                                "scale-x": {
+                                    "line-color": "#7E7E7E",
+                                    "labels": ['Qualifiacation'],
+                                    "item": {
+                                        "font-color": "#7e7e7e"
+                                    },
+                                    "guide": {
+                                        "visible": false
+                                    }
+                                },
+                                "scale-y": {
+                                    "line-color": "#7E7E7E",
+                                    "item": {
+                                        "font-color": "#7e7e7e"
+                                    },
+                                    "values": "0:100:25",
+                                    "guide": {
+                                        "visible": false
+                                    },
+                                    "label": {
+                                        "text": "Pourcentage",
+                                        "font-family": "arial",
+                                        "font-angle": 0,
+                                        "bold": true,
+                                        "font-size": "12px",
+                                        "font-color": "#7E7E7E",
+                                        "offset-y": "-180px",
+                                        "offset-x": "50px"
+                                    },
+                                },
+                                "series": [
+                                    {
+                                        "values": [
+                                            c[0].pourcentage
+
+                                        ],
+                                        "borderRadiusTopLeft": 7,
+                                        "alpha": 0.95,
+                                        "background-color": "#9ACD32",
+                                        "text": "OK Démo"
+                                    },
+                                    {
+                                        "values": [
+                                             c[1].pourcentage
+                                        ],
+                                        "borderRadiusTopLeft": 7,
+                                        "alpha": 0.95,
+                                        "background-color": "#EF5350",
+                                        "text": "KO Démo"
+                                    },
+                                    {
+                                        "values": [
+                                             c[2].pourcentage
+                                        ],
+                                        "borderRadiusTopLeft": 7,
+                                        "alpha": 0.95,
+                                        "background-color": "#29B6F6",
+                                        "text": "Barrage"
+                                    },
+                                     {
+                                         "values": [
+                                              c[3].pourcentage
+                                         ],
+                                         "borderRadiusTopLeft": 7,
+                                         "alpha": 0.95,
+                                         "background-color": "#9575CD",
+                                         "text": "SND"
+                                     },
+                                      {
+                                          "values": [
+                                               c[4].pourcentage
+                                          ],
+                                          "borderRadiusTopLeft": 7,
+                                          "alpha": 0.95,
+                                          "background-color": "#FF8800",
+                                          "text": "OPT OUT"
+                                      },
+                                       {
+                                           "values": [
+                                                c[5].pourcentage
+                                           ],
+                                           "borderRadiusTopLeft": 7,
+                                           "alpha": 0.95,
+                                           "background-color": "#999999",
+                                           "text": "Hors Cible"
+                                       }
+                                ]
+                            }
+                        ]
+                    };
+                    zingchart.render({
+                        id: 'myChart',
+                        data: myConfig,
+                        height: 500,
+                        width: 900
+                    });
+
+                    var myConfigRing1 = {
+                        type: 'ring',
+                        globals: {
+                            fontFamily: 'Lato',
+                            fontWeight: '100'
+                        },
+                        backgroundColor: '#FFF',
+                        plot: {
+                            valueBox: {
+                                type: 'first',
+                                text: '<span style=\'font-size:30px;\'>' + texp + ' %' + '</span><br>Taux Exploitation',
+                                connected: false,
+                                fontColor: '#282E3D',
+                                fontSize: '15px',
+                                placement: 'center',
+                                rules: [
+                                  {
+                                      rule: '%v < 50',
+                                      visible: false
+                                  }
+                                ],
+                                visible: true
+                            },
+                            animation: {
+                                delay: 0,
+                                effect: 'ANIMATION_EXPAND_VERTICAL',
+                                method: 'ANIMATION_LINEAR',
+                                sequence: 'ANIMATION_BY_PLOT',
+                                speed: '300'
+                            },
+                            detach: false,
+                            hoverState: {
+                                visible: false
+                            },
+                            refAngle: 270,
+                            slice: 70
+                        },
+                        plotarea: {
+                            margin: '0% 0% 0% 0%'
+                        },
+                        tooltip: {
+                            visible: false
+                        },
+                        series: [
+                          {
+                              values: [texp],
+                              backgroundColor: '#FFA500',
+                              borderColor: '#282E3D',
+                              borderWidth: '0px',
+                              shadow: false
+                          },
+                          {
+                              values: [100 - texp],
+                              backgroundColor: '#DCDCDC',
+                              borderColor: '#282E3D',
+                              borderWidth: '0px',
+                              shadow: false
+                          }
+                        ]
+
+                    }
+                    zingchart.render({
+                        id: 'myChartRing1',
+                        data: myConfigRing1,
+                        hideprogresslogo: true,
+                        height: 150,
+                        width: 350
+
+                    });
+
+
+                    var myConfigRing2 = {
+                        type: 'ring',
+                        globals: {
+                            fontFamily: 'Lato',
+                            fontWeight: '100'
+                        },
+                        backgroundColor: '#FFF',
+                        plot: {
+                            valueBox: {
+                                type: 'first',
+                                text: '<span style=\'font-size:30px;\'>' + tacc + ' %' + '</span><br>Taux Accord',
+                                connected: false,
+                                fontColor: '#282E3D',
+                                fontSize: '15px',
+                                placement: 'center',
+                                rules: [
+                                  {
+                                      rule: '%v < 50',
+                                      visible: false
+                                  }
+                                ],
+                                visible: true
+                            },
+                            animation: {
+                                delay: 0,
+                                effect: 'ANIMATION_EXPAND_VERTICAL',
+                                method: 'ANIMATION_LINEAR',
+                                sequence: 'ANIMATION_BY_PLOT',
+                                speed: '300'
+                            },
+                            detach: false,
+                            hoverState: {
+                                visible: false
+                            },
+                            refAngle: 270,
+                            slice: 70
+                        },
+                        plotarea: {
+                            margin: '0% 0% 0% 0%'
+                        },
+                        tooltip: {
+                            visible: false
+                        },
+                        series: [
+                          {
+                              values: [tacc],
+                              backgroundColor: '#35D884',
+                              borderColor: '#282E3D',
+                              borderWidth: '0px',
+                              shadow: false
+                          },
+                          {
+                              values: [100 - tacc],
+                              backgroundColor: '#DCDCDC',
+                              borderColor: '#282E3D',
+                              borderWidth: '0px',
+                              shadow: false
+                          }
+                        ]
+
+                    }
+                    zingchart.render({
+                        id: 'myChartRing2',
+                        data: myConfigRing2,
+                        hideprogresslogo: true,
+                        height: 150,
+                        width: 350
+
+                    });
+                },
+                error: function () { },
+            });
+        })
+
+        $('#dateSelected').on('apply.daterangepicker', function () {
+        $.ajax({
+            url: '@Url.Action("GetIPDParAgentValues")',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                idHermes: $("#agentDropDown").val(),
+                dateSel: $("#dateSelected").val()
+            },
+
+            success: function (c) {
+
+                var tblHtml = "";
+                var crees = "";
+                var totApp = "";
+                var aboutis = "";
+                var clotures = "";
+                var traitees = "";
+                var ca = "";
+                var tauxexploitation = "";
+                var tauxaccord = "";
+                var texp = 0;
+                var tacc = 0;
+                $.each(c, function (index, cal) {
+                    if (index >= 0 && index < 14) {
+                        if (cal.type == "CA Positif") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                        }
+                        if (cal.type == "CA Négatif") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                        }
+                        if (cal.type == "Système") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                        }
+                        tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                    }
+                    if (index == 14) {
+                        crees += cal.nombre;
+                    }
+                    if (index == 15) {
+                        totApp += cal.nombre;
+                    }
+                    if (index == 16) {
+                        aboutis += cal.nombre;
+                    }
+                    if (index == 17) {
+                        clotures += cal.nombre;
+                        tauxexploitation += cal.pourcentage + "%";
+                        texp = cal.pourcentage;
+                    }
+                    if (index == 18) {
+                        ca += cal.nombre;
+                        tauxaccord += cal.pourcentage + "%";
+                        tacc = cal.pourcentage;
+                    }
+                    if (index == 19) {
+                        traitees += cal.nombre;
+                    }
+                });
+
+                $("#Grid > tbody").html(tblHtml);
+                $("#fcrees").html(crees);
+                $("#totApp").html(totApp);
+                $("#totaboutis").html(aboutis);
+                $("#fclotures").html(clotures);
+                $("#ftraitees").html(traitees);
+                $("#arg").html(ca);
+                $("#exploi").html(tauxexploitation);
+                $("#acc").html(tauxaccord);
+                var myConfig = {
+                    "graphset": [
+                        {
+                            "type": "bar",
+                            "background-color": "white",
+                            "tooltip": {
+                                "text": "%v %",
+                                "font-color": "#000"
+                            },
+                            "plotarea": {
+                                "margin": "100 60 100 50",
+                                "y": "100px"
+                            },
+                            "legend": {
+                                "layout": "h",
+                                "y": "0%",
+                                "x": "10%",
+
+                                "alpha": 0.05,
+                                "shadow": false,
+                                "marker": {
+                                    "type": "circle",
+                                    "border-color": "none",
+                                    "size": "8px"
+                                },
+                                "border-width": 0,
+                                "maxItems": 6,
+                                "toggle-action": "remove",
+
+                            },
+                            "plot": {
+                                "animation": {
+                                    "effect": "ANIMATION_SLIDE_BOTTOM"
+                                }
+                            },
+                            "scale-x": {
+                                "line-color": "#7E7E7E",
+                                "labels": ['Qualifiacation'],
+                                "item": {
+                                    "font-color": "#7e7e7e"
+                                },
+                                "guide": {
+                                    "visible": false
+                                }
+                            },
+                            "scale-y": {
+                                "line-color": "#7E7E7E",
+                                "item": {
+                                    "font-color": "#7e7e7e"
+                                },
+                                "values": "0:100:25",
+                                "guide": {
+                                    "visible": false
+                                },
+                                "label": {
+                                    "text": "Pourcentage",
+                                    "font-family": "arial",
+                                    "font-angle": 0,
+                                    "bold": true,
+                                    "font-size": "12px",
+                                    "font-color": "#7E7E7E",
+                                    "offset-y": "-180px",
+                                    "offset-x": "50px"
+                                },
+                            },
+                            "series": [
+                                {
+                                    "values": [
+                                        c[0].pourcentage
+
+                                    ],
+
+                                    "background-color": "#9ACD32",
+                                    "text": "OK Démo"
+                                },
+                                {
+                                    "values": [
+                                         c[1].pourcentage
+                                    ],
+
+                                    "background-color": "#EF5350",
+                                    "text": "KO Démo"
+                                },
+                                {
+                                    "values": [
+                                         c[2].pourcentage
+                                    ],
+                                    "borderRadiusTopLeft": 7,
+                                    "alpha": 0.95,
+                                    "background-color": "#29B6F6",
+                                    "text": "Barrage"
+                                },
+                                 {
+                                     "values": [
+                                          c[3].pourcentage
+                                     ],
+                                     "borderRadiusTopLeft": 7,
+                                     "alpha": 0.95,
+                                     "background-color": "#9575CD",
+                                     "text": "SND"
+                                 },
+                                  {
+                                      "values": [
+                                           c[4].pourcentage
+                                      ],
+                                      "borderRadiusTopLeft": 7,
+                                      "alpha": 0.95,
+                                      "background-color": "#FF8800",
+                                      "text": "OPT OUT"
+                                  },
+                                   {
+                                       "values": [
+                                            c[5].pourcentage
+                                       ],
+                                       "borderRadiusTopLeft": 7,
+                                       "alpha": 0.95,
+                                       "background-color": "#999999",
+                                       "text": "Hors Cible"
+                                   }
+                            ]
+                        }
+                    ]
+                };
+                zingchart.render({
+                    id: 'myChart',
+                    data: myConfig,
+                    height: 500,
+                    width: 900
+                });
+                var myConfigRing1 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + texp + ' %' + '</span><br>Taux Exploitation',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [texp],
+                          backgroundColor: '#FFA500',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - texp],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+                zingchart.render({
+                    id: 'myChartRing1',
+                    data: myConfigRing1,
+                    hideprogresslogo: true,
+                    height: 150,
+                    width: 350
+
+                });
+
+
+                var myConfigRing2 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + tacc + ' %' + '</span><br>Taux Accord',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [tacc],
+                          backgroundColor: '#35D884',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - tacc],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+                zingchart.render({
+                    id: 'myChartRing2',
+                    data: myConfigRing2,
+                    hideprogresslogo: true,
+                    height: 150,
+                    width: 350
+
+                });
+            },
+            error: function () { },
+        });
+    })
+        $("#agentDropDown").change(function () {
+                $.ajax({
+                    url: '@Url.Action("GetIPDParAgentValues")',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        idHermes: $("#agentDropDown").val(),
+                        dateSel: $("#dateSelected").val()
+                    },
+
+                    success: function (c) {
+
+                        var tblHtml = "";
+                        var crees = "";
+                        var totApp = "";
+                        var aboutis = "";
+                        var clotures = "";
+                        var traitees = "";
+                        var ca = "";
+                        var tauxexploitation = "";
+                        var tauxaccord = "";
+                        var texp = 0;
+                        var tacc = 0;
+                        $.each(c, function (index, cal) {
+                            if (index >= 0 && index < 14) {
+                                if (cal.type == "CA Positif") {
+                                    tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                                }
+                                if (cal.type == "CA Négatif") {
+                                    tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                                }
+                                if (cal.type == "Système") {
+                                    tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                                }
+                                tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                                tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                                tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                            }
+                            if (index == 14) {
+                                crees += cal.nombre;
+                            }
+                            if (index == 15) {
+                                totApp += cal.nombre;
+                            }
+                            if (index == 16) {
+                                aboutis += cal.nombre;
+                            }
+                            if (index == 17) {
+                                clotures += cal.nombre;
+                                tauxexploitation += cal.pourcentage + "%";
+                                texp = cal.pourcentage;
+                            }
+                            if (index == 18) {
+                                ca += cal.nombre;
+                                tauxaccord += cal.pourcentage + "%";
+                                tacc = cal.pourcentage;
+                            }
+                            if (index == 19) {
+                                traitees += cal.nombre;
+                            }
+                        });
+
+                        $("#Grid > tbody").html(tblHtml);
+                        $("#fcrees").html(crees);
+                        $("#totApp").html(totApp);
+                        $("#totaboutis").html(aboutis);
+                        $("#fclotures").html(clotures);
+                        $("#ftraitees").html(traitees);
+                        $("#arg").html(ca);
+                        $("#exploi").html(tauxexploitation);
+                        $("#acc").html(tauxaccord);
+                        var myConfig = {
+                            "graphset": [
+                                {
+                                    "type": "bar",
+                                    "background-color": "white",
+                                    "tooltip": {
+                                        "text": "%v %",
+                                        "font-color": "#000"
+                                    },
+                                    "plotarea": {
+                                        "margin": "100 60 100 50",
+                                        "y": "100px"
+                                    },
+                                    "legend": {
+                                        "layout": "h",
+                                        "y": "0%",
+                                        "x": "10%",
+
+                                        "alpha": 0.05,
+                                        "shadow": false,
+                                        "marker": {
+                                            "type": "circle",
+                                            "border-color": "none",
+                                            "size": "8px"
+                                        },
+                                        "border-width": 0,
+                                        "maxItems": 6,
+                                        "toggle-action": "remove",
+
+                                    },
+                                    "plot": {
+                                        "animation": {
+                                            "effect": "ANIMATION_SLIDE_BOTTOM"
+                                        }
+                                    },
+                                    "scale-x": {
+                                        "line-color": "#7E7E7E",
+                                        "labels": ['Qualifiacation'],
+                                        "item": {
+                                            "font-color": "#7e7e7e"
+                                        },
+                                        "guide": {
+                                            "visible": false
+                                        }
+                                    },
+                                    "scale-y": {
+                                        "line-color": "#7E7E7E",
+                                        "item": {
+                                            "font-color": "#7e7e7e"
+                                        },
+                                        "values": "0:100:25",
+                                        "guide": {
+                                            "visible": false
+                                        },
+                                        "label": {
+                                            "text": "Pourcentage",
+                                            "font-family": "arial",
+                                            "font-angle": 0,
+                                            "bold": true,
+                                            "font-size": "12px",
+                                            "font-color": "#7E7E7E",
+                                            "offset-y": "-180px",
+                                            "offset-x": "50px"
+                                        },
+                                    },
+                                    "series": [
+                                        {
+                                            "values": [
+                                                c[0].pourcentage
+
+                                            ],
+
+                                            "background-color": "#9ACD32",
+                                            "text": "OK Démo"
+                                        },
+                                        {
+                                            "values": [
+                                                 c[1].pourcentage
+                                            ],
+
+                                            "background-color": "#EF5350",
+                                            "text": "KO Démo"
+                                        },
+                                        {
+                                            "values": [
+                                                 c[2].pourcentage
+                                            ],
+                                            "borderRadiusTopLeft": 7,
+                                            "alpha": 0.95,
+                                            "background-color": "#29B6F6",
+                                            "text": "Barrage"
+                                        },
+                                         {
+                                             "values": [
+                                                  c[3].pourcentage
+                                             ],
+                                             "borderRadiusTopLeft": 7,
+                                             "alpha": 0.95,
+                                             "background-color": "#9575CD",
+                                             "text": "SND"
+                                         },
+                                          {
+                                              "values": [
+                                                   c[4].pourcentage
+                                              ],
+                                              "borderRadiusTopLeft": 7,
+                                              "alpha": 0.95,
+                                              "background-color": "#FF8800",
+                                              "text": "OPT OUT"
+                                          },
+                                           {
+                                               "values": [
+                                                    c[5].pourcentage
+                                               ],
+                                               "borderRadiusTopLeft": 7,
+                                               "alpha": 0.95,
+                                               "background-color": "#999999",
+                                               "text": "Hors Cible"
+                                           }
+                                    ]
+                                }
+                            ]
+                        };
+                        zingchart.render({
+                            id: 'myChart',
+                            data: myConfig,
+                            height: 500,
+                            width: 900
+                        });
+
+                        var myConfigRing1 = {
+                            type: 'ring',
+                            globals: {
+                                fontFamily: 'Lato',
+                                fontWeight: '100'
+                            },
+                            backgroundColor: '#FFF',
+                            plot: {
+                                valueBox: {
+                                    type: 'first',
+                                    text: '<span style=\'font-size:30px;\'>' + texp + ' %' + '</span><br>Taux Exploitation',
+                                    connected: false,
+                                    fontColor: '#282E3D',
+                                    fontSize: '15px',
+                                    placement: 'center',
+                                    rules: [
+                                      {
+                                          rule: '%v < 50',
+                                          visible: false
+                                      }
+                                    ],
+                                    visible: true
+                                },
+                                animation: {
+                                    delay: 0,
+                                    effect: 'ANIMATION_EXPAND_VERTICAL',
+                                    method: 'ANIMATION_LINEAR',
+                                    sequence: 'ANIMATION_BY_PLOT',
+                                    speed: '300'
+                                },
+                                detach: false,
+                                hoverState: {
+                                    visible: false
+                                },
+                                refAngle: 270,
+                                slice: 70
+                            },
+                            plotarea: {
+                                margin: '0% 0% 0% 0%'
+                            },
+                            tooltip: {
+                                visible: false
+                            },
+                            series: [
+                              {
+                                  values: [texp],
+                                  backgroundColor: '#FFA500',
+                                  borderColor: '#282E3D',
+                                  borderWidth: '0px',
+                                  shadow: false
+                              },
+                              {
+                                  values: [100 - texp],
+                                  backgroundColor: '#DCDCDC',
+                                  borderColor: '#282E3D',
+                                  borderWidth: '0px',
+                                  shadow: false
+                              }
+                            ]
+
+                        }
+                        zingchart.render({
+                            id: 'myChartRing1',
+                            data: myConfigRing1,
+                            hideprogresslogo: true,
+                            height: 150,
+                            width: 350
+
+                        });
+
+
+                        var myConfigRing2 = {
+                            type: 'ring',
+                            globals: {
+                                fontFamily: 'Lato',
+                                fontWeight: '100'
+                            },
+                            backgroundColor: '#FFF',
+                            plot: {
+                                valueBox: {
+                                    type: 'first',
+                                    text: '<span style=\'font-size:30px;\'>' + tacc + ' %' + '</span><br>Taux Accord',
+                                    connected: false,
+                                    fontColor: '#282E3D',
+                                    fontSize: '15px',
+                                    placement: 'center',
+                                    rules: [
+                                      {
+                                          rule: '%v < 50',
+                                          visible: false
+                                      }
+                                    ],
+                                    visible: true
+                                },
+                                animation: {
+                                    delay: 0,
+                                    effect: 'ANIMATION_EXPAND_VERTICAL',
+                                    method: 'ANIMATION_LINEAR',
+                                    sequence: 'ANIMATION_BY_PLOT',
+                                    speed: '300'
+                                },
+                                detach: false,
+                                hoverState: {
+                                    visible: false
+                                },
+                                refAngle: 270,
+                                slice: 70
+                            },
+                            plotarea: {
+                                margin: '0% 0% 0% 0%'
+                            },
+                            tooltip: {
+                                visible: false
+                            },
+                            series: [
+                              {
+                                  values: [tacc],
+                                  backgroundColor: '#35D884',
+                                  borderColor: '#282E3D',
+                                  borderWidth: '0px',
+                                  shadow: false
+                              },
+                              {
+                                  values: [100 - tacc],
+                                  backgroundColor: '#DCDCDC',
+                                  borderColor: '#282E3D',
+                                  borderWidth: '0px',
+                                  shadow: false
+                              }
+                            ]
+
+                        }
+                        zingchart.render({
+                            id: 'myChartRing2',
+                            data: myConfigRing2,
+                            hideprogresslogo: true,
+                            height: 150,
+                            width: 350
+
+                        });
+                    },
+                    error: function () { },
+                });
+            })
+    </script>
+    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/picker_date.js"></script>
+    <script type="text/javascript" src="~/Scripts/daterangepicker.js"></script>
+}
+@section testProfile{
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+    </div>
+
+}
+
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Suivi Détails des Qualifications</a></li>
+    <li class="active">IPD LYON</li>
+<li class="active">Par Agent</li>
+}

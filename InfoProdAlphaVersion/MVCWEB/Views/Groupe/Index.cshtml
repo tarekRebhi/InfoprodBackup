@@ -1,0 +1,130 @@
+﻿@section test{
+    @model IEnumerable<Domain.Entity.Groupe>
+
+    @{
+        ViewBag.Title = "Index";
+    }
+
+    <h5>Liste des groupes ou Activités</h5>
+    <p>
+        <b>@Html.ActionLink("Nouveau Groupe", "Create")</b>
+    </p>
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Responsable</th>
+                    <th>Action</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Responsable</th>
+                    <th>Action</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.responsable)
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Edit", "Groupe", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Editer" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Details", "Groupe", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Details" class="btn btn-warning" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <p data-placement="top" title="Delete">
+                                        <button id="imed" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal" class="btn btn-danger">Delete</button>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="explorer1">
+    </div>
+    <script>
+
+    function FetchCall() {
+        alert($("#CallsToMake").val());
+        var url = '@Url.Action("Index", "Groupe")';
+        $.post(url, { callToMakeId: $("#CallsToMake").val() }, function (data) {
+            alert('YES');
+        });
+    }
+    </script>
+    <div id="explorer1">
+
+
+    </div>
+    <script src="/Content/Template1/vendor/jquery/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+          $(document).ready ( function () {
+              $(document).on ("click", "#imed", function () {
+                  var $buttonClicked = $(this);
+                  var id = $buttonClicked.attr('data-id');
+              $.ajax({
+                  url: '/Groupe/FindGroupe',
+                  type: "GET",
+                  contentType: "application/json; charset=utf-8",
+                  data: { "Id": id },
+                  datatype: "html",
+                  async:true,
+                  success: function(data) {
+                      $('#explorer1').html(data);
+                      $('#modifier').modal('show');
+                    },
+
+
+
+              });
+
+
+              })
+          })
+
+    </script>
+}

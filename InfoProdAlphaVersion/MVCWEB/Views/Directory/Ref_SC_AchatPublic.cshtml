@@ -1,0 +1,343 @@
+﻿@if (ViewBag.role == "Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_AchatPublic")
+{
+    Layout = "~/Views/Shared/_Layout_AchatPublic.cshtml";
+}
+
+@section test{
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold">Grille d'écoute et Référentiel Achat Public</h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr style="background-color:darkblue;">
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Items</font> </th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Définition</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Evaluation</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Ponderation</font></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Accueil</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Accueil et présentaion selon la charte d'accueil Achat public avec le sourire (le sourire s'entend)
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b> OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Identifier le Client</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Identifier le client et son besoin (bien s'assurer qu'il s'agit bien d'un acheteur ou  d'une entreprise)
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>  OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Découverte de la demande client</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            - L'agent se montre disponible et pratique de l'écoute active
+                            <br />
+                            - Pose les bonnes questions afin de mieux comprendre la demande du client
+                            <br />
+                            - Analyse la demande
+                            <br />
+                            - Reformuler la demande pour rassurer le client de la bonne compréhension-
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Utilisation et maitrise de la platforme Achat public</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            L'agent doit maitriser la platforme, manipuler les outils avec flexibilité et sait trouver l'information appropriée
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Mise en attente</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            - Le conseiller annonce clairement au client, la mise en attente et il faut entendre l'accord du client avant de le mettre en attente
+                           <br />
+                             - Ne pas utiliser la touche mute et préviligier l'attente musicale
+                            
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Temps d'attente</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Le temps d’attente prédéfini ou annoncé au client doit être respecté
+                            <br />
+                           - Le temps d'attente ne doit pas excéder 2 minutes sans reprise de contact
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Qualité du service apporté</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            - Le client obtient auprès de l'agent une réponse adaptée à sa demande
+                            <br />
+                           - Le client doit être accompagné avec empathie et patience
+                            <br />
+                            - L'assitance apportée au client doit être basée sur des instructions simples et faciles à comprendre"
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 8</b>
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Discours</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            L'agent:
+                            <br />
+                            - Il adopte un rythme maîtrisé : une idée par phrase (ni hachuré, ni surchargé), une pause pondérée en fin de phrase (ni saccadé, ni maculé de blancs).
+                           <br />
+                             - Il respecte la règle des 4C (court, clair, concret, cohérent).
+                           <br />
+                             - Langage = professionnel, simple, présent, positif.
+                           <br />
+                             Le collaborateur utilise un vocabulaire bien choisi et fait preuve d'une bonne qualité d'expression garantissant la compréhension du client et favorisant une bonne communication:
+                            <br />
+                            - Choix des termes (vocabulaire + synchronisation verbale).
+                           <br />
+                             - Forme de termes (grammaire).
+                           <br />
+                             - Conjugaison des verbes.
+                           <br />
+                             - Structure de la phrase (syntaxe).
+                           <br />
+                             - Intonation et un débit de voix correct
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Conclusion du Contact</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            L'agent s’assure :
+                            <br />
+                            - de la compréhension réciproque des termes de l’entretien
+                            <br />
+                            - que le client n'a pas d'autres demandes ou interrogations 
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 3</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Attitude Générale</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            L'agent met en place un climat chaleureux (sourire, intonation, écoute)
+                            <br />
+                            - Il  se montre disponible, aimable et dynamique durant tout l'appel et réussit à établir une relation personnalisée et à gagner la confiance du client (utilise des mots positifs et rassurants)
+                            <br />
+                            - Sourire et dynamisme durant l'appel
+                            <br />
+                            - Faire preuve d'empathie et personnalise l'appel
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 6</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Qualification</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            L'agent met en place un climat chaleureux (sourire, intonation, écoute)
+                            <br />
+                            - Il  se montre disponible, aimable et dynamique durant tout l'appel et réussit à établir une relation personnalisée et à gagner la confiance du client (utilise des mots positifs et rassurants)
+                            <br />
+                            - Sourire et dynamisme durant l'appel
+                            <br />
+                            - Faire preuve d'empathie et personnalise l'appel
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Prise de congé</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Prend congé par une formule de politesse
+                            <br />
+                           - Laisser l’initiative au client de raccrocher.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 2</b>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'écoute et Référentiel</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'écoute et Référentiel</a></li>
+    <li class="active">Achat Public</li>
+}

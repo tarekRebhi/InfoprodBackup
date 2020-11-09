@@ -1,0 +1,101 @@
+﻿@model MVCWEB.Models.EmployeeViewModel
+
+
+
+
+@*<div class="modal fade" id="modifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+ 
+        <div class="modal-header">
+            <h3>Merci de confirmer</h3>
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <p> Vouez Aller Affecter l'utilisateur  @Html.DisplayFor(modelItem => Model.userLogin)</p>
+                </div>
+                @foreach (var item in Model.tests)
+                {
+                    <div class="modal-body">
+                        <p> Vouez Aller Ajouter les groupes  @Html.DisplayFor(modelItem => item) </p>
+                    </div>
+                }
+                @Html.HiddenFor(model => model.tests)
+
+                @using (Html.BeginForm("Edit", "Employee", new { id = Model.Id, utilisateur = Model.userLogin }, FormMethod.Post, new { enctype = "application/json;charset=utf-8" }))
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input id="valideImed" type="submit" value="Editer" class="btn btn-success" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+</div>*@
+    <div class="modal fade" id="modifier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Merci de Confirmer</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Etes Vous sure d'affecter au employées les:</p>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+
+                            <th>Users</th>
+                            <th>Role</th>
+                            <th>Groupes</th>
+                        </tr>
+                    </thead>
+                 
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.userLogin)
+                            </td>
+                            <td>
+                               
+                                    @Html.DisplayFor(modelItem => Model.role)
+                                    <br />
+                                
+                            </td>
+                                <td>
+@foreach (var item in Model.tests)
+{
+                                    @Html.DisplayFor(modelItem => item)
+                                    <br/>
+}                                             
+                                </td>
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            
+
+            <div class="modal-footer">
+
+                @using (Html.BeginForm("Edit", "Employee", new { id = Model.Id, utilisateur = Model.userLogin,role=Model.role }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="valideImed" type="submit" value="Confirmer" class="btn btn-success" />
+                    </div>
+                }
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

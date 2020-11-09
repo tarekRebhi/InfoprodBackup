@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Domain.Entity.Appel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+@section test{
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+  
+</head>
+<body>
+    <div class="row" style="padding-top: 3cm;"></div>
+        <div class="row">
+
+            <div class="col-lg-3 col-sm-6"></div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="thumbnail" >
+
+                    <div class="thumb thumb-rounded">
+                        <a @*id="statimg" data-toggle="modal" data-id="@item.Id"*@>
+                            <img href="#" src="~/Content/INFOPRODATA2.png" alt="" style="width:350px; height: 150px;">
+                        </a>
+
+                    </div>
+                    <div class="caption text-center">
+                        <h6 class="no-margin-top text-semibold"><b class="text-default">GISI PROMO</b></h6>
+
+                        <h10 class="no-margin-top text-semibold">Responsable: Fairouz MASTOURI</h10>
+                        <br /><br />
+                        <div>
+                            <a href="@Url.Action("InclusionGisiPromo", "HermesFunctionalities")" class="label label-success">Inclusion</a>
+                            <a href="@Url.Action("ExclusionGisiPromo", "HermesFunctionalities")" class="label label-danger">Exclusion</a>
+                            <a href="@Url.Action("RecyclageGisiPromo", "HermesFunctionalities")" class="label label-primary">Recyclage</a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="thumbnail">
+
+                    <div class="thumb thumb-rounded">
+                        <a @*id="statimg" data-toggle="modal" data-id="@item.Id"*@>
+                            <img href="#" src=~/Content/Moniteur.png alt="" style="width:350px; height: 150px;">
+                        </a>
+
+                    </div>
+                    <div class="caption text-center">
+                        <h6 class="no-margin-top text-semibold"><b class="text-default">GMT PROMO</b></h6>
+
+                        <h10 class="no-margin-top text-semibold">Responsable: Fairouz MASTOURI</h10>
+                        <br /><br />
+                        <div>
+                            <a href="@Url.Action("InclusionGmtPromo", "HermesFunctionalities")" class="label label-success">Inclusion</a>
+                            <a href="@Url.Action("ExclusionGmtPromo", "HermesFunctionalities")" class="label label-danger">Exclusion</a>
+                            <a href="@Url.Action("RecyclageGmtPromo", "HermesFunctionalities")" class="label label-primary">Recyclage</a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6"></div>
+        </div>
+</body>
+</html>
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Accueil</a></li>
+    <li class="active">Fonctionnalités Hermès</li>
+<li class="active">Inclure & Exclure & Recycler </li>
+}

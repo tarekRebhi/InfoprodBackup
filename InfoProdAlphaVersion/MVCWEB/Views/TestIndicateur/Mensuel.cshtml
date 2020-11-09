@@ -1,0 +1,31 @@
+﻿@model MVCWEB.Models.TestIndicateur
+
+@{
+    ViewBag.Title = "Mensuel";
+}
+
+<h2>Stats Par Agent Mensuel</h2>
+
+@Html.DropDownList("InstitutionLocationId", ViewData["list"] as SelectList)
+
+
+<br />
+<label>Taux de ventes:</label>
+<span>@ViewBag.TauxVenteMens%</span>
+<br />
+<label>Taux d'absence:</label>
+<span>@ViewBag.TauxVentesMens%</span>
+<br />
+<label>Taux ACW:</label>
+<span>@ViewBag.TauxVentesMens%</span>
+<br />
+<label>Taux Pause Brief:</label>
+<span>@ViewBag.TauxVentesMens%</span>
+<br />
+<label>Taux Pause Perso:</label>
+<span>@ViewBag.TauxVentesMens%</span>
+<br />
+<label>Taux Preview:</label>
+<span>@ViewBag.TauxVentesMens%</span>
+
+<br />

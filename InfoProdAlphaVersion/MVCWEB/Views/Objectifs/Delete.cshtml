@@ -1,0 +1,83 @@
+﻿@model Domain.Entity.Objectif
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+
+@section test{
+    <h3>Voulez vous supprimer cet objectif?</h3>
+    <div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Nom du Groupe")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Namegroupe)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Objectif Taux d'Accords")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ObjectifAccords)
+        </dd>
+
+    </dl>
+    <br /><br />
+    <div class="row">
+        <div class="col-md-1">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <button type="submit" class="btn btn-success btn-labeled"><b><i class="icon-check"></i></b> Spprimer</button>
+                </div>
+            }
+        </div>
+        <div class="col-md-1">
+            @using (Html.BeginForm("Index", "Objectifs", FormMethod.Get, new { enctype = "multipart/form-data" }))
+            {
+                <button type="submit" class="btn btn-danger btn-labeled"><b><i class="icon-cross"></i></b> Annuler</button>
+            }
+        </div>
+    </div>
+}
+</div>
+@section testProfile{
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.Url alt="">
+        <span>@ViewBag.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoName
+        </div>
+    </div>
+    <div class="media-right media-middle">
+    </div>
+
+}
+    @section pagetitle{
+        <h4> <span class="text-semibold">Espace Manager</span> -  Suivi Par Injections</h4>
+    }
+    @section pagetitlebody{
+        <li><a href="#"><i class="icon-home2 position-left"></i> Suivi Par Injections</a></li>
+        <li class="active">Paramètres des Objectifs</li>
+    }
+
+

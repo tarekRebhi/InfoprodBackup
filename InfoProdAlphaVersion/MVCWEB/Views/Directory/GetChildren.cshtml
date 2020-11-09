@@ -1,0 +1,64 @@
+﻿
+@model MVCWEB.Models.DirectoryViewModel
+<script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/pages/components_dropdowns.js"></script>
+
+<div class="modal fade" id="childrens" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color:#546E7A">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <b><font color="white"><h5>Liste dates disponibles pour cette compagnes</h5></font></b> 
+            </div>
+            <div class="modal-body">
+                @*<ul>
+@foreach (var item in @Model.topDirectorieDirectories)
+{
+                    <li>
+                        @item.Value
+                    </li>
+}
+                </ul>*@
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @*<div class="panel panel-body border-top-info">*@
+                                @*@*<div class="text-center">
+                                    <h6 class="no-margin text-semibold">Menu item icons</h6>
+                                    <p class="content-group-sm text-muted">Left and right positioned icons</p>
+                                </div>*@
+                                <ul class="dropdown-menu bg-slate-600" style="display: block; position: static; width: 100%; margin-top: 0; float: none;">
+                                    @foreach (var item in @Model.topDirectorieDirectories) { 
+
+                                    <li><a href="#"><i class="icon-menu7"></i>@item.Value</a></li>
+                                   }
+                                     @*<li class="active"><a href="#"><i class="icon-screen-full"></i> Active action</a></li>
+                                    <li class="divider"></li>
+                                    <li class="disabled"><a href="#"><i class="icon-mail5 pull-right"></i> Disabled action</a></li>
+                                    <li><a href="#"><i class="icon-gear pull-right"></i> Separated line</a></li>*@
+                                </ul>
+                            @*</div>*@
+                        </div>
+                        @*<div class="col-1">
+                            <div class="col-xs-4">
+
+                                @Html.DropDownList("ss", Model.topDirectorieDirectories,htmlAttributes: new { @class = "bootstrap-select", @id = "ss", @name = "ss", style = "data-width: 500px;" })
+                                @Html.ValidationMessageFor(model => model.topDirectorieDirectories, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                     </div>
+             </div>
+                   
+                                @*<p>
+                        @foreach (var item in @Model.topDirectorieDirectories)
+                        {
+                        <b>
+                            @item.Value   ,
+                        </b>
+                        }
+                    </p>*@
+                    </div>
+                </div>
+            </div>
+
+</div>

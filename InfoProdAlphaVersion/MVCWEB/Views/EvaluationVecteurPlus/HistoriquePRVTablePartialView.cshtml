@@ -1,0 +1,415 @@
+﻿@model IEnumerable<MVCWEB.Models.EvaluationVecteurPlusViewModel>
+<div id="details"></div>
+<div id="comments"></div>
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+    <h5><b>Nombre des Evaluations</b></h5>
+</div>
+
+<table id="historiqueEmpPRV" class="table datatable-basic">
+    <thead>
+        <tr style="font-weight:bold;">
+            <th style="font-weight:bold;">Date </th>
+            <th style="font-weight:bold;">Score</th>
+            <th style="font-weight:bold;">Emetteur de l'évaluation</th>
+            <th hidden>Présentation et Identification</th>
+            <th hidden>Objet Appel</th>
+            <th hidden>validation et Disponibilité</th>
+            <th hidden>Questionnement</th>
+            <th hidden>Reformulation</th>
+            <th hidden>Proposition Rendez-vous</th>
+            <th hidden>Objections</th>
+            <th hidden>Calendrier et Disponibilité</th>
+            <th hidden>Rebondir et Validation</th>
+            <th hidden>Récapitulatif</th>
+            <th hidden>Discours</th>
+            <th hidden>Attitude</th>
+            <th hidden>Prise Congé</th>
+            <th style="font-weight:bold;">Commentaires</th>
+            <th hidden>Réponse Agent</th>
+            <th style="font-weight:bold;">Notes</th>
+            <th style="font-weight:bold;">Enregistrement</th>
+            <th style="font-weight:bold;">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <a>@item.dateTempEvaluation.Day/@item.dateTempEvaluation.Date.Month/@item.dateTempEvaluation.Date.Year</a>
+                </td>
+                @{
+
+                    String str = item.note.ToString("N2");
+                }
+
+                <td><font color="red">@str%</font></td>
+
+                <td>@item.senderName</td>
+                <td hidden>
+                    @item.presentation
+                </td>
+                <td hidden>
+                    @item.objetAppel
+                </td>
+                <td hidden>
+                    @if (item.validationDisponibilite >= 0)
+                    {
+                        @item.validationDisponibilite
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                   @item.questionnement
+                </td>
+                <td hidden>
+                    @if (item.reformulation >= 0)
+                    {
+                        @item.reformulation
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.propositionPRV >= 0)
+                    {
+                        @item.propositionPRV
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.objections >= 0)
+                    {
+                        @item.objections
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.calendrier >= 0)
+                    {
+                        @item.calendrier
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.validation >= 0)
+                    {
+                        @item.validation
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.recapitulatif >= 0)
+                    {
+                        @item.recapitulatif
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.discours >= 0)
+                    {
+                        @item.discours
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @item.attitude
+                </td>
+                <td hidden>
+                    @item.priseConge
+                </td>
+                <td hidden>
+                    @item.commentaireQualite
+                </td>
+                <td hidden>
+                    @item.commentaireAgent
+                </td>
+
+                <td>
+                    @*<button type="button" class="btn btn-info btn-sm" data-popup="popover" data-html="true" data-trigger="focus" data-content="Présentation et Identification : @item.presentationIdentification <br> Objet Appel : @item.objetAppel <br> Nature/Type/Lieu/Destination : @item.validationNature <br> Calendrier : @item.calendrier <br> Envergure : @item.envergure <br> Questions par typologie : @item.complétudeQuestions <br> Ajout Intervenants : @item.confirmationIntervenants <br> Enchainement logique des questions : @item.enchainementQuestions <br> Traitement des objections : @item.traitementObjections <br> Reformulation : @item.reformulation <br> Transcription des information : @item.transcriptionsInformations <br> Codes appropriés : @item.codesAppropriés <br> Note client : @item.noteClient <br> Discours : @item.discours <br> Attitude : @item.attitude <br> Prise de congé : @item.priseConge">Voir Notes <i class="icon-chevron-right"></i></button>*@
+
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" style="background-color: aqua;color:#000;">Voir Notes <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
+                                <li>
+                                    Présentation et Identification: <span>@item.presentation</span>
+                                <li>
+                                    Objet Appel: <span> @item.objetAppel</span>
+                                </li>
+                                <li>
+                                    validation et Disponibilité:
+                                    <span>
+                                        @if (item.validationDisponibilite >= 0)
+                                        {@item.validationDisponibilite }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Questionnement :
+                                    <span>
+                                       @item.questionnement 
+                                    </span>
+                                </li>
+                                <li>
+                                    Reformulation :
+                                    <span>
+                                        @if (item.reformulation >= 0)
+                                        {@item.reformulation }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Proposition Rendez-vous:
+                                    <span>
+                                        @if (item.propositionPRV >= 0)
+                                        {@item.propositionPRV }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Objections:
+                                    <span>
+                                        @if (item.objections >= 0)
+                                        {@item.objections }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Calendrier et Disponibilité:
+                                    <span>
+                                        @if (item.calendrier >= 0)
+                                        {@item.calendrier }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Rebondir / Validation:
+                                    <span>
+                                        @if (item.validation >= 0)
+                                        {@item.validation }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Récapitulatif:
+                                    <span>
+                                        @if (item.recapitulatif >= 0)
+                                        {@item.recapitulatif }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Discours:
+                                    <span>
+                                        @if (item.discours >= 0)
+                                        {@item.discours }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Attitude  : <span> @item.attitude</span>
+                                </li>
+                                <li>
+                                    Prise de congé : <span> @item.priseConge</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </td>
+
+                <td>
+                    <button class="btn btn-warning" id="test6" data-com="@item.commentaireQualite" data-reponse="@item.commentaireAgent">Details&nbsp;<i class="icon-popout"></i></button>
+                </td>
+                <td>
+                    @if (item.enregistrementFullName != null)
+                    {
+                        <aside type="button" class="btn bg-teal-400" id="test5" data-id="@item.enregistrementFullName" data-FullName="@item.enregistrementUrl" data-directory="@item.enregistrementDirectory">Ecouter&nbsp;<i class="icon-play"></i></aside>
+                    }
+                </td>
+             
+                <td>
+                    <ul class="icons-list">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-menu9"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="@Url.Action("EditPRV", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-edit"></i> Modifier</a>
+                                </li>
+                                <li>
+                                    @*<a href="@Url.Action("DeleteBPP", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-trash"></i> Supprimer</a>*@
+                                    <a>
+                                        <article id="delete" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> Supprimer</article>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+                    }
+    </tbody>
+</table>
+<br />
+<div id="explorer1"></div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('aside').on('click', function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var fullname = $buttonClicked.attr('data-FullName');
+                var directoryName = $buttonClicked.attr('data-directory');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindCustomEnregistrement',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'name': id,
+                        'fullName': fullname,
+                        'DirectoryName': directoryName
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#details").is(":empty") == false) {
+                            $('#details').removeData("#detailsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#details').html(data);
+                        }
+                        else {
+
+                            $('#details').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#detailsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+
+            $(document).on("click", "#test6", function () {
+                var $buttonClicked = $(this);
+                var comqualite = $buttonClicked.attr('data-com');
+                var comagent = $buttonClicked.attr('data-reponse');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindComments',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'CommentQualite': comqualite,
+                        'CommentAgent': comagent
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#comments").is(":empty") == false) {
+                            $('#comments').removeData("#commentsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#comments').html(data);
+                        }
+                        else {
+
+                            $('#comments').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#commentsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+        })
+</script>
+<script>
+        $(function () {
+            $('[data-popup="popover"]').popover();
+            $('[data-popup="tooltip"]').tooltip();
+        });
+</script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            //  $(document).on("click", "#delete", function () {
+            $("article").on("click", function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindEvaluationPRV',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "html",
+                    async: true,
+                    success: function (data) {
+                        $('#explorer1').html(data);
+                        $('#alerteSuppression').modal('show');
+                    },
+
+
+
+                });
+
+
+            })
+        })
+
+</script>

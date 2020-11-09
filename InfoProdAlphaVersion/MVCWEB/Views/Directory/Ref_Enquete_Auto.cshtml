@@ -1,0 +1,277 @@
+﻿@if (ViewBag.role == "Qualité")
+{
+    ViewBag.Title = "Ref_Enquete_Auto";
+
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_CustomerService")
+{
+    ViewBag.Title = "Ref_Enquete_Auto";
+
+    Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
+}
+@if (ViewBag.role == "Agent_CustomerService")
+{
+    ViewBag.Title = "Ref_Enquete_Auto";
+
+    Layout = "~/Views/Shared/_Layout_agent_CustomerService.cshtml";
+}
+
+
+@section test{
+
+
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold">Grille d'écoute et Référentiel Enquête Qualité Automobile</h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr style="background-color:indianred;">
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Items</font> </th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Définition</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Evaluation</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Ponderation</font></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Prise de contact et présentation de l'objet de l'appel</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit se présenter en annonçant son prénom et le nom du service tout en respetant la charte d'accueil
+                            <br />
+                            Bonjour, je suis X de la cellule d'enquête qualité du groupe ETAI, je cherche à joindre la personne qui utilise l'application ..
+                            (Une fois en relation). Dans le cadre d'une démarche qualité, je souhaiterais vous poser quelques questions concernant votre utilisation de l'application, cela ne prendra pas plus de 5 minutes. Pourrais-je parler à un des principaux utilisateurs de l'application svp ?  (Nom de l’interlocuteur à joindre si possible, ce qui limite le barrage à l’accueil et facilite l’introduction)
+                           <br />
+                             Si l’interlocuteur n’est pas joignable, obtenir le plus d’informations : est-ce bien la bonne personne à joindre ? A quel moment rappeler ? Une ligne directe ?
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b> OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b>5</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Respect du script d’appel </font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit respecter l'ordre des questions et suivre l'enchainement prédéfini de l'enquête
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>  OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 15</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Traitement des objections</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit gérer toute objection ou tout conflit menant de son interlocuteur en gardant une attitude professionnelle, il doit également  envoyer un e-mail ou faire une escalade selon l'objection remontée par le client (si nécessaire)
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Exploitation des outils</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit exploiter les outils mis à sa disposition afin de mener son enquête: exemple utilisation du moteur de recherche google pour obtenir des numéros de contact pour les faux numéros
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Historisation sur les outils à disposition</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit historiser correctement dans Sphinx toute information collectée et toute validation faite avec son interlocuteur
+                            <br />
+                            La qualification Hermes doit être cohérente avec la qualification Sphinx
+                           </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 15</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Discours et Maitrise du Français </font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit utiliser un discours clair . Le discours doit être adapté à l'interlocuteur sans familiarisation ni utilisation de propos non professionnels.
+                            <br />
+                            Le conseiller doit utiliser un vocabulaire bien choisi et une bonne qualité d'expression, garantissant la compréhension du client et favorisant une bonne communication: choix des termes (vocabulaire + synchronisation verbale) / Forme de termes (grammaire) / Conjugaison des verbes (conjugaison) / Structure de la phrase (syntaxe).
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 10</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Débit</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit adapter un débit modéré ni long ni rapide afin de garantir la compréhension du client.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 3</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Intonation</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit utiliser une intonation chaleureuse et dynamique.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 3</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Ecoute active et reformulation</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit faire preuve d'écoute en créant un climat d'échange avec son interlocuteur où ce dernier sent qu'il est écouté et compris. Il doit s'assurer de la concordance de ce qu'il a compris avec ce que l'interlocuteur a dit (et inversement).
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Prise de congé</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit clôturer son appel avec sourire, dynamisme et enthousiasme en respectant la charte.
+                            <br />
+                            Exemple: ce questionnaire est à présent terminé, Je vous remercie Mr X pour votre participation et je vous souhaites une agréable journée
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'écoute et Référentiel</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'écoute et Référentiel</a></li>
+    <li class="active">Enquête Qualité Automobile</li>
+}

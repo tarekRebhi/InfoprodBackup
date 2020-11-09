@@ -1,0 +1,176 @@
+﻿@model IEnumerable<MVCWEB.Models.AlerteViewModel>
+
+@{
+    ViewBag.Title = "IndexManagerGroupes";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+@section test{
+
+
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold"><b>Liste des Alertes Envoyées  par  le Manager</b></h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    @*<li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>*@
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr>
+                    @*<th><input type="checkbox" class="styled"></th>*@
+                    <th ></th>
+                    <th><b>titre</b></th>
+                    <th><b>Message</b></th>
+                    <th><b>Date de Création</b></th>
+                    <th><b>Agent</b></th>
+                    <th><b>Réponse</b></th>
+
+                    @*<th class="text-center">Actions</th>*@
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td><input type="checkbox" class="styled"></td>*@
+                        <td></td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.titreAlerte)
+                        </td>
+
+                        <td>
+
+                            @Html.DisplayFor(modelItem =>
+                            item.description)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem =>
+                            item.dateCreation)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem =>
+                            item.reciverName)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem =>
+                            item.reponseAlerte)
+                        </td>
+                        @*<td class="text-center">
+                            <ul class="icons-list">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>@Html.ActionLink("Repondre", "ReponseAlerte", new { id = item.Id }) </li>
+                                        <li class="divider"></li>
+                                        <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
+
+
+                                    </ul>
+                                </li>
+                     eeeee       </ul>
+                        </td>*@
+                    </tr>
+
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+@*@section testProfile{
+
+        <a class="dropdown-toggle" data-toggle="dropdown">
+            <img src=@Model.image alt="">
+            <span>@Model.userName</span>
+            <i class="caret"></i>
+        </a>
+    }
+    @section testProfileLeft{
+        <a href="#" class="media-left"><img src=@Model.image class="img-circle img-sm" alt=""></a>
+        <div class="media-body">
+            <span class="media-heading text-semibold">@Model.userName</span>
+            <div class="text-size-mini text-muted">
+                <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+            </div>
+        </div>
+    }*@
+@*}*@
+@*@section Notifications{
+<ul class="nav navbar-nav">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-git-compare"></i>
+            <span class="visible-xs-inline-block position-right">Notifications</span>
+            <span class="badge bg-warning-400">@ViewBag.nb</span>
+        </a>
+
+        <div class="dropdown-menu dropdown-content">
+            <div class="dropdown-content-heading">
+                Notifications
+                <ul class="icons-list">
+                    <li><a href="#"><i class="icon-sync"></i></a></li>
+                </ul>
+            </div>
+            <ul class="media-list dropdown-content-body width-350">
+                <li class="media">
+                    <div class="media-left">
+                        <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
+                    </div>
+                    <div class="media-body">
+                        Drop the IE <a href="#">specific hacks</a> for temporal inputs
+                    </div>
+                </li>
+
+            </ul>
+            <div class="dropdown-content-footer">
+            </div>
+        </div>
+    </li>
+</ul>
+}*@
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Alertes</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Alertes</a></li>
+    <li class="active">Eléments Envoyés</li>
+}

@@ -1,0 +1,197 @@
+﻿
+@{
+    ViewBag.Title = "Autorisation";
+    Layout = "~/Views/Shared/Layout_calendrier.cshtml";
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            //var sourceFullView = { url: '/Calendar/GetDiaryEvents/' };
+            //var sourceSummaryView = { url: '/Calendar/GetDiarySummary/' };
+            //var CalLoading = true;
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultView: 'agendaDay',
+                editable: true,
+                allDaySlot: false,
+                selectable: true,
+                slotMinutes: 15,
+                events: '/Calendar/GetDiaryEvents/',
+                eventClick: function (calEvent, jsEvent, view) {
+                    alert('You clicked on event id: ' + calEvent.id
+                        + "\nSpecial ID: " + calEvent.someKey
+                        + "\nAnd the title is: " + calEvent.title);
+
+                },
+
+                eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                    if (confirm("Confirm move?")) {
+                        UpdateEvent(event.id, event.start);
+                    }
+                    else {
+                        revertFunc();
+                    }
+                },
+
+                eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
+
+                    if (confirm("Confirm change appointment length?")) {
+                        UpdateEvent(event.id, event.start, event.end);
+                    }
+                    else {
+                        revertFunc();
+                    }
+                },
+
+
+
+                dayClick: function (date, allDay, jsEvent, view) {
+                    $('#planTitle').val("");
+                    $('#planDate').val($.fullCalendar.formatDate(date, 'dd/MM/yyyy'));
+                    $('#planTime').val($.fullCalendar.formatDate(date, 'HH:mm'));
+                    $('#planTime2').val($.fullCalendar.formatDate(date, 'HH:mm'));
+                    ShowPlanPopup(date);
+                },
+
+                viewRender: function (view, element) {
+
+                    if (!CalLoading) {
+                        if (view.name == 'month') {
+                            $('#calendar').fullCalendar('removeEventSource', sourceFullView);
+                            $('#calendar').fullCalendar('removeEvents');
+                            $('#calendar').fullCalendar('addEventSource', sourceSummaryView);
+                        }
+                        else {
+                            $('#calendar').fullCalendar('removeEventSource', sourceSummaryView);
+                            $('#calendar').fullCalendar('removeEvents');
+                            $('#calendar').fullCalendar('addEventSource', sourceFullView);
+                        }
+                    }
+                }
+
+            });
+
+            CalLoading = false;
+
+
+        });
+
+
+        $('#btnPopupCancel').click(function () {
+            ClearPopupFormValues();
+            $('#popupPlanForm').hide();
+        });
+
+        $('#btnPopupSave').click(function () {
+
+            $('#popupPlanForm').hide();
+
+            var dataRow = {
+                'Title': $('#planTitle').val(),
+                'NewPlanDate': $('#planDate').val(),
+                'NewPlanTime': $('#planTime').val(),
+                'NewPlanTime2': $('#planTime2').val(),
+                'NewPlanDuration': $('#planDuration').val()
+            }
+
+            ClearPopupFormValues();
+
+            $.ajax({
+                type: 'POST',
+                url: "/Calendar/EnregistrerPlaning",
+                data: dataRow,
+                success: function (response) {
+                    if (response == 'True') {
+                       alert('New event saved!');
+                    }
+                    else {
+                        alert('Error, could not save event!');
+                    }
+                }
+            });
+        });
+
+        function ShowPlanPopup(date) {
+            ClearPopupFormValues();
+            $('#popupPlanForm').modal();
+            $('#planTitle').focus();
+        }
+
+        function ClearPopupFormValues() {
+            $('#eventID').val("");
+            $('#planTitle').val("");
+            $('#planDateTime').val("");
+            $('#planDuration').val("");
+        }
+
+
+
+    </script>
+
+
+}
+
+
+<div class="container" style="padding-top:30px">
+
+
+    <div id='calendar' style="width:90%"></div>
+
+</div>
+
+
+
+<div class="container">
+
+    <!-- Modal -->
+    <div class="modal fade" id="popupPlanForm" style="padding-top:150px">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ajouter Un Planing</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="PlanForm" class="well">
+                        <div class="row">
+                            <div class="col"><input type="hidden" id="eventID"></div>
+                        </div>
+                        <div class="row">
+                            <div><label>Titre</label></div>
+                            <div><input type="text" id="planTitle" placeholder="Donner un titre au Planing" style="min-width: 100%"></div>
+                        </div><br />
+                        <div class="row">
+                            <div><label>Date prévue</label></div>
+                            <div><input type="datetime" id="planDate" style="min-width: 100%"></div>
+                        </div> <br />
+                        <div class="row">
+                            <div><label>Heure Arrivée</label></div>
+                            <div><input type="text" id="planTime" style="min-width: 100%"></div>
+                        </div>  <br />
+                        <div class="row">
+                            <div><label>Heure Départ</label></div>
+                            <div><input type="text" id="planTime2" style="min-width: 100%"></div>
+                        </div> <br />
+                        <div class="row">
+                            <div><label>Durée</label></div>
+                            <div><input type="text" id="planDuration" placeholder="15" style="min-width: 100%"></div>
+                        </div> <br />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnPopupCancel" data-dismiss="modal" class="btn">Annuler</button>
+                    <button type="button" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary">Enregistrer l'événement</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

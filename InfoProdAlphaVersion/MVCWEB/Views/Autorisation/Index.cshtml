@@ -1,0 +1,249 @@
+﻿
+@{
+    ViewBag.Title = "Autorisation";
+    Layout = "~/Views/Shared/Layout_calendrier.cshtml";
+}
+
+
+
+@section scripts{
+@model MVCWEB.Models.EventViewModel
+    <script>
+        $(document).ready(function () {
+
+            var sourceFullView = { url: '/Calendar/GetDiaryEvents/' };
+            var sourceSummaryView = { url: '/Calendar/GetDiarySummary/' };
+            var CalLoading = true;
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultView: 'month',
+                editable: true,
+                allDaySlot: false,
+                selectable: true,
+                slotMinutes: 15,
+                events: '/Autorisation/GetEvents/',
+                eventClick: function (calEvent, jsEvent, view) {
+                    alert('You clicked on event id: ' + calEvent.id
+                        + "\nSpecial ID: " + calEvent.someKey
+                        + "\nAnd the title is: " + calEvent.title);
+
+                },
+
+                eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                    if (confirm("Confirm move?")) {
+                        UpdateEvent(event.id, event.start);
+                    }
+                    else {
+                        revertFunc();
+                    }
+                },
+
+                eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
+
+                    if (confirm("Confirm change appointment length?")) {
+                        UpdateEvent(event.id,event.title, event.start, event.end);
+                    }
+                    else {
+                        revertFunc();
+                    }
+                },
+
+
+
+                dayClick: function (date, allDay, jsEvent, view) {
+                    $('#planDate').val($.fullCalendar.formatDate(date, 'dd/MM/yyyy'));
+                    $('#planDate2').val($.fullCalendar.formatDate(date, 'dd/MM/yyyy'));
+                    $('#planTime').val($.fullCalendar.formatDate(date, 'HH:mm'));
+                    $('#planTime2').val($.fullCalendar.formatDate(date, 'HH:mm'));
+                    ShowPlanPopup(date);
+                },
+
+                viewRender: function (view, element) {
+
+                    if (!CalLoading) {
+                        if (view.name == 'month') {
+                            $('#calendar').fullCalendar('removeEventSource', sourceFullView);
+                            $('#calendar').fullCalendar('removeEvents');
+                            $('#calendar').fullCalendar('addEventSource', sourceSummaryView);
+                        }
+                        else {
+                            $('#calendar').fullCalendar('removeEventSource', sourceSummaryView);
+                            $('#calendar').fullCalendar('removeEvents');
+                            $('#calendar').fullCalendar('addEventSource', sourceFullView);
+                        }
+                    }
+                }
+
+            });
+
+            CalLoading = false;
+
+
+        });
+
+
+        $('#btnPopupCancel').click(function () {
+            ClearPopupFormValues();
+            $('#popupPlanForm').hide();
+        });
+
+        $('#btnPopupSave').click(function () {
+
+            $('#popupPlanForm').hide();
+
+            var dataRow = {
+                'NewPlanTitre': $('#planTitre').val(),
+                'NewPlanDescription': $('#planDescription').val(),
+                'NewPlanDate': $('#planDate').val(),
+                'NewPlanDate2': $('#planDate2').val(),
+                'NewPlanTime': $('#planTime').val(),
+                'NewPlanTime2': $('#planTime2').val(),
+                'NewplanGroups': $('#planGroups').val(),
+                'NewplanUser': $('#planUsers').val()
+
+                
+            }
+
+            ClearPopupFormValues();
+
+            $.ajax({
+                type: 'POST',
+                url: "/Autorisation/EnregistrerEvent",
+                data: dataRow,
+                success: function (response) {
+                    if (response == 'True') {
+                        alert('Error, could not save event!');
+                    }
+                    else {
+                        alert('New event saved!');
+                    }
+                }
+            });
+        });
+
+        function ShowPlanPopup(date) {
+            ClearPopupFormValues();
+            $('#popupPlanForm').modal();
+            $('#planTitle').focus();
+        }
+
+        function ClearPopupFormValues() {
+            $('#eventID').val("");
+            $('#planTitle').val("");
+            $('#planDescription').val("");
+            $('#planDateTime').val("");
+            $('#planDuration').val("");
+            $('#planGroups').val("");
+            $('#planUsers').val("")
+
+            
+        }
+
+
+
+    </script>
+
+
+}
+
+
+<div class="container" style="padding-top:30px">
+
+
+    <div id='calendar' style="width:90%"></div>
+
+</div>
+
+
+
+<div class="container">
+
+    <!-- Modal -->
+    <div class="modal fade" id="popupPlanForm" style="padding-top:150px">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Evénement</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="PlanForm" class="col-md-12 form-horizontal">
+                        <div class="col"><input type="hidden" id="eventID"></div>
+                        <div class="form-group">
+                            <label>Titre</label>
+                            <select id="planTitre" class="form-control" style="min-width: 100%">
+                                <option value="">- - - - - - - - - - - - - - -</option>
+                                <option value="Congé">Congé</option>
+                                <option value="Autorisation">Autorisation</option>
+                                <option value="Jours Fériés">Jours Fériés</option>
+                                <option value="Fermeture Annuel">Fermeture Annuel</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" id="planDescription" class="form-control" style="min-width: 100%" />
+                        </div>
+                        <div class="form-group">
+                            <label>Date Debut</label>
+                            <input type="datetime" id="planDate" class="form-control" style="min-width: 100%" />
+                        </div>
+                        <div class="form-group">
+                            <label>Date Fin</label>
+                            <input type="date" id="planDate2" class="form-control" style="min-width: 100%" />
+                        </div> 
+                        <div class="form-group">
+                            <label>Heure Début</label>
+                            <input type="text" id="planTime" class="form-control" style="min-width: 100%">
+                        </div>
+                        <div class="form-group">
+                            <label>Heure Fin</label>
+                            <input type="text" id="planTime2" class="form-control" style="min-width: 100%">
+                        </div>
+                        @*<div class="form-group">
+                            <label>Utilisateurs</label>
+                      
+                            @Html.DropDownList("utilisateur", Model.utilisateurs, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "utilisateurs", selected = "selected" })
+                        </div>*@
+                        <div class="form-group">
+                            <label>Utilisateurs</label>
+                            <select id="planUsers" class="form-control" style="min-width: 100%">
+                                <option value="">- - - - - - - - - - - - - - -</option>
+                                @foreach (var item in Model.utilisateurs)
+                                {
+                                    <option value=@item.Value>@item.Text</option>
+
+                                }
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Groupes</label>
+                            <select id="planGroups" class="form-control" style="min-width: 100%">
+                                <option value="">- - - - - - - - - - - - - - -</option>
+                                @foreach (var item in Model.groupesass)
+                              {
+                                <option value=@item.Value>@item.Text</option>
+                             
+                                }
+                            </select>
+                          
+                            </div>
+                        <div class="form-group">
+                            <button type="button" id="btnPopupCancel" data-dismiss="modal" class="btn">Annuler</button>
+                            <button type="button" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

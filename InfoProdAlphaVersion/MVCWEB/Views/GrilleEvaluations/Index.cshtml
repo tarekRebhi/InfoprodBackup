@@ -1,0 +1,155 @@
+﻿@model IEnumerable<Domain.Entity.GrilleEvaluation>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.employee.pseudoName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.acceuilPresentation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.objetAppel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.presentationOffre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gestionObjection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vCContrat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pCross)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.discours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.attitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.priseConge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.decouverteBesoins)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ppOffre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dateTempEvaluation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.commentaireQualite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.commentaireAgent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.enregistrementFullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.enregistrementUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.enregistrementDirectory)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee.pseudoName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.acceuilPresentation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.objetAppel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.presentationOffre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gestionObjection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vCContrat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pCross)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.discours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.attitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.priseConge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.decouverteBesoins)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ppOffre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateTempEvaluation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.commentaireQualite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.commentaireAgent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.enregistrementFullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.enregistrementUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.enregistrementDirectory)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

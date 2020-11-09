@@ -1,0 +1,192 @@
+﻿@model Domain.Entity.GrilleEvaluation
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>GrilleEvaluation</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.pseudoName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.employee.pseudoName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.acceuilPresentation)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.acceuilPresentation)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.objetAppel)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.objetAppel)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.presentationOffre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.presentationOffre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.gestionObjection)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.gestionObjection)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.vCContrat)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.vCContrat)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.pCross)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.pCross)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.discours)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.discours)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.attitude)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.attitude)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.priseConge)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.priseConge)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.decouverteBesoins)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.decouverteBesoins)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ppOffre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ppOffre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.dateTempEvaluation)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.dateTempEvaluation)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.type)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.type)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.note)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.note)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.commentaireQualite)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.commentaireQualite)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.commentaireAgent)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.commentaireAgent)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.enregistrementFullName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.enregistrementFullName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.enregistrementUrl)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.enregistrementUrl)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.enregistrementDirectory)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.enregistrementDirectory)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

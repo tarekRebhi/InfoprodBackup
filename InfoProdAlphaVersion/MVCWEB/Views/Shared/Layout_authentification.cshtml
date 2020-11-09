@@ -1,0 +1,107 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INFO-PROD</title>
+    <!-- Global stylesheets -->
+    @*<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">*@
+    <link href="~/Content/template/Documentation/assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/template/Documentation/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/template/Documentation/assets/css/core.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/template/Documentation/assets/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/template/Documentation/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script type="text/javascript" src="~/Content/template/Documentation/assets/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/template/Documentation/assets/js/core/libraries/bootstrap.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    @*<script type="text/javascript" src="~/Content/template/Documentation/assets/js/plugins/ui/prism.min.js"></script>*@
+
+    <script type="text/javascript" src="~/Content/template/Documentation/assets/js/core/app.js"></script>
+    @*<script type="text/javascript" src="~/Content/template/Documentation/assets/js/pages/sidebar_detached_sticky_native.js"></script>*@
+    <!-- /theme JS files -->
+</head>
+<body style="background-image:url('../../Content/template/Layout 1/back11.JPG');background-repeat:no-repeat;background-size:cover">
+    <!-- Main navbar -->
+    <div class="navbar navbar">
+        <div class="navbar-header">
+            <a class="navbar-brand" style="height:auto"><img src="/Content/template/Layout 1/LTR/assets/images/logoPng.png" style="height:80px"></a>
+            <div class="navbar-brand" style="position: absolute;left: 35%;font-size:40px;padding-top:39px;font-family:'Baskerville Old Face';font-weight:bold"><span style="color:gray">Bienvenue sur </span><span style="color:#ff0000"> INFO</span><span style="color:gray">-PROD</span></div>
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            </ul>
+        </div>
+        @*<div class="navbar-collapse collapse" id="navbar-mobile">*@
+        @*<ul class="nav navbar-nav navbar-right">*@
+        @*<li>
+                <a href="#">
+                    <i class="icon-display4"></i> <span class="visible-xs-inline-block position-right"> Go to website</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-user-tie"></i> <span class="visible-xs-inline-block position-right"> Contact admin</span>
+                </a>
+            </li>*@
+        @*<li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-cog3"></i>
+                    <span class="visible-xs-inline-block position-right"> Options</span>
+                </a>
+            </li>*@
+        @*</ul>*@
+        @*</div>*@
+    </div>
+
+    @*<p style="font-size:16px;color:gray;padding-left:100px;">
+            INFO-PROD est une plateforme web vous permet de suivre à tous moment votre production depuis les différents sites du groupe INFOPRO-DIGITAL.<br />
+            Cette plateforme vous donne la visibilité sur les différents indicateurs et KPIs de votre activité.
+        </p>*@
+
+    <!-- /main navbar -->
+    <!-- Page container -->
+    <div class="page-container login-container" style="padding-top:-500px;color:rebeccapurple">
+        <!-- Page content -->
+        <div class="page-content">
+            <!-- Main content -->
+            <div class="content-wrapper">
+                <!-- Content area -->
+                <div class="content">
+                    <!-- Advanced login -->
+
+                    <div class="panel panel-body login-form" style="margin-bottom:120px">
+                        <div class="text-center">
+                            @*<div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>*@
+                            <img src="~/Content/template/Layout 1/LTR/assets/images/logo121.png" alt="" />
+                            <p style="font-size:17px;color:black;font-family:Cambria;">
+                                INFO-PROD : Une plateforme Web dédiée de Reporting et Gestion de production téléphonique.<br />
+                                @*Cette plateforme vous donne la visibilité sur les différents indicateurs et KPIs de votre activité.*@
+                            </p>
+                            @*<span style="color:#ff0000"> INFO</span><span>-PROD</span>*@
+                            @*<h5 style="padding-top:40px;font-size:30px">INFO<span style="color:#ff0000">-PROD</span></h5>*@
+                        </div>
+                        @RenderSection("test2", required: false)
+                        <div class="footer text-muted">
+                            &copy; 2018. <a href="#">INFOPROD</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">DSI-Tunis</a>
+                        </div>
+                    </div>
+
+
+                    <!-- /advanced login -->
+                    <!-- Footer -->
+                    <!-- /footer -->
+                </div>
+                <!-- /content area -->
+            </div>
+            <!-- /main content -->
+        </div>
+        <!-- /page content -->
+        @RenderBody()
+    </div>
+    <!-- /page container -->
+</body>
+</html>

@@ -1,0 +1,246 @@
+﻿@model IEnumerable<MVCWEB.Models.TestIndicateur>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+  
+        
+        @Html.ActionLink("Hebdo", "Hebdo") 
+    @Html.ActionLink("Mensuel", "Mensuel")
+
+    @Html.ActionLink("Trimesteriel", "Trimestriel")
+    @Html.ActionLink("Annuel", "Annuel")
+
+
+ 
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.employee.login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.titre.libelle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.agent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.accord)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.totAboutis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsComm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsAtt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsACW)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPausePerso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPreview)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPauseBrief)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.responsable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.semaine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mois)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsAcwHebdo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsAcwmensuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsAtthebdo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsAttmensuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPauseBriefHebdo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPauseBriefMensuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPausePersoHebdo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPausePersoMensuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPrievewHebdo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPrievewMensuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.appelEmis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tvente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tventeHebdo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tventeMensuel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tAbs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tAbsHebdo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tAbsMensuel)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee.login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.titre.libelle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.agent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.accord)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CNA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.totAboutis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsComm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsAtt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsACW)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPausePerso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPreview)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPauseBrief)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.responsable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.semaine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mois)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsAcwHebdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsAcwmensuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsAtthebdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsAttmensuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPauseBriefHebdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPauseBriefMensuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPausePersoHebdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPausePersoMensuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPrievewHebdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPrievewMensuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.appelEmis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tvente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tventeHebdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tventeMensuel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tAbs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tAbsHebdo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tAbsMensuel)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

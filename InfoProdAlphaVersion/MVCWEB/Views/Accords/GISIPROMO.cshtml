@@ -1,0 +1,142 @@
+﻿@model MVCWEB.Models.EvaluationViewModel
+
+@{
+    ViewBag.Title = "GISIPROMO";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+
+@*@section extractPDF {
+    <li> <a onclick="downloadPDF()"> <span class="glyphicon glyphicon-download"></span>Télécharger PDF</a></li>
+}*@
+@section test{
+    <script src="~/Scripts/jquery-ui-1.9.1.min.js"></script>
+    <script src="~/Scripts/pivot.min.js"></script>
+<link rel="stylesheet" href="~/Content/jbPivot.min.css">
+
+    <div class="panel-body">
+        <form id="eventForm">
+            <div class="row">
+                <div class="col-1">
+                    <h6 class="col-xs-1 control-label">Date Début</h6>
+                    <div class="col-xs-4 date">
+                        <div class="input-group input-append date">
+                            <input type="text" class="form-control" id="datePickerFrom" onchange="getSelected()" />
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <h6 class="col-xs-1 control-label">Date Fin</h6>
+                    <div class="col-xs-4 date">
+                        <div class="input-group input-append date">
+                            <input type="text" class="form-control" name="date" id="datePickerTo" onchange="getSelected()" />
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="toPDF">
+        <div id="pivot"></div>
+    </div>
+
+    <script>
+        $('#datePickerFrom')
+               .datepicker({
+                   format: 'yyyy-mm-dd',
+                   autoclose: true
+               })
+        $("#datePickerFrom").datepicker("setDate", new Date());
+        $('#datePickerTo')
+          .datepicker({
+              format: 'yyyy-mm-dd',
+              autoclose: true
+          })
+        $("#datePickerTo").datepicker("setDate", new Date());
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetAccordsPROMOGISI")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    fromDate: $("#datePickerFrom").val(),
+                    toDate: $("#datePickerTo").val()
+                },
+                success: function (c) {
+                    $("#pivot").jbPivot({
+                        fields: {
+                            Agent: { field: 'agent', sort: "asc", showAll: true, agregateType: "distinct" },
+                            Titre: { field: 'titre', sort: "asc", age: "Age", showAll: true, agregateType: "distinct" },
+                            Nbre_Accords: { field: 'nbre', agregateType: "sum" },
+                            Nbre_Cross: { field: 'nbrecross', agregateType: "sum" },
+                        },
+                        xfields: ["Titre"],
+                        yfields: ["Agent"],
+                        zfields: ["Nbre_Accords","Nbre_Cross"],
+                        //  data: c
+                    });
+                    $("#pivot").data('jbPivot').insertRecords(c);
+                },
+                error: function () { },
+            })
+        });
+
+        function getSelected() {
+            $.ajax({
+                url: '@Url.Action("GetAccordsPROMOGISI")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    fromDate: $("#datePickerFrom").val(),
+                    toDate: $("#datePickerTo").val()
+                },
+                success: function (e) {
+                    $("#pivot").data('jbPivot').reset();
+                    $("#pivot").data('jbPivot').insertRecords(e);
+                },
+                error: function () { },
+            });
+        }
+    </script>
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+    </div>
+
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Suivi Accords</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Suivi Accords</a></li>
+    <li class="active">GISI-PROMO</li>
+}

@@ -1,0 +1,246 @@
+﻿@section test{
+@model MVCWEB.Models.EmployeeViewModel
+
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
+
+@using (Html.BeginForm("Create", "Employee" ,FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Employee</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<h4>IdHermes</h4>*@
+        @*<div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
+                @Html.EditorFor(model => model.IdHermes, new { htmlAttributes = new { @class = "form-control", placeholder = "IdHermes" } })
+                @Html.ValidationMessageFor(model => model.IdHermes, "", new { @class = "text-danger" })
+            </div>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", placeholder = "userName" } })
+            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            @Html.EditorFor(model => model.pseudoName, new { htmlAttributes = new { @class = "form-control", placeholder = "pseudoName" } })
+            @Html.ValidationMessageFor(model => model.pseudoName, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            @Html.EditorFor(model => model.role, new { htmlAttributes = new { @class = "form-control", placeholder = "role" } })
+            @Html.ValidationMessageFor(model => model.role, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            @Html.EditorFor(model => model.Activite, new { htmlAttributes = new { @class = "form-control", placeholder = "role" } })
+            @Html.ValidationMessageFor(model => model.Activite, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            @Html.DropDownList("utilisateur", Model.utilisateurs, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.utilisateurs, "", new { @class = "text-danger" })
+        </div>*@
+
+        @*<div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="email" type="text" class="form-control" name="email" placeholder="Email">
+        </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdHermes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                @Html.EditorFor(model => model.IdHermes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IdHermes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <label class="col-md-6 control-label">Email (Champs Obligatoire)</label>
+            <div class="col-md-10">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@
+            <label class = "col-md-6 control-label">Password (Uniquement des lettres en miniscules et chiffres)</label>
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.pseudoName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
+                @Html.EditorFor(model => model.pseudoName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.pseudoName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.loginLdap, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.loginLdap, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.loginLdap, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.role, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.role, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.role, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Activite, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                @Html.EditorFor(model => model.Activite, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Activite, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.userId, "userId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("userId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.utilisateurs, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="sbar">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
+                @Html.DropDownList("utilisateur", Model.utilisateurs, "-----Select----", htmlAttributes: new { @class = "form-control" , size = "1", @id = "testID"  })
+                @Html.ValidationMessageFor(model => model.utilisateurs, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+      
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.groupes, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("groupes", Model.groupes, htmlAttributes: new { @class = "form-control", @multiple = "multiple" })
+                    @Html.ValidationMessageFor(model => model.groupes, "", new { @class = "text-danger" })
+
+                </div>
+            </div>*@
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control" id="typeGenerator" name="typeGenerator">
+                    <option>Select</option>
+                    <option>jpg</option>
+                    <option>png</option>
+                    <option>bmp</option>
+                </select>
+                <input type="file" name="file" />
+
+            </div>
+        </div>*@
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button  data-id="@Model.Id" data-title="Enregistrer Employé" data-toggle="modal" class="btn btn-success">Create</button>
+                </div>
+            </div>
+        </div>
+        
+
+        <div id="explorer1">
+            @*@{ Html.RenderPartial("_AffectationUserError"); }*@
+            @*@Html.Partial("~/Views/Employee/_AffectationUserError.cshtml",Model)*@
+        </div>
+
+        <script src="/Content/Template1/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready ( function () {
+        $(document).on ("click", "#imed", function () {
+            var $buttonClicked = $(this);
+            var val = $("#testID").val();
+        if (val == '') {
+                @*$('#explorer1').load('@Url.Action("AffectationUserError", "Employee")');*@
+
+            LoadFirstPartialView();
+                }
+                else {
+                    @*return window.location.href = '@Url.Action("Create", "Employee")';*@
+            LoadFirstPartialView();
+
+                }
+            
+  });
+    });
+    function LoadFirstPartialView() {
+
+        $.ajax({
+
+            url: '/Employee/AffectationUserError',
+            type: 'GET',
+            contentType: 'application/html',
+            success: function (result) {
+
+                $('#explorer1').html(result);
+                $('#explorer1').show();
+            }
+        });
+    }
+        </script>
+        @*<script type="text/javascript">
+
+    $(document).ready ( function () {
+        $(document).on ("click", "#imed", function () {
+            var $buttonClicked = $(this);
+
+            if (document.getElementById("testID") == '') {
+                    $('#explorer1').replaceWith("_AffectationUserError");
+
+
+                }
+                else {
+                    return window.location.href = '@Url.Action("Employee", "Create")';
+
+                }
+            }
+
+        );
+
+
+    })
+
+
+        </script>*@
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+    }
+    }

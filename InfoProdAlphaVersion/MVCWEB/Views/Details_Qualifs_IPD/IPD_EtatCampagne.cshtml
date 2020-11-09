@@ -1,0 +1,1180 @@
+﻿@model MVCWEB.Models.EvaluationViewModel
+
+@{
+    ViewBag.Title = "IPD_Etat_Campagne";
+    Layout = "~/Views/Shared/_Layout_ManagerIPD.cshtml";
+}
+@section extract {
+    <li> <a onclick="tablesToExcel(['Grid'], ['Suivi Global'], 'Suivi_IPD_Global.xls', 'Excel')"> <span class="glyphicon glyphicon-export"></span>Télécharger Excel</a></li>
+}
+
+@section test{
+    <style>
+        tbody {
+            display: block;
+            max-height: 360px;
+            overflow-y: scroll;
+        }
+
+            thead, tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+
+        thead {
+            width: 100%;
+        }
+
+        table {
+            width: 200px;
+        }
+    </style>
+    <script src="~/Scripts/zingchart.min.js"></script>
+
+    <div>
+        <div class="row">
+            <div id="myChart3"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                <div id="myChart2"></div>
+            </div>
+
+            <div class="col-md-5" style="height: 400px;">
+                <table class="table table-fixed" id="Grid" style="font-size: 14px;">
+                    <thead>
+                        <tr>
+                            <th> Type</th>
+                            <th> Qualification</th>
+                            <th> Nombre</th>
+                            <th> Pourcentage</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;"></tbody>
+                </table>
+            </div>
+
+            <div class="col-md-2">
+                <div class="row" id="myChartRing1"></div>
+                <div class="row" id="myChartRing2"></div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            <div id="myChart"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-flat">
+                <div class="panel-body">
+                    <table class="table" id="Grid2">
+                        <thead>
+                            <tr>
+                                <th> Agent</th>
+                                <th> Accords</th>
+                                <th> CA</th>
+                                <th> Aboutis</th>
+                                <th> %Accord</th>
+                                <th>JH</th>
+                            </tr>
+                        </thead>
+                        <tbody> </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<br /><br />
+<div class="row-md-12">
+    <div id="myChartDiffOperation"></div>
+</div>
+
+
+    <script>
+
+        var tablesToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+            , tmplWorkbookXML = '<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
+              + '<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office"><Author>Axel Richter</Author><Created>{created}</Created></DocumentProperties>'
+              + '<Styles>'
+              + '<Style ss:ID="Currency"><NumberFormat ss:Format="Currency"></NumberFormat></Style>'
+              + '<Style ss:ID="Date"><NumberFormat ss:Format="Medium Date"></NumberFormat></Style>'
+              + '</Styles>'
+              + '{worksheets}</Workbook>'
+            , tmplWorksheetXML = '<Worksheet ss:Name="{nameWS}"><Table>{rows}</Table></Worksheet>'
+            , tmplCellXML = '<Cell{attributeStyleID}{attributeFormula}><Data ss:Type="{nameType}">{data}</Data></Cell>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (tables, wsnames, wbname, appname) {
+                var ctx = "";
+                var workbookXML = "";
+                var worksheetsXML = "";
+                var rowsXML = "";
+
+                for (var i = 0; i < tables.length; i++) {
+                    if (!tables[i].nodeType) tables[i] = document.getElementById(tables[i]);
+                    for (var j = 0; j < tables[i].rows.length; j++) {
+                        rowsXML += '<Row>'
+                        for (var k = 0; k < tables[i].rows[j].cells.length; k++) {
+                            var dataType = tables[i].rows[j].cells[k].getAttribute("data-type");
+                            var dataStyle = tables[i].rows[j].cells[k].getAttribute("data-style");
+                            var dataValue = tables[i].rows[j].cells[k].getAttribute("data-value");
+                            dataValue = (dataValue) ? dataValue : tables[i].rows[j].cells[k].innerHTML;
+                            var dataFormula = tables[i].rows[j].cells[k].getAttribute("data-formula");
+                            dataFormula = (dataFormula) ? dataFormula : (appname == 'Calc' && dataType == 'DateTime') ? dataValue : null;
+                            ctx = {
+                                attributeStyleID: (dataStyle == 'Currency' || dataStyle == 'Date') ? ' ss:StyleID="' + dataStyle + '"' : ''
+                                   , nameType: (dataType == 'Number' || dataType == 'DateTime' || dataType == 'Boolean' || dataType == 'Error') ? dataType : 'String'
+                                   , data: (dataFormula) ? '' : dataValue
+                                   , attributeFormula: (dataFormula) ? ' ss:Formula="' + dataFormula + '"' : ''
+                            };
+                            rowsXML += format(tmplCellXML, ctx);
+                        }
+                        rowsXML += '</Row>'
+                    }
+                    ctx = { rows: rowsXML, nameWS: wsnames[i] || 'Sheet' + i };
+                    worksheetsXML += format(tmplWorksheetXML, ctx);
+                    rowsXML = "";
+                }
+
+                ctx = { created: (new Date()).getTime(), worksheets: worksheetsXML };
+                workbookXML = format(tmplWorkbookXML, ctx);
+
+                console.log(workbookXML);
+
+                var link = document.createElement("A");
+                link.href = uri + base64(workbookXML);
+                link.download = wbname || 'Workbook.xls';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        })();
+    </script>
+
+    <script>
+      $(document).ready(function () {
+          $.ajax({
+              url: '@Url.Action("GetEtatCampagneValues")',
+              type: 'POST',
+              datatype: 'json',
+              success: function (c) {
+
+                  var tblHtml = "";
+                  var crees = "";
+                  var totApp = "";
+                  var traitees = "";
+                  var clotures = "";
+                  var ca = "";
+                  var JH = "";
+                  var tauxexploitation = "";
+                  var tauxaccord = "";
+                  var texp = 0;
+                  var tacc = 0;
+                  $.each(c, function (index, cal) {
+                      if (index >= 0 && index < 14) {
+                          if (cal.type == "CA Positif") {
+                              tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                          }
+                          if (cal.type == "CA Négatif") {
+                              tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                          }
+                          if (cal.type == "Système") {
+                              tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                          }
+                          tblHtml += "<td>" + cal.nom + "</td>";
+                          tblHtml += "<td>" + cal.nombre + "</td>";
+                          tblHtml += "<td>" + cal.pourcentage + "%" + "</td></tr>";
+                      }
+                      if (index == 14) {
+                          crees += cal.nombre;
+                      }
+                      if (index == 15) {
+                          totApp += cal.nombre;
+                      }
+                      if (index == 16) {
+                          traitees += cal.nombre;
+                      }
+                      if (index == 17) {
+                          clotures += cal.nombre;
+                          tauxexploitation += cal.pourcentage + "%";
+                          texp = cal.pourcentage;
+                      }
+                      if (index == 18) {
+                          ca += cal.nombre;
+                          tauxaccord += cal.pourcentage + "%";
+                          tacc = cal.pourcentage;
+                      }
+                      if (index == 19) {
+                          JH += cal.nombre;
+                      }
+                  });
+
+                  $("#Grid > tbody").html(tblHtml);
+               
+                  let chartConfig3 = {
+
+                      graphset: [
+                        {
+                            type: 'null',
+                            backgroundColor: '#fbfcf7',
+                            borderColor: '#384653',
+                            borderRadius: '4px',
+                            borderWidth: '1px',
+                            width: '15%',
+                            height: '90%',
+                            x: '2%',
+                            y: '3%',
+                            title: {
+                                text: 'Fiches Crées',
+                                backgroundColor: 'none',
+                                fontColor: '#384653',
+                                fontSize: '12px',
+                                height: '70px',
+                                textAlign: 'center'
+                            },
+                            subtitle: {
+                                text: crees,
+                                paddingTop: '35%',
+                                bold: true,
+                                fontColor: '#4f5963',
+                                fontSize: '24px',
+                                height: '40px',
+                                textAlign: 'center'
+                            }
+                        },
+                          {
+                              type: 'null',
+                              backgroundColor: '#fbfcf7',
+                              borderColor: '#384653',
+                              borderRadius: '4px',
+                              borderWidth: '1px',
+                              width: '15%',
+                              height: '90%',
+                              x: '17.6%',
+                              y: '3%',
+                              title: {
+                                  text: 'Total Appels',
+                                  backgroundColor: 'none',
+                                  fontColor: '#384653',
+                                  fontSize: '12px',
+                                  height: '70px',
+                                  textAlign: 'center'
+                              },
+                              subtitle: {
+                                  text: totApp,
+                                  paddingTop: '35%',
+                                  bold: true,
+                                  fontColor: '#dd655f',
+                                  fontSize: '24px',
+                                  height: '40px',
+                                  textAlign: 'center'
+                              }
+                          },
+                        {
+                            type: 'null',
+                            backgroundColor: '#fbfcf7',
+                            borderColor: '#384653',
+                            borderRadius: '4px',
+                            borderWidth: '1px',
+                            width: '15%',
+                            height: '90%',
+                            x: '33.2%',
+                            y: '3%',
+                            title: {
+                                text: 'Appels Traitées',
+                                backgroundColor: 'none',
+                                fontColor: '#384653',
+                                fontSize: '12px',
+                                height: '70px',
+                                textAlign: 'center'
+                            },
+                            subtitle: {
+                                text: traitees,
+                                paddingTop: '35%',
+                                bold: true,
+                                fontColor: '#4cc2bb',
+                                fontSize: '24px',
+                                height: '40px',
+                                textAlign: 'center'
+                            }
+                        },
+                        {
+                            type: 'null',
+                            backgroundColor: '#fbfcf7',
+                            borderColor: '#384653',
+                            borderRadius: '4px',
+                            borderWidth: '1px',
+                            width: '15%',
+                            height: '90%',
+                            x: '48.8%',
+                            y: '3%',
+                            title: {
+                                text: 'Fiches Cloturées',
+                                backgroundColor: 'none',
+                                fontColor: '#104053',
+                                fontSize: '12px',
+                                height: '70px',
+                                textAlign: 'center'
+                            },
+                            subtitle: {
+                                text: clotures,
+                                paddingTop: '35%',
+                                bold: true,
+                                fontColor: '#4f5963',
+                                fontSize: '24px',
+                                height: '40px',
+                                textAlign: 'center'
+                            }
+                        },
+                               {
+                                   type: 'null',
+                                   backgroundColor: '#fbfcf7',
+                                   borderColor: '#384653',
+                                   borderRadius: '4px',
+                                   borderWidth: '1px',
+                                   width: '15%',
+                                   height: '90%',
+                                   x: '64.4%',
+                                   y: '3%',
+                                   title: {
+                                       text: 'Contacts Argumentés',
+                                       backgroundColor: 'none',
+                                       fontColor: '#384653',
+                                       fontSize: '12px',
+                                       height: '70px',
+                                       textAlign: 'center'
+                                   },
+                                   subtitle: {
+                                       text: ca,
+                                       paddingTop: '35%',
+                                       bold: true,
+                                       fontColor: '#4cc2bb',
+                                       fontSize: '24px',
+                                       height: '40px',
+                                       textAlign: 'center'
+                                   }
+                               },
+                        {
+                            type: 'null',
+                            backgroundColor: '#fbfcf7',
+                            borderColor: '#384653',
+                            borderRadius: '4px',
+                            borderWidth: '1px',
+                            width: '15%',
+                            height: '90%',
+                            x: '80%',
+                            y: '3%',
+                            title: {
+                                text: 'Jour/Homme',
+                                backgroundColor: 'none',
+                                fontColor: '#104053',
+                                fontSize: '12px',
+                                height: '70px',
+                                textAlign: 'center'
+                            },
+                            subtitle: {
+                                text: JH,
+                                paddingTop: '35%',
+                                bold: true,
+                                fontColor: '#4f5963',
+                                fontSize: '24px',
+                                height: '40px',
+                                textAlign: 'center'
+                            }
+                        }
+                      ]
+                  };
+                  zingchart.render({
+                      id: 'myChart3',
+                      data: chartConfig3,
+                      height: '120',
+                      width: '100%'
+                  });
+
+
+                  let chartConfig2 =
+                      {
+                          type: 'hbar',
+                          backgroundColor: '#fff',
+                          borderColor: '#dae5ec',
+                          borderWidth: '1px',
+                          width: '100%',
+                          height: '97%',
+                          x: '0%',
+                          y: '10',
+                          title: {
+                              text: 'Répartition OK VS Refus',
+                              marginTop: '7px',
+                              marginLeft: '9px',
+                              backgroundColor: 'none',
+                              fontColor: '#707d94',
+                              fontFamily: 'Arial',
+                              fontSize: '14px',
+                              shadow: false,
+                              textAlign: 'left'
+                          },
+                          scaleY: {
+                              guide: {
+                                  visible: false
+                              },
+                              item: {
+                                  visible: false
+                              },
+                              lineColor: 'none',
+                              tick: {
+                                  visible: false
+                              }
+                          },
+                          scaleX: {
+                              values: ['Hors Cible', 'OPT OUT', 'SND', 'Barrage', 'KO Démo', 'OK Démo'],
+                              guide: {
+                                  visible: false
+                              },
+                              item: {
+                                  paddingBottom: '12px',
+                                  fontColor: '#8391a5',
+                                  fontFamily: 'Arial',
+                                  fontSize: '11px',
+                                  offsetX: '206px',
+                                  offsetY: '-12px',
+                                  textAlign: 'left',
+                                  width: '200px'
+                              },
+                              lineColor: 'none',
+                              tick: {
+                                  visible: false
+                              }
+                          },
+                          plot: {
+                              tooltip: {
+                                  padding: '5px 10px',
+                                  backgroundColor: '#707e94',
+                                  borderRadius: '6px',
+                                  fontColor: '#ffffff',
+                                  fontFamily: 'Arial',
+                                  fontSize: '11px',
+                                  shadow: false
+                              },
+                              animation: {
+                                  delay: 500,
+                                  effect: 'ANIMATION_EXPAND_LEFT'
+                              },
+                              barsOverlap: '100%',
+                              barWidth: '12px',
+                              hoverState: {
+                                  backgroundColor: '#707e94'
+                              },
+                              // thousandsSeparator: ','
+                          },
+                          plotarea: {
+                              margin: '50px 15px 10px 15px'
+                          },
+                          series: [
+                            {
+                                values: [c[5].pourcentage, c[4].pourcentage, c[3].pourcentage, c[2].pourcentage, c[1].pourcentage, c[0].pourcentage],
+                                styles: [
+                                  {
+                                      backgroundColor: '#dbe71c'
+                                  },
+                                  {
+                                      backgroundColor: '#707d94'
+                                  },
+                                  {
+                                      backgroundColor: '#ad6bae'
+                                  },
+                                  {
+                                      backgroundColor: '#25a6f7'
+                                  },
+                                  {
+                                      backgroundColor: '#e62163'
+                                  },
+                                  {
+                                      backgroundColor: '#9dc012'
+                                  }
+                                ],
+                                tooltipText: '%node-value %',
+                                zIndex: 2
+                            },
+                            {
+                                values: [100, 100, 100, 100, 100, 100],
+                                valueBox: {
+                                    text: '%data-rvalues %',
+                                    paddingBottom: '8px',
+                                    fontColor: '#8391a5',
+                                    fontFamily: 'Arial',
+                                    fontSize: '11px',
+                                    offsetX: '-54px',
+                                    offsetY: '-12px',
+                                    textAlign: 'right',
+                                    visible: true
+                                },
+                                backgroundColor: '#d9e4eb',
+                                dataRvalues: [c[5].pourcentage, c[4].pourcentage, c[3].pourcentage, c[2].pourcentage, c[1].pourcentage, c[0].pourcentage],
+                                maxTrackers: 0,
+                                zIndex: 1
+                            }
+                          ]
+                      }
+                  zingchart.render({
+                      id: 'myChart2',
+                      data: chartConfig2,
+                      height: '400',
+                      width: '100%'
+                  });
+
+      
+
+                  var myConfigRing1 = {
+                      type: 'ring',
+                      globals: {
+                          fontFamily: 'Lato',
+                          fontWeight: '100'
+                      },
+                      backgroundColor: '#FFF',
+                      plot: {
+                          valueBox: {
+                              type: 'first',
+                              text: '<span style=\'font-size:30px;\'>' + texp + ' %' + '</span><br>Taux Exploitation',
+                              connected: false,
+                              fontColor: '#282E3D',
+                              fontSize: '15px',
+                              placement: 'center',
+                              rules: [
+                                {
+                                    rule: '%v < 50',
+                                    visible: false
+                                }
+                              ],
+                              visible: true
+                          },
+                          animation: {
+                              delay: 0,
+                              effect: 'ANIMATION_EXPAND_VERTICAL',
+                              method: 'ANIMATION_LINEAR',
+                              sequence: 'ANIMATION_BY_PLOT',
+                              speed: '300'
+                          },
+                          detach: false,
+                          hoverState: {
+                              visible: false
+                          },
+                          refAngle: 270,
+                          slice: 70
+                      },
+                      plotarea: {
+                          margin: '0% 0% 0% 0%'
+                      },
+                      tooltip: {
+                          visible: false
+                      },
+                      series: [
+                        {
+                            values: [texp],
+                            backgroundColor: '#FFA500',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        },
+                        {
+                            values: [100 - texp],
+                            backgroundColor: '#DCDCDC',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        }
+                      ]
+
+                  }
+                  zingchart.render({
+                      id: 'myChartRing1',
+                      data: myConfigRing1,
+                      hideprogresslogo: true,
+                      height: 200,
+                      width: 300
+
+                  });
+
+
+                  var myConfigRing2 = {
+                      type: 'ring',
+                      globals: {
+                          fontFamily: 'Lato',
+                          fontWeight: '100'
+                      },
+                      backgroundColor: '#FFF',
+                      plot: {
+                          valueBox: {
+                              type: 'first',
+                              text: '<span style=\'font-size:30px;\'>' + tacc + ' %' + '</span><br>Taux Accord',
+                              connected: false,
+                              fontColor: '#282E3D',
+                              fontSize: '15px',
+                              placement: 'center',
+                              rules: [
+                                {
+                                    rule: '%v < 50',
+                                    visible: false
+                                }
+                              ],
+                              visible: true
+                          },
+                          animation: {
+                              delay: 0,
+                              effect: 'ANIMATION_EXPAND_VERTICAL',
+                              method: 'ANIMATION_LINEAR',
+                              sequence: 'ANIMATION_BY_PLOT',
+                              speed: '300'
+                          },
+                          detach: false,
+                          hoverState: {
+                              visible: false
+                          },
+                          refAngle: 270,
+                          slice: 70
+                      },
+                      plotarea: {
+                          margin: '0% 0% 0% 0%'
+                      },
+                      tooltip: {
+                          visible: false
+                      },
+                      series: [
+                        {
+                            values: [tacc],
+                            backgroundColor: '#35D884',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        },
+                        {
+                            values: [100 - tacc],
+                            backgroundColor: '#DCDCDC',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        }
+                      ]
+
+                  }
+                  zingchart.render({
+                      id: '  var myConfigRing1 = {
+                      type: 'ring',
+                      globals: {
+                          fontFamily: 'Lato',
+                          fontWeight: '100'
+                      },
+                      backgroundColor: '#FFF',
+                      plot: {
+                          valueBox: {
+                              type: 'first',
+                              text: '<span style=\'font-size:30px;\'>' + texp + ' %' + '</span><br>Taux Exploitation',
+                              connected: false,
+                              fontColor: '#282E3D',
+                              fontSize: '15px',
+                              placement: 'center',
+                              rules: [
+                                {
+                                    rule: '%v < 50',
+                                    visible: false
+                                }
+                              ],
+                              visible: true
+                          },
+                          animation: {
+                              delay: 0,
+                              effect: 'ANIMATION_EXPAND_VERTICAL',
+                              method: 'ANIMATION_LINEAR',
+                              sequence: 'ANIMATION_BY_PLOT',
+                              speed: '300'
+                          },
+                          detach: false,
+                          hoverState: {
+                              visible: false
+                          },
+                          refAngle: 270,
+                          slice: 70
+                      },
+                      plotarea: {
+                          margin: '0% 0% 0% 0%'
+                      },
+                      tooltip: {
+                          visible: false
+                      },
+                      series: [
+                        {
+                            values: [texp],
+                            backgroundColor: '#FFA500',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        },
+                        {
+                            values: [100 - texp],
+                            backgroundColor: '#DCDCDC',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        }
+                      ]
+
+                  }
+                  zingchart.render({
+                      id: 'myChartRing1',
+                      data: myConfigRing1,
+                      hideprogresslogo: true,
+                      height: 200,
+                      width: 300
+
+                  });
+
+
+                  var myConfigRing2 = {
+                      type: 'ring',
+                      globals: {
+                          fontFamily: 'Lato',
+                          fontWeight: '100'
+                      },
+                      backgroundColor: '#FFF',
+                      plot: {
+                          valueBox: {
+                              type: 'first',
+                              text: '<span style=\'font-size:30px;\'>' + tacc + ' %' + '</span><br>Taux Accord',
+                              connected: false,
+                              fontColor: '#282E3D',
+                              fontSize: '15px',
+                              placement: 'center',
+                              rules: [
+                                {
+                                    rule: '%v < 50',
+                                    visible: false
+                                }
+                              ],
+                              visible: true
+                          },
+                          animation: {
+                              delay: 0,
+                              effect: 'ANIMATION_EXPAND_VERTICAL',
+                              method: 'ANIMATION_LINEAR',
+                              sequence: 'ANIMATION_BY_PLOT',
+                              speed: '300'
+                          },
+                          detach: false,
+                          hoverState: {
+                              visible: false
+                          },
+                          refAngle: 270,
+                          slice: 70
+                      },
+                      plotarea: {
+                          margin: '0% 0% 0% 0%'
+                      },
+                      tooltip: {
+                          visible: false
+                      },
+                      series: [
+                        {
+                            values: [tacc],
+                            backgroundColor: '#35D884',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        },
+                        {
+                            values: [100 - tacc],
+                            backgroundColor: '#DCDCDC',
+                            borderColor: '#282E3D',
+                            borderWidth: '0px',
+                            shadow: false
+                        }
+                      ]
+
+                  }
+                  zingchart.render({
+                      id: 'myChartRing2',
+                      data: myConfigRing2,
+                      hideprogresslogo: true,
+                      height: 200,
+                      width: 300
+
+                  });',
+                      data: myConfigRing2,
+                      hideprogresslogo: true,
+                      height: 200,
+                      width: 300
+
+                  });
+              },
+              error: function () { },
+          });
+      })
+    </script>
+
+
+<script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetComparaisonAgentsValues")',
+                type: 'POST',
+                datatype: 'json',
+                success: function (c) {
+
+                    var tblHtml2 = "";
+                    var names = [];
+                    var accords = [];
+                    $.each(c, function (index, cal) {
+                        names.push(cal.agent);
+                        accords.push(cal.nbAccords);
+                        tblHtml2 += "<tr><td>" + cal.agent + "</td>";
+                        tblHtml2 += "<td>" + cal.nbAccords + "</td>";
+                        tblHtml2 += "<td>" + cal.nbCA + "</td>";
+                        tblHtml2 += "<td>" + cal.appAboutis + "</td>";
+                        tblHtml2 += "<td>" + cal.tauxAccords + "%" + "</td>";
+                        tblHtml2 += "<td>" + cal.JH + "</td></tr>";
+                    });
+                    var ech = Math.max.apply(null, accords) + 100;
+                    $("#Grid2 > tbody").html(tblHtml2);
+                    let chartConfig = {
+                        backgroundColor: '#ecf2f6',
+                        graphset: [
+                          {
+                              type: 'bar',
+                              backgroundColor: '#fff',
+                              borderWidth: '1px',
+                              borderColor: '#dae5ec',
+                              width: '100%',
+                              height: '100%',
+                              x: '0%',
+                              y: '0%',
+                              title: {
+                                  text: "Répartition de Nombre d'Accords par Agent",
+                                  marginTop: '7px',
+                                  marginLeft: '9px',
+                                  backgroundColor: 'none',
+                                  fontColor: '#707d94',
+                                  fontFamily: 'Arial',
+                                  fontSize: '14px',
+                                  fontWeight: 'bold',
+                                  shadow: false,
+                                  textAlign: 'left'
+                              },
+                              plot: {
+                                  tooltip: {
+                                      padding: '5px 10px',
+                                      backgroundColor: '#707e94',
+                                      borderRadius: '6px',
+                                      fontColor: '#fff',
+                                      fontFamily: 'Arial',
+                                      fontSize: '11px',
+                                      shadow: false
+                                  },
+                                  animation: {
+                                      delay: 500,
+                                      effect: 'ANIMATION_SLIDE_BOTTOM'
+                                  },
+                                  barWidth: '33px',
+                                  hoverState: {
+                                      visible: false
+                                  }
+                              },
+                              plotarea: {
+                                  margin: '45px 20px 120px 45px'
+                              },
+                              scaleX: {
+                                  values: names,
+                                  guide: {
+                                      visible: false
+                                  },
+                                  item: {
+                                      angle: -50,
+                                      paddingTop: '2px',
+                                      fontColor: '#8391a5',
+                                      fontFamily: 'Arial',
+                                      fontSize: '11px'
+                                  },
+                                  itemsOverlap: true,
+                                  lineColor: '#d2dae2',
+                                  maxItems: 9999,
+                                  offsetY: '1px',
+                                  tick: {
+                                      lineColor: '#d2dae2',
+                                      visible: false
+                                  }
+                              },
+                              scaleY: {
+                                  values:  '0:' + ech + ':100',
+                                  guide: {
+                                      rules: [
+                                        {
+                                            lineWidth: '0px',
+                                            rule: '%i == 0'
+                                        },
+                                        {
+                                            alpha: 0.4,
+                                            lineColor: '#d2dae2',
+                                            lineStyle: 'solid',
+                                            lineWidth: '1px',
+                                            rule: '%i > 0'
+                                        }
+                                      ]
+                                  },
+                                  item: {
+                                      paddingRight: '5px',
+                                      fontColor: '#8391a5',
+                                      fontFamily: 'Arial',
+                                      fontSize: '10px'
+                                  },
+                                  lineColor: 'none',
+                                  maxItems: 4,
+                                  maxTicks: 4,
+                                  tick: {
+                                      visible: false
+                                  }
+                              },
+                              series: [
+                                {
+                                    values: accords,
+                                    backgroundColor: '#f3950d'
+
+                                }
+                              ]
+                          }
+                        ]
+                    }
+
+                    zingchart.render({
+                        id: 'myChart',
+                        data: chartConfig,
+                        height: '450',
+                        width: '100%'
+                    });
+                },
+                error: function () { },
+            });
+        });
+
+
+</script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetComparaisonOperationsValues")',
+                type: 'POST',
+                datatype: 'json',
+                success: function (c) {
+
+                    var operationsList = [];
+                    var okList = []; var koList = []; var barrageList = []; var sndList = []; var optoutList = []; var horscibleList = [];
+                    $.each(c, function (index, cal) {
+                        operationsList.push(cal.nomOpe);
+                        okList.push(cal.PercentOk);
+                        koList.push(cal.PercentKo);
+                        barrageList.push(cal.PercentBarrage);
+                        sndList.push(cal.PercentSnd);
+                        optoutList.push(cal.PercentOPTOUT);
+                        horscibleList.push(cal.PercentHorscible);
+                    });
+                    var list = operationsList;
+                    let chartConfigDiffOperation = {
+                        type: 'hbar',
+                        backgroundColor: '#fff #fff',
+                        fillAngle: 48,
+                        stacked: true,
+                        stackType: '80%',
+                        title: {
+                            text: 'Répartition OK / Refus Par Opération',
+                            padding: '20px 0 0 20px',
+                            backgroundColor: 'none',
+                            fontColor: '#707d94',
+                            fontFamily: 'Arial',
+                            fontSize: '14px',
+                            height: '40px',
+                            textAlign: 'left'
+                        },
+                        legend: {
+                            layout: 'h',
+                            padding: '10px 5px',
+                            backgroundColor: '#fff',
+                            borderColor: 'none',
+                            borderWidth: '0px',
+
+                            item: {
+                                fontColor: '#212339',
+                                fontFamily: 'Arial',
+                                fontSize: '10px',
+                                fontWeight: 'normal'
+                            },
+                            shadow: false,
+                            toggleAction: 'remove',
+                            y: '1%',
+                            x: '30%'
+                        },
+                        plot: {
+                            alpha: 0.8,
+                            animation: {
+                                delay: 250,
+                                effect: 'ANIMATION_EXPAND_TOP',
+                                method: 'ANIMATION_LINEAR',
+                                sequence: 'ANIMATION_BY_PLOT',
+                                speed: '1000'
+                            },
+                            barWidth: '25px',
+                            hoverState: {
+                                alpha: 1,
+                            },
+                            valueBox: {
+                                placement: "middle",
+                                text: "%v%",
+                                fontSize: 12,
+                                fontColor: '#fff',
+                                rules: [
+                                  {
+                                      rule: "%v <= 2.00 ",
+                                      visible: false
+                                  }
+                                ]
+                            }
+                        },
+                        plotarea: {
+                            margin: '75px 180px 85px 140px'
+                        },
+                        scaleX: {
+                            values: list,
+                            guide: {
+                                visible: false
+                            },
+                            item: {
+                                angle: 0,
+                                fontColor: '#9a9cab',
+                                fontFamily: 'Arial',
+                                fontSize: '10px',
+                                offsetX: '2px'
+                            },
+                            itemsOverlap: true,
+                            maxItems: 9999,
+                            label: {
+                                text: 'Nom Opération',
+                                paddingTop: '30px',
+                                fontColor: '#000',
+                                fontFamily: 'Arial',
+                                fontSize: '10px',
+                                fontWeight: 'normal'
+                            },
+                            lineColor: '#53566f',
+                            tick: {
+                                lineColor: '#53566f'
+                            }
+                        },
+                       
+                        tooltip: {
+                            text: '<b>%k</b><br>%t %v%',
+                            padding: '10px 10px',
+                            alpha: 0.95,
+                            backgroundColor: '#212339',
+                            borderColor: 'none',
+                            borderRadius: '8px',
+                            borderWidth: '0px',
+                            decimals: 0,
+                            fontColor: '#fff',
+                            fontFamily: 'Arial',
+                            fontSize: '12px',
+                            fontWeight: 'normal',
+                            shadow: false,
+                            textAlign: 'left'
+                        },
+                        series: [
+
+                          {
+                              text: 'OK Démo',
+                              values: okList,
+                              backgroundColor: '#3b9fa5',
+
+                          },
+
+                           {
+                               text: 'KO Démo',
+                               values: koList,
+                               backgroundColor: '#c46a53',
+
+                           },
+                            {
+                                text: 'Barrage',
+                                values: barrageList,
+                                backgroundColor: '#3e99cf',
+
+                            },
+                            {
+                                text: 'SND',
+                                values: sndList,
+                                backgroundColor: '#f4b557',
+
+                            },
+                           {
+                               text: 'OPT OUT',
+                               values: optoutList,
+                               backgroundColor: '#8f53c6',
+
+                           },
+                            {
+                                text: 'Hors Cible',
+                                values: horscibleList,
+                                backgroundColor: '#a5b1b7',
+
+                            }
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChartDiffOperation',
+                        data: chartConfigDiffOperation,
+                        height: '1000'
+                   
+                    });
+
+                },
+                error: function () { },
+            });
+        })
+
+    </script>
+ 
+
+}
+@section testProfile{
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+    </div>
+
+}
+
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Suivi Détails des Qualifications</a></li>
+    <li class="active">IPD LYON</li>
+    <li class="active">Etat de Campagne</li>
+}

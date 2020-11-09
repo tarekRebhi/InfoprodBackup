@@ -1,0 +1,82 @@
+﻿@model Domain.Entity.Objectif
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+
+@section test{
+@using (Html.BeginForm("Index", "Objectifs", FormMethod.Get, new { enctype = "multipart/form-data" }))
+    {
+    <button type="submit" class="btn bg-slate btn-labeled"><b><i class="icon-arrow-right14"></i></b> Retour à la liste</button>
+}
+<br />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+           
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+    
+            <div class="form-group">
+                @Html.Label("Nom du Groupe", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Namegroupe, new SelectList(ViewBag.groupes, "Value", "Text"), new { style = "height: 40px;", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Namegroupe, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.Label("Objectif Taux d'Accords", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ObjectifAccords, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ObjectifAccords, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                 
+                    <button type="submit" class="btn btn-success btn-labeled"><b><i class="icon-check"></i></b> Modifier</button>
+                  
+                </div>
+            </div>
+        </div>
+    }
+  
+}
+@section testProfile{
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.Url alt="">
+        <span>@ViewBag.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoName
+        </div>
+    </div>
+    <div class="media-right media-middle">
+    </div>
+
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Suivi Par Injections</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Suivi Par Injections</a></li>
+    <li class="active">Paramètres des Objectifs</li>
+}
+
+

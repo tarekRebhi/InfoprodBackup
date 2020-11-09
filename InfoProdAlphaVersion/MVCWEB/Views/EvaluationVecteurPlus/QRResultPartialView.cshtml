@@ -1,0 +1,250 @@
+﻿@model MVCWEB.Models.EvaluationVecteurPlusViewModel
+<div class="modal fade" id="QRResult" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-image:url('../../Content/template/Layout 1/.JPG');">
+            <div class="modal-header" style="background-color:#26A69A;">
+                <button type="button" id="fermer" class="close" data-dismiss="modal">&times;</button>
+                <h5><font color="white">Resultat : Evaluation QR Vecteur Plus</font></h5>
+            </div>
+            <div class="modal-body">
+              
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h6><font color="black"> <b>Date et temps d'évaluation</b></font></h6>
+                    </div>
+                    <div class="col-lg-4">
+                        <a><h6>@Html.DisplayFor(modelItem => modelItem.dateTempEvaluation)</h6></a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nom Agent:</b></font></h6>
+                        <div class="col-lg-4">
+                            <a><h6>@Html.DisplayFor(modelItem => modelItem.agentName)</h6></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Présentation et Identification</b></font></h6>
+
+                        <div class="col-xs-4">
+                            <a> <h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.presentationIdentification)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Presenter l'objet de l'appel</b></font></h6>
+                        <div class="col-xs-4">
+                            <a> <h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.objetAppel)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Mutualisation</b> </font> </h6>
+                        <div class="col-xs-4">
+                            @if (Model.mutualisation >= 0)
+                            {
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.mutualisation)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Marché Renouvelable</b></font> </h6>
+                        <div class="col-xs-4">
+                            @if (Model.marcheRenouvlable >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.marcheRenouvlable)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Durée du marché</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.dureeMarche >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dureeMarche)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Vérifier les coordonnées attributaire</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.coordonneesAttr >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.coordonneesAttr)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Montant du marché en HT ou en TTC</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.montantMarche >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.montantMarche)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Personne responsable du marché</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.responsableMarche >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.responsableMarche)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Adresse Mail du contact</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.mailContact >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.mailContact)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Traitement des objections</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.traitementObjections >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.traitementObjections)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Transcription des informations /Champs (marché rejeté)</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.transcriptionsInformations >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.transcriptionsInformations)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Envoi de Mail</b></font></h6>
+                        <div class="col-xs-4">
+                            @if (Model.envoiMail >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.envoiMail)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Discours</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.discours)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Empathie / Attitude</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.attitude)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Prise de congé</b></font></h6>
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.priseConge)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @{
+
+                    String str = Model.pourcentageNotes.ToString("N2");
+                }
+
+                <p>
+                    <h5 style="text-align:center"><b>Score: <font color="red">@str %</font></b> </h5>
+                </p>
+                <div class="text-right">
+                  
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer" style="background-color:#26A69A;">
+            <button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+         
+
+        </div>
+    </div>
+</div>
+

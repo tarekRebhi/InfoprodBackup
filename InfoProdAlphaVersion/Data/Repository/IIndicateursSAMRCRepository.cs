@@ -1,0 +1,17 @@
+﻿
+using Domain.Entity;
+using MyReports.Data.Infrastracture;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Data.Repository
+{
+    public interface IIndicateursSAMRCRepository : IRepositoryBase<Appels_Entrants_SamRc>
+    {
+        List<Appels_Entrants_SamRc> GetAppelsEntrantsBetweenTwoDates(DateTime dateDebut, DateTime dateFin);
+     
+    }
+}

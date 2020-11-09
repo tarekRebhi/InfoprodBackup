@@ -1,0 +1,1361 @@
+﻿@model MVCWEB.Models.EmployeeViewModel
+
+@{
+    ViewBag.Title = "IndexManagerGroupes";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+@section extract{
+<li class="col-2">
+        <div class="input-group input-append date">
+            <input type="text" value="Sélectionner l'année" class="form-control" name="date" id="datePicker" />
+            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+
+</li>
+    }
+@section test{
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+<script src="~/Scripts/datepicker.min.js"></script>
+
+   	<!-- Actions -->
+<div class="sidebar-category">
+    <div class="category-title">
+        <span>Liste des Activités</span>
+        <ul class="icons-list">
+            <li><a href="#" data-action="collapse"></a></li>
+        </ul>
+    </div>
+  
+        <div class="category-content">
+                <div class="row row-condensed"  style="color:lightseagreen;">
+                    @foreach (var item in Model.Group)
+                    {
+                        <div class="col-xs-3">
+                            <a href="@Url.Action("IndexManagerAgentTest", "Home", new { id = item.Id })" type="button" class="btn bg-teal btn-block btn-float btn-float-lg" ><i class="icon-users"></i> <b style="font-size: 14px;">@Html.DisplayFor(modelItem => item.nom)</b><span>Responsable: @Html.DisplayFor(modelItem => item.responsable)</span></a>
+                        </div>
+                    }
+                </div>
+                </div>
+              </div>
+
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <span class="panel-title">Statistiques des Ventes des Activités Pour Chaque Mois</span>
+        <div class="heading-elements">
+                <div class="form-group">
+                    <select class="bootstrap-select-solid" data-style="bg-slate" data-width="100%" id="ActiviteDropDown">
+                    @foreach (var g in ViewBag.Groupes as IEnumerable<SelectListItem>)
+                    {
+                        <option value="@g.Value">@g.Text</option>
+                    }
+                        </select>
+                </div>
+        </div>
+    </div>
+    <div id="myChart"></div>
+</div>
+    <script>
+        $("#datePicker").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        });
+        $("#datePicker").datepicker("setDate", new Date());
+    </script>
+
+    <script type="text/javascript">
+       
+        $(document).ready(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetGlobalMensuelValuesParActivite", "GlobalIndicateurs")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    SelectedActivite: $("#ActiviteDropDown").val(),
+                    SelectedAnnee: $("#datePicker").val()
+                },
+
+                success: function (c) {
+                    var ListMonths = [];
+                    var ListCA = [];
+                    var ListAccords = [];
+                    var ListAppEmis = [];
+                    var ListTauxVenteHeure = [];
+                    var ListTauxConcrétisation = [];
+                    $.each(c, function (index, cal) {
+                        ListMonths.push(cal.Mois);
+                        ListCA.push(cal.CA);
+                        ListAccords.push(cal.Accords);
+                        ListAppEmis.push(cal.AppelsEmis);
+                        ListTauxVenteHeure.push(cal.TauxVenteHeure);
+                        ListTauxConcrétisation.push(cal.TauxConcrétisation);
+                    });
+
+                    var ech = Math.max.apply(null, ListAppEmis) + 1000;
+
+                    var myConfig = {
+                        "background-color": "#ecf2f6",
+                        "graphset": [
+                                      {
+                                          "type": "bar",
+                                          "background-color": "white",
+                                          "height": "38%",
+                                          "width": "96%",
+                                          "x": "2%",
+                                          "y": "4%",
+                                          "plotarea": {
+                                              "margin": "50 60 70 60"
+                                          },
+                                          "title": {
+                                              "margin-top": "7px",
+                                              "margin-left": "12px",
+                                              "text": "Statistiques Taux de Concrétisation (%)",
+                                              "background-color": "none",
+                                              "shadow": 0,
+                                              "text-align": "left",
+                                              "font-family": "Arial",
+                                              "font-size": "11px",
+                                              "font-color": "#707d94"
+                                          },
+                                          //"legend": {
+                                          //    "layout": "x4",
+                                          //    "y": "13%",
+                                          //    "x": "34.5%",
+                                          //    "overflow": "page",
+                                          //    "alpha": 0.05,
+                                          //    "shadow": false,
+                                          //    "margin": "auto auto 15 auto",
+                                          //    "marker": {
+
+                                          //        "type":"circle",
+                                          //        "font-family":"Arial",
+                                          //        "font-size":"10px",
+                                          //        "size":4,
+                                          //        "line-width":2,
+                                          //        "padding":"3px"
+                                          //    },
+                                          //    "border-width": 0,
+
+
+                                          //},
+                                          "plot": {
+                                              "animation": {
+                                                  "effect": "ANIMATION_SLIDE_BOTTOM"
+                                              }
+                                          },
+                                          "scale-x": {
+                                              "line-color": "#d2dae2",
+                                              "line-width": "2px",
+                                              "values": ListMonths,
+                                              "tick": {
+                                                  "line-color": "#d2dae2",
+                                                  "line-width": "1px"
+                                              },
+                                              "guide": {
+                                                  "visible": false
+                                              },
+                                              "item": {
+                                                  "font-color": "#8391a5",
+                                                  "font-family": "Arial",
+                                                  "font-size": "10px",
+                                                  "padding-top": "5px"
+                                              }
+                                          },
+                                          "scale-y": {
+                                              "line-color": "#7E7E7E",
+                                              "item": {
+                                                  "font-color": "#7e7e7e"
+                                              },
+                                              "values": "0:100:10",
+                                              "guide": {
+                                                  "rules": [
+                                                      {
+                                                          "rule": "%i == 0",
+                                                          "line-width": 0
+                                                      },
+                                                      {
+                                                          "rule": "%i > 0",
+                                                          "line-style": "solid",
+                                                          "line-width": "1px",
+                                                          "line-color": "#d2dae2",
+                                                          "alpha": 0.4
+                                                      }
+
+                                                  ]
+                                              },
+
+                                          },
+                                          "series": [
+                                              {
+                                                  "values": ListTauxConcrétisation,
+                                                  "alpha": 0.95,
+                                                  "bar-width": "50px",
+                                                  "borderRadiusTopLeft": 7,
+                                                  "background-color": "#8B0000",
+                                                  "text": "Taux de Concrétisation"
+                                              }
+                                          ]
+                                      },
+                                      //Line Chart
+                             {
+                                 "type": "line",
+                                 "background-color": "#fff",
+                                 "border-color": "#dae5ec",
+                                 "border-width": "1px",
+                                 "width": "48%",
+                                 "height": "60%",
+                                 "x": "2%",
+                                 "y": "38.2%",
+                                 "title": {
+                                     "margin-top": "7px",
+                                     "margin-left": "12px",
+                                     "text": "Statistiques Appels Emis/CA/CA+",
+                                     "background-color": "none",
+                                     "shadow": 0,
+                                     "text-align": "left",
+                                     "font-family": "Arial",
+                                     "font-size": "11px",
+                                     "font-color": "#707d94"
+                                 },
+                                 "plot": {
+                                     "animation": {
+                                         "delay": 500,
+                                         "effect": "ANIMATION_SLIDE_LEFT"
+                                     }
+                                 },
+                                 "plotarea": {
+                                     "margin": "50px 25px 70px 46px"
+                                 },
+                                 "scale-y": {
+                                     "values": "0:" + ech + ":1000",
+                                     "line-color": "none",
+                                     "guide": {
+                                         "line-style": "solid",
+                                         "line-color": "#d2dae2",
+                                         "line-width": "1px",
+                                         "alpha": 0.5
+                                     },
+                                     "tick": {
+                                         "visible": false
+                                     },
+                                     "item": {
+                                         "font-color": "#8391a5",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding-right": "5px"
+                                     }
+                                 },
+                                 "scale-x": {
+                                     "line-color": "#d2dae2",
+                                     "line-width": "2px",
+                                     "values": ListMonths,
+                                     "tick": {
+                                         "line-color": "#d2dae2",
+                                         "line-width": "1px"
+                                     },
+                                     "guide": {
+                                         "visible": false
+                                     },
+                                     "item": {
+                                         "font-color": "#8391a5",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding-top": "5px"
+                                     }
+                                 },
+                                 "legend": {
+                                     "layout": "x4",
+                                     "background-color": "none",
+                                     "shadow": 0,
+                                     "margin": "auto auto 15 auto",
+                                     "border-width": 0,
+                                     "item": {
+                                         "font-color": "#707d94",
+                                         "font-family": "Arial",
+                                         "padding": "0px",
+                                         "margin": "0px",
+                                         "font-size": "11px"
+                                     },
+                                     "marker": {
+                                         "show-line": "true",
+                                         "type": "match",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "size": 4,
+                                         "line-width": 2,
+                                         "padding": "3px"
+                                     }
+                                 },
+                                 "crosshair-x": {
+                                     "lineWidth": 1,
+                                     "line-color": "#707d94",
+                                     "plotLabel": {
+                                         "shadow": false,
+                                         "font-color": "#000",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding": "5px 10px",
+                                         "border-radius": "5px",
+                                         "alpha": 1
+                                     },
+                                     "scale-label": {
+                                         "font-color": "#ffffff",
+                                         "background-color": "#707d94",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding": "5px 10px",
+                                         "border-radius": "5px"
+                                     }
+                                 },
+                                 "tooltip": {
+                                     "visible": false
+                                 },
+                                 "series": [
+
+                                     {
+                                         "values": ListAccords,
+                                         "text": "CA+",
+                                         "line-color": "#009688",
+                                         "line-width": "2px",
+                                         "shadow": 0,
+                                         "marker": {
+                                             "background-color": "#fff",
+                                             "size": 3,
+                                             "border-width": 1,
+                                             "border-color": "#009688",
+                                             "shadow": 0
+                                         },
+                                         "palette": 2
+                                     },
+                                       {
+                                           "values": ListCA,
+                                           "text": "CA",
+                                           "line-color": "#f3950d",
+                                           "line-width": "2px",
+                                           "shadow": 0,
+                                           "marker": {
+                                               "background-color": "#fff",
+                                               "size": 3,
+                                               "border-width": 1,
+                                               "border-color": "#d37e04",
+                                               "shadow": 0
+                                           },
+                                           "palette": 3
+                                       },
+                                       {
+                                           "values": ListAppEmis,
+                                           "text": "Appels Emis",
+                                           "line-color": "#25a6f7",
+                                           "line-width": "2px",
+                                           "shadow": 0,
+                                           "marker": {
+                                               "background-color": "#fff",
+                                               "size": 3,
+                                               "border-width": 1,
+                                               "border-color": "#1993e0",
+                                               "shadow": 0
+                                           },
+                                           "palette": 1,
+                                           "visible": 1
+                                       },
+                                 ]
+                             },
+                            {
+                                "type": "area",
+                                "background-color": "#fff",
+                                "border-color": "#dae5ec",
+                                "border-width": "1px",
+                                "width": "48%",
+                                "height": "60%",
+                                "x": "50%",
+                                "y": "38.2%",
+                                "title": {
+                                    "margin-top": "7px",
+                                    "margin-left": "12px",
+                                    "text": "Statistiques Taux de Vente par Heure",
+                                    "background-color": "none",
+                                    "shadow": 0,
+                                    "text-align": "left",
+                                    "font-family": "Arial",
+                                    "font-size": "11px",
+                                    "font-color": "#707d94"
+                                },
+                                "plot": {
+                                    "animation": {
+                                        "delay": 500,
+                                        "effect": "ANIMATION_SLIDE_LEFT"
+                                    }
+                                },
+                                "plotarea": {
+                                    "margin": "50px 25px 70px 46px"
+                                },
+                                "scale-y": {
+                                    "values": "0:2:0.5",
+                                    "line-color": "none",
+                                    "guide": {
+                                        "line-style": "solid",
+                                        "line-color": "#d2dae2",
+                                        "line-width": "1px",
+                                        "alpha": 0.5
+                                    },
+                                    "tick": {
+                                        "visible": false
+                                    },
+                                    "item": {
+                                        "font-color": "#8391a5",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding-right": "5px"
+                                    }
+                                },
+                                "scale-x": {
+                                    "line-color": "#d2dae2",
+                                    "line-width": "2px",
+                                    "values": ListMonths,
+                                    "tick": {
+                                        "line-color": "#d2dae2",
+                                        "line-width": "1px"
+                                    },
+                                    "guide": {
+                                        "visible": false
+                                    },
+                                    "item": {
+                                        "font-color": "#8391a5",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding-top": "5px"
+                                    }
+                                },
+                                //"legend":{
+                                //    "layout":"x4",
+                                //    "background-color":"none",
+                                //    "shadow": 0,
+                                //    "margin": "auto auto 15 auto",
+                                //    "border-width":0,
+                                //    "item":{
+                                //        "font-color":"#707d94",
+                                //        "font-family":"Arial",
+                                //        "padding":"0px",
+                                //        "margin":"0px",
+                                //        "font-size":"11px"
+                                //    },
+                                //    "marker":{
+                                //        "show-line":"true",
+                                //        "type":"match",
+                                //        "font-family":"Arial",
+                                //        "font-size":"10px",
+                                //        "size":4,
+                                //        "line-width":2,
+                                //        "padding":"3px"
+                                //    }
+                                //},
+                                "crosshair-x": {
+                                    "lineWidth": 1,
+                                    "line-color": "#707d94",
+                                    "plotLabel": {
+                                        "shadow": false,
+                                        "font-color": "#000",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding": "5px 10px",
+                                        "border-radius": "5px",
+                                        "alpha": 1
+                                    },
+                                    "scale-label": {
+                                        "font-color": "#ffffff",
+                                        "background-color": "#707d94",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding": "5px 10px",
+                                        "border-radius": "5px"
+                                    }
+                                },
+                                "tooltip": {
+                                    "visible": false
+                                },
+                                "series": [
+
+                                {
+                                    "values": ListTauxVenteHeure,
+                                    "text": "Taux de Vente par Heure",
+                                    "line-color": "#ad6bae",
+                                    "line-width": "2px",
+                                    "shadow": 0,
+                                    "marker": {
+                                        "background-color": "#fff",
+                                        "size": 3,
+                                        "border-width": 1,
+                                        "border-color": "#975098",
+                                        "shadow": 0
+                                    },
+                                    "palette": 1,
+                                    "visible": 1
+                                }
+                                ]
+                            }
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChart',
+                        data: myConfig,
+                        height: 700,
+                        width: '100%'
+                    });
+
+                },
+                error: function () { },
+            });
+
+        })
+
+        $('#ActiviteDropDown').on('change', function () {
+            $.ajax({
+                url: '@Url.Action("GetGlobalMensuelValuesParActivite", "GlobalIndicateurs")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    SelectedActivite: $("#ActiviteDropDown").val(),
+                    SelectedAnnee: $("#datePicker").val()
+                },
+
+                success: function (c) {
+                    var ListMonths = [];
+                    var ListCA = [];
+                    var ListAccords = [];
+                    var ListAppEmis = [];
+                    var ListTauxVenteHeure = [];
+                    var ListTauxConcrétisation = [];
+                    $.each(c, function (index, cal) {
+                        ListMonths.push(cal.Mois);
+                        ListCA.push(cal.CA);
+                        ListAccords.push(cal.Accords);
+                        ListAppEmis.push(cal.AppelsEmis);
+                        ListTauxVenteHeure.push(cal.TauxVenteHeure);
+                        ListTauxConcrétisation.push(cal.TauxConcrétisation);
+                    });
+
+                    var ech = Math.max.apply(null, ListAppEmis) + 1000;
+
+                    var myConfig = {
+                        "background-color": "#ecf2f6",
+                        "graphset": [
+                                      {
+                                          "type": "bar",
+                                          "background-color": "white",
+                                          "height": "38%",
+                                          "width": "96%",
+                                          "x": "2%",
+                                          "y": "4%",
+                                          "plotarea": {
+                                              "margin": "50 60 70 60"
+                                          },
+                                          "title": {
+                                              "margin-top": "7px",
+                                              "margin-left": "12px",
+                                              "text": "Statistiques Taux de Concrétisation (%)",
+                                              "background-color": "none",
+                                              "shadow": 0,
+                                              "text-align": "left",
+                                              "font-family": "Arial",
+                                              "font-size": "11px",
+                                              "font-color": "#707d94"
+                                          },
+                                          "plot": {
+                                              "animation": {
+                                                  "effect": "ANIMATION_SLIDE_BOTTOM"
+                                              }
+                                          },
+                                          "scale-x": {
+                                              "line-color": "#d2dae2",
+                                              "line-width": "2px",
+                                              "values": ListMonths,
+                                              "tick": {
+                                                  "line-color": "#d2dae2",
+                                                  "line-width": "1px"
+                                              },
+                                              "guide": {
+                                                  "visible": false
+                                              },
+                                              "item": {
+                                                  "font-color": "#8391a5",
+                                                  "font-family": "Arial",
+                                                  "font-size": "10px",
+                                                  "padding-top": "5px"
+                                              }
+                                          },
+                                          "scale-y": {
+                                              "line-color": "#7E7E7E",
+                                              "item": {
+                                                  "font-color": "#7e7e7e"
+                                              },
+                                              "values": "0:100:10",
+                                              "guide": {
+                                                  "rules": [
+                                                      {
+                                                          "rule": "%i == 0",
+                                                          "line-width": 0
+                                                      },
+                                                      {
+                                                          "rule": "%i > 0",
+                                                          "line-style": "solid",
+                                                          "line-width": "1px",
+                                                          "line-color": "#d2dae2",
+                                                          "alpha": 0.4
+                                                      }
+
+                                                  ]
+                                              },
+
+                                          },
+                                          "series": [
+                                              {
+                                                  "values": ListTauxConcrétisation,
+                                                  "alpha": 0.95,
+                                                  "bar-width": "50px",
+                                                  "borderRadiusTopLeft": 7,
+                                                  "background-color": "#8B0000",
+                                                  "text": "Taux de Concrétisation"
+                                              }
+                                          ]
+                                      },
+                                      //Line Chart
+                             {
+                                 "type": "line",
+                                 "background-color": "#fff",
+                                 "border-color": "#dae5ec",
+                                 "border-width": "1px",
+                                 "width": "48%",
+                                 "height": "60%",
+                                 "x": "2%",
+                                 "y": "38.2%",
+                                 "title": {
+                                     "margin-top": "7px",
+                                     "margin-left": "12px",
+                                     "text": "Statistiques Appels Emis/CA/CA+",
+                                     "background-color": "none",
+                                     "shadow": 0,
+                                     "text-align": "left",
+                                     "font-family": "Arial",
+                                     "font-size": "11px",
+                                     "font-color": "#707d94"
+                                 },
+                                 "plot": {
+                                     "animation": {
+                                         "delay": 500,
+                                         "effect": "ANIMATION_SLIDE_LEFT"
+                                     }
+                                 },
+                                 "plotarea": {
+                                     "margin": "50px 25px 70px 46px"
+                                 },
+                                 "scale-y": {
+                                     "values": "0:" + ech + ":1000",
+                                     "line-color": "none",
+                                     "guide": {
+                                         "line-style": "solid",
+                                         "line-color": "#d2dae2",
+                                         "line-width": "1px",
+                                         "alpha": 0.5
+                                     },
+                                     "tick": {
+                                         "visible": false
+                                     },
+                                     "item": {
+                                         "font-color": "#8391a5",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding-right": "5px"
+                                     }
+                                 },
+                                 "scale-x": {
+                                     "line-color": "#d2dae2",
+                                     "line-width": "2px",
+                                     "values": ListMonths,
+                                     "tick": {
+                                         "line-color": "#d2dae2",
+                                         "line-width": "1px"
+                                     },
+                                     "guide": {
+                                         "visible": false
+                                     },
+                                     "item": {
+                                         "font-color": "#8391a5",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding-top": "5px"
+                                     }
+                                 },
+                                 "legend": {
+                                     "layout": "x4",
+                                     "background-color": "none",
+                                     "shadow": 0,
+                                     "margin": "auto auto 15 auto",
+                                     "border-width": 0,
+                                     "item": {
+                                         "font-color": "#707d94",
+                                         "font-family": "Arial",
+                                         "padding": "0px",
+                                         "margin": "0px",
+                                         "font-size": "11px"
+                                     },
+                                     "marker": {
+                                         "show-line": "true",
+                                         "type": "match",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "size": 4,
+                                         "line-width": 2,
+                                         "padding": "3px"
+                                     }
+                                 },
+                                 "crosshair-x": {
+                                     "lineWidth": 1,
+                                     "line-color": "#707d94",
+                                     "plotLabel": {
+                                         "shadow": false,
+                                         "font-color": "#000",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding": "5px 10px",
+                                         "border-radius": "5px",
+                                         "alpha": 1
+                                     },
+                                     "scale-label": {
+                                         "font-color": "#ffffff",
+                                         "background-color": "#707d94",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding": "5px 10px",
+                                         "border-radius": "5px"
+                                     }
+                                 },
+                                 "tooltip": {
+                                     "visible": false
+                                 },
+                                 "series": [
+
+                                     {
+                                         "values": ListAccords,
+                                         "text": "CA+",
+                                         "line-color": "#009688",
+                                         "line-width": "2px",
+                                         "shadow": 0,
+                                         "marker": {
+                                             "background-color": "#fff",
+                                             "size": 3,
+                                             "border-width": 1,
+                                             "border-color": "#009688",
+                                             "shadow": 0
+                                         },
+                                         "palette": 2
+                                     },
+                                       {
+                                           "values": ListCA,
+                                           "text": "CA",
+                                           "line-color": "#f3950d",
+                                           "line-width": "2px",
+                                           "shadow": 0,
+                                           "marker": {
+                                               "background-color": "#fff",
+                                               "size": 3,
+                                               "border-width": 1,
+                                               "border-color": "#d37e04",
+                                               "shadow": 0
+                                           },
+                                           "palette": 3
+                                       },
+                                       {
+                                           "values": ListAppEmis,
+                                           "text": "Appels Emis",
+                                           "line-color": "#25a6f7",
+                                           "line-width": "2px",
+                                           "shadow": 0,
+                                           "marker": {
+                                               "background-color": "#fff",
+                                               "size": 3,
+                                               "border-width": 1,
+                                               "border-color": "#1993e0",
+                                               "shadow": 0
+                                           },
+                                           "palette": 1,
+                                           "visible": 1
+                                       },
+                                 ]
+                             },
+                            {
+                                "type": "area",
+                                "background-color": "#fff",
+                                "border-color": "#dae5ec",
+                                "border-width": "1px",
+                                "width": "48%",
+                                "height": "60%",
+                                "x": "50%",
+                                "y": "38.2%",
+                                "title": {
+                                    "margin-top": "7px",
+                                    "margin-left": "12px",
+                                    "text": "Statistiques Taux de Vente par Heure",
+                                    "background-color": "none",
+                                    "shadow": 0,
+                                    "text-align": "left",
+                                    "font-family": "Arial",
+                                    "font-size": "11px",
+                                    "font-color": "#707d94"
+                                },
+                                "plot": {
+                                    "animation": {
+                                        "delay": 500,
+                                        "effect": "ANIMATION_SLIDE_LEFT"
+                                    }
+                                },
+                                "plotarea": {
+                                    "margin": "50px 25px 70px 46px"
+                                },
+                                "scale-y": {
+                                    "values": "0:2:0.5",
+                                    "line-color": "none",
+                                    "guide": {
+                                        "line-style": "solid",
+                                        "line-color": "#d2dae2",
+                                        "line-width": "1px",
+                                        "alpha": 0.5
+                                    },
+                                    "tick": {
+                                        "visible": false
+                                    },
+                                    "item": {
+                                        "font-color": "#8391a5",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding-right": "5px"
+                                    }
+                                },
+                                "scale-x": {
+                                    "line-color": "#d2dae2",
+                                    "line-width": "2px",
+                                    "values": ListMonths,
+                                    "tick": {
+                                        "line-color": "#d2dae2",
+                                        "line-width": "1px"
+                                    },
+                                    "guide": {
+                                        "visible": false
+                                    },
+                                    "item": {
+                                        "font-color": "#8391a5",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding-top": "5px"
+                                    }
+                                },
+                                "crosshair-x": {
+                                    "lineWidth": 1,
+                                    "line-color": "#707d94",
+                                    "plotLabel": {
+                                        "shadow": false,
+                                        "font-color": "#000",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding": "5px 10px",
+                                        "border-radius": "5px",
+                                        "alpha": 1
+                                    },
+                                    "scale-label": {
+                                        "font-color": "#ffffff",
+                                        "background-color": "#707d94",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding": "5px 10px",
+                                        "border-radius": "5px"
+                                    }
+                                },
+                                "tooltip": {
+                                    "visible": false
+                                },
+                                "series": [
+
+                                {
+                                    "values": ListTauxVenteHeure,
+                                    "text": "Taux de Vente par Heure",
+                                    "line-color": "#ad6bae",
+                                    "line-width": "2px",
+                                    "shadow": 0,
+                                    "marker": {
+                                        "background-color": "#fff",
+                                        "size": 3,
+                                        "border-width": 1,
+                                        "border-color": "#975098",
+                                        "shadow": 0
+                                    },
+                                    "palette": 1,
+                                    "visible": 1
+                                }
+                                ]
+                            }
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChart',
+                        data: myConfig,
+                        height: 700,
+                        width: '100%'
+                    });
+
+                },
+                error: function () { },
+            });
+        })
+        $('#datePicker').on('changeDate', function () {
+            $.ajax({
+                url: '@Url.Action("GetGlobalMensuelValuesParActivite", "GlobalIndicateurs")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    SelectedActivite: $("#ActiviteDropDown").val(),
+                    SelectedAnnee: $("#datePicker").val()
+                },
+
+                success: function (c) {
+                    var ListMonths = [];
+                    var ListCA = [];
+                    var ListAccords = [];
+                    var ListAppEmis = [];
+                    var ListTauxVenteHeure = [];
+                    var ListTauxConcrétisation = [];
+                    $.each(c, function (index, cal) {
+                        ListMonths.push(cal.Mois);
+                        ListCA.push(cal.CA);
+                        ListAccords.push(cal.Accords);
+                        ListAppEmis.push(cal.AppelsEmis);
+                        ListTauxVenteHeure.push(cal.TauxVenteHeure);
+                        ListTauxConcrétisation.push(cal.TauxConcrétisation);
+                    });
+
+                    var ech = Math.max.apply(null, ListAppEmis) + 1000;
+
+                    var myConfig = {
+                        "background-color": "#ecf2f6",
+                        "graphset": [
+                                      {
+                                          "type": "bar",
+                                          "background-color": "white",
+                                          "height": "38%",
+                                          "width": "96%",
+                                          "x": "2%",
+                                          "y": "4%",
+                                          "plotarea": {
+                                              "margin": "50 60 70 60"
+                                          },
+                                          "title": {
+                                              "margin-top": "7px",
+                                              "margin-left": "12px",
+                                              "text": "Statistiques Taux de Concrétisation (%)",
+                                              "background-color": "none",
+                                              "shadow": 0,
+                                              "text-align": "left",
+                                              "font-family": "Arial",
+                                              "font-size": "11px",
+                                              "font-color": "#707d94"
+                                          },
+                                          "plot": {
+                                              "animation": {
+                                                  "effect": "ANIMATION_SLIDE_BOTTOM"
+                                              }
+                                          },
+                                          "scale-x": {
+                                              "line-color": "#d2dae2",
+                                              "line-width": "2px",
+                                              "values": ListMonths,
+                                              "tick": {
+                                                  "line-color": "#d2dae2",
+                                                  "line-width": "1px"
+                                              },
+                                              "guide": {
+                                                  "visible": false
+                                              },
+                                              "item": {
+                                                  "font-color": "#8391a5",
+                                                  "font-family": "Arial",
+                                                  "font-size": "10px",
+                                                  "padding-top": "5px"
+                                              }
+                                          },
+                                          "scale-y": {
+                                              "line-color": "#7E7E7E",
+                                              "item": {
+                                                  "font-color": "#7e7e7e"
+                                              },
+                                              "values": "0:100:10",
+                                              "guide": {
+                                                  "rules": [
+                                                      {
+                                                          "rule": "%i == 0",
+                                                          "line-width": 0
+                                                      },
+                                                      {
+                                                          "rule": "%i > 0",
+                                                          "line-style": "solid",
+                                                          "line-width": "1px",
+                                                          "line-color": "#d2dae2",
+                                                          "alpha": 0.4
+                                                      }
+
+                                                  ]
+                                              },
+
+                                          },
+                                          "series": [
+                                              {
+                                                  "values": ListTauxConcrétisation,
+                                                  "alpha": 0.95,
+                                                  "bar-width": "50px",
+                                                  "borderRadiusTopLeft": 7,
+                                                  "background-color": "#8B0000",
+                                                  "text": "Taux de Concrétisation"
+                                              }
+                                          ]
+                                      },
+                                      //Line Chart
+                             {
+                                 "type": "line",
+                                 "background-color": "#fff",
+                                 "border-color": "#dae5ec",
+                                 "border-width": "1px",
+                                 "width": "48%",
+                                 "height": "60%",
+                                 "x": "2%",
+                                 "y": "38.2%",
+                                 "title": {
+                                     "margin-top": "7px",
+                                     "margin-left": "12px",
+                                     "text": "Statistiques Appels Emis/CA/CA+",
+                                     "background-color": "none",
+                                     "shadow": 0,
+                                     "text-align": "left",
+                                     "font-family": "Arial",
+                                     "font-size": "11px",
+                                     "font-color": "#707d94"
+                                 },
+                                 "plot": {
+                                     "animation": {
+                                         "delay": 500,
+                                         "effect": "ANIMATION_SLIDE_LEFT"
+                                     }
+                                 },
+                                 "plotarea": {
+                                     "margin": "50px 25px 70px 46px"
+                                 },
+                                 "scale-y": {
+                                     "values": "0:" + ech + ":1000",
+                                     "line-color": "none",
+                                     "guide": {
+                                         "line-style": "solid",
+                                         "line-color": "#d2dae2",
+                                         "line-width": "1px",
+                                         "alpha": 0.5
+                                     },
+                                     "tick": {
+                                         "visible": false
+                                     },
+                                     "item": {
+                                         "font-color": "#8391a5",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding-right": "5px"
+                                     }
+                                 },
+                                 "scale-x": {
+                                     "line-color": "#d2dae2",
+                                     "line-width": "2px",
+                                     "values": ListMonths,
+                                     "tick": {
+                                         "line-color": "#d2dae2",
+                                         "line-width": "1px"
+                                     },
+                                     "guide": {
+                                         "visible": false
+                                     },
+                                     "item": {
+                                         "font-color": "#8391a5",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding-top": "5px"
+                                     }
+                                 },
+                                 "legend": {
+                                     "layout": "x4",
+                                     "background-color": "none",
+                                     "shadow": 0,
+                                     "margin": "auto auto 15 auto",
+                                     "border-width": 0,
+                                     "item": {
+                                         "font-color": "#707d94",
+                                         "font-family": "Arial",
+                                         "padding": "0px",
+                                         "margin": "0px",
+                                         "font-size": "11px"
+                                     },
+                                     "marker": {
+                                         "show-line": "true",
+                                         "type": "match",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "size": 4,
+                                         "line-width": 2,
+                                         "padding": "3px"
+                                     }
+                                 },
+                                 "crosshair-x": {
+                                     "lineWidth": 1,
+                                     "line-color": "#707d94",
+                                     "plotLabel": {
+                                         "shadow": false,
+                                         "font-color": "#000",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding": "5px 10px",
+                                         "border-radius": "5px",
+                                         "alpha": 1
+                                     },
+                                     "scale-label": {
+                                         "font-color": "#ffffff",
+                                         "background-color": "#707d94",
+                                         "font-family": "Arial",
+                                         "font-size": "10px",
+                                         "padding": "5px 10px",
+                                         "border-radius": "5px"
+                                     }
+                                 },
+                                 "tooltip": {
+                                     "visible": false
+                                 },
+                                 "series": [
+
+                                     {
+                                         "values": ListAccords,
+                                         "text": "CA+",
+                                         "line-color": "#009688",
+                                         "line-width": "2px",
+                                         "shadow": 0,
+                                         "marker": {
+                                             "background-color": "#fff",
+                                             "size": 3,
+                                             "border-width": 1,
+                                             "border-color": "#009688",
+                                             "shadow": 0
+                                         },
+                                         "palette": 2
+                                     },
+                                       {
+                                           "values": ListCA,
+                                           "text": "CA",
+                                           "line-color": "#f3950d",
+                                           "line-width": "2px",
+                                           "shadow": 0,
+                                           "marker": {
+                                               "background-color": "#fff",
+                                               "size": 3,
+                                               "border-width": 1,
+                                               "border-color": "#d37e04",
+                                               "shadow": 0
+                                           },
+                                           "palette": 3
+                                       },
+                                       {
+                                           "values": ListAppEmis,
+                                           "text": "Appels Emis",
+                                           "line-color": "#25a6f7",
+                                           "line-width": "2px",
+                                           "shadow": 0,
+                                           "marker": {
+                                               "background-color": "#fff",
+                                               "size": 3,
+                                               "border-width": 1,
+                                               "border-color": "#1993e0",
+                                               "shadow": 0
+                                           },
+                                           "palette": 1,
+                                           "visible": 1
+                                       },
+                                 ]
+                             },
+                            {
+                                "type": "area",
+                                "background-color": "#fff",
+                                "border-color": "#dae5ec",
+                                "border-width": "1px",
+                                "width": "48%",
+                                "height": "60%",
+                                "x": "50%",
+                                "y": "38.2%",
+                                "title": {
+                                    "margin-top": "7px",
+                                    "margin-left": "12px",
+                                    "text": "Statistiques Taux de Vente par Heure",
+                                    "background-color": "none",
+                                    "shadow": 0,
+                                    "text-align": "left",
+                                    "font-family": "Arial",
+                                    "font-size": "11px",
+                                    "font-color": "#707d94"
+                                },
+                                "plot": {
+                                    "animation": {
+                                        "delay": 500,
+                                        "effect": "ANIMATION_SLIDE_LEFT"
+                                    }
+                                },
+                                "plotarea": {
+                                    "margin": "50px 25px 70px 46px"
+                                },
+                                "scale-y": {
+                                    "values": "0:2:0.5",
+                                    "line-color": "none",
+                                    "guide": {
+                                        "line-style": "solid",
+                                        "line-color": "#d2dae2",
+                                        "line-width": "1px",
+                                        "alpha": 0.5
+                                    },
+                                    "tick": {
+                                        "visible": false
+                                    },
+                                    "item": {
+                                        "font-color": "#8391a5",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding-right": "5px"
+                                    }
+                                },
+                                "scale-x": {
+                                    "line-color": "#d2dae2",
+                                    "line-width": "2px",
+                                    "values": ListMonths,
+                                    "tick": {
+                                        "line-color": "#d2dae2",
+                                        "line-width": "1px"
+                                    },
+                                    "guide": {
+                                        "visible": false
+                                    },
+                                    "item": {
+                                        "font-color": "#8391a5",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding-top": "5px"
+                                    }
+                                },
+                                "crosshair-x": {
+                                    "lineWidth": 1,
+                                    "line-color": "#707d94",
+                                    "plotLabel": {
+                                        "shadow": false,
+                                        "font-color": "#000",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding": "5px 10px",
+                                        "border-radius": "5px",
+                                        "alpha": 1
+                                    },
+                                    "scale-label": {
+                                        "font-color": "#ffffff",
+                                        "background-color": "#707d94",
+                                        "font-family": "Arial",
+                                        "font-size": "10px",
+                                        "padding": "5px 10px",
+                                        "border-radius": "5px"
+                                    }
+                                },
+                                "tooltip": {
+                                    "visible": false
+                                },
+                                "series": [
+
+                                {
+                                    "values": ListTauxVenteHeure,
+                                    "text": "Taux de Vente par Heure",
+                                    "line-color": "#ad6bae",
+                                    "line-width": "2px",
+                                    "shadow": 0,
+                                    "marker": {
+                                        "background-color": "#fff",
+                                        "size": 3,
+                                        "border-width": 1,
+                                        "border-color": "#975098",
+                                        "shadow": 0
+                                    },
+                                    "palette": 1,
+                                    "visible": 1
+                                }
+                                ]
+                            }
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChart',
+                        data: myConfig,
+                        height: 700,
+                        width: '100%'
+                    });
+
+                },
+                error: function () { },
+            });
+        })
+
+    </script>
+}
+@*@section testProfile{
+
+        <a class="dropdown-toggle" data-toggle="dropdown">
+            <img src=@Model.image alt="">
+            <span>@Model.userName</span>
+            <i class="caret"></i>
+        </a>
+    }*@
+@*@section testProfileLeft{
+        <a href="#" class="media-left"><img src=@Model.image class="img-circle img-sm" alt=""></a>
+        <div class="media-body">
+            <span class="media-heading text-semibold">@Model.userName</span>
+            <div class="text-size-mini text-muted">
+                <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+            </div>
+        </div>
+    }*@
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Accueil</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Accueil</a></li>
+    <li class="active">Tableau de Bord</li>
+}

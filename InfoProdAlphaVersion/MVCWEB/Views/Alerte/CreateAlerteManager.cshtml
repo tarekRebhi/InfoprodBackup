@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "CreateAlerteManager";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+@section test{
+@model MVCWEB.Models.AlerteViewModel
+        <!-- Basic layout-->
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Ajouter Alerte</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Titre:</label>
+                <input type="text" name="titre" class="form-control" placeholder="Ajouter Titre de l'alerte'">
+            </div>
+            @*<div class="form-group">
+                <label>Description:</label>
+                <input type="text" name="description" class="form-control" placeholder="Description">
+            </div>*@
+            <div class="form-group">
+                <label>Date: </label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                    @*<input type="text" name="dateCreation" class="form-control daterange-single" value="11/04/2018">*@
+                    <input type="text" class="form-control" name="dateCreation" id="datePicker" />
+
+                </div>
+            </div>
+            <label>Alerte pour Agent</label>
+            <br />
+            @*<div class="form-group">
+                <select class="bootstrap-select" data-width="30%" id="typeGenerator" name="typeGenerator">
+
+
+                    @foreach (var item in Model.utilisateurs)
+                    {
+                        <option value=@item.Text>@item.Text</option>
+
+                    }
+                </select>
+            </div>*@
+            
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.DropDownList("typeGenerator", Model.utilisateurs, htmlAttributes: new { @class = "bootstrap-select", @id = "typeGenerator",@name= "typeGenerator" , style = "data-width: 360px;", selected = "selected" })
+                    @Html.ValidationMessageFor(model => model.utilisateurs, "", new { @class = "text-danger" })
+
+                    @*@Html.DropDownList("SelectedItem", Model.listItems, "-----Select----")*@
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Message:</label>
+                <textarea name="description" rows="5" cols="5" class="form-control" placeholder="Entrer votre message"></textarea>
+            </div>
+
+            <div class="text-right">
+                <button  type="submit" class="btn btn-primary" data-title="Sauvegarder Alerte" value="Enregistrer" data-toggle="modal">Sauvegarder Alerte <i class="icon-arrow-right14 position-fixed"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+    @*<div id="explorer1"></div>*@
+
+    <!-- /basic layout -->
+
+    @*<script type="text/javascript">
+
+        $(document).ready(function () {
+            $(document).on("click", "#imedLak", function () {
+                var id = $('#typeGenerator option:selected').val();
+                var dateCreation = $('#datePicker').val();
+                $.ajax({
+                    url: '/Alerte/CreateAlerteManager',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id, "dateCreation": dateCreation },
+                    datatype: "html",
+                    async: true,
+                    success: function (data) {
+                        $('#explorer1').html(data);
+                        $('#modifiertest').modal('show');
+                    },
+
+
+
+                });
+
+
+            })
+        })
+
+    </script>*@
+    <script>
+        $('#datePicker')
+               .daterangepicker({
+                   singleDatePicker: true,
+                   locale: {
+                       setDate: new Date(),
+                       format: 'YYYY/MM/DD',
+                       "daysOfWeek": [
+            "Dim",
+            "Lun",
+            "Mar",
+            "Mer",
+            "Jeu",
+            "Ven",
+            "Sam"
+                       ],
+                       "monthNames": [
+                           "Jan",
+                           "Fev",
+                           "Mar",
+                           "Avr",
+                           "Mai",
+                           "Ju",
+                           "Jui",
+                           "Aou",
+                           "Sep",
+                           "Oct",
+                           "Nov",
+                           "December"
+                       ],
+                   },
+                   lan:'fr',
+                   autoclose: true,
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+
+    </script>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Alertes</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Alertes</a></li>
+    <li class="active">Envoyer une Nouvelle alerte</li>
+}

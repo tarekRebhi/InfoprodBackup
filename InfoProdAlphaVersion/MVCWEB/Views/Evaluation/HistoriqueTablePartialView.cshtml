@@ -1,0 +1,189 @@
+﻿@model IEnumerable<MVCWEB.Models.EvaluationViewModel>
+
+<div id="details"></div>
+<div id="comments"></div>
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+    <h5><b>Nombre des Evaluations</b></h5>
+</div>
+<table id="historiqueEmp" class="table datatable-basic" hidden>
+    <thead>
+        <tr style="background-color:aquamarine" >
+            <th >Date </th>
+            <th>Acceuil / Presentation</th>
+            <th>Objet Appel</th>
+            <th>Presentation offre</th>
+            <th>Gestion Objections</th>
+            <th>Verrouillage et conclusion du contrat</th>
+            <th>Proposition Cross</th>
+            <th>Discours</th>
+            <th>Attitude</th>
+            <th>Prise Congé</th>
+            <th >Score</th>
+            <th>type</th>
+            <th>Agent Qualité(émetteur de l'évaluation)</th>
+            <th>Commentaires</th>
+            <th hidden>Réponse Agent</th>
+            <th>Enregistrement</th>
+
+        </tr>
+    </thead>
+    <tbody style="background-color:Highlight">
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.dateTempEvaluation.Day/@item.dateTempEvaluation.Date.Month/@item.dateTempEvaluation.Date.Year</td>
+                <td >
+                    @item.acceuilPresentation
+                </td>
+                <td>
+                    @item.objetAppel
+                </td>
+                <td>
+                    @item.presentationOffre
+                </td>
+                <td>
+                    @item.gestionObjection
+                </td>
+                <td>
+                    @item.vCContrat
+                </td>
+                <td>
+                    @item.pCross
+                </td>
+                <td>
+                    @item.discours
+                </td>
+                <td>
+                    @item.attitude
+                </td>
+                <td>
+                    @item.priseConge
+                </td>
+                @{ 
+                    String str = "";
+                    if (@item.type=="Promo") {
+                        float pourcentage = (@item.note / 190) * 100;
+                        str = pourcentage.ToString("N2");
+                    }
+                    else
+                    {
+                        float pourcentage2 = (@item.note / 165) * 100;
+                        str = pourcentage2.ToString("N2");
+                    }
+                }
+                <td><font color="red">@str %</font></td>
+                <td>@item.type</td>
+                <td>@item.senderName</td>
+                <td hidden>
+                    @item.commentaireQualite
+                </td>
+                <td hidden>
+                    @item.commentaireAgent
+                </td>
+                <td>                  
+               <button class="btn btn-warning" id="test6" data-com="@item.commentaireQualite" data-reponse="@item.commentaireAgent">Details&nbsp;<i class="icon-popout"></i></button>                
+                </td>
+                <td>
+                @if (item.enregistrementFullName != null)
+                {<button class="btn bg-teal-400" id="test5" data-id="@item.enregistrementFullName" data-FullName="@item.enregistrementUrl" data-directory="@item.enregistrementDirectory">Ecouter&nbsp;<i class="icon-play"></i></button>
+                }                
+                </td>
+             </tr>
+        }
+    </tbody>
+</table>
+<br/>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(document).on("click", "#test5", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var fullname = $buttonClicked.attr('data-FullName');
+            var directoryName = $buttonClicked.attr('data-directory');
+            $.ajax({
+                url: '/Evaluation/FindCustomEnregistrement',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                    'name': id,
+                    'fullName': fullname,
+                    'DirectoryName': directoryName
+                },
+                async: false,
+                success: function (data) {
+                    if ($("#details").is(":empty") == false) {
+                        $('#details').removeData("#detailsFile");
+                        $("div.modal-backdrop.fade.in").remove();
+                        $('#details').html(data);
+                    }
+                    else {
+
+                        $('#details').html(data);
+                    }
+
+                    //$('.modal fade in').remove();
+                    //$('#detailsFile').empty();
+                    //$('#details').html(data);
+                    $('#detailsFile').modal(({
+                        backdrop: 'static',
+                        keyboard: false
+                    }));
+                    //$('#errorFile2').modal('show');
+
+                    //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                },
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+
+        $(document).on("click", "#test6", function () {
+            var $buttonClicked = $(this);
+           var comqualite = $buttonClicked.attr('data-com');
+            var comagent = $buttonClicked.attr('data-reponse');
+            $.ajax({
+                url: '/Evaluation/FindComments',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                    'CommentQualite': comqualite,
+                    'CommentAgent': comagent
+                },
+                async: false,
+                success: function (data) {
+                    if ($("#comments").is(":empty") == false) {
+                        $('#comments').removeData("#commentsFile");
+                        $("div.modal-backdrop.fade.in").remove();
+                        $('#comments').html(data);
+                    }
+                    else {
+
+                        $('#comments').html(data);
+                    }
+
+                    //$('.modal fade in').remove();
+                    //$('#detailsFile').empty();
+                    //$('#details').html(data);
+                    $('#commentsFile').modal(({
+                        backdrop: 'static',
+                        keyboard: false
+                    }));
+                    //$('#errorFile2').modal('show');
+
+                    //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                },
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+    })
+</script>

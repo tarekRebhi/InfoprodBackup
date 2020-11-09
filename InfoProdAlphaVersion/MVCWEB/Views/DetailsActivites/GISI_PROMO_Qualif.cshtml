@@ -1,0 +1,1426 @@
+﻿@model MVCWEB.Models.EvaluationViewModel
+
+
+@{
+    ViewBag.Title = "GISI_PROMO_Qualif";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+@section extract {
+    <li> <a onclick="tablesToExcel(['Grid', 'Grid3', 'Grid2'], ['GISI_PROMO Global', 'GISI_PROMO Par Agent', 'GISI_PROMO Par Titre'], 'DetailsQualifications.xls', 'Excel')"> <span class="glyphicon glyphicon-export"></span>Télécharger Excel</a></li>
+}
+@section test{
+    <script type="text/javascript" src="~/Scripts/datepicker.min.js"></script>
+
+    <!-- GISI PROMO Qualif Par Titre  -->
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Qualification GISI PROMO Par Titre</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <form>
+            @foreach (var temp in ViewBag.AllTitres)
+    {
+                <div class="row-md-12">
+                    <div class="col-md-2">
+                        <label class="radio-inline">
+                            <input id="SelectedTitre" type="radio" class="styled" name="SelectedTitre" checked="checked" value="@temp">
+                            @temp
+                        </label>
+                    </div>
+                </div>
+            }
+        </form>
+        <br /><br /><br />
+        <div class="panel-body">
+            <form id="eventForm">
+                <div class="row-md-12">
+                    <br />
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Année Traitement</h6>
+                        <div class="col-xs-1 date">
+                            <div class="input-group input-append date">
+                                <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                                <input type="text" value="Sélectionner l'année" class="form-control" name="date" id="datePickerAnnee" onchange="getSelectedTitreCalcul()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Date d'injection</h6>
+                        <div class="col-xs-2">
+                            @Html.DropDownList("DateInjDropDown", new SelectList(string.Empty, "Value", "Text"), new { style = "height: 35px;", @class = "form-control", onchange = "getSelectedTitreCalcul()" })
+                        </div>
+                    </div>
+
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Code Opération</h6>
+                        <div class="col-xs-2">
+                            @Html.DropDownList("CodeOpeDropDown", new SelectList(string.Empty, "Value", "Text"), new { style = "height: 35px;", @class = "form-control", onchange = "GetCodesProv()" })
+                        </div>
+                    </div>
+
+                    <div class="col-1">
+                        <h6 class="col-xs-2 control-label" style="width: 200px;">Code Prov-relance</h6>
+                        <div class="col-xs-2">
+                            @Html.DropDownList("CodeProvDropDown", new SelectList(string.Empty, "Value", "Text"), new { style = "height: 35px;", @class = "form-control", onchange = "getSelectedTitreCalcul()" })
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-9">
+                <div>
+                    <table class="table" style="font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <th style="width:100px; text-align: center;">Type</th>
+                                <th style="width: 400px; text-align: center;">Détails Qualifications</th>
+                                <th style="width: 200px;text-align: center;">Nombre</th>
+                                <th style="width: 200px;text-align: center;">Pourcentage</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+                <div style="height: 480px;overflow: auto">
+                    <table class="table" id="Grid2" style="font-size: 12px;">
+
+                        <tbody style="text-align: center;"></tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+            <!-- /fin col-lg-9 -->
+
+            <div class="col-md-2" style="margin-left: 2cm; margin-top: 1cm;">
+                <br />
+                <br />
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-teal text-teal btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Fiches Traitées</div>
+                        <div id="ft2"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Fiches Cloturées</div>
+                        <div id="fc2"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Contacts Argumentés</div>
+                        <div id="arg2"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-danger-400 text-danger-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Taux d'Exploitation</div>
+                        <div id="exploi2"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-success-400 text-success-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Taux d'Accord</div>
+                        <div id="acc2"></div>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- /fin col-md-2 -->
+        </div>
+        <!-- /fin row -->
+    </div>
+    <!-- /GISI PROMO Qualif Par Titre -->
+    <!-- GISI PROMO Qualif Par Agent  -->
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Qualification GISI PROMO Par Agent</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <form id="eventForm">
+                <div class="row">
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Dates Début/Fin</h6>
+                        <div class="col-xs-4 date">
+                            <div class="input-group input-append date">
+                                <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                                <input type="text" class="form-control daterange-basic" name="date" id="dateSelected" value="2018-01-01 / 2018-01-31" onchange="getSelected()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Nom Agent</h6>
+                        <div class="col-xs-2">
+                            <select class="form-control" id="agentDropDown" style="height: 35px;" onchange="getSelected()">
+                                @foreach (var ag in ViewBag.AgentItems as IEnumerable<SelectListItem>)
+                                {
+                                    <option value="@ag.Value">@ag.Text</option>
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Titre</h6>
+                        <div class="col-xs-2">
+                            @Html.DropDownList("TitreDropDown", new SelectList(string.Empty, "Value", "Text"), new { style = "height: 35px;", @class = "form-control", onchange = "getSelected()" })
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div id="toPDF">
+                <div class="col-lg-9">
+                    <div>
+                        <table class="table" style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <th style="width:100px; text-align: center;">Type</th>
+                                    <th style="width: 400px; text-align: center;">Détails Qualifications</th>
+                                    <th style="width: 200px;text-align: center;">Nombre</th>
+                                    <th style="width: 200px;text-align: center;">Pourcentage</th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                    <div style="height: 480px;overflow: auto">
+                        <table class="table" id="Grid3" style="font-size: 12px;">
+
+                            <tbody style="text-align: center;"></tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+                <!-- /fin col-lg-9 -->
+            </div>
+            <div class="col-md-2" style="margin-left: 2cm; margin-top: 1cm;">
+                <br />
+                <br />
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-teal text-teal btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Fiches Traitées</div>
+                        <div id="ft3"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Fiches Cloturées</div>
+                        <div id="fc3"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Contacts Argumentés</div>
+                        <div id="arg3"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-danger-400 text-danger-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Taux d'Exploitation</div>
+                        <div id="exploi3"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-success-400 text-success-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Taux d'Accord</div>
+                        <div id="acc3"></div>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- /fin col-md-2 -->
+        </div>
+        <!-- /fin row -->
+    </div>
+    <!-- /GISI PROMO Qualif Par Agent -->
+    <!-- GISI PROMO Global qualif -->
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <h5 class="panel-title">Qualification GISI PROMO Globale</h5>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <form id="eventForm">
+                <div class="row">
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Date Début</h6>
+                        <div class="col-xs-4 date">
+                            <div class="input-group input-append date">
+                                <input type="text" class="form-control" id="datePickerFrom" />
+                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-1">
+                        <h6 class="col-xs-1 control-label">Date Fin</h6>
+                        <div class="col-xs-4 date">
+                            <div class="input-group input-append date">
+                                <input type="text" class="form-control" name="date" id="datePickerTo" />
+                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div id="toPDF">
+                <div class="col-lg-9">
+                    <div>
+                        <table class="table" style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <th style="width:100px; text-align: center;">Type</th>
+                                    <th style="width: 400px; text-align: center;">Détails Qualifications</th>
+                                    <th style="width: 200px;text-align: center;">Nombre</th>
+                                    <th style="width: 200px;text-align: center;">Pourcentage</th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                    <div style="height: 480px;overflow: auto">
+                        <table class="table" id="Grid" style="font-size: 12px;">
+
+                            <tbody style="text-align: center;"></tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+                <!-- /fin col-lg-9 -->
+            </div>
+            <div class="col-md-2" style="margin-left: 2cm; margin-top: 1cm;">
+                <br />
+                <br />
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-teal text-teal btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Fiches Traitées</div>
+                        <div id="ft"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Fiches Cloturées</div>
+                        <div id="fc"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Contacts Argumentés</div>
+                        <div id="arg"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-danger-400 text-danger-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Taux d'Exploitation</div>
+                        <div id="exploi"></div>
+                    </li>
+                </ul>
+                <br />
+                <ul class="list-inline text-left">
+                    <li>
+                        <a href="#" class="btn border-success-400 text-success-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                    </li>
+                    <li class="text-left">
+                        <div class="text-semibold">Taux d'Accord</div>
+                        <div id="acc"></div>
+                    </li>
+                </ul>
+            </div>
+            <!-- /fin col-md-2 -->
+        </div>
+        <!-- /fin row -->
+    </div>
+    <!-- /GISI PROMO Global qualif -->
+
+    <script>
+
+        var tablesToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+            , tmplWorkbookXML = '<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
+              + '<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office"><Author>Axel Richter</Author><Created>{created}</Created></DocumentProperties>'
+              + '<Styles>'
+              + '<Style ss:ID="Currency"><NumberFormat ss:Format="Currency"></NumberFormat></Style>'
+              + '<Style ss:ID="Date"><NumberFormat ss:Format="Medium Date"></NumberFormat></Style>'
+              + '</Styles>'
+              + '{worksheets}</Workbook>'
+            , tmplWorksheetXML = '<Worksheet ss:Name="{nameWS}"><Table>{rows}</Table></Worksheet>'
+            , tmplCellXML = '<Cell{attributeStyleID}{attributeFormula}><Data ss:Type="{nameType}">{data}</Data></Cell>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (tables, wsnames, wbname, appname) {
+                var ctx = "";
+                var workbookXML = "";
+                var worksheetsXML = "";
+                var rowsXML = "";
+
+                for (var i = 0; i < tables.length; i++) {
+                    if (!tables[i].nodeType) tables[i] = document.getElementById(tables[i]);
+                    for (var j = 0; j < tables[i].rows.length; j++) {
+                        rowsXML += '<Row>'
+                        for (var k = 0; k < tables[i].rows[j].cells.length; k++) {
+                            var dataType = tables[i].rows[j].cells[k].getAttribute("data-type");
+                            var dataStyle = tables[i].rows[j].cells[k].getAttribute("data-style");
+                            var dataValue = tables[i].rows[j].cells[k].getAttribute("data-value");
+                            dataValue = (dataValue) ? dataValue : tables[i].rows[j].cells[k].innerHTML;
+                            var dataFormula = tables[i].rows[j].cells[k].getAttribute("data-formula");
+                            dataFormula = (dataFormula) ? dataFormula : (appname == 'Calc' && dataType == 'DateTime') ? dataValue : null;
+                            ctx = {
+                                attributeStyleID: (dataStyle == 'Currency' || dataStyle == 'Date') ? ' ss:StyleID="' + dataStyle + '"' : ''
+                                   , nameType: (dataType == 'Number' || dataType == 'DateTime' || dataType == 'Boolean' || dataType == 'Error') ? dataType : 'String'
+                                   , data: (dataFormula) ? '' : dataValue
+                                   , attributeFormula: (dataFormula) ? ' ss:Formula="' + dataFormula + '"' : ''
+                            };
+                            rowsXML += format(tmplCellXML, ctx);
+                        }
+                        rowsXML += '</Row>'
+                    }
+                    ctx = { rows: rowsXML, nameWS: wsnames[i] || 'Sheet' + i };
+                    worksheetsXML += format(tmplWorksheetXML, ctx);
+                    rowsXML = "";
+                }
+
+                ctx = { created: (new Date()).getTime(), worksheets: worksheetsXML };
+                workbookXML = format(tmplWorkbookXML, ctx);
+
+                console.log(workbookXML);
+
+                var link = document.createElement("A");
+                link.href = uri + base64(workbookXML);
+                link.download = wbname || 'Workbook.xls';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        })();
+    </script>
+
+
+    <script>
+        $('#datePickerFrom')
+               .datepicker({
+                   format: 'yyyy-mm-dd',
+                   autoclose: true
+               })
+        $("#datePickerFrom").datepicker("setDate", new Date());
+        $('#datePickerTo')
+          .datepicker({
+              format: 'yyyy-mm-dd',
+              autoclose: true
+          })
+        $("#datePickerTo").datepicker("setDate", new Date());
+        $("#datePickerAnnee").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        });
+        $("#datePickerAnnee").datepicker("setDate", new Date());
+
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetPromoGisiValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    fromDate: $("#datePickerFrom").val(),
+                    toDate: $("#datePickerTo").val()
+                },
+
+                success: function (c) {
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid > tbody").html(tblHtml);
+                    $("#ft").html(traites);
+                    $("#fc").html(clotures);
+                    $("#arg").html(ca);
+                    $("#exploi").html(tauxexploitation);
+                    $("#acc").html(tauxaccord);
+                },
+                error: function () { },
+            });
+
+        })
+
+        $('#datePickerFrom').on('changeDate', function () {
+
+            $.ajax({
+                url: '@Url.Action("GetPromoGisiValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    fromDate: $("#datePickerFrom").val(),
+                    toDate: $("#datePickerTo").val()
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid > tbody").html(tblHtml);
+                    $("#ft").html(traites);
+                    $("#fc").html(clotures);
+                    $("#arg").html(ca);
+                    $("#exploi").html(tauxexploitation);
+                    $("#acc").html(tauxaccord);
+                },
+                error: function () { },
+            });
+        })
+
+        $('#datePickerTo').on('changeDate', function () {
+
+            $.ajax({
+                url: '@Url.Action("GetPromoGisiValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    fromDate: $("#datePickerFrom").val(),
+                    toDate: $("#datePickerTo").val()
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid > tbody").html(tblHtml);
+                    $("#ft").html(traites);
+                    $("#fc").html(clotures);
+                    $("#arg").html(ca);
+                    $("#exploi").html(tauxexploitation);
+                    $("#acc").html(tauxaccord);
+                },
+                error: function () { },
+            });
+
+        })
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#TitreDropDown").empty();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetTitresGISIPROMO")',
+            dataType: 'json',
+            data: {
+                id: $("#agentDropDown").val()
+            },
+            success: function (titresItems) {
+                $.each(titresItems, function (i, t) {
+                    $("#TitreDropDown").append('<option value="' + t.Value + '">' +
+                     t.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+
+        $("#agentDropDown").change(function () {
+            $("#TitreDropDown").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetTitresGISIPROMO")',
+                dataType: 'json',
+                data: {
+                    id: $("#agentDropDown").val()
+                },
+                success: function (titresItems) {
+                    $.each(titresItems, function (i, t) {
+                        $("#TitreDropDown").append('<option value="' + t.Value + '">' +
+                         t.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+            return false;
+        })
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetPromoGisiValuesParAgent")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    idHermes: $("#agentDropDown").val(),
+                    titre: $("#TitreDropDown").val(),
+                    dateSel: $("#dateSelected").val()
+
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid3 > tbody").html(tblHtml);
+                    $("#ft3").html(traites);
+                    $("#fc3").html(clotures);
+                    $("#arg3").html(ca);
+                    $("#exploi3").html(tauxexploitation);
+                    $("#acc3").html(tauxaccord);
+                },
+                error: function () { },
+            });
+        })
+
+
+    $("#agentDropDown").change(function () {
+            $.ajax({
+                url: '@Url.Action("GetPromoGisiValuesParAgent")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    idHermes: $("#agentDropDown").val(),
+                   titre: $("#TitreDropDown").val(),
+                    dateSel: $("#dateSelected").val()
+
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid3 > tbody").html(tblHtml);
+                    $("#ft3").html(traites);
+                    $("#fc3").html(clotures);
+                    $("#arg3").html(ca);
+                    $("#exploi3").html(tauxexploitation);
+                    $("#acc3").html(tauxaccord);
+                },
+                error: function () { },
+            });
+    })
+
+    $("#TitreDropDown").change(function () {
+        $.ajax({
+            url: '@Url.Action("GetPromoGisiValuesParAgent")',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                idHermes: $("#agentDropDown").val(),
+                titre: $("#TitreDropDown").val(),
+                dateSel: $("#dateSelected").val()
+
+            },
+
+            success: function (c) {
+
+                var tblHtml = "";
+                var traites = "";
+                var clotures = "";
+                var ca = "";
+                var tauxexploitation = "";
+                var tauxaccord = "";
+                $.each(c, function (index, cal) {
+                    if (index >= 0 && index < 28) {
+                        if (cal.type == "CA Positif") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                        }
+                        if (cal.type == "CA Négatif") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                        }
+                        if (cal.type == "Autre") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                        }
+                        tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                    }
+                    if (index == 28) {
+                        traites += cal.nombre;
+                    }
+                    if (index == 29) {
+                        clotures += cal.nombre;
+                        tauxexploitation += cal.pourcentage + "%";
+                    }
+                    if (index == 30) {
+                        ca += cal.nombre;
+                        tauxaccord += cal.pourcentage + "%";
+                    }
+                });
+
+                $("#Grid3 > tbody").html(tblHtml);
+                $("#ft3").html(traites);
+                $("#fc3").html(clotures);
+                $("#arg3").html(ca);
+                $("#exploi3").html(tauxexploitation);
+                $("#acc3").html(tauxaccord);
+            },
+            error: function () { },
+        });
+    })
+
+    function getSelected(){
+        $.ajax({
+            url: '@Url.Action("GetPromoGisiValuesParAgent")',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                idHermes: $("#agentDropDown").val(),
+                titre: $("#TitreDropDown").val(),
+                dateSel: $("#dateSelected").val()
+
+            },
+
+            success: function (c) {
+
+                var tblHtml = "";
+                var traites = "";
+                var clotures = "";
+                var ca = "";
+                var tauxexploitation = "";
+                var tauxaccord = "";
+                $.each(c, function (index, cal) {
+                    if (index >= 0 && index < 28) {
+                        if (cal.type == "CA Positif") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                        }
+                        if (cal.type == "CA Négatif") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                        }
+                        if (cal.type == "Autre") {
+                            tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                        }
+                        tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                    }
+                    if (index == 28) {
+                        traites += cal.nombre;
+                    }
+                    if (index == 29) {
+                        clotures += cal.nombre;
+                        tauxexploitation += cal.pourcentage + "%";
+                    }
+                    if (index == 30) {
+                        ca += cal.nombre;
+                        tauxaccord += cal.pourcentage + "%";
+                    }
+                });
+
+                $("#Grid3 > tbody").html(tblHtml);
+                $("#ft3").html(traites);
+                $("#fc3").html(clotures);
+                $("#arg3").html(ca);
+                $("#exploi3").html(tauxexploitation);
+                $("#acc3").html(tauxaccord);
+            },
+            error: function () { },
+        });
+    }
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#CodeOpeDropDown").empty();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetCodesOpeOfTitresGISIPROMO")',
+            dataType: 'json',
+            data: {
+                SelectedTitre: $("#SelectedTitre:checked").val(),
+                DateInj: $("#DateInjDropDown").val()
+            },
+            success: function (CodesOpeItems) {
+                $.each(CodesOpeItems, function (i, t) {
+                    $("#CodeOpeDropDown").append('<option value="' + t.Value + '">' +
+                     t.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+
+    // function GetCodesOpe(){
+    $('input[type=radio][name=SelectedTitre]').change(function () {
+
+        $("#CodeOpeDropDown").empty();
+        $("#CodeProvDropDown").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCodesOpeOfTitresGISIPROMO")',
+                dataType: 'json',
+                data: {
+                    SelectedTitre: $("#SelectedTitre:checked").val(),
+                    DateInj: $("#DateInjDropDown").val()
+                },
+                success: function (CodesOpeItems) {
+                    $.each(CodesOpeItems, function (i, t) {
+                        $("#CodeOpeDropDown").append('<option value="' + t.Value + '">' +
+                         t.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+        return false;
+    })
+    $("#DateInjDropDown").change(function () {
+
+        $("#CodeOpeDropDown").empty();
+        $("#CodeProvDropDown").empty();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetCodesOpeOfTitresGISIPROMO")',
+            dataType: 'json',
+            data: {
+                SelectedTitre: $("#SelectedTitre:checked").val(),
+                DateInj: $("#DateInjDropDown").val()
+            },
+            success: function (CodesOpeItems) {
+                $.each(CodesOpeItems, function (i, t) {
+                    $("#CodeOpeDropDown").append('<option value="' + t.Value + '">' +
+                     t.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+
+    $("#CodeOpeDropDown").change(function () {
+        $("#CodeProvDropDown").empty();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetCodesProvGISIPROMO")',
+            dataType: 'json',
+            data: {
+                SelectedTitre: $("#SelectedTitre:checked").val(),
+                codeOperation: $("#CodeOpeDropDown").val(),
+                DateInj: $("#DateInjDropDown").val()
+            },
+            success: function (CodesProvItems) {
+                $.each(CodesProvItems, function (i, t) {
+                    $("#CodeProvDropDown").append('<option value="' + t.Value + '">' +
+                     t.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDatesInjGISIPROMO")',
+            dataType: 'json',
+            data: {
+                SelectedTitre: $("#SelectedTitre:checked").val(),
+                SelectedAnnee: $("#datePickerAnnee").val()
+            },
+            success: function (DatesInjectionItems) {
+                $.each(DatesInjectionItems, function (i, t) {
+                    $("#DateInjDropDown").append('<option value="' + t.Value + '">' +
+                     t.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+
+    // function GetDatesInj(){
+
+    $('#datePickerAnnee').on('changeDate', function () {
+        $("#DateInjDropDown").empty();
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDatesInjGISIPROMO")',
+            dataType: 'json',
+            data: {
+                SelectedTitre: $("#SelectedTitre:checked").val(),
+                SelectedAnnee: $("#datePickerAnnee").val()
+            },
+            success: function (DatesInjectionItems) {
+                $.each(DatesInjectionItems, function (i, t) {
+                    $("#DateInjDropDown").append('<option value="' + t.Value + '">' +
+                     t.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+        })
+
+    $('input[type=radio][name=SelectedTitre]').change(function () {
+        $("#DateInjDropDown").empty();
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDatesInjGISIPROMO")',
+            dataType: 'json',
+            data: {
+                SelectedTitre: $("#SelectedTitre:checked").val(),
+                SelectedAnnee: $("#datePickerAnnee").val()
+            },
+            success: function (DatesInjectionItems) {
+                $.each(DatesInjectionItems, function (i, t) {
+                    $("#DateInjDropDown").append('<option value="' + t.Value + '">' +
+                     t.Text + '</option>');
+                });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve states.' + ex);
+            }
+        });
+        return false;
+    })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetPromoGisiValuesParTitre")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    SelectedAnnee: $("#datePickerAnnee").val(),
+                    SelectedTitre: $("#SelectedTitre:checked").val(),
+                    DateInj: $("#DateInjDropDown").val(),
+                    CodeOpe: $("#CodeOpeDropDown").val(),
+                    CodeProv: $("#CodeProvDropDown").val()
+
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid2 > tbody").html(tblHtml);
+                    $("#ft2").html(traites);
+                    $("#fc2").html(clotures);
+                    $("#arg2").html(ca);
+                    $("#exploi2").html(tauxexploitation);
+                    $("#acc2").html(tauxaccord);
+                },
+                error: function () { },
+            });
+        })
+
+
+        $('input[type=radio][name=SelectedTitre]').change(function () {
+           $.ajax({
+                url: '@Url.Action("GetPromoGisiValuesParTitre")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    SelectedAnnee: $("#datePickerAnnee").val(),
+                    SelectedTitre: $("#SelectedTitre:checked").val(),
+                    DateInj: $("#DateInjDropDown").val(),
+                    CodeOpe: $("#CodeOpeDropDown").val(),
+                    CodeProv: $("#CodeProvDropDown").val()
+
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid2 > tbody").html(tblHtml);
+                    $("#ft2").html(traites);
+                    $("#fc2").html(clotures);
+                    $("#arg2").html(ca);
+                    $("#exploi2").html(tauxexploitation);
+                    $("#acc2").html(tauxaccord);
+                },
+                error: function () { },
+            });
+        })
+
+        $("#CodeOpeDropDown").change(function () {
+            $.ajax({
+                url: '@Url.Action("GetPromoGisiValuesParTitre")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    SelectedAnnee: $("#datePickerAnnee").val(),
+                    SelectedTitre: $("#SelectedTitre:checked").val(),
+                    DateInj: $("#DateInjDropDown").val(),
+                    CodeOpe: $("#CodeOpeDropDown").val(),
+                    CodeProv: $("#CodeProvDropDown").val()
+
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid2 > tbody").html(tblHtml);
+                    $("#ft2").html(traites);
+                    $("#fc2").html(clotures);
+                    $("#arg2").html(ca);
+                    $("#exploi2").html(tauxexploitation);
+                    $("#acc2").html(tauxaccord);
+                },
+                error: function () { },
+            });
+        })
+        function getSelectedTitreCalcul() {
+             $.ajax({
+                url: '@Url.Action("GetPromoGisiValuesParTitre")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    SelectedAnnee: $("#datePickerAnnee").val(),
+                    SelectedTitre: $("#SelectedTitre:checked").val(),
+                    DateInj: $("#DateInjDropDown").val(),
+                    CodeOpe: $("#CodeOpeDropDown").val(),
+                    CodeProv: $("#CodeProvDropDown").val()
+
+                },
+
+                success: function (c) {
+
+                    var tblHtml = "";
+                    var traites = "";
+                    var clotures = "";
+                    var ca = "";
+                    var tauxexploitation = "";
+                    var tauxaccord = "";
+                    $.each(c, function (index, cal) {
+                        if (index >= 0 && index < 28) {
+                            if (cal.type == "CA Positif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-success'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "CA Négatif") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-danger'>" + cal.type + "</span></td>";
+                            }
+                            if (cal.type == "Autre") {
+                                tblHtml += "<tr><td style='width:100px;'><span style='width:100px;' class='label label-primary'>" + cal.type + "</span></td>";
+                            }
+                            tblHtml += "<td style='width:400px;'>" + cal.nom + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.nombre + "</td>";
+                            tblHtml += "<td style='width:200px;'>" + cal.pourcentage + "%" + "</td></tr>";
+                        }
+                        if (index == 28) {
+                            traites += cal.nombre;
+                        }
+                        if (index == 29) {
+                            clotures += cal.nombre;
+                            tauxexploitation += cal.pourcentage + "%";
+                        }
+                        if (index == 30) {
+                            ca += cal.nombre;
+                            tauxaccord += cal.pourcentage + "%";
+                        }
+                    });
+
+                    $("#Grid2 > tbody").html(tblHtml);
+                    $("#ft2").html(traites);
+                    $("#fc2").html(clotures);
+                    $("#arg2").html(ca);
+                    $("#exploi2").html(tauxexploitation);
+                    $("#acc2").html(tauxaccord);
+                },
+                error: function () { },
+            });
+        }
+    </script>
+
+    <script type="text/javascript" src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/picker_date.js"></script>
+    <script type="text/javascript" src="~/Scripts/daterangepicker.js"></script>
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+    </div>
+
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Suivi par Campagne</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Suivi par Campagne</a></li>
+    <li class="active">GISI-PROMO</li>
+}
+
+}

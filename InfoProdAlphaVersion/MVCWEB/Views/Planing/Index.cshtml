@@ -1,0 +1,136 @@
+﻿@section test{
+    @model IEnumerable<Domain.Entity.Planing>
+
+    @{
+        ViewBag.Title = "Index";
+    }
+
+    @*<h2>Index</h2>*@
+
+    <p>
+        <b>@Html.ActionLink("Nouveau Planning", "Create")</b>
+    </p>
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    @*<th>ID</th>*@
+                    <th>Date</th>
+                    <th>Heure Arrivée</th>
+                    <th>Date Départ</th>
+                    <th>Durée</th>
+                    <th>Action</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    @*<th>ID</th>*@
+                    <th>Date</th>
+                    <th>Heure Arrivee</th>
+                    <th>Date Depart</th>
+                    <th>Duree</th>
+                    <th>Action</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>*@
+                        <td>@Html.DisplayFor(modelItem => item.heureDebut)</td>
+                        <td>@Html.DisplayFor(modelItem => item.dateDebut)</td>
+                        <td>@Html.DisplayFor(modelItem => item.dateFin)</td>
+                        <td></td>
+
+
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.heureArrivee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.dateDepart)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.duree)
+                        </td>*@
+                        <td>
+                            @using (Html.BeginForm("Edit", "Planing", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Editer" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Details", "Planing", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Details" class="btn btn-warning" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <p data-placement="top" title="Delete">
+                                        <button id="imed" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal" class="btn btn-danger">Delete</button>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="explorer1">
+
+
+    </div>
+    <script src="/Content/Template1/vendor/jquery/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+          $(document).ready ( function () {
+              $(document).on ("click", "#imed", function () {
+                  var $buttonClicked = $(this);
+                  var id = $buttonClicked.attr('data-id');
+              $.ajax({
+                  url: '/Planing/FindPlaning',
+                  type: "GET",
+                  contentType: "application/json; charset=utf-8",
+                  data: { "Id": id },
+                  datatype: "html",
+                  async:true,
+                  success: function(data) {
+                      $('#explorer1').html(data);
+                      $('#modifier').modal('show');
+                    },
+
+
+
+              });
+
+
+              })
+          })
+
+    </script>
+
+}

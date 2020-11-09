@@ -1,0 +1,219 @@
+﻿@model Domain.Entity.Appel
+
+@{
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+@section test{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+    </head>
+
+    <body>
+
+
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+
+                <!-- Basic layout-->
+
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">Exclusion de fiches GMT PROMO</h5>
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                                <li><a data-action="reload"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel-body">
+                        <form>
+                            <b>Sélectionnez Campagne:</b>
+                            @foreach (var temp in ViewBag.AllTitres)
+    {
+                                <div class="row-md-12">
+                                    <div class="col-md-2">
+                                        <label class="radio-inline">
+                                            <input id="SelectedTitre" type="radio" class="styled" name="SelectedTitre" value="@temp">
+                                            @temp
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </form>
+                        <br /><br /><br /><br /><br /><br /><br /><br />
+
+                        <div class="form-group">
+                            <b>Status:</b>
+                            <select class="form-control" id="SelectedStatus">
+                                <option value="Rien">Sélectionner...</option>
+                                <option value="Tous">Tou les fiches</option>
+                                <option value="Sauf RR">Tous Sauf Rappels et Relances</option>
+                                <option value="RR">Rappels et Relances</option>
+                            </select>
+                        </div>
+                        <br />
+                        <div class="row-md-12">
+                            <b>Filtres:</b>
+                            <div class="col-3">
+                                <h6 class="col-xs-2 control-label">Code Opération</h6>
+                                <div class="col-xs-2">
+                                    @Html.DropDownList("CodeOpeDropDown", new SelectList(string.Empty, "Value", "Text"), new { style = "height: 35px;", @class = "form-control", onchange = "GetCodesProv()" })
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <h6 class="col-xs-2 control-label" style="width: 200px;">Code Prov-relance</h6>
+                                <div class="col-xs-2">
+                                    @Html.DropDownList("CodeProvDropDown", new SelectList(string.Empty, "Value", "Text"), new { style = "height: 35px;", @class = "form-control", onchange = "getSelectedTitreCalcul()" })
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <h6 class="col-xs-2 control-label">Date d'injection</h6>
+                                <div class="col-xs-2">
+                                    @Html.DropDownList("DateInjDropDown", new SelectList(string.Empty, "Value", "Text"), new { style = "height: 35px;", @class = "form-control", onchange = "getSelectedTitreCalcul()" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <br /><br /><br /><br /><br />
+                        <center>
+                            <div class="text-md-center">
+                                <button id="Save" type="submit" class="btn btn-danger">Exclure <i class="icon-upload4"></i></button>
+                            </div>
+                        </center>
+
+
+                    </div>
+                </div>
+
+                <!-- /basic layout -->
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div id="view"></div>
+    </body>
+
+</html>
+@*Able and Disable Inclusion Button*@
+<script>
+        $("#Save").attr("disabled", true);
+       $('#SelectedStatus').change(function () {
+
+
+                if( ($('#SelectedStatus').val() != "Rien") && ( $('input[type=radio][name=SelectedTitre]:checked')).val() != undefined      ) {
+                  $("#Save").attr("disabled", false);
+                }
+                else {
+                    $("#Save").attr("disabled", true);
+                }
+       });
+
+        $('input[type=radio][name=SelectedTitre]').change(function () {
+           if (($('#SelectedStatus').val() != "Rien") && ($('input[type=radio][name=SelectedTitre]:checked')).val() != undefined) {
+               $("#Save").attr("disabled", false);
+           }
+           else {
+               $("#Save").attr("disabled", true);
+           }
+        });
+        // function GetFiltres(): codeope, codeprov, dateinj
+        $('input[type=radio][name=SelectedTitre]').change(function () {
+
+            $("#CodeOpeDropDown").empty();
+            $("#CodeProvDropDown").empty();
+            $("#DateInjDropDown").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetFiltresGMTPROMO")',
+                dataType: 'json',
+                data: {
+                    SelectedTitre: $("#SelectedTitre:checked").val()
+                },
+                success: function (Result) {
+                    $.each(Result.CodesOpeItems, function (i, t) {
+                        $("#CodeOpeDropDown").append('<option value="' + t.Value + '">' +
+                         t.Text + '</option>');
+                    });
+                    $.each(Result.CodesProvItems, function (i, t) {
+                        $("#CodeProvDropDown").append('<option value="' + t.Value + '">' +
+                         t.Text + '</option>');
+                    });
+                    $.each(Result.DatesInjItems, function (i, t) {
+                        $("#DateInjDropDown").append('<option value="' + t.Value + '">' +
+                         t.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+            return false;
+        })
+
+        $(document).on("click", "#Save", function () {
+            $.ajax({
+                url: '@Url.Action("ExclureGMTPROMO")',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                    SelectedTitre: $("#SelectedTitre:checked").val(),
+                    SelectedStatus: $("#SelectedStatus").val(),
+                    SelectedCodeOpe: $("#CodeOpeDropDown").val(),
+                    SelectedCodeProv: $("#CodeProvDropDown").val(),
+                    SelectedDateInj: $("#DateInjDropDown").val(),
+                },
+                async: true,
+                success: function (data) {
+                    $('#view').html(data);
+                    $('#Result').modal('show');
+
+
+                },
+
+            });
+        })
+
+</script>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Fonctionnalités Hermès</a></li>
+    <li class="active">GMT PROMO </li>
+    <li class="active">Exclusion </li>
+}

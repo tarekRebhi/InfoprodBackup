@@ -1,0 +1,202 @@
+﻿@model Domain.Entity.Indicateur
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Indicateur</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.employee.pseudoName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee.pseudoName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.titre.activite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.titre.activite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.agent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.agent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.accord)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.accord)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CNA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CNA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.totAboutis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.totAboutis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tempsLog)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tempsLog)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tempsComm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tempsComm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tempsAtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tempsAtt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tempsACW)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tempsACW)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tempsPausePerso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tempsPausePerso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tempsPreview)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tempsPreview)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tempsPauseBrief)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tempsPauseBrief)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.responsable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.responsable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.semaine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.semaine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mois)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mois)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.appelEmis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.appelEmis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tvente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tvente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tAbs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tAbs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.customerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.customerId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nomCampagne)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nomCampagne)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

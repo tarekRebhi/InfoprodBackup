@@ -1,0 +1,771 @@
+﻿@model IEnumerable<MVCWEB.Models.EvaluationVecteurPlusViewModel>
+<div id="details"></div>
+<div id="comments"></div>
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+    <h5><b>Nombre des Evaluations</b></h5>
+</div>
+
+<table id="historiqueEmp" class="table datatable-basic">
+    <thead>
+        <tr style="font-weight:bold;">
+            <th style="font-weight:bold;">Date </th>
+            <th style="font-weight:bold;">Score</th>
+            <th style="font-weight:bold;">Type</th>
+            <th style="font-weight:bold;">Emetteur de l'évaluation</th>
+            <th hidden> avancement  </th>
+            <th hidden> nature  </th>
+            <th hidden> typologie  </th>
+            <th hidden> lieuExecution </th>
+            <th hidden> destination  </th>
+            <th hidden> codeRP  </th>
+            <th hidden> Nom Programme  </th>
+            <th hidden> Post IT  </th>
+            <th hidden> Object  </th>
+            <th hidden> Note Clients  </th>
+            <th hidden> moa  </th>
+            <th hidden> moaArchitectes  </th>
+            <th hidden> bureauxEtudes  </th>
+            <th hidden> bailleurSociaux  </th>
+            <th hidden> Mairie  </th>
+            <th hidden> surfacePlancher  </th>
+            <th hidden> surfaceTerrain  </th>
+            <th hidden> surfaceTypologie </th>
+            <th hidden> nombreBatiment </th>
+            <th hidden> nombreEtage </th>
+            <th hidden> ascenseur </th>
+            <th hidden> nombreAscenseur  </th>
+            <th hidden> dateAccords </th>
+            <th hidden> datePC  </th>
+            <th hidden> dateConsultation  </th>
+            <th hidden> dateTravaux  </th>
+            <th hidden> dateLivraison  </th>
+            <th style="font-weight:bold;">Commentaires</th>
+            <th hidden>Réponse Agent</th>
+            <th style="font-weight:bold;">Notes</th>
+            <th style="font-weight:bold;">Enregistrement</th>
+            <th style="font-weight:bold;">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <a>@item.dateTempEvaluation.Day/@item.dateTempEvaluation.Date.Month/@item.dateTempEvaluation.Date.Year</a>
+                </td>
+                @{
+
+                    String str = item.note.ToString("N2");
+                }
+
+                <td><font color="red">@str%</font></td>
+                <td>@item.type</td>
+                <td>@item.senderName</td>
+                <td hidden>
+                    @if (item.avancement >= 0)
+                    {
+                        @item.avancement
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nature >= 0)
+                    {
+                        @item.nature
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.typologie >= 0)
+                    {
+                        @item.typologie
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.lieuExecution >= 0)
+                    {
+                        @item.lieuExecution
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.destination >= 0)
+                    {
+                        @item.destination
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.codeRP >= 0)
+                    {
+                        @item.codeRP
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nomProgramme >= 0)
+                    {
+                        @item.nomProgramme
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.postIT >= 0)
+                    {
+                        @item.postIT
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.objects >= 0)
+                    {
+                        @item.objects
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.notreClients >= 0)
+                    {
+                        @item.notreClients
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.moa >= 0)
+                    {
+                        @item.moa
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.moaArchitectes >= 0)
+                    {
+                        @item.moaArchitectes
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.bureauxEtudes >= 0)
+                    {
+                        @item.bureauxEtudes
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.bailleurSociaux >= 0)
+                    {
+                        @item.bailleurSociaux
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.mairie >= 0)
+                    {
+                        @item.mairie
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+                <td hidden>
+                    @if (item.surfacePlancher >= 0)
+                    {
+                        @item.surfacePlancher
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.surfaceTerrain >= 0)
+                    {
+                        @item.surfaceTerrain
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.surfaceTypologie >= 0)
+                    {
+                        @item.surfaceTypologie
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nombreBatiment >= 0)
+                    {
+                        @item.nombreBatiment
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nombreEtage >= 0)
+                    {
+                        @item.nombreEtage
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.ascenseur >= 0)
+                    {
+                        @item.ascenseur
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nombreAscenseur >= 0)
+                    {
+                        @item.nombreAscenseur
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.dateAccords >= 0)
+                    {
+                        @item.dateAccords
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.datePC >= 0)
+                    {
+                        @item.datePC
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.dateConsultation >= 0)
+                    {
+                        @item.dateConsultation
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.dateTravaux >= 0)
+                    {
+                        @item.dateTravaux
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+
+                </td>
+
+                <td hidden>
+                    @if (item.dateLivraison >= 0)
+                    {
+                        @item.dateLivraison
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @item.commentaireQualite
+                </td>
+                <td hidden>
+                    @item.commentaireAgent
+                </td>
+
+                <td>
+                    @*<button type="button" class="btn btn-info btn-sm" data-popup="popover" data-html="true" data-trigger="focus" data-content="Présentation et Identification : @item.presentationIdentification <br> Objet Appel : @item.objetAppel <br> Nature/Type/Lieu/Destination : @item.validationNature <br> Calendrier : @item.calendrier <br> Envergure : @item.envergure <br> Questions par typologie : @item.complétudeQuestions <br> Ajout Intervenants : @item.confirmationIntervenants <br> Enchainement logique des questions : @item.enchainementQuestions <br> Traitement des objections : @item.traitementObjections <br> Reformulation : @item.reformulation <br> Transcription des information : @item.transcriptionsInformations <br> Codes appropriés : @item.codesAppropriés <br> Note client : @item.noteClient <br> Discours : @item.discours <br> Attitude : @item.attitude <br> Prise de congé : @item.priseConge">Voir Notes <i class="icon-chevron-right"></i></button>*@
+
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" style="background-color: aqua;color:#000;">Voir Notes <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
+                                <li>
+                                    Avancement:
+                                    <span>
+                                        @if (item.avancement >= 0)
+                                        {@item.avancement }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Nature:
+                                    <span>
+                                        @if (item.nature >= 0)
+                                        {@item.nature }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                <li>
+                                    Typologie:
+                                    <span>
+                                        @if (item.typologie >= 0)
+                                        {@item.typologie }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Lieu d'exécution :
+                                    <span>
+                                        @if (item.lieuExecution >= 0)
+                                        {@item.lieuExecution }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Destination :
+                                    <span>
+                                        @if (item.destination >= 0)
+                                        {@item.destination }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Code RP :
+                                    <span>
+                                        @if (item.codeRP >= 0)
+                                        {@item.codeRP }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Nom Programme :
+                                    <span>
+                                        @if (item.nomProgramme >= 0)
+                                        {@item.nomProgramme }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Post IT :
+                                    <span>
+                                        @if (item.postIT >= 0)
+                                        {@item.postIT }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Object :
+                                    <span>
+                                        @if (item.objects >= 0)
+                                        {@item.objects }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Note Clients :
+                                    <span>
+                                        @if (item.notreClients >= 0)
+                                        {@item.notreClients }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    MOA:
+                                    <span>
+                                        @if (item.moa >= 0)
+                                        {@item.moa }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Moe & Architectes:
+                                    <span>
+                                        @if (item.moaArchitectes >= 0)
+                                        {@item.moaArchitectes }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Bureaux d'Etudes:
+                                    <span>
+                                        @if (item.bureauxEtudes >= 0)
+                                        {@item.bureauxEtudes }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Bailleur Sociaux:
+                                    <span>
+                                        @if (item.bailleurSociaux >= 0)
+                                        {@item.bailleurSociaux }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Mairie :
+                                    <span>
+                                        @if (item.mairie >= 0)
+                                        {@item.mairie }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+
+                                <li>
+                                    Surface Plancher:
+                                    <span>
+                                        @if (item.surfacePlancher >= 0)
+                                        {@item.surfacePlancher }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Surface Terrain :
+                                    <span>
+                                        @if (item.surfaceTerrain >= 0)
+                                        {@item.surfaceTerrain }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Surface par Typologie :
+                                    <span>
+                                        @if (item.surfaceTypologie >= 0)
+                                        {@item.surfaceTypologie }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Nombre de Batiment:
+                                    <span>
+                                        @if (item.nombreBatiment >= 0)
+                                        {@item.nombreBatiment }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Nombre d'etage:
+                                    <span>
+                                        @if (item.nombreEtage >= 0)
+                                        {@item.nombreEtage }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Ascenseur Oui/Non:
+                                    <span>
+                                        @if (item.ascenseur >= 0)
+                                        {@item.ascenseur }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Nombre d'ascenseur:
+                                    <span>
+                                        @if (item.nombreAscenseur >= 0)
+                                        {@item.nombreAscenseur }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Date Accord:
+                                    <span>
+                                        @if (item.dateAccords >= 0)
+                                        {@item.dateAccords }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Date PC:
+                                    <span>
+                                        @if (item.datePC >= 0)
+                                        {@item.datePC }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Date de consultation:
+                                    <span>
+                                        @if (item.dateConsultation >= 0)
+                                        {@item.dateConsultation }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Date de Travaux:
+                                    <span>
+                                        @if (item.dateTravaux >= 0)
+                                        {@item.dateTravaux }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Date de Livraison:
+                                    <span>
+                                        @if (item.dateLivraison >= 0)
+                                        {@item.dateLivraison }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    <button class="btn btn-warning" id="test6" data-com="@item.commentaireQualite" data-reponse="@item.commentaireAgent">Details&nbsp;<i class="icon-popout"></i></button>
+                </td>
+                <td>
+                    @if (item.enregistrementFullName != null)
+                    {
+                        <aside type="button" class="btn bg-teal-400" id="test5" data-id="@item.enregistrementFullName" data-FullName="@item.enregistrementUrl" data-directory="@item.enregistrementDirectory">Ecouter&nbsp;<i class="icon-play"></i></aside>
+                    }
+                </td>
+                @*<td>
+                        @using (Html.BeginForm("EditBPP", "EvaluationVecteurPlus", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <input type="submit" value="Modifier" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        }
+                    </td>*@
+                <td>
+                    <ul class="icons-list">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-menu9"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="@Url.Action("EditBattonage", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-edit"></i> Modifier</a>
+                                </li>
+                                <li>
+                                    @*<a href="@Url.Action("DeleteBPP", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-trash"></i> Supprimer</a>*@
+                                    <a>
+                                        <article id="delete" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> Supprimer</article>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+                    }
+    </tbody>
+</table>
+<br />
+<div id="explorer1"></div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('aside').on('click', function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var fullname = $buttonClicked.attr('data-FullName');
+                var directoryName = $buttonClicked.attr('data-directory');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindCustomEnregistrement',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'name': id,
+                        'fullName': fullname,
+                        'DirectoryName': directoryName
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#details").is(":empty") == false) {
+                            $('#details').removeData("#detailsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#details').html(data);
+                        }
+                        else {
+
+                            $('#details').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#detailsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+
+            $(document).on("click", "#test6", function () {
+                var $buttonClicked = $(this);
+                var comqualite = $buttonClicked.attr('data-com');
+                var comagent = $buttonClicked.attr('data-reponse');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindComments',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'CommentQualite': comqualite,
+                        'CommentAgent': comagent
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#comments").is(":empty") == false) {
+                            $('#comments').removeData("#commentsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#comments').html(data);
+                        }
+                        else {
+
+                            $('#comments').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#commentsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+        })
+</script>
+<script>
+        $(function () {
+            $('[data-popup="popover"]').popover();
+            $('[data-popup="tooltip"]').tooltip();
+        });
+</script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            //  $(document).on("click", "#delete", function () {
+            $("article").on("click", function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindEvaluationBattonage',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "html",
+                    async: true,
+                    success: function (data) {
+                        $('#explorer1').html(data);
+                        $('#alerteSuppression').modal('show');
+                    },
+
+
+
+                });
+
+
+            })
+        })
+
+</script>

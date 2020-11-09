@@ -1,0 +1,416 @@
+﻿@model Domain.Entity.GrilleEvaluationBattonage
+@{
+    ViewBag.Title = "EditBattonage";
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+
+@section test{
+
+    <!-- Basic layout-->
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <li><a data-action="reload"></a></li>
+                            <li><a data-action="close"></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+                        @{
+                            List<SelectListItem> list1 = new List<SelectListItem>();
+                            list1.Add(new SelectListItem { Text = "OK", Value = "1" });
+                            list1.Add(new SelectListItem { Text = "KO", Value = "0" });
+                            list1.Add(new SelectListItem { Text = "NE", Value = "-1" });
+
+                            List<SelectListItem> list2 = new List<SelectListItem>();
+                            list2.Add(new SelectListItem { Text = "Mairie", Value = "Mairie" });
+                            list2.Add(new SelectListItem { Text = "Autre", Value = "Autre" });
+
+                        }
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-2" style="font-weight: bold;">Date d'évaluation: </label>
+                                    <div class="input-group col-md-10">
+                                        <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                                        @Html.EditorFor(model => model.dateTempEvaluation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.dateTempEvaluation, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden>
+                                    <label class="col-md-2" style="font-weight: bold;">Nom Agent: </label>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.employeeId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.employeeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-2" style="font-weight: bold;">Nom Enregistrement: </label>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.enregistrementFullName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.enregistrementFullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group" hidden>
+                                    <label class="col-md-2" style="font-weight: bold;">Score: </label>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight: bold;">Type: </label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.type, list2)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Avancement:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.avancement, list1, @Model.avancement)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight: bold;">Nature:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.nature, list1, @Model.nature)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Typologie:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.typologie, list1, @Model.typologie)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Lieu d'Execution:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.lieuExecution, list1, @Model.lieuExecution)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Destination:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.destination, list1, @Model.destination)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Code RP:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.codeRP, list1, @Model.codeRP)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Nom du Programme:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.nomProgramme, list1, @Model.nomProgramme)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Post IT:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.postIT, list1, @Model.postIT)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Object:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.objects, list1, @Model.objects)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Note Clients:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.notreClients, list1, @Model.notreClients)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">MOA:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.moa, list1, @Model.moa)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">MOA Architectes:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.moaArchitectes, list1, @Model.moaArchitectes)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Bureaux d'Etudes:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.bureauxEtudes, list1, @Model.bureauxEtudes)
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Bailleur Sociaux:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.bailleurSociaux, list1, @Model.bailleurSociaux)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Mairie:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.mairie, list1, @Model.mairie)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Surface Plancher:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.surfacePlancher, list1, @Model.surfacePlancher)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Surface Terrain:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.surfaceTerrain, list1, @Model.surfaceTerrain)
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Surface par Typologie:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.surfaceTypologie, list1, @Model.surfaceTypologie)
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Nombre de Batiment:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.nombreBatiment, list1, @Model.nombreBatiment)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Nombre d'Etage:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.nombreEtage, list1, @Model.nombreEtage)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Ascenseur Oui/Non:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.ascenseur, list1, @Model.ascenseur)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Nombre d'ascenseur:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.nombreAscenseur, list1, @Model.nombreAscenseur)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Date Accord:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.dateAccords, list1, @Model.dateAccords)
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Date PC:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.datePC, list1, @Model.datePC)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Date Consultation:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.dateConsultation, list1, @Model.dateConsultation)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Date Travaux:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.dateTravaux, list1, @Model.dateTravaux)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Date de Livraison:</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(model => model.dateLivraison, list1, @Model.dateLivraison)
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight:bold;">Commentaire Responsable Qualité:</label>
+                            <div class="input-group col-md-12">
+                                @Html.EditorFor(model => model.commentaireQualite, new { htmlAttributes = new { @class = "form-control", @placeholder = "Message récue de la part du responsable qualité", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.commentaireQualite, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight:bold;">Votre réponse:</label>
+                            <div class="input-group col-md-12">
+                                @Html.EditorFor(model => model.commentaireAgent, new { htmlAttributes = new { @class = "form-control", @placeholder = "Entrer votre réponse", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.commentaireAgent, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                      
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.enregistrementUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.enregistrementUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.enregistrementUrl, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.enregistrementDirectory, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.enregistrementDirectory, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.enregistrementDirectory, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.senderId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.senderId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.senderId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <center>
+                            <div class="form-group">
+                                <div class="text-lg-center">
+                                    @*<button type="submit" value="Save" class="btn btn-primary">Sauvegarder <i class="icon-arrow-right14 position-fixed"></i></button>*@
+                                    <button type="submit" class="btn btn-success btn-float btn-rounded"><i class="icon-database-edit2"></i></button>
+                                </div>
+                            </div>
+                        </center>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+                            }
+    <script>
+        $('#datePicker')
+               .daterangepicker({
+                   singleDatePicker: true,
+                   locale: {
+                       setDate: new Date(),
+                       format: 'YYYY/MM/DD'
+                   },
+                   autoclose: true,
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+
+    </script>
+    @*<script>
+
+                  //var idEval = "@Model.Id";
+                    $(document).on("click", "#save", function () {
+                        $.ajax({
+                            url: '/Evaluation/ReponseEvaluationTest',
+                            type: 'POST',
+                            datatype: 'json',
+                            data: {
+                                id : 1,
+                                 message : $("#message").val()
+                           },
+                          //  async: true,
+                            success: function (data) {
+                                // alert("utilisateur"+" "+idEval+"");
+                                alert("success");
+                            },
+                        });
+                    })
+
+        </script>*@
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Historique des Evaluations</h4>
+}
+@section pagetitlebody {
+    <li class="text-semibold"> <b>Historique Evaluations Vecteur Plus (Battonage)</b></li>
+    <li> Modifier l'Evaluation </li>
+}

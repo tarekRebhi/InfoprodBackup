@@ -1,0 +1,3065 @@
+﻿@model MVCWEB.Models.EmployeeViewModel
+
+@if (ViewBag.role == "Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_CustomerService")
+{
+    Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
+}
+@section test{
+
+    <script src="~/Scripts/datepicker.min.js"></script>
+    <script src="~/Scripts/zingchart.min.js"></script>
+
+    <style type="text/css">
+        .zc-ref {
+            display: none;
+        }
+    </style>
+
+    <form id="eventForm">
+        <div class="row">
+          
+                <div class="col-1">
+                    <h6 class="col-xs-1 control-label">Sélectionner Mois</h6>
+                    <div class="col-xs-4 date">
+                        <div class="input-group input-append date">
+                            <input type="text" value="Sélectionner un mois" class="form-control" name="date" id="datePicker" />
+                            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <h6 class="col-xs-2 control-label">Sélectionner Agent</h6>
+                    <div class="col-xs-4">
+                        <select class="form-control" id="agentDropDown" style="height: 35px;">
+                            @foreach (var ag in ViewBag.AgentItems as IEnumerable<SelectListItem>)
+                            {
+                                <option value="@ag.Value">@ag.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+    </form>
+<br /><br />
+
+<div class="row">
+    <div id="myChart1"></div>
+</div>
+<br />
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">Indicateurs des Appels Entrants & Sortants</h5>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-md-6">
+            <table id="Grid" class="table table-bordered">
+                <thead>
+                    <tr style="background-color:#DCDCDC">
+                        <th style="font-weight:bold;">Appels Reçus</th>
+                        <th style="font-weight:bold;">Appels Pris</th>
+                        <th style="font-weight:bold;">Appels Decrochés</th>
+                        <th style="font-weight:bold;">Appels Decrochés< 10sec</th>
+                        <th style="font-weight:bold;">Appels Abandonnés</th>
+                        <th style="font-weight:bold;">Appels Debordés</th>
+                        <th style="font-weight:bold;">Appels NoAgent</th>
+                        <th style="font-weight:bold;">Appels Perdus</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <br />
+            <table id="Grid2" class="table table-bordered">
+                <thead>
+                    <tr style="background-color:#DCDCDC">
+                        <th style="font-weight:bold;">Appels en Attente_Avant_Agent</th>
+                        <th style="font-weight:bold;">Appels en Attente_Avant_Abandon</th>
+                        <th style="font-weight:bold;">Objectif Appels Pris</th>
+                        <th style="font-weight:bold;">Atteinte Objectif</th>
+                        <th style="font-weight:bold;">QS</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <br />
+            <table id="Grid3" class="table table-bordered">
+                <thead>
+                    <tr style="background-color:#DCDCDC">
+                        <th style="font-weight:bold;">Temps de Communication Entrant</th>
+                        <th style="font-weight:bold;">Taux de Communication Entrant</th>
+                        <th style="font-weight:bold;">Temps de Communication Sortant</th>
+                        <th style="font-weight:bold;">Taux de Communication Sortant</th>
+                    </tr>
+                </thead>
+                <tbody> </tbody>
+            </table>
+            <br />
+            <table id="Grid4" class="table table-bordered">
+                <thead>
+                    <tr style="background-color:#DCDCDC">
+                        <th style="font-weight:bold;">DTC Entrant</th>
+                        <th style="font-weight:bold;">DMC Entrant</th>
+                        <th style="font-weight:bold;">DTC Sortant</th>
+                        <th style="font-weight:bold;">DMC Sortant</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <br />
+        </div>
+        <div class="col-md-6">
+            <div id="myChart2"></div>
+            <div class="row">
+                <div class="col-md-6" id="myChart3"> </div>
+                <div class="col-md-6" id="myChart4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">Indicateurs de Téléphonie</h5>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <table id="GridTelephonie2" class="table table-bordered">
+                    <thead>
+                        <tr style="background-color:#FFFACD">
+                            <th style="font-weight:bold;">Temps de Communication (Entrant et Sortant)</th>
+                            <th style="font-weight:bold;">Temps d'Attente</th>
+                            <th style="font-weight:bold;">Temps ACW</th>
+                            <th style="font-weight:bold;">Temps Pause Café</th>
+                            <th style="font-weight:bold;">Temps Pause Brief</th>
+                            <th style="font-weight:bold;">Temps Pause Déj</th>
+                            <th style="font-weight:bold;">Temps MissionOP (Preview)</th>
+                            <th style="font-weight:bold;">Temps de Formation</th>
+                            <th style="font-weight:bold;">Temps de Qualification</th>
+                            <th style="font-weight:bold;">Temps de Phoning</th>
+                            <th style="font-weight:bold;">Temps Admin</th>
+                            <th style="font-weight:bold;">Temps Appel IP</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <br />
+                <table id="GridTelephonie3" class="table table-bordered">
+                    <thead>
+                        <tr style="background-color:#FFFACD">
+                            <th style="font-weight:bold;">Taux de Communication (Entrant et Sortant)</th>
+                            <th style="font-weight:bold;">Taux d'Attente</th>
+                            <th style="font-weight:bold;">Taux ACW</th>
+                            <th style="font-weight:bold;">Taux Pause Café</th>
+                            <th style="font-weight:bold;">Taux Pause Brief</th>
+                            <th style="font-weight:bold;">Taux Pause Déj</th>
+                            <th style="font-weight:bold;">Taux MissionOP (Preview)</th>
+                            <th style="font-weight:bold;">Taux de Formation</th>
+                            <th style="font-weight:bold;">Taux de Qualification</th>
+                            <th style="font-weight:bold;">Taux de Phoning</th>
+                            <th style="font-weight:bold;">Taux Admin</th>
+                            <th style="font-weight:bold;">Taux Appel IP</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <!--fin col-12-->
+            </div>
+            <!--fin row-->
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                <table id="GridTelephonie1" class="table table-bordered">
+                    <thead>
+                        <tr style="background-color:#FFFACD">
+                            <th style="font-weight:bold;">Temps de Log (Par Heure)</th>
+                            <th style="font-weight:bold;">Temps de Production Brut</th>
+                            <th style="font-weight:bold;">Temps de Production Net</th>
+                            <th style="font-weight:bold;">Taux de Production Brut</th>
+                            <th style="font-weight:bold;">Taux de Production Net</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="myChartTelephonie1"></div>
+            </div>
+            <div class="col-md-7">
+                <div id="myChartTelephonie2"></div>
+            </div>
+            <div>
+            </div>
+        </div>
+        <!--fin panelbody-->
+    </div>
+</div>
+
+}
+
+<script>
+    $("#datePicker").datepicker({
+        format: "yyyy-mm",
+        viewMode: "months",
+        minViewMode: "months",
+        autoclose: true
+    });
+    $("#datePicker").datepicker("setDate", new Date());
+</script>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '@Url.Action("GetMensuelValues")',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                moisSel: $("#datePicker").val(),
+                agentSel: $("#agentDropDown").val()
+            },
+
+            success: function (c) {
+                var tblHtml = "";
+                var tblHtml2 = "";
+                var tblHtml3 = "";
+                var tblHtml4 = "";
+                var tblHtmlTelephonie1 = "";
+                var tblHtmlTelephonie2 = "";
+                var tblHtmlTelephonie3 = "";
+                var Recus = "";
+                var Decroches = "";
+                var Perdus = "";
+                var Emis = "";
+                var Objectif = "";
+                var Abandonnes = "";
+                var Debordes = "";
+                var QS = "";
+                var ProdBrut = 0;
+                var ProdNet = 0;
+                $.each(c, function (index, cal) {
+                    Recus += cal.AppelsRecus;
+                    Decroches += cal.AppelsDecroches;
+                    Perdus += cal.AppelsPerdus;
+                    Emis += cal.AppelsEmis;
+                    Objectif += cal.AtteinteObjectif;
+                    Abandonnes += cal.AppelsAbandonnes;
+                    Debordes += cal.AppelsDebordes;
+                    QS += cal.QS;
+                    ProdBrut += cal.TauxProdBrut;
+                    ProdNet += cal.TauxProdNet;
+                    tblHtml += "<tr><td style='width:400px;'>" + cal.AppelsRecus + "</td>";
+                    tblHtml += "<td style='width:400px;'>" + cal.AppelsPris + "</td>";
+                    tblHtml += "<td style='width:400px;'>" + cal.AppelsDecroches + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsDecrochesinfdix + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsAbandonnes + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsDebordes + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsNoAgent + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsPerdus + "</td></tr>";
+
+                    tblHtml2 += "<tr><td style='width:200px;'>" + cal.AppelsAttenteAvantAgent + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.AppelsAttenteAvantAbandon + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.ObjectifAppelsPris + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.AtteinteObjectif + "%" + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.QS + "%" + "</td></tr>";
+
+                    tblHtml3 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommEntrant.TotalHours) + "h:" + cal.TempsCommEntrant.Minutes + "m:" + cal.TempsCommEntrant.Seconds + "s" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + cal.TauxCommEntrant + "%" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + Math.trunc(cal.TempsCommSortant.TotalHours) + "h:" + cal.TempsCommSortant.Minutes + "m:" + cal.TempsCommSortant.Seconds + "s" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + cal.TauxCommSortant + "%" + "</td></tr>";
+
+                    tblHtml4 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommEntrant.TotalHours) + "h:" + cal.TempsCommEntrant.Minutes + "m:" + cal.TempsCommEntrant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.DMCEntrant.TotalHours) + "h:" + cal.DMCEntrant.Minutes + "m:" + cal.DMCEntrant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.TempsCommSortant.TotalHours) + "h:" + cal.TempsCommSortant.Minutes + "m:" + cal.TempsCommSortant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.DMCSortant.TotalHours) + "h:" + cal.DMCSortant.Minutes + "m:" + cal.DMCSortant.Seconds + "s" + "</td></tr>";
+
+                    tblHtmlTelephonie1 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsLog.TotalHours) + "h:" + cal.TempsLog.Minutes + "m:" + cal.TempsLog.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + Math.trunc(cal.TempsProdBrut.TotalHours) + "h:" + cal.TempsProdBrut.Minutes + "m:" + cal.TempsProdBrut.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + Math.trunc(cal.TempsProdNet.TotalHours) + "h:" + cal.TempsProdNet.Minutes + "m:" + cal.TempsProdNet.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + cal.TauxProdBrut + "%" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + cal.TauxProdNet + "%" + "</td></tr>";
+
+                    tblHtmlTelephonie2 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommunication.TotalHours) + "h:" + cal.TempsCommunication.Minutes + "m:" + cal.TempsCommunication.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAttente.TotalHours) + "h:" + cal.TempsAttente.Minutes + "m:" + cal.TempsAttente.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsACW.TotalHours) + "h:" + cal.TempsACW.Minutes + "m:" + cal.TempsACW.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseCafe.TotalHours) + "h:" + cal.TempsPauseCafe.Minutes + "m:" + cal.TempsPauseCafe.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseBrief.TotalHours) + "h:" + cal.TempsPauseBrief.Minutes + "m:" + cal.TempsPauseBrief.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseDej.TotalHours) + "h:" + cal.TempsPauseDej.Minutes + "m:" + cal.TempsPauseDej.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsMissionOp.TotalHours) + "h:" + cal.TempsMissionOp.Minutes + "m:" + cal.TempsMissionOp.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsFormation.TotalHours) + "h:" + cal.TempsFormation.Minutes + "m:" + cal.TempsFormation.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsQualification.TotalHours) + "h:" + cal.TempsQualification.Minutes + "m:" + cal.TempsQualification.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPhoning.TotalHours) + "h:" + cal.TempsPhoning.Minutes + "m:" + cal.TempsPhoning.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAdmin.TotalHours) + "h:" + cal.TempsAdmin.Minutes + "m:" + cal.TempsAdmin.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAppelIP.TotalHours) + "h:" + cal.TempsAppelIP.Minutes + "m:" + cal.TempsAppelIP.Seconds + "s" + "</td></tr>";
+
+                    tblHtmlTelephonie3 += "<tr><td style='width:400px;'>" + cal.TauxComm + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxAttente + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxACW + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseCafe + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseBrief + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseDej + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxMissionOP + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxFormation + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxQualification + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPhoning + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxTempsAdmin + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxAppelIP + "%" + "</td></tr>";
+
+                });
+
+                $("#Grid > tbody").html(tblHtml);
+                $("#Grid2 > tbody").html(tblHtml2);
+                $("#Grid3 > tbody").html(tblHtml3);
+                $("#Grid4 > tbody").html(tblHtml4);
+
+                $("#GridTelephonie1 > tbody").html(tblHtmlTelephonie1);
+                $("#GridTelephonie2 > tbody").html(tblHtmlTelephonie2);
+                $("#GridTelephonie3 > tbody").html(tblHtmlTelephonie3);
+
+                let chartConfig1 = {
+                    graphset: [
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '2%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Reçus',
+                              backgroundColor: 'none',
+                              fontColor: '#384653',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Recus,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      }, {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '17.6%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Décrochés',
+                              backgroundColor: 'none',
+                              fontColor: '#384653',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Decroches,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4cc2bb',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      },
+                       {
+                           type: 'null',
+                           backgroundColor: '#fbfcf7',
+                           borderColor: '#384653',
+                           borderRadius: '4px',
+                           borderWidth: '1px',
+                           width: '15%',
+                           height: '90%',
+                           x: '33.2%',
+                           y: '3%',
+                           title: {
+                               text: 'Appels Perdus',
+                               backgroundColor: 'none',
+                               fontColor: '#384653',
+                               fontSize: '12px',
+                               height: '70px',
+                               textAlign: 'center'
+                           },
+                           subtitle: {
+                               text: Perdus,
+                               paddingTop: '35%',
+                               bold: true,
+                               fontColor: '#dd655f',
+                               fontSize: '24px',
+                               height: '40px',
+                               textAlign: 'center'
+                           }
+                       },
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '48.8%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Emis',
+                              backgroundColor: 'none',
+                              fontColor: '#104053',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Emis,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      },
+                             {
+                                 type: 'null',
+                                 backgroundColor: '#fbfcf7',
+                                 borderColor: '#384653',
+                                 borderRadius: '4px',
+                                 borderWidth: '1px',
+                                 width: '15%',
+                                 height: '90%',
+                                 x: '64.4%',
+                                 y: '3%',
+                                 title: {
+                                     text: 'Pourcentage QS',
+                                     backgroundColor: 'none',
+                                     fontColor: '#384653',
+                                     fontSize: '12px',
+                                     height: '70px',
+                                     textAlign: 'center'
+                                 },
+                                 subtitle: {
+                                     text: QS + " %",
+                                     paddingTop: '35%',
+                                     bold: true,
+                                     fontColor: '#4cc2bb',
+                                     fontSize: '24px',
+                                     height: '40px',
+                                     textAlign: 'center'
+                                 }
+                             },
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '80%',
+                          y: '3%',
+                          title: {
+                              text: 'Atteinte Objectif',
+                              backgroundColor: 'none',
+                              fontColor: '#104053',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Objectif + " %",
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      }
+                    ]
+                };
+                zingchart.render({
+                    id: 'myChart1',
+                    data: chartConfig1,
+                    height: '120',
+                    width: '100%'
+                });
+
+                let chartConfig2 =
+                    {
+                        type: 'hbar',
+                        backgroundColor: '#fff',
+                        borderColor: '#dae5ec',
+                        borderWidth: '1px',
+                        width: '100%',
+                        height: '97%',
+                        x: '0%',
+                        y: '0%',
+                        title: {
+                            text: 'Répartition des Appels',
+                            marginTop: '7px',
+                            marginLeft: '9px',
+                            backgroundColor: 'none',
+                            fontColor: '#707d94',
+                            fontFamily: 'Arial',
+                            fontSize: '14px',
+                            shadow: false,
+                            textAlign: 'left'
+                        },
+                        scaleY: {
+                            guide: {
+                                visible: false
+                            },
+                            item: {
+                                visible: false
+                            },
+                            lineColor: 'none',
+                            tick: {
+                                visible: false
+                            }
+                        },
+                        scaleX: {
+                            values: ['Appels Reçus', 'Appels Décrochés', 'Appels Débordés', 'Appels Abandonnés', 'Appels Perdus'],
+                            guide: {
+                                visible: false
+                            },
+                            item: {
+                                paddingBottom: '8px',
+                                fontColor: '#8391a5',
+                                fontFamily: 'Arial',
+                                fontSize: '11px',
+                                offsetX: '206px',
+                                offsetY: '-12px',
+                                textAlign: 'left',
+                                width: '200px'
+                            },
+                            lineColor: 'none',
+                            tick: {
+                                visible: false
+                            }
+                        },
+                        plot: {
+                            tooltip: {
+                                padding: '5px 10px',
+                                backgroundColor: '#707e94',
+                                borderRadius: '6px',
+                                fontColor: '#ffffff',
+                                fontFamily: 'Arial',
+                                fontSize: '11px',
+                                shadow: false
+                            },
+                            animation: {
+                                delay: 500,
+                                effect: 'ANIMATION_EXPAND_LEFT'
+                            },
+                            barsOverlap: '100%',
+                            barWidth: '12px',
+                            hoverState: {
+                                backgroundColor: '#707e94'
+                            },
+                            // thousandsSeparator: ','
+                        },
+                        plotarea: {
+                            margin: '50px 15px 10px 15px'
+                        },
+                        series: [
+                          {
+                              values: [c[0].AppelsRecus, c[0].AppelsDecroches, c[0].AppelsDebordes, c[0].AppelsAbandonnes, c[0].AppelsPerdus],
+                              styles: [
+                                {
+                                    backgroundColor: '#9dc012'
+
+                                },
+                                {
+                                    backgroundColor: '#25a6f7'
+                                },
+                                {
+                                    backgroundColor: '#ad6bae'
+                                },
+                                {
+                                    backgroundColor: '#707d94'
+                                },
+                                {
+                                    backgroundColor: '#e62163'
+                                }
+                              ],
+                              tooltipText: '%node-value %',
+                              zIndex: 2
+                          },
+                          {
+                              values: [c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus],
+                              valueBox: {
+                                  text: '%data-rvalues',
+                                  paddingBottom: '8px',
+                                  fontColor: '#8391a5',
+                                  fontFamily: 'Arial',
+                                  fontSize: '11px',
+                                  offsetX: '-54px',
+                                  offsetY: '-12px',
+                                  textAlign: 'right',
+                                  visible: true
+                              },
+                              backgroundColor: '#d9e4eb',
+                              dataRvalues: [c[0].AppelsRecus, c[0].AppelsDecroches, c[0].AppelsDebordes, c[0].AppelsAbandonnes, c[0].AppelsPerdus],
+                              maxTrackers: 0,
+                              zIndex: 1
+                          }
+                        ]
+                    }
+                zingchart.render({
+                    id: 'myChart2',
+                    data: chartConfig2,
+                    height: '300',
+                    width: '100%'
+                });
+
+                var myConfig3 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + c[0].TauxCommEntrant + ' %' + '</span><br>Taux Communication <br> Entrant',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [c[0].TauxCommEntrant],
+                          backgroundColor: '#FFA500',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - c[0].TauxCommEntrant],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+
+                zingchart.render({
+                    id: 'myChart3',
+                    data: myConfig3,
+                    hideprogresslogo: true,
+                    height: 200,
+                    width: 300
+
+                });
+
+                var myConfig4 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + c[0].TauxCommSortant + ' %' + '</span><br>Taux Communication <br> Sortant',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [c[0].TauxCommSortant],
+                          backgroundColor: '#CD5C5C',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - c[0].TauxCommSortant],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+
+                zingchart.render({
+                    id: 'myChart4',
+                    data: myConfig4,
+                    hideprogresslogo: true,
+                    height: 200,
+                    width: 300
+
+                });
+
+                var myConfigTelephonie1 = {
+                    "graphset": [
+                                                        {
+                                                            "type": "bar",
+                                                            "background-color": "white",
+                                                            "height": "100%",
+                                                            "width": "96%",
+                                                            "x": "2%",
+                                                            "y": "4%",
+                                                            "plotarea": {
+                                                                "margin": "50 60 70 60"
+                                                            },
+                                                            "title": {
+                                                                "margin-top": "7px",
+                                                                "margin-left": "12px",
+                                                                "text": "Taux de Production Brut VS Net (%)",
+                                                                "background-color": "none",
+                                                                "shadow": 0,
+                                                                "text-align": "left",
+                                                                "font-family": "Arial",
+                                                                "font-size": "14px",
+                                                                "font-color": "#707d94"
+                                                            },
+                                                            "plot": {
+                                                                "animation": {
+                                                                    "effect": "ANIMATION_SLIDE_BOTTOM"
+                                                                }
+                                                            },
+                                                            "scale-x": {
+                                                                "line-color": "#d2dae2",
+                                                                "line-width": "2px",
+                                                                "values": ["Taux Prod Brut", "Taux Prod Net"],
+                                                                "tick": {
+                                                                    "line-color": "#d2dae2",
+                                                                    "line-width": "1px"
+                                                                },
+                                                                "guide": {
+                                                                    "visible": false
+                                                                },
+                                                                "item": {
+                                                                    "font-color": "#8391a5",
+                                                                    "font-family": "Arial",
+                                                                    "font-size": "12px",
+                                                                    "padding-top": "5px"
+                                                                }
+                                                            },
+                                                            "scale-y": {
+                                                                "line-color": "#7E7E7E",
+                                                                "item": {
+                                                                    "font-color": "#7e7e7e"
+                                                                },
+                                                                "values": "0:100:20",
+                                                                "guide": {
+                                                                    "rules": [
+                                                                        {
+                                                                            "rule": "%i == 0",
+                                                                            "line-width": 0
+                                                                        },
+                                                                        {
+                                                                            "rule": "%i > 0",
+                                                                            "line-style": "solid",
+                                                                            "line-width": "1px",
+                                                                            "line-color": "#d2dae2",
+                                                                            "alpha": 0.4
+                                                                        }
+
+                                                                    ]
+                                                                },
+
+                                                            },
+                                                            "series": [
+                                                                {
+                                                                    "values": [ProdBrut, ProdNet],
+                                                                    valueBox: [{
+                                                                        placement: "top-out",
+                                                                        color: "#8391a5",
+                                                                        text: "%v %",
+                                                                        fontSize: 12
+                                                                    }],
+                                                                    "styles": [
+                                                                       {
+                                                                           "backgroundColor": '#e62163'
+                                                                       },
+                                                                        {
+                                                                            "backgroundColor": '#9dc012'
+                                                                        },
+                                                                    ],
+
+                                                                    "bar-width": "100px",
+                                                                    "borderRadiusTopLeft": 7,
+                                                                    "text": "Taux de Concrétisation"
+                                                                }
+                                                            ]
+                                                        }
+                    ]
+                };
+                zingchart.render({
+                    id: 'myChartTelephonie1',
+                    data: myConfigTelephonie1,
+                    height: '300',
+                    width: '100%'
+                });
+
+                var myConfigTelephonie2 = {
+                    "background-color": "#FFF",
+                    "graphset": [
+
+                        {
+                            "type": "pie",
+                            "width": "105%",
+                            "x": "1%",
+                            "background-color": "#FFF",
+                            title: {
+                                text: 'Répartition des Taux des Indicateurs de Téléphonie',
+                                backgroundColor: 'none',
+                                fontColor: '#707d94',
+                                fontFamily: 'Arial',
+                                fontSize: '14px',
+                                shadow: false,
+                                textAlign: 'left'
+                            },
+                            legend: {
+                                layout: "v",
+                                backgroundColor: "none",
+                                shadow: 0,
+                                borderWidth: 0,
+                                y: "16%",
+                                x: "0%",
+                                toggleAction: "remove",
+                                item: {
+                                    fontColor: "454754"
+                                },
+                                marker: {
+                                    borderColor: "white",
+                                    type: "circle",
+                                    size: "10px"
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "90 280 25 30"
+                            },
+
+                            "plot": {
+                                "animation": {
+                                    "delay": 0,
+                                    "effect": 2,
+                                    "speed": 300,
+                                    "method": 6,
+                                    "sequence": 1
+                                },
+                                refAngle: 270,
+                                valueBox: [{
+                                    placement: "out",
+                                    text: "%t: %v %",
+                                    fontSize: 14
+                                }]
+                            },
+                            "series": [
+                                {
+                                    "text": "TauxComm",
+                                    "values": [
+                                       c[0].TauxComm
+                                    ],
+                                    "background-color": "#9ACD32",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#9ACD32",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+
+                                {
+                                    "text": "Taux Attente",
+                                    "values": [
+                                      c[0].TauxAttente
+                                    ],
+                                    "background-color": "#EF5350",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#EF5350",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                {
+                                    "text": "Taux ACW",
+                                    "values": [
+                                              c[0].TauxACW
+                                    ],
+                                    "background-color": "#29B6F6",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#29B6F6",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                {
+                                    "text": "Pause Café",
+                                    "values": [
+                                   c[0].TauxPauseCafe
+                                    ],
+                                    "background-color": "#9575CD",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#9575CD",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                 {
+                                     "text": "Pause Brief",
+                                     "values": [
+                                      c[0].TauxPauseBrief
+                                     ],
+                                     "background-color": "#ADD8E6",
+                                     "border-color": "#454754",
+                                     "border-width": "1px",
+                                     "shadow": 0,
+                                     "tooltip": {
+                                         "background-color": "#FF8800",
+                                         "font-color": "#000",
+                                         "border-radius": "6px",
+                                         "shadow": false,
+                                         "padding": "5px 10px"
+                                     }
+                                 },
+                                      {
+                                          "text": "Pause Déj",
+                                          "values": [
+                                          c[0].TauxPauseDej
+                                          ],
+                                          "background-color": "#999999",
+                                          "border-color": "#454754",
+                                          "border-width": "1px",
+                                          "shadow": 0,
+                                          "tooltip": {
+                                              "background-color": "#999999",
+                                              "font-color": "#000",
+                                              "border-radius": "6px",
+                                              "shadow": false,
+                                              "padding": "5px 10px"
+                                          }
+                                      },
+                                       {
+                                           "text": "Preview",
+                                           "values": [
+                                                  c[0].TauxMissionOP
+                                           ],
+                                           "background-color": "#FF8800",
+                                           "border-color": "#454754",
+                                           "border-width": "1px",
+                                           "shadow": 0,
+                                           "tooltip": {
+                                               "background-color": "#FF8800",
+                                               "font-color": "#000",
+                                               "border-radius": "6px",
+                                               "shadow": false,
+                                               "padding": "5px 10px"
+                                           }
+                                       },
+                                        {
+                                            "text": "Formation",
+                                            "values": [
+                                              c[0].TauxFormation
+                                            ],
+                                            "background-color": "#D8BFD8",
+                                            "border-color": "#454754",
+                                            "border-width": "1px",
+                                            "shadow": 0,
+                                            "tooltip": {
+                                                "background-color": "#D8BFD8",
+                                                "font-color": "#000",
+                                                "border-radius": "6px",
+                                                "shadow": false,
+                                                "padding": "5px 10px"
+                                            }
+                                        },
+                                         {
+                                             "text": "Qualification",
+                                             "values": [
+                                               c[0].TauxQualification
+                                             ],
+                                             "background-color": "#FFE4B5",
+                                             "border-color": "#454754",
+                                             "border-width": "1px",
+                                             "shadow": 0,
+                                             "tooltip": {
+                                                 "background-color": "#FF8800",
+                                                 "font-color": "#000",
+                                                 "border-radius": "6px",
+                                                 "shadow": false,
+                                                 "padding": "5px 10px"
+                                             }
+                                         },
+                                          {
+                                              "text": "Phoning",
+                                              "values": [
+                                                 c[0].TauxPhoning
+                                              ],
+                                              "background-color": "#191970",
+                                              "border-color": "#454754",
+                                              "border-width": "1px",
+                                              "shadow": 0,
+                                              "tooltip": {
+                                                  "background-color": "#FF8800",
+                                                  "font-color": "#000",
+                                                  "border-radius": "6px",
+                                                  "shadow": false,
+                                                  "padding": "5px 10px"
+                                              }
+                                          },
+                                           {
+                                               "text": "Taux Admin",
+                                               "values": [
+                                                  c[0].TauxTempsAdmin
+                                               ],
+                                               "background-color": "#B8860B",
+                                               "border-color": "#454754",
+                                               "border-width": "1px",
+                                               "shadow": 0,
+                                               "tooltip": {
+                                                   "background-color": "#FF8800",
+                                                   "font-color": "#000",
+                                                   "border-radius": "6px",
+                                                   "shadow": false,
+                                                   "padding": "5px 10px"
+                                               }
+                                           },
+                                           {
+                                               "text": "Appel IP",
+                                               "values": [
+                                              c[0].TauxAppelIP
+                                               ],
+                                               "background-color": "#B22222",
+                                               "border-color": "#454754",
+                                               "border-width": "1px",
+                                               "shadow": 0,
+                                               "tooltip": {
+                                                   "background-color": "#FF8800",
+                                                   "font-color": "#000",
+                                                   "border-radius": "6px",
+                                                   "shadow": false,
+                                                   "padding": "5px 10px"
+                                               }
+                                           }
+                            ]
+                        },
+
+
+                    ]
+                }
+                zingchart.render({
+                    id: 'myChartTelephonie2',
+                    data: myConfigTelephonie2,
+                    height: 500,
+                    width: 1150
+                });
+            },
+            error: function () { },
+        });
+    })
+
+    $(document).on('changeDate', function () {
+
+        $.ajax({
+            url: '@Url.Action("GetMensuelValues")',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                moisSel: $("#datePicker").val(),
+                agentSel: $("#agentDropDown").val()
+            },
+
+            success: function (c) {
+                var tblHtml = "";
+                var tblHtml2 = "";
+                var tblHtml3 = "";
+                var tblHtml4 = "";
+                var tblHtmlTelephonie1 = "";
+                var tblHtmlTelephonie2 = "";
+                var tblHtmlTelephonie3 = "";
+                var Recus = "";
+                var Decroches = "";
+                var Perdus = "";
+                var Emis = "";
+                var Objectif = "";
+                var Abandonnes = "";
+                var Debordes = "";
+                var QS = "";
+                var ProdBrut = 0;
+                var ProdNet = 0;
+                $.each(c, function (index, cal) {
+                    Recus += cal.AppelsRecus;
+                    Decroches += cal.AppelsDecroches;
+                    Perdus += cal.AppelsPerdus;
+                    Emis += cal.AppelsEmis;
+                    Objectif += cal.AtteinteObjectif;
+                    Abandonnes += cal.AppelsAbandonnes;
+                    Debordes += cal.AppelsDebordes;
+                    QS += cal.QS;
+                    ProdBrut += cal.TauxProdBrut;
+                    ProdNet += cal.TauxProdNet;
+                    tblHtml += "<tr><td style='width:400px;'>" + cal.AppelsRecus + "</td>";
+                    tblHtml += "<td style='width:400px;'>" + cal.AppelsPris + "</td>";
+                    tblHtml += "<td style='width:400px;'>" + cal.AppelsDecroches + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsDecrochesinfdix + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsAbandonnes + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsDebordes + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsNoAgent + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsPerdus + "</td></tr>";
+
+                    tblHtml2 += "<tr><td style='width:200px;'>" + cal.AppelsAttenteAvantAgent + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.AppelsAttenteAvantAbandon + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.ObjectifAppelsPris + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.AtteinteObjectif + "%" + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.QS + "%" + "</td></tr>";
+
+                    tblHtml3 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommEntrant.TotalHours) + "h:" + cal.TempsCommEntrant.Minutes + "m:" + cal.TempsCommEntrant.Seconds + "s" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + cal.TauxCommEntrant + "%" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + Math.trunc(cal.TempsCommSortant.TotalHours) + "h:" + cal.TempsCommSortant.Minutes + "m:" + cal.TempsCommSortant.Seconds + "s" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + cal.TauxCommSortant + "%" + "</td></tr>";
+
+                    tblHtml4 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommEntrant.TotalHours) + "h:" + cal.TempsCommEntrant.Minutes + "m:" + cal.TempsCommEntrant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.DMCEntrant.TotalHours) + "h:" + cal.DMCEntrant.Minutes + "m:" + cal.DMCEntrant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.TempsCommSortant.TotalHours) + "h:" + cal.TempsCommSortant.Minutes + "m:" + cal.TempsCommSortant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.DMCSortant.TotalHours) + "h:" + cal.DMCSortant.Minutes + "m:" + cal.DMCSortant.Seconds + "s" + "</td></tr>";
+
+                    tblHtmlTelephonie1 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsLog.TotalHours) + "h:" + cal.TempsLog.Minutes + "m:" + cal.TempsLog.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + Math.trunc(cal.TempsProdBrut.TotalHours) + "h:" + cal.TempsProdBrut.Minutes + "m:" + cal.TempsProdBrut.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + Math.trunc(cal.TempsProdNet.TotalHours) + "h:" + cal.TempsProdNet.Minutes + "m:" + cal.TempsProdNet.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + cal.TauxProdBrut + "%" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + cal.TauxProdNet + "%" + "</td></tr>";
+
+                    tblHtmlTelephonie2 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommunication.TotalHours) + "h:" + cal.TempsCommunication.Minutes + "m:" + cal.TempsCommunication.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAttente.TotalHours) + "h:" + cal.TempsAttente.Minutes + "m:" + cal.TempsAttente.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsACW.TotalHours) + "h:" + cal.TempsACW.Minutes + "m:" + cal.TempsACW.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseCafe.TotalHours) + "h:" + cal.TempsPauseCafe.Minutes + "m:" + cal.TempsPauseCafe.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseBrief.TotalHours) + "h:" + cal.TempsPauseBrief.Minutes + "m:" + cal.TempsPauseBrief.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseDej.TotalHours) + "h:" + cal.TempsPauseDej.Minutes + "m:" + cal.TempsPauseDej.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsMissionOp.TotalHours) + "h:" + cal.TempsMissionOp.Minutes + "m:" + cal.TempsMissionOp.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsFormation.TotalHours) + "h:" + cal.TempsFormation.Minutes + "m:" + cal.TempsFormation.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsQualification.TotalHours) + "h:" + cal.TempsQualification.Minutes + "m:" + cal.TempsQualification.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPhoning.TotalHours) + "h:" + cal.TempsPhoning.Minutes + "m:" + cal.TempsPhoning.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAdmin.TotalHours) + "h:" + cal.TempsAdmin.Minutes + "m:" + cal.TempsAdmin.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAppelIP.TotalHours) + "h:" + cal.TempsAppelIP.Minutes + "m:" + cal.TempsAppelIP.Seconds + "s" + "</td></tr>";
+
+                    tblHtmlTelephonie3 += "<tr><td style='width:400px;'>" + cal.TauxComm + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxAttente + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxACW + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseCafe + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseBrief + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseDej + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxMissionOP + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxFormation + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxQualification + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPhoning + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxTempsAdmin + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxAppelIP + "%" + "</td></tr>";
+
+                });
+
+                $("#Grid > tbody").html(tblHtml);
+                $("#Grid2 > tbody").html(tblHtml2);
+                $("#Grid3 > tbody").html(tblHtml3);
+                $("#Grid4 > tbody").html(tblHtml4);
+
+                $("#GridTelephonie1 > tbody").html(tblHtmlTelephonie1);
+                $("#GridTelephonie2 > tbody").html(tblHtmlTelephonie2);
+                $("#GridTelephonie3 > tbody").html(tblHtmlTelephonie3);
+
+                let chartConfig1 = {
+                    graphset: [
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '2%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Reçus',
+                              backgroundColor: 'none',
+                              fontColor: '#384653',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Recus,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      }, {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '17.6%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Décrochés',
+                              backgroundColor: 'none',
+                              fontColor: '#384653',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Decroches,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4cc2bb',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      },
+                       {
+                           type: 'null',
+                           backgroundColor: '#fbfcf7',
+                           borderColor: '#384653',
+                           borderRadius: '4px',
+                           borderWidth: '1px',
+                           width: '15%',
+                           height: '90%',
+                           x: '33.2%',
+                           y: '3%',
+                           title: {
+                               text: 'Appels Perdus',
+                               backgroundColor: 'none',
+                               fontColor: '#384653',
+                               fontSize: '12px',
+                               height: '70px',
+                               textAlign: 'center'
+                           },
+                           subtitle: {
+                               text: Perdus,
+                               paddingTop: '35%',
+                               bold: true,
+                               fontColor: '#dd655f',
+                               fontSize: '24px',
+                               height: '40px',
+                               textAlign: 'center'
+                           }
+                       },
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '48.8%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Emis',
+                              backgroundColor: 'none',
+                              fontColor: '#104053',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Emis,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      },
+                             {
+                                 type: 'null',
+                                 backgroundColor: '#fbfcf7',
+                                 borderColor: '#384653',
+                                 borderRadius: '4px',
+                                 borderWidth: '1px',
+                                 width: '15%',
+                                 height: '90%',
+                                 x: '64.4%',
+                                 y: '3%',
+                                 title: {
+                                     text: 'Pourcentage QS',
+                                     backgroundColor: 'none',
+                                     fontColor: '#384653',
+                                     fontSize: '12px',
+                                     height: '70px',
+                                     textAlign: 'center'
+                                 },
+                                 subtitle: {
+                                     text: QS + " %",
+                                     paddingTop: '35%',
+                                     bold: true,
+                                     fontColor: '#4cc2bb',
+                                     fontSize: '24px',
+                                     height: '40px',
+                                     textAlign: 'center'
+                                 }
+                             },
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '80%',
+                          y: '3%',
+                          title: {
+                              text: 'Atteinte Objectif',
+                              backgroundColor: 'none',
+                              fontColor: '#104053',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Objectif + " %",
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      }
+                    ]
+                };
+                zingchart.render({
+                    id: 'myChart1',
+                    data: chartConfig1,
+                    height: '120',
+                    width: '100%'
+                });
+
+                let chartConfig2 =
+                    {
+                        type: 'hbar',
+                        backgroundColor: '#fff',
+                        borderColor: '#dae5ec',
+                        borderWidth: '1px',
+                        width: '100%',
+                        height: '97%',
+                        x: '0%',
+                        y: '0%',
+                        title: {
+                            text: 'Répartition des Appels',
+                            marginTop: '7px',
+                            marginLeft: '9px',
+                            backgroundColor: 'none',
+                            fontColor: '#707d94',
+                            fontFamily: 'Arial',
+                            fontSize: '14px',
+                            shadow: false,
+                            textAlign: 'left'
+                        },
+                        scaleY: {
+                            guide: {
+                                visible: false
+                            },
+                            item: {
+                                visible: false
+                            },
+                            lineColor: 'none',
+                            tick: {
+                                visible: false
+                            }
+                        },
+                        scaleX: {
+                            values: ['Appels Reçus', 'Appels Décrochés', 'Appels Débordés', 'Appels Abandonnés', 'Appels Perdus'],
+                            guide: {
+                                visible: false
+                            },
+                            item: {
+                                paddingBottom: '8px',
+                                fontColor: '#8391a5',
+                                fontFamily: 'Arial',
+                                fontSize: '11px',
+                                offsetX: '206px',
+                                offsetY: '-12px',
+                                textAlign: 'left',
+                                width: '200px'
+                            },
+                            lineColor: 'none',
+                            tick: {
+                                visible: false
+                            }
+                        },
+                        plot: {
+                            tooltip: {
+                                padding: '5px 10px',
+                                backgroundColor: '#707e94',
+                                borderRadius: '6px',
+                                fontColor: '#ffffff',
+                                fontFamily: 'Arial',
+                                fontSize: '11px',
+                                shadow: false
+                            },
+                            animation: {
+                                delay: 500,
+                                effect: 'ANIMATION_EXPAND_LEFT'
+                            },
+                            barsOverlap: '100%',
+                            barWidth: '12px',
+                            hoverState: {
+                                backgroundColor: '#707e94'
+                            },
+                            // thousandsSeparator: ','
+                        },
+                        plotarea: {
+                            margin: '50px 15px 10px 15px'
+                        },
+                        series: [
+                          {
+                              values: [c[0].AppelsRecus, c[0].AppelsDecroches, c[0].AppelsDebordes, c[0].AppelsAbandonnes, c[0].AppelsPerdus],
+                              styles: [
+                                {
+                                    backgroundColor: '#9dc012'
+
+                                },
+                                {
+                                    backgroundColor: '#25a6f7'
+                                },
+                                {
+                                    backgroundColor: '#ad6bae'
+                                },
+                                {
+                                    backgroundColor: '#707d94'
+                                },
+                                {
+                                    backgroundColor: '#e62163'
+                                }
+                              ],
+                              tooltipText: '%node-value %',
+                              zIndex: 2
+                          },
+                          {
+                              values: [c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus],
+                              valueBox: {
+                                  text: '%data-rvalues',
+                                  paddingBottom: '8px',
+                                  fontColor: '#8391a5',
+                                  fontFamily: 'Arial',
+                                  fontSize: '11px',
+                                  offsetX: '-54px',
+                                  offsetY: '-12px',
+                                  textAlign: 'right',
+                                  visible: true
+                              },
+                              backgroundColor: '#d9e4eb',
+                              dataRvalues: [c[0].AppelsRecus, c[0].AppelsDecroches, c[0].AppelsDebordes, c[0].AppelsAbandonnes, c[0].AppelsPerdus],
+                              maxTrackers: 0,
+                              zIndex: 1
+                          }
+                        ]
+                    }
+                zingchart.render({
+                    id: 'myChart2',
+                    data: chartConfig2,
+                    height: '300',
+                    width: '100%'
+                });
+
+                var myConfig3 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + c[0].TauxCommEntrant + ' %' + '</span><br>Taux Communication <br> Entrant',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [c[0].TauxCommEntrant],
+                          backgroundColor: '#FFA500',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - c[0].TauxCommEntrant],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+
+                zingchart.render({
+                    id: 'myChart3',
+                    data: myConfig3,
+                    hideprogresslogo: true,
+                    height: 200,
+                    width: 300
+
+                });
+
+                var myConfig4 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + c[0].TauxCommSortant + ' %' + '</span><br>Taux Communication <br> Sortant',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [c[0].TauxCommSortant],
+                          backgroundColor: '#CD5C5C',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - c[0].TauxCommSortant],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+
+                zingchart.render({
+                    id: 'myChart4',
+                    data: myConfig4,
+                    hideprogresslogo: true,
+                    height: 200,
+                    width: 300
+
+                });
+
+                var myConfigTelephonie1 = {
+                    "graphset": [
+                                                        {
+                                                            "type": "bar",
+                                                            "background-color": "white",
+                                                            "height": "100%",
+                                                            "width": "96%",
+                                                            "x": "2%",
+                                                            "y": "4%",
+                                                            "plotarea": {
+                                                                "margin": "50 60 70 60"
+                                                            },
+                                                            "title": {
+                                                                "margin-top": "7px",
+                                                                "margin-left": "12px",
+                                                                "text": "Taux de Production Brut VS Net (%)",
+                                                                "background-color": "none",
+                                                                "shadow": 0,
+                                                                "text-align": "left",
+                                                                "font-family": "Arial",
+                                                                "font-size": "14px",
+                                                                "font-color": "#707d94"
+                                                            },
+                                                            "plot": {
+                                                                "animation": {
+                                                                    "effect": "ANIMATION_SLIDE_BOTTOM"
+                                                                }
+                                                            },
+                                                            "scale-x": {
+                                                                "line-color": "#d2dae2",
+                                                                "line-width": "2px",
+                                                                "values": ["Taux Prod Brut", "Taux Prod Net"],
+                                                                "tick": {
+                                                                    "line-color": "#d2dae2",
+                                                                    "line-width": "1px"
+                                                                },
+                                                                "guide": {
+                                                                    "visible": false
+                                                                },
+                                                                "item": {
+                                                                    "font-color": "#8391a5",
+                                                                    "font-family": "Arial",
+                                                                    "font-size": "12px",
+                                                                    "padding-top": "5px"
+                                                                }
+                                                            },
+                                                            "scale-y": {
+                                                                "line-color": "#7E7E7E",
+                                                                "item": {
+                                                                    "font-color": "#7e7e7e"
+                                                                },
+                                                                "values": "0:100:20",
+                                                                "guide": {
+                                                                    "rules": [
+                                                                        {
+                                                                            "rule": "%i == 0",
+                                                                            "line-width": 0
+                                                                        },
+                                                                        {
+                                                                            "rule": "%i > 0",
+                                                                            "line-style": "solid",
+                                                                            "line-width": "1px",
+                                                                            "line-color": "#d2dae2",
+                                                                            "alpha": 0.4
+                                                                        }
+
+                                                                    ]
+                                                                },
+
+                                                            },
+                                                            "series": [
+                                                                {
+                                                                    "values": [ProdBrut, ProdNet],
+                                                                    valueBox: [{
+                                                                        placement: "top-out",
+                                                                        color: "#8391a5",
+                                                                        text: "%v %",
+                                                                        fontSize: 12
+                                                                    }],
+                                                                    "styles": [
+                                                                       {
+                                                                           "backgroundColor": '#e62163'
+                                                                       },
+                                                                        {
+                                                                            "backgroundColor": '#9dc012'
+                                                                        },
+                                                                    ],
+
+                                                                    "bar-width": "100px",
+                                                                    "borderRadiusTopLeft": 7,
+                                                                    "text": "Taux de Concrétisation"
+                                                                }
+                                                            ]
+                                                        }
+                    ]
+                };
+                zingchart.render({
+                    id: 'myChartTelephonie1',
+                    data: myConfigTelephonie1,
+                    height: '300',
+                    width: '100%'
+                });
+
+                var myConfigTelephonie2 = {
+                    "background-color": "#FFF",
+                    "graphset": [
+
+                        {
+                            "type": "pie",
+                            "width": "105%",
+                            "x": "1%",
+                            "background-color": "#FFF",
+                            title: {
+                                text: 'Répartition des Taux des Indicateurs de Téléphonie',
+                                backgroundColor: 'none',
+                                fontColor: '#707d94',
+                                fontFamily: 'Arial',
+                                fontSize: '14px',
+                                shadow: false,
+                                textAlign: 'left'
+                            },
+                            legend: {
+                                layout: "v",
+                                backgroundColor: "none",
+                                shadow: 0,
+                                borderWidth: 0,
+                                y: "16%",
+                                x: "0%",
+                                toggleAction: "remove",
+                                item: {
+                                    fontColor: "454754"
+                                },
+                                marker: {
+                                    borderColor: "white",
+                                    type: "circle",
+                                    size: "10px"
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "90 280 25 30"
+                            },
+
+                            "plot": {
+                                "animation": {
+                                    "delay": 0,
+                                    "effect": 2,
+                                    "speed": 300,
+                                    "method": 6,
+                                    "sequence": 1
+                                },
+                                refAngle: 270,
+                                valueBox: [{
+                                    placement: "out",
+                                    text: "%t: %v %",
+                                    fontSize: 14
+                                }]
+                            },
+                            "series": [
+                                {
+                                    "text": "TauxComm",
+                                    "values": [
+                                       c[0].TauxComm
+                                    ],
+                                    "background-color": "#9ACD32",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#9ACD32",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+
+                                {
+                                    "text": "Taux Attente",
+                                    "values": [
+                                      c[0].TauxAttente
+                                    ],
+                                    "background-color": "#EF5350",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#EF5350",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                {
+                                    "text": "Taux ACW",
+                                    "values": [
+                                              c[0].TauxACW
+                                    ],
+                                    "background-color": "#29B6F6",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#29B6F6",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                {
+                                    "text": "Pause Café",
+                                    "values": [
+                                   c[0].TauxPauseCafe
+                                    ],
+                                    "background-color": "#9575CD",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#9575CD",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                 {
+                                     "text": "Pause Brief",
+                                     "values": [
+                                      c[0].TauxPauseBrief
+                                     ],
+                                     "background-color": "#ADD8E6",
+                                     "border-color": "#454754",
+                                     "border-width": "1px",
+                                     "shadow": 0,
+                                     "tooltip": {
+                                         "background-color": "#FF8800",
+                                         "font-color": "#000",
+                                         "border-radius": "6px",
+                                         "shadow": false,
+                                         "padding": "5px 10px"
+                                     }
+                                 },
+                                      {
+                                          "text": "Pause Déj",
+                                          "values": [
+                                          c[0].TauxPauseDej
+                                          ],
+                                          "background-color": "#999999",
+                                          "border-color": "#454754",
+                                          "border-width": "1px",
+                                          "shadow": 0,
+                                          "tooltip": {
+                                              "background-color": "#999999",
+                                              "font-color": "#000",
+                                              "border-radius": "6px",
+                                              "shadow": false,
+                                              "padding": "5px 10px"
+                                          }
+                                      },
+                                       {
+                                           "text": "Preview",
+                                           "values": [
+                                                  c[0].TauxMissionOP
+                                           ],
+                                           "background-color": "#FF8800",
+                                           "border-color": "#454754",
+                                           "border-width": "1px",
+                                           "shadow": 0,
+                                           "tooltip": {
+                                               "background-color": "#FF8800",
+                                               "font-color": "#000",
+                                               "border-radius": "6px",
+                                               "shadow": false,
+                                               "padding": "5px 10px"
+                                           }
+                                       },
+                                        {
+                                            "text": "Formation",
+                                            "values": [
+                                              c[0].TauxFormation
+                                            ],
+                                            "background-color": "#D8BFD8",
+                                            "border-color": "#454754",
+                                            "border-width": "1px",
+                                            "shadow": 0,
+                                            "tooltip": {
+                                                "background-color": "#D8BFD8",
+                                                "font-color": "#000",
+                                                "border-radius": "6px",
+                                                "shadow": false,
+                                                "padding": "5px 10px"
+                                            }
+                                        },
+                                         {
+                                             "text": "Qualification",
+                                             "values": [
+                                               c[0].TauxQualification
+                                             ],
+                                             "background-color": "#FFE4B5",
+                                             "border-color": "#454754",
+                                             "border-width": "1px",
+                                             "shadow": 0,
+                                             "tooltip": {
+                                                 "background-color": "#FF8800",
+                                                 "font-color": "#000",
+                                                 "border-radius": "6px",
+                                                 "shadow": false,
+                                                 "padding": "5px 10px"
+                                             }
+                                         },
+                                          {
+                                              "text": "Phoning",
+                                              "values": [
+                                                 c[0].TauxPhoning
+                                              ],
+                                              "background-color": "#191970",
+                                              "border-color": "#454754",
+                                              "border-width": "1px",
+                                              "shadow": 0,
+                                              "tooltip": {
+                                                  "background-color": "#FF8800",
+                                                  "font-color": "#000",
+                                                  "border-radius": "6px",
+                                                  "shadow": false,
+                                                  "padding": "5px 10px"
+                                              }
+                                          },
+                                           {
+                                               "text": "Taux Admin",
+                                               "values": [
+                                                  c[0].TauxTempsAdmin
+                                               ],
+                                               "background-color": "#B8860B",
+                                               "border-color": "#454754",
+                                               "border-width": "1px",
+                                               "shadow": 0,
+                                               "tooltip": {
+                                                   "background-color": "#FF8800",
+                                                   "font-color": "#000",
+                                                   "border-radius": "6px",
+                                                   "shadow": false,
+                                                   "padding": "5px 10px"
+                                               }
+                                           },
+                                           {
+                                               "text": "Appel IP",
+                                               "values": [
+                                              c[0].TauxAppelIP
+                                               ],
+                                               "background-color": "#B22222",
+                                               "border-color": "#454754",
+                                               "border-width": "1px",
+                                               "shadow": 0,
+                                               "tooltip": {
+                                                   "background-color": "#FF8800",
+                                                   "font-color": "#000",
+                                                   "border-radius": "6px",
+                                                   "shadow": false,
+                                                   "padding": "5px 10px"
+                                               }
+                                           }
+                            ]
+                        },
+
+
+                    ]
+                }
+                zingchart.render({
+                    id: 'myChartTelephonie2',
+                    data: myConfigTelephonie2,
+                    height: 500,
+                    width: 1150
+                });
+            },
+            error: function () { },
+        });
+    })
+
+    $('#agentDropDown').on('change', function () {
+
+        $.ajax({
+            url: '@Url.Action("GetMensuelValues")',
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                moisSel: $("#datePicker").val(),
+                agentSel: $("#agentDropDown").val()
+            },
+
+            success: function (c) {
+                var tblHtml = "";
+                var tblHtml2 = "";
+                var tblHtml3 = "";
+                var tblHtml4 = "";
+                var tblHtmlTelephonie1 = "";
+                var tblHtmlTelephonie2 = "";
+                var tblHtmlTelephonie3 = "";
+                var Recus = "";
+                var Decroches = "";
+                var Perdus = "";
+                var Emis = "";
+                var Objectif = "";
+                var Abandonnes = "";
+                var Debordes = "";
+                var QS = "";
+                var ProdBrut = 0;
+                var ProdNet = 0;
+                $.each(c, function (index, cal) {
+                    Recus += cal.AppelsRecus;
+                    Decroches += cal.AppelsDecroches;
+                    Perdus += cal.AppelsPerdus;
+                    Emis += cal.AppelsEmis;
+                    Objectif += cal.AtteinteObjectif;
+                    Abandonnes += cal.AppelsAbandonnes;
+                    Debordes += cal.AppelsDebordes;
+                    QS += cal.QS;
+                    ProdBrut += cal.TauxProdBrut;
+                    ProdNet += cal.TauxProdNet;
+                    tblHtml += "<tr><td style='width:400px;'>" + cal.AppelsRecus + "</td>";
+                    tblHtml += "<td style='width:400px;'>" + cal.AppelsPris + "</td>";
+                    tblHtml += "<td style='width:400px;'>" + cal.AppelsDecroches + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsDecrochesinfdix + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsAbandonnes + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsDebordes + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsNoAgent + "</td>";
+                    tblHtml += "<td style='width:200px;'>" + cal.AppelsPerdus + "</td></tr>";
+
+                    tblHtml2 += "<tr><td style='width:200px;'>" + cal.AppelsAttenteAvantAgent + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.AppelsAttenteAvantAbandon + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.ObjectifAppelsPris + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.AtteinteObjectif + "%" + "</td>";
+                    tblHtml2 += "<td style='width:200px;'>" + cal.QS + "%" + "</td></tr>";
+
+                    tblHtml3 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommEntrant.TotalHours) + "h:" + cal.TempsCommEntrant.Minutes + "m:" + cal.TempsCommEntrant.Seconds + "s" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + cal.TauxCommEntrant + "%" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + Math.trunc(cal.TempsCommSortant.TotalHours) + "h:" + cal.TempsCommSortant.Minutes + "m:" + cal.TempsCommSortant.Seconds + "s" + "</td>";
+                    tblHtml3 += "<td style='width:400px;'>" + cal.TauxCommSortant + "%" + "</td></tr>";
+
+                    tblHtml4 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommEntrant.TotalHours) + "h:" + cal.TempsCommEntrant.Minutes + "m:" + cal.TempsCommEntrant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.DMCEntrant.TotalHours) + "h:" + cal.DMCEntrant.Minutes + "m:" + cal.DMCEntrant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.TempsCommSortant.TotalHours) + "h:" + cal.TempsCommSortant.Minutes + "m:" + cal.TempsCommSortant.Seconds + "s" + "</td>";
+                    tblHtml4 += "<td style='width:400px;'>" + Math.trunc(cal.DMCSortant.TotalHours) + "h:" + cal.DMCSortant.Minutes + "m:" + cal.DMCSortant.Seconds + "s" + "</td></tr>";
+
+                    tblHtmlTelephonie1 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsLog.TotalHours) + "h:" + cal.TempsLog.Minutes + "m:" + cal.TempsLog.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + Math.trunc(cal.TempsProdBrut.TotalHours) + "h:" + cal.TempsProdBrut.Minutes + "m:" + cal.TempsProdBrut.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + Math.trunc(cal.TempsProdNet.TotalHours) + "h:" + cal.TempsProdNet.Minutes + "m:" + cal.TempsProdNet.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + cal.TauxProdBrut + "%" + "</td>";
+                    tblHtmlTelephonie1 += "<td style='width:400px;'>" + cal.TauxProdNet + "%" + "</td></tr>";
+
+                    tblHtmlTelephonie2 += "<tr><td style='width:400px;'>" + Math.trunc(cal.TempsCommunication.TotalHours) + "h:" + cal.TempsCommunication.Minutes + "m:" + cal.TempsCommunication.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAttente.TotalHours) + "h:" + cal.TempsAttente.Minutes + "m:" + cal.TempsAttente.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsACW.TotalHours) + "h:" + cal.TempsACW.Minutes + "m:" + cal.TempsACW.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseCafe.TotalHours) + "h:" + cal.TempsPauseCafe.Minutes + "m:" + cal.TempsPauseCafe.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseBrief.TotalHours) + "h:" + cal.TempsPauseBrief.Minutes + "m:" + cal.TempsPauseBrief.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPauseDej.TotalHours) + "h:" + cal.TempsPauseDej.Minutes + "m:" + cal.TempsPauseDej.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsMissionOp.TotalHours) + "h:" + cal.TempsMissionOp.Minutes + "m:" + cal.TempsMissionOp.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsFormation.TotalHours) + "h:" + cal.TempsFormation.Minutes + "m:" + cal.TempsFormation.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsQualification.TotalHours) + "h:" + cal.TempsQualification.Minutes + "m:" + cal.TempsQualification.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsPhoning.TotalHours) + "h:" + cal.TempsPhoning.Minutes + "m:" + cal.TempsPhoning.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAdmin.TotalHours) + "h:" + cal.TempsAdmin.Minutes + "m:" + cal.TempsAdmin.Seconds + "s" + "</td>";
+                    tblHtmlTelephonie2 += "<td style='width:400px;'>" + Math.trunc(cal.TempsAppelIP.TotalHours) + "h:" + cal.TempsAppelIP.Minutes + "m:" + cal.TempsAppelIP.Seconds + "s" + "</td></tr>";
+
+                    tblHtmlTelephonie3 += "<tr><td style='width:400px;'>" + cal.TauxComm + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxAttente + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxACW + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseCafe + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseBrief + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPauseDej + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxMissionOP + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxFormation + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxQualification + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxPhoning + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxTempsAdmin + "%" + "</td>";
+                    tblHtmlTelephonie3 += "<td style='width:400px;'>" + cal.TauxAppelIP + "%" + "</td></tr>";
+
+                });
+
+                $("#Grid > tbody").html(tblHtml);
+                $("#Grid2 > tbody").html(tblHtml2);
+                $("#Grid3 > tbody").html(tblHtml3);
+                $("#Grid4 > tbody").html(tblHtml4);
+
+                $("#GridTelephonie1 > tbody").html(tblHtmlTelephonie1);
+                $("#GridTelephonie2 > tbody").html(tblHtmlTelephonie2);
+                $("#GridTelephonie3 > tbody").html(tblHtmlTelephonie3);
+
+                let chartConfig1 = {
+                    graphset: [
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '2%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Reçus',
+                              backgroundColor: 'none',
+                              fontColor: '#384653',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Recus,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      }, {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '17.6%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Décrochés',
+                              backgroundColor: 'none',
+                              fontColor: '#384653',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Decroches,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4cc2bb',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      },
+                       {
+                           type: 'null',
+                           backgroundColor: '#fbfcf7',
+                           borderColor: '#384653',
+                           borderRadius: '4px',
+                           borderWidth: '1px',
+                           width: '15%',
+                           height: '90%',
+                           x: '33.2%',
+                           y: '3%',
+                           title: {
+                               text: 'Appels Perdus',
+                               backgroundColor: 'none',
+                               fontColor: '#384653',
+                               fontSize: '12px',
+                               height: '70px',
+                               textAlign: 'center'
+                           },
+                           subtitle: {
+                               text: Perdus,
+                               paddingTop: '35%',
+                               bold: true,
+                               fontColor: '#dd655f',
+                               fontSize: '24px',
+                               height: '40px',
+                               textAlign: 'center'
+                           }
+                       },
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '48.8%',
+                          y: '3%',
+                          title: {
+                              text: 'Appels Emis',
+                              backgroundColor: 'none',
+                              fontColor: '#104053',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Emis,
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      },
+                             {
+                                 type: 'null',
+                                 backgroundColor: '#fbfcf7',
+                                 borderColor: '#384653',
+                                 borderRadius: '4px',
+                                 borderWidth: '1px',
+                                 width: '15%',
+                                 height: '90%',
+                                 x: '64.4%',
+                                 y: '3%',
+                                 title: {
+                                     text: 'Pourcentage QS',
+                                     backgroundColor: 'none',
+                                     fontColor: '#384653',
+                                     fontSize: '12px',
+                                     height: '70px',
+                                     textAlign: 'center'
+                                 },
+                                 subtitle: {
+                                     text: QS + " %",
+                                     paddingTop: '35%',
+                                     bold: true,
+                                     fontColor: '#4cc2bb',
+                                     fontSize: '24px',
+                                     height: '40px',
+                                     textAlign: 'center'
+                                 }
+                             },
+                      {
+                          type: 'null',
+                          backgroundColor: '#fbfcf7',
+                          borderColor: '#384653',
+                          borderRadius: '4px',
+                          borderWidth: '1px',
+                          width: '15%',
+                          height: '90%',
+                          x: '80%',
+                          y: '3%',
+                          title: {
+                              text: 'Atteinte Objectif',
+                              backgroundColor: 'none',
+                              fontColor: '#104053',
+                              fontSize: '12px',
+                              height: '70px',
+                              textAlign: 'center'
+                          },
+                          subtitle: {
+                              text: Objectif + " %",
+                              paddingTop: '35%',
+                              bold: true,
+                              fontColor: '#4f5963',
+                              fontSize: '24px',
+                              height: '40px',
+                              textAlign: 'center'
+                          }
+                      }
+                    ]
+                };
+                zingchart.render({
+                    id: 'myChart1',
+                    data: chartConfig1,
+                    height: '120',
+                    width: '100%'
+                });
+
+                let chartConfig2 =
+                    {
+                        type: 'hbar',
+                        backgroundColor: '#fff',
+                        borderColor: '#dae5ec',
+                        borderWidth: '1px',
+                        width: '100%',
+                        height: '97%',
+                        x: '0%',
+                        y: '0%',
+                        title: {
+                            text: 'Répartition des Appels',
+                            marginTop: '7px',
+                            marginLeft: '9px',
+                            backgroundColor: 'none',
+                            fontColor: '#707d94',
+                            fontFamily: 'Arial',
+                            fontSize: '14px',
+                            shadow: false,
+                            textAlign: 'left'
+                        },
+                        scaleY: {
+                            guide: {
+                                visible: false
+                            },
+                            item: {
+                                visible: false
+                            },
+                            lineColor: 'none',
+                            tick: {
+                                visible: false
+                            }
+                        },
+                        scaleX: {
+                            values: ['Appels Reçus', 'Appels Décrochés', 'Appels Débordés', 'Appels Abandonnés', 'Appels Perdus'],
+                            guide: {
+                                visible: false
+                            },
+                            item: {
+                                paddingBottom: '8px',
+                                fontColor: '#8391a5',
+                                fontFamily: 'Arial',
+                                fontSize: '11px',
+                                offsetX: '206px',
+                                offsetY: '-12px',
+                                textAlign: 'left',
+                                width: '200px'
+                            },
+                            lineColor: 'none',
+                            tick: {
+                                visible: false
+                            }
+                        },
+                        plot: {
+                            tooltip: {
+                                padding: '5px 10px',
+                                backgroundColor: '#707e94',
+                                borderRadius: '6px',
+                                fontColor: '#ffffff',
+                                fontFamily: 'Arial',
+                                fontSize: '11px',
+                                shadow: false
+                            },
+                            animation: {
+                                delay: 500,
+                                effect: 'ANIMATION_EXPAND_LEFT'
+                            },
+                            barsOverlap: '100%',
+                            barWidth: '12px',
+                            hoverState: {
+                                backgroundColor: '#707e94'
+                            },
+                            // thousandsSeparator: ','
+                        },
+                        plotarea: {
+                            margin: '50px 15px 10px 15px'
+                        },
+                        series: [
+                          {
+                              values: [c[0].AppelsRecus, c[0].AppelsDecroches, c[0].AppelsDebordes, c[0].AppelsAbandonnes, c[0].AppelsPerdus],
+                              styles: [
+                                {
+                                    backgroundColor: '#9dc012'
+
+                                },
+                                {
+                                    backgroundColor: '#25a6f7'
+                                },
+                                {
+                                    backgroundColor: '#ad6bae'
+                                },
+                                {
+                                    backgroundColor: '#707d94'
+                                },
+                                {
+                                    backgroundColor: '#e62163'
+                                }
+                              ],
+                              tooltipText: '%node-value %',
+                              zIndex: 2
+                          },
+                          {
+                              values: [c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus, c[0].AppelsRecus],
+                              valueBox: {
+                                  text: '%data-rvalues',
+                                  paddingBottom: '8px',
+                                  fontColor: '#8391a5',
+                                  fontFamily: 'Arial',
+                                  fontSize: '11px',
+                                  offsetX: '-54px',
+                                  offsetY: '-12px',
+                                  textAlign: 'right',
+                                  visible: true
+                              },
+                              backgroundColor: '#d9e4eb',
+                              dataRvalues: [c[0].AppelsRecus, c[0].AppelsDecroches, c[0].AppelsDebordes, c[0].AppelsAbandonnes, c[0].AppelsPerdus],
+                              maxTrackers: 0,
+                              zIndex: 1
+                          }
+                        ]
+                    }
+                zingchart.render({
+                    id: 'myChart2',
+                    data: chartConfig2,
+                    height: '300',
+                    width: '100%'
+                });
+
+                var myConfig3 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + c[0].TauxCommEntrant + ' %' + '</span><br>Taux Communication <br> Entrant',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [c[0].TauxCommEntrant],
+                          backgroundColor: '#FFA500',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - c[0].TauxCommEntrant],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+
+                zingchart.render({
+                    id: 'myChart3',
+                    data: myConfig3,
+                    hideprogresslogo: true,
+                    height: 200,
+                    width: 300
+
+                });
+
+                var myConfig4 = {
+                    type: 'ring',
+                    globals: {
+                        fontFamily: 'Lato',
+                        fontWeight: '100'
+                    },
+                    backgroundColor: '#FFF',
+                    plot: {
+                        valueBox: {
+                            type: 'first',
+                            text: '<span style=\'font-size:30px;\'>' + c[0].TauxCommSortant + ' %' + '</span><br>Taux Communication <br> Sortant',
+                            connected: false,
+                            fontColor: '#282E3D',
+                            fontSize: '15px',
+                            placement: 'center',
+                            rules: [
+                              {
+                                  rule: '%v < 50',
+                                  visible: false
+                              }
+                            ],
+                            visible: true
+                        },
+                        animation: {
+                            delay: 0,
+                            effect: 'ANIMATION_EXPAND_VERTICAL',
+                            method: 'ANIMATION_LINEAR',
+                            sequence: 'ANIMATION_BY_PLOT',
+                            speed: '300'
+                        },
+                        detach: false,
+                        hoverState: {
+                            visible: false
+                        },
+                        refAngle: 270,
+                        slice: 70
+                    },
+                    plotarea: {
+                        margin: '0% 0% 0% 0%'
+                    },
+                    tooltip: {
+                        visible: false
+                    },
+                    series: [
+                      {
+                          values: [c[0].TauxCommSortant],
+                          backgroundColor: '#CD5C5C',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      },
+                      {
+                          values: [100 - c[0].TauxCommSortant],
+                          backgroundColor: '#DCDCDC',
+                          borderColor: '#282E3D',
+                          borderWidth: '0px',
+                          shadow: false
+                      }
+                    ]
+
+                }
+
+                zingchart.render({
+                    id: 'myChart4',
+                    data: myConfig4,
+                    hideprogresslogo: true,
+                    height: 200,
+                    width: 300
+
+                });
+
+                var myConfigTelephonie1 = {
+                    "graphset": [
+                                                        {
+                                                            "type": "bar",
+                                                            "background-color": "white",
+                                                            "height": "100%",
+                                                            "width": "96%",
+                                                            "x": "2%",
+                                                            "y": "4%",
+                                                            "plotarea": {
+                                                                "margin": "50 60 70 60"
+                                                            },
+                                                            "title": {
+                                                                "margin-top": "7px",
+                                                                "margin-left": "12px",
+                                                                "text": "Taux de Production Brut VS Net (%)",
+                                                                "background-color": "none",
+                                                                "shadow": 0,
+                                                                "text-align": "left",
+                                                                "font-family": "Arial",
+                                                                "font-size": "14px",
+                                                                "font-color": "#707d94"
+                                                            },
+                                                            "plot": {
+                                                                "animation": {
+                                                                    "effect": "ANIMATION_SLIDE_BOTTOM"
+                                                                }
+                                                            },
+                                                            "scale-x": {
+                                                                "line-color": "#d2dae2",
+                                                                "line-width": "2px",
+                                                                "values": ["Taux Prod Brut", "Taux Prod Net"],
+                                                                "tick": {
+                                                                    "line-color": "#d2dae2",
+                                                                    "line-width": "1px"
+                                                                },
+                                                                "guide": {
+                                                                    "visible": false
+                                                                },
+                                                                "item": {
+                                                                    "font-color": "#8391a5",
+                                                                    "font-family": "Arial",
+                                                                    "font-size": "12px",
+                                                                    "padding-top": "5px"
+                                                                }
+                                                            },
+                                                            "scale-y": {
+                                                                "line-color": "#7E7E7E",
+                                                                "item": {
+                                                                    "font-color": "#7e7e7e"
+                                                                },
+                                                                "values": "0:100:20",
+                                                                "guide": {
+                                                                    "rules": [
+                                                                        {
+                                                                            "rule": "%i == 0",
+                                                                            "line-width": 0
+                                                                        },
+                                                                        {
+                                                                            "rule": "%i > 0",
+                                                                            "line-style": "solid",
+                                                                            "line-width": "1px",
+                                                                            "line-color": "#d2dae2",
+                                                                            "alpha": 0.4
+                                                                        }
+
+                                                                    ]
+                                                                },
+
+                                                            },
+                                                            "series": [
+                                                                {
+                                                                    "values": [ProdBrut, ProdNet],
+                                                                    valueBox: [{
+                                                                        placement: "top-out",
+                                                                        color: "#8391a5",
+                                                                        text: "%v %",
+                                                                        fontSize: 12
+                                                                    }],
+                                                                    "styles": [
+                                                                       {
+                                                                           "backgroundColor": '#e62163'
+                                                                       },
+                                                                        {
+                                                                            "backgroundColor": '#9dc012'
+                                                                        },
+                                                                    ],
+
+                                                                    "bar-width": "100px",
+                                                                    "borderRadiusTopLeft": 7,
+                                                                    "text": "Taux de Concrétisation"
+                                                                }
+                                                            ]
+                                                        }
+                    ]
+                };
+                zingchart.render({
+                    id: 'myChartTelephonie1',
+                    data: myConfigTelephonie1,
+                    height: '300',
+                    width: '100%'
+                });
+
+                var myConfigTelephonie2 = {
+                    "background-color": "#FFF",
+                    "graphset": [
+
+                        {
+                            "type": "pie",
+                            "width": "105%",
+                            "x": "1%",
+                            "background-color": "#FFF",
+                            title: {
+                                text: 'Répartition des Taux des Indicateurs de Téléphonie',
+                                backgroundColor: 'none',
+                                fontColor: '#707d94',
+                                fontFamily: 'Arial',
+                                fontSize: '14px',
+                                shadow: false,
+                                textAlign: 'left'
+                            },
+                            legend: {
+                                layout: "v",
+                                backgroundColor: "none",
+                                shadow: 0,
+                                borderWidth: 0,
+                                y: "16%",
+                                x: "0%",
+                                toggleAction: "remove",
+                                item: {
+                                    fontColor: "454754"
+                                },
+                                marker: {
+                                    borderColor: "white",
+                                    type: "circle",
+                                    size: "10px"
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "90 280 25 30"
+                            },
+
+                            "plot": {
+                                "animation": {
+                                    "delay": 0,
+                                    "effect": 2,
+                                    "speed": 300,
+                                    "method": 6,
+                                    "sequence": 1
+                                },
+                                refAngle: 270,
+                                valueBox: [{
+                                    placement: "out",
+                                    text: "%t: %v %",
+                                    fontSize: 14
+                                }]
+                            },
+                            "series": [
+                                {
+                                    "text": "TauxComm",
+                                    "values": [
+                                       c[0].TauxComm
+                                    ],
+                                    "background-color": "#9ACD32",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#9ACD32",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+
+                                {
+                                    "text": "Taux Attente",
+                                    "values": [
+                                      c[0].TauxAttente
+                                    ],
+                                    "background-color": "#EF5350",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#EF5350",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                {
+                                    "text": "Taux ACW",
+                                    "values": [
+                                              c[0].TauxACW
+                                    ],
+                                    "background-color": "#29B6F6",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#29B6F6",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                {
+                                    "text": "Pause Café",
+                                    "values": [
+                                   c[0].TauxPauseCafe
+                                    ],
+                                    "background-color": "#9575CD",
+                                    "border-color": "#454754",
+                                    "border-width": "1px",
+                                    "shadow": 0,
+                                    "tooltip": {
+                                        "background-color": "#9575CD",
+                                        "font-color": "#000",
+                                        "border-radius": "6px",
+                                        "shadow": false,
+                                        "padding": "5px 10px"
+                                    }
+                                },
+                                 {
+                                     "text": "Pause Brief",
+                                     "values": [
+                                      c[0].TauxPauseBrief
+                                     ],
+                                     "background-color": "#ADD8E6",
+                                     "border-color": "#454754",
+                                     "border-width": "1px",
+                                     "shadow": 0,
+                                     "tooltip": {
+                                         "background-color": "#FF8800",
+                                         "font-color": "#000",
+                                         "border-radius": "6px",
+                                         "shadow": false,
+                                         "padding": "5px 10px"
+                                     }
+                                 },
+                                      {
+                                          "text": "Pause Déj",
+                                          "values": [
+                                          c[0].TauxPauseDej
+                                          ],
+                                          "background-color": "#999999",
+                                          "border-color": "#454754",
+                                          "border-width": "1px",
+                                          "shadow": 0,
+                                          "tooltip": {
+                                              "background-color": "#999999",
+                                              "font-color": "#000",
+                                              "border-radius": "6px",
+                                              "shadow": false,
+                                              "padding": "5px 10px"
+                                          }
+                                      },
+                                       {
+                                           "text": "Preview",
+                                           "values": [
+                                                  c[0].TauxMissionOP
+                                           ],
+                                           "background-color": "#FF8800",
+                                           "border-color": "#454754",
+                                           "border-width": "1px",
+                                           "shadow": 0,
+                                           "tooltip": {
+                                               "background-color": "#FF8800",
+                                               "font-color": "#000",
+                                               "border-radius": "6px",
+                                               "shadow": false,
+                                               "padding": "5px 10px"
+                                           }
+                                       },
+                                        {
+                                            "text": "Formation",
+                                            "values": [
+                                              c[0].TauxFormation
+                                            ],
+                                            "background-color": "#D8BFD8",
+                                            "border-color": "#454754",
+                                            "border-width": "1px",
+                                            "shadow": 0,
+                                            "tooltip": {
+                                                "background-color": "#D8BFD8",
+                                                "font-color": "#000",
+                                                "border-radius": "6px",
+                                                "shadow": false,
+                                                "padding": "5px 10px"
+                                            }
+                                        },
+                                         {
+                                             "text": "Qualification",
+                                             "values": [
+                                               c[0].TauxQualification
+                                             ],
+                                             "background-color": "#FFE4B5",
+                                             "border-color": "#454754",
+                                             "border-width": "1px",
+                                             "shadow": 0,
+                                             "tooltip": {
+                                                 "background-color": "#FF8800",
+                                                 "font-color": "#000",
+                                                 "border-radius": "6px",
+                                                 "shadow": false,
+                                                 "padding": "5px 10px"
+                                             }
+                                         },
+                                          {
+                                              "text": "Phoning",
+                                              "values": [
+                                                 c[0].TauxPhoning
+                                              ],
+                                              "background-color": "#191970",
+                                              "border-color": "#454754",
+                                              "border-width": "1px",
+                                              "shadow": 0,
+                                              "tooltip": {
+                                                  "background-color": "#FF8800",
+                                                  "font-color": "#000",
+                                                  "border-radius": "6px",
+                                                  "shadow": false,
+                                                  "padding": "5px 10px"
+                                              }
+                                          },
+                                           {
+                                               "text": "Taux Admin",
+                                               "values": [
+                                                  c[0].TauxTempsAdmin
+                                               ],
+                                               "background-color": "#B8860B",
+                                               "border-color": "#454754",
+                                               "border-width": "1px",
+                                               "shadow": 0,
+                                               "tooltip": {
+                                                   "background-color": "#FF8800",
+                                                   "font-color": "#000",
+                                                   "border-radius": "6px",
+                                                   "shadow": false,
+                                                   "padding": "5px 10px"
+                                               }
+                                           },
+                                           {
+                                               "text": "Appel IP",
+                                               "values": [
+                                              c[0].TauxAppelIP
+                                               ],
+                                               "background-color": "#B22222",
+                                               "border-color": "#454754",
+                                               "border-width": "1px",
+                                               "shadow": 0,
+                                               "tooltip": {
+                                                   "background-color": "#FF8800",
+                                                   "font-color": "#000",
+                                                   "border-radius": "6px",
+                                                   "shadow": false,
+                                                   "padding": "5px 10px"
+                                               }
+                                           }
+                            ]
+                        },
+
+
+                    ]
+                }
+                zingchart.render({
+                    id: 'myChartTelephonie2',
+                    data: myConfigTelephonie2,
+                    height: 500,
+                    width: 1150
+                });
+            },
+            error: function () { },
+        });
+    })
+    </script>
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Suivi SAM RC</a></li>
+    <li class="active">Mensuel</li>
+}
+

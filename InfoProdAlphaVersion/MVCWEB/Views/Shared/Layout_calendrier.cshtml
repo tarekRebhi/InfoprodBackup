@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/scripts")
+
+    <link href="~/Content/fullcalendar.css" rel="stylesheet" />
+    <script src="~/Scripts/fullcalendar.js"></script>
+
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">InfoProWeb</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="@Url.Action("Index", "Employee")">Employe</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="@Url.Action("Index", "Planing")">Planing</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="@Url.Action("Index", "Alerte")">Alertes</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="@Url.Action("Index", "Indicateur")">Indicateur</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="@Url.Action("Index", "Groupe")">Groupes</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="@Url.Action("Index", "Titre")">Titres</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="@Url.Action("Index", "User")">Utilisateurs</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="@Url.Action("logout", "Authentification")"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    @RenderBody()
+
+    @RenderSection("scripts", required: false)
+
+
+
+</body>
+</html>
+}

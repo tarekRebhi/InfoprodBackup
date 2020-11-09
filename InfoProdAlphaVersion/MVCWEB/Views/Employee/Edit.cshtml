@@ -1,0 +1,222 @@
+﻿@section test{
+    @model MVCWEB.Models.EmployeeViewModel
+
+    @{
+        ViewBag.Title = "Edit";
+    }
+    @using GridMvc.Html
+
+    <h2>Edit</h2>
+
+
+        <div class="form-horizontal">
+            <h4>Employee</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", name = "IdEmp", Id = "IdEmp" } })
+                    @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+           
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+           
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.userId, "userId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("userId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.utilisateurs, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" >
+                    @Html.DropDownList("utilisateur", Model.utilisateurs, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "utilisateurs", selected = "selected" })
+                    @Html.ValidationMessageFor(model => model.utilisateurs, "", new { @class = "text-danger" })
+
+                    @*@Html.DropDownList("SelectedItem", Model.listItems, "-----Select----")*@
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.roles, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("role", Model.roles, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "roles", selected = "selected" })
+                    @Html.ValidationMessageFor(model => model.roles, "", new { @class = "text-danger" })
+
+                    @*@Html.DropDownList("SelectedItem", Model.listItems, "-----Select----")*@
+                </div>
+            </div>
+         <div class="form-group">
+                @Html.LabelFor(model => model.groupes, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" >
+                    @Html.DropDownList("groupes", Model.groupes, htmlAttributes: new { @class = "form-control", @id = "groupess" ,@multiple="multiple" })
+                    @Html.ValidationMessageFor(model => model.groupes, "", new { @class = "text-danger" })
+
+                    @*@Html.DropDownList("SelectedItem", Model.listItems, "-----Select----")*@
+                </div>
+            </div>
+
+            @*<select class="form-control" id="groupess" multiple="multiple" name="groupes" selected="selected">
+                <option value="DiffusionGMT">DiffusionGMT</option>
+                <option value="DiffusionGISI">DiffusionGISI</option>
+                <option value="LeadGenBedouk">LeadGenBedouk</option>
+                <option value="Bedouk Continue">Bedouk Continue</option>
+                <option value="Expo">Expo</option>
+                <option value="Moniteur">Moniteur</option>
+            </select>*@
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="imedSave"data-id="@Model.Id" data-title="Modifier Employé"  value="Enregistrer" data-toggle="modal"  class="btn btn-success" />
+                </div>
+            </div>
+
+        </div>
+        <div id="explorer1">
+
+
+        </div>
+        <script src="/Content/Template1/vendor/jquery/jquery.min.js"></script>
+
+        <script type="text/javascript">
+
+          $(document).ready ( function () {
+              $(document).on("click", "#imedSave", function () {
+                  var $buttonClicked = $(this);
+                  var id = $buttonClicked.attr('data-id');
+                  var utilisateurs = $("#utilisateurs").val();
+                  var roles = $("#roles").val();
+                  var tests = new Array();
+                  var str = "";
+                function TestImed(nom, value) {
+                   this.nom = nom;
+                  }
+                  $('#groupess option:selected').each(function () {
+                      //tests.push($("#groupess").val());
+                      //var nom = $('#groupess', this).val();
+                      //var value = $('#groupess', this).val();
+                      tests.push(new Array($(this).val()));
+
+                          //str += $(this).val() +',';
+
+                      });
+             
+                  //var postData = { values: tests };
+                  //var x = document.getElementById("#groupes");
+                  //var optionVal = new Array();
+                  //for (i = 0; i < x.length; i++) {
+                  //    optionVal.push(x.options[i].text);
+                  //}
+                  //groupesTests = JSON.stringify({ 'groupesTests': groupesTests });
+
+              $.ajax({
+                  url: '/Employee/FindGroupesAssociees' ,
+                  type: "GET",
+                  contentType: "application/json; charset=utf-8",
+                  traditional: true,
+                  data: { "Id": id, "utilisateurs": utilisateurs, "roles":roles,"groupess": tests,'str': str },
+                  datatype: "html",
+                  async: true,
+                  success: function(data) {
+                      $('#explorer1').html(data);
+                      $('#modifier').modal('show');
+                    },
+
+
+
+              });
+             
+
+              })
+          })
+          
+         
+        </script>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.groupesassocies, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-sm-6">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+
+                <th>Nom</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Nom</th>
+                <th></th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var item in Model.groupesassocies)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+
+                    </td>
+
+                    <td>
+ @Html.ActionLink("Delete", "deleteGrooupeEmployee", "Employee", new {nom=item.Value } ,TempData["name"] = item.Value)
+                    </td>
+                     </tr>   }
+
+         </tbody>
+                    </table>
+
+    </div>
+            </div>
+
+
+
+
+
+                <div>
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+                }
+
+
+                @*.form-control { -webkit-appearance: none; -moz-appearance: none;
+                    <img class="img img-responsive" src="/Content/Template1/Images/12.png" alt="Echantillon n°1 pour trois colonnes ">
+                    }
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                *@
+
+
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.groupes, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="o_export_panel">
+                            @using (Html.BeginForm("Edit", "Employee"))
+                            {
+                                foreach (var item in Model.groupes)
+                                {
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="SelectedFruits"
+                                                   value="@item.Value" /> @item.Text
+                                            </label>
+                                        </div>
+                                }
+                            }
+                        </div>
+                    </div>*@
+
+                

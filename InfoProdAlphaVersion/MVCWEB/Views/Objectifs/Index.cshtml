@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Domain.Entity.Objectif>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+
+@section test{
+
+@using (Html.BeginForm("Create", "Objectifs", FormMethod.Get, new { enctype = "multipart/form-data" }))
+{
+<button type="submit" class="btn bg-slate btn-rounded btn-lg"><i class="icon-add"></i> Ajouter Nouvel Objectif</button>
+}
+    <br/>
+    <div class="col-md-12">
+    <table class="table">
+        <tr class="bg-teal">
+            <th>
+                Nom du Groupe
+            </th>
+            <th>
+                Objectif Taux d'Accords
+            </th>
+            <th>Modification</th>
+            <th>Suppression</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Namegroupe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObjectifAccords)
+                </td>
+            
+                <td>
+                @using (Html.BeginForm("Edit", "Objectifs", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                {
+                    <button type="submit" class="btn btn-success btn-float btn-rounded"><i class="icon-database-edit2"></i></button>
+                }
+                </td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Objectifs", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                    {
+                        <button type="submit" class="btn btn-danger btn-float btn-rounded"><i class="icon-trash"></i></button>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+}
+@section testProfile{
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.Url alt="">
+        <span>@ViewBag.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoName
+        </div>
+    </div>
+    <div class="media-right media-middle">
+    </div>
+
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Manager</span> -  Suivi Par Injections</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Suivi Par Injections</a></li>
+    <li class="active">Paramètres des Objectifs</li>
+}
+
+

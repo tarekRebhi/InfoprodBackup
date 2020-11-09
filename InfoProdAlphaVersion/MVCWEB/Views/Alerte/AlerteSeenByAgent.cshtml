@@ -1,0 +1,148 @@
+﻿@model IEnumerable<MVCWEB.Models.AlerteViewModel>
+
+@{
+    ViewBag.Title = "AlerteSeenByAgent";
+    Layout = "~/Views/Shared/_Layout_agent.cshtml";
+}
+@section test{
+
+
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold">Liste des Alertes Lues  par  l'agent</h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" class="styled"></th>
+                    <th></th>
+                    <th>titre</th>
+                    <th>Description</th>
+                    <th>Sender</th>
+                    <th>Reciver</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" class="styled"></td>
+                        <td></td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.titreAlerte)
+                        </td>
+
+                        <td>
+
+                            @Html.DisplayFor(modelItem =>
+                            item.description)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem =>
+                            item.senderName)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem =>
+                            item.reciverName)
+                        </td>
+
+                    </tr>
+
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+@*<input type="text" id="message" />
+<input type="button" id="sendmessage" value="Send" />
+<input type="hidden" id="displayname" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+<script src="/signalr/hubs"></script>
+<script type="text/javascript">
+        $(function () {
+            var chat = $.connection.notificationHub;
+            chat.client.broadcastMessage = function (name, message) {
+                var encodedName = $('<div />').text(name).html();
+                var encodedMsg = $('<div />').text(message).html();
+                $('#discussion').append('<li><strong>' + encodedName
+                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+            };
+            $('#displayname').val(prompt('Enter your name:', ''));
+            $('#message').focus();
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    $('#message').val('').focus();
+                });
+            });
+        });
+</script>*@
+}
+@*@section testProfile{
+
+        <a class="dropdown-toggle" data-toggle="dropdown">
+            <img src=@Model.image alt="">
+            <span>@Model.userName</span>
+            <i class="caret"></i>
+        </a>
+    }
+    @section testProfileLeft{
+        <a href="#" class="media-left"><img src=@Model.image class="img-circle img-sm" alt=""></a>
+        <div class="media-body">
+            <span class="media-heading text-semibold">@Model.userName</span>
+            <div class="text-size-mini text-muted">
+                <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+            </div>
+        </div>
+    }*@
+@*}*@
+@*@section Notifications{
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-mail-read"></i>
+                <span class="visible-xs-inline-block position-right">Notifications</span>
+                <span id="discussion" class="badge bg-warning-400">@ViewBag.nb</span>
+            </a>
+
+            <div class="dropdown-menu dropdown-content">
+                <div class="dropdown-content-heading">
+                    Notifications
+                    <ul class="icons-list">
+                        <li><a href="#"><i class="icon-sync"></i></a></li>
+                    </ul>
+                </div>
+                <ul class="media-list dropdown-content-body width-350">
+                    @foreach (var item in ViewBag.alertes)
+                    {
+                        <li class="media">
+                            <div class="media-left">
+                                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-mail-read"></i></a>
+                            </div>
+                            <div class="media-body">
+                                Nouvelle Alerte de la part de  <a href="#">@item.senderName</a> message est @item.description  @Html.ActionLink("Marquer Comme Lu", "UpdateAlerte", "Alerte", new { Id = @item.Id }, new { enctype = "multipart/form-data" })
+                            </div>
+                        </li>
+                    }
+                </ul>
+                <div class="dropdown-content-footer">
+                </div>
+            </div>
+        </li>
+    </ul>
+}*@

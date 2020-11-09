@@ -1,0 +1,163 @@
+﻿@section test{
+    @model IEnumerable<MVCWEB.Models.EmployeeViewModel>
+
+    @{
+        ViewBag.Title = "Index";
+
+    }
+    <p>
+        @*@Html.ActionLink("Create New", "Create")*@
+        @using (Html.BeginForm("Create", "Employee", FormMethod.Get, new { enctype = "multipart/form-data" }))
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Nouveau Agent" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </p>
+    <br/>
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID Hermes</th>
+                    <th>User name</th>
+                    <th>Pseudo Name</th>
+                    <th>User Login</th>
+                    @*<th>Activite</th>
+                    <th>Role</th>*@
+                    <th>Action</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>ID </th>
+                    <th>ID Hermes</th>
+                    <th>User name</th>
+                    <th>Pseudo Name</th>
+                    <th>User Login</th>
+                    @*<th>Activite</th>*@
+                    @*<th>Role</th>*@
+                    <th>Action</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdHermes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.userName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pseudoName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.userLogin)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Activite)
+                        </td>*@
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.role)
+                        </td>*@
+                        <td>
+                            @using (Html.BeginForm("EditTest", "Employee", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Modifier" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Details", "Employee", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Details" class="btn btn-warning" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Edit", "Employee", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Affectations" class="btn btn-outline-info" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <p data-placement="top" title="Delete">
+                                        <button id="imed" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal" class="btn btn-danger">Suppression</button>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="explorer1">
+
+
+    </div>
+    <script src="/Content/Template1/vendor/jquery/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+          $(document).ready ( function () {
+              $(document).on ("click", "#imed", function () {
+                  var $buttonClicked = $(this);
+                  var id = $buttonClicked.attr('data-id');
+              $.ajax({
+                  url: '/Employee/FindEmployee',
+                  type: "GET",
+                  contentType: "application/json; charset=utf-8",
+                  data: { "Id": id },
+                  datatype: "html",
+                  async:true,
+                  success: function(data) {
+                      $('#explorer1').html(data);
+                      $('#modifier').modal('show');
+                    },
+
+
+
+              });
+
+
+              })
+          })
+
+    </script>
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+    </script>
+
+
+   
+}

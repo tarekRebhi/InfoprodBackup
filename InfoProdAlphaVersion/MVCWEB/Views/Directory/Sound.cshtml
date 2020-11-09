@@ -1,0 +1,135 @@
+﻿
+@model MVCWEB.Models.DirectoryViewModel
+<div class="modal fade" id="Sound" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5>Vous étes entrain d"écouter l'Enregistrement :</h5>
+            </div>
+            <div class="modal-body">
+               @*<audio controls> 
+                    <source src="@Model.enregistrementName" type="audio/wav">
+                </audio>*@
+                @*<object data="@Model.enregistrementName"></object>*@
+                @*<embed src="@Model.enregistrementName" />*@
+                 
+
+                <button type="submit" id="play2" data-id="@Model.enregistrementName" class="btn btn-light" data-title="Play Sound" value="Play" data-toggle="modal">Play <i class="icon-play position-fixed"></i></button>
+                <button type="submit" id="stop2" data-id="@Model.enregistrementName" class="btn btn-danger" data-title="Stop Sound" value="Stop" data-toggle="modal">Stop <i class="icon-stop position-fixed"></i></button>
+                @*<button type="submit" id="pause2" data-id="@Model.enregistrementName" class="btn btn-success" data-title="Pause Sound" value="Pause" data-toggle="modal">Pause <i class="icon-pause position-fixed"></i></button>*@
+                <button type="submit" id="download" data-id="@Model.enregistrementName" class="btn btn-primary" data-title="Sauvegarder Alerte" value="Enregistrer" data-toggle="modal">Download <i class="icon-arrow-right14 position-fixed"></i></button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(document).on("click", "#play2", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var status = "play";
+            $.ajax({
+                url: '/Directory/Play2',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                    'name':id,
+                     //play:"play",
+                     //stop:" "
+
+
+                },
+                async: true,
+                //success: function (data) {
+                //   $('#details').html(data);
+                //   $('#Sound').modal('show');
+                //    //$('#errorFile2').modal('show');
+
+                //   //alert("utilisateur success")
+                //},
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+    })
+</script>
+@*<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(document).on("click", "#play2", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var status = "play";
+            var mySound = soundManager.createSound({
+                url:id
+            });
+            mySound.play();
+        })
+    })
+</script>*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(document).on("click", "#stop2", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            $.ajax({
+                url: '/Directory/stop',
+                type: 'GET',
+                datatype: 'json',
+                async: true,
+                data:{
+                    'name':id
+                },
+               success: function (data) {
+                //   $('#details').html(data);
+                //   $('#Sound').modal('show');
+                //    //$('#errorFile2').modal('show');
+                   //alert("utilisateur success");
+                },
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+    })
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(document).on("click", "#pause2", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            $.ajax({
+                url: '/Directory/pause',
+                type: 'GET',
+                datatype: 'json',
+                async: true,
+                data:{
+                    'name':id
+                },
+               success: function (data) {
+                //   $('#details').html(data);
+                //   $('#Sound').modal('show');
+                //    //$('#errorFile2').modal('show');
+                   //alert("utilisateur success");
+                },
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+    })
+</script>

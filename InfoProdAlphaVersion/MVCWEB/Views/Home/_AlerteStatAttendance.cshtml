@@ -1,0 +1,364 @@
+﻿
+
+
+
+@model MVCWEB.Models.EmployeeViewModel
+@*<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>*@
+
+
+
+@Html.AntiForgeryToken()
+    @*<div class="modal fade" id="modifier3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" id="testmed">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="panel-heading">
+                    <h5 class="panel-title">Combination and connection</h5>
+                </div>
+                <div class="modal-body">
+
+                    <div class="panel panel-flat">
+
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-lg-6">
+                                    <div class="chart-container">
+                                        <div class="chart has-fixed-height" id="connect_pie"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="modal fade" id="modifier2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" id="testmed" style="width: 1200px; " >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5>Chartes de Présences @Html.DisplayFor(modelItem => modelItem.userName)</h5>
+                </div>
+               
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Basic radar chart -->
+                                <div class="panel panel-flat">
+                                    @*<div class="panel-heading">
+                                        <h5 class="panel-title">Journalier</h5>
+                                    </div>*@
+                                    <div class="panel-body">
+                                        @*<div class="form-group">
+
+                                            @Html.DropDownList("groupes", Model.groupes, "-----Select----", htmlAttributes: new { @class = "bootstrap-select", @id = "groupess" })
+                                        </div>*@
+                                        <div id="chartimed" style="width: 400px; height: 350px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /basic radar chart -->
+                            </div>
+
+                                    <div class="col-md-6">
+                                        <!-- Basic radar chart -->
+                                        <div class="panel panel-flat">
+                                            @*<div class="panel-heading">
+                                                <h5 class="panel-title">Hebdo</h5>
+                                            </div>*@
+                                            <div class="panel-body">
+                                                @*<div class="form-group">
+
+                                                    @Html.DropDownList("groupes", Model.groupes, "-----Select----", htmlAttributes: new { @class = "bootstrap-select", @id = "groupess" })
+                                                </div>*@
+                                                <div id="chartimed3" style="width: 500px; height: 350px;">
+                                                </div>
+                                            </div>
+                                            <!-- /basic radar chart -->
+                                        </div>
+
+
+                                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Basic radar chart -->
+                                <div class="panel panel-flat">
+                                    @*<div class="panel-heading">
+                                        <h5 class="panel-title">Mensuel</h5>
+                                    </div>*@
+                                    <div class="panel-body">
+                                        @*<div class="form-group">
+
+                                            @Html.DropDownList("groupes", Model.groupes, "-----Select----", htmlAttributes: new { @class = "bootstrap-select", @id = "groupess" })
+                                        </div>*@
+                                        <div id="chartimed2" style="width: 500px; height: 350px;">
+                                        </div>
+                                    </div>
+                                    <!-- /basic radar chart -->
+
+
+                                </div>
+                    
+                        </div>
+                            <div class="col-md-6">
+                                <!-- Basic radar chart -->
+                                <div class="panel panel-flat">
+                                    @*<div class="panel-heading">
+                                        <h5 class="panel-title">Annuel</h5>
+                                    </div>*@
+                                    <div class="panel-body">
+                                        @*<div class="form-group">
+
+                                            @Html.DropDownList("groupes", Model.groupes, "-----Select----", htmlAttributes: new { @class = "bootstrap-select", @id = "groupess" })
+                                        </div>*@
+                                        <div id="chartimed4" style="width: 500px; height: 350px;">
+                                        </div>
+                                    </div>
+                                    <!-- /basic radar chart -->
+
+
+                                </div>
+
+                            </div>
+</div>
+                            </div>
+        </div>
+        </div>
+        </div>
+    @*<script>
+        var chart = document.getElementById('chart10');
+        var myChart = echarts.init(chart);
+        column_pie_options = {
+
+            // Setup grid
+            grid: {
+                x: 10,
+                x2: 45,
+                y: 35,
+                y2: 25
+            },
+
+            // Add tooltip
+            tooltip: {
+                trigger: 'axis'
+            },
+
+            // Enable drag recalculate
+            calculable: true,
+
+            // Add legend
+            legend: {
+                data: ['Direct', 'Email', 'Print', 'Video', 'Search engine', 'Google', 'Bing', 'Yahoo', 'Other']
+            },
+
+            // Horizontal axis
+            xAxis: [{
+                type: 'category',
+                splitLine: { show: false },
+                data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+            }],
+
+            // Vertical axis
+            yAxis: [{
+                type: 'value',
+                position: 'right'
+            }],
+
+            // Add series
+            series: [
+                {
+                    name: 'Direct',
+                    type: 'bar',
+                    data: [320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name: 'Email',
+                    type: 'bar',
+                    tooltip: { trigger: 'item' },
+                    stack: 'Advertisement',
+                    data: [120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: 'Print',
+                    type: 'bar',
+                    tooltip: { trigger: 'item' },
+                    stack: 'Advertisement',
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name: 'Video',
+                    type: 'bar',
+                    tooltip: { trigger: 'item' },
+                    stack: 'Advertisement',
+                    data: [150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    name: 'Search engine',
+                    type: 'line',
+                    data: [862, 1018, 964, 1026, 1679, 1600, 1570]
+                },
+
+                // Pie
+                {
+                    name: 'Search engine',
+                    type: 'pie',
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                    },
+                    center: [150, 130],
+                    radius: [0, 50],
+                    itemStyle: {
+                        normal: {
+                            labelLine: {
+                                length: 20
+                            }
+                        }
+                    },
+                    data: [
+                        { value: 1048, name: 'Google' },
+                        { value: 251, name: 'Bing' },
+                        { value: 147, name: 'Yahoo' },
+                        { value: 102, name: 'Other' }
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(column_pie_options);
+
+
+    </script>*@
+<script>
+    var chart = document.getElementById('chartimed');
+    var myChart = echarts.init(chart);
+    var option = {
+    		    title: { text: 'Journalier' },
+    			tooltip: { },
+    			legend: { data: [ 'Présences' ] },
+    			xAxis: { data: [ "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"] },
+    			yAxis: {type:'value'},
+    			series: [{
+    				name: 'Présence Hermes',
+    				type: 'bar',
+                    barWidth: '60%',
+    				data: [20, 5, 70, 70.66, 80.7],
+    				color: ['#3398DB']
+    			}]
+    		};
+    myChart.setOption(option);
+   
+
+</script>
+        <script>
+    var chart = document.getElementById('chartimed2');
+    var myChart = echarts.init(chart);
+    var option = {
+    		    title: { text: 'Hebdo' },
+    			tooltip: { },
+    			legend: { data: [ 'Présences' ] },
+    			xAxis: { data: [ "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"] },
+    			yAxis: {type:'value'},
+    			series: [{
+    				name: 'Présence Hermes',
+    				type: 'pie',
+                    barWidth: '60%',
+    				data: [20, 5, 70, 70.66, 80.7],
+    				color: ['#FF0040']
+    			}]
+    		};
+    myChart.setOption(option);
+
+
+        </script>
+        <script>
+    var chart = document.getElementById('chartimed3');
+    var myChart = echarts.init(chart);
+    var option = {
+    		    title: { text: 'Mensuel' },
+    			tooltip: { },
+    			legend: { data: [ 'Présences' ] },
+    			xAxis: { data: [ "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"] },
+    			yAxis: {type:'value'},
+    			series: [{
+    				name: 'Présence Hermes',
+    				type: 'line',
+                    barWidth: '60%',
+    				data: [20, 5, 70, 70.66, 80.7],
+    				color: ['#3398DB']
+    			}]
+    		};
+    myChart.setOption(option);
+
+
+        </script>
+<script>
+    var chart = document.getElementById('chartimed4');
+    var myChart = echarts.init(chart);
+    var option = {
+    		    title: { text: 'Annuel' },
+    			tooltip: { },
+    			legend: { data: [ 'Présences' ] },
+    			xAxis: { data: [ "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"] },
+    			yAxis: {type:'value'},
+    			series: [{
+    				name: 'Présence Hermes',
+    				type: 'gauge',
+                    barWidth: '60%',
+    				data: [20, 5, 70, 70.66, 80.7],
+    				color: ['#3398DB']
+    			}]
+    		};
+    myChart.setOption(option);
+
+
+</script>
+    @*<script type="text/javascript">
+        $(function () {
+            var chart = new CanvasJS.Chart("chart-container", {
+                title: {
+                    text: "TestImed"
+                },
+                animationEnabled: true,
+                legend: {
+                    verticalAlign: "center",
+                    horizontalAlign: "left",
+                    fontSize: 20,
+                    fontFamily: "Helvetica"
+                },
+                theme: "light2",
+                data: [
+                {
+                    type: "pie",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}%",
+                    startAngle: -20,
+                    showInLegend: true,
+                    toolTipContent: "{legendText} {y}%",
+                    dataPoints: [
+                        { y: 72.48, legendText: "Google", label: "Google" },
+                        { y: 10.39, legendText: "Bing", label: "Bing" },
+                        { y: 7.78, legendText: "Yahoo!", label: "Yahoo!" },
+                        { y: 7.14, legendText: "Baidu", label: "Baidu" },
+                        { y: 0.22, legendText: "Ask", label: "Ask" },
+                        { y: 0.15, legendText: "AOL", label: "AOL" },
+                        { y: 1.84, legendText: "Others", label: "Others" }
+                    ],
+
+                    //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                    //dataPoints: @Html.Raw(ViewBag.DataPoints),
+                }
+                ]
+            });
+            chart.render();
+        });
+    </script>*@

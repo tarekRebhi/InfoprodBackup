@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "IndexManagerAgentTest";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+@section test{
+@model IEnumerable<MVCWEB.Models.EmployeeViewModel>
+
+
+    @using (Html.BeginForm("IndexManagerAgent", "Home", FormMethod.Get, new { enctype = "multipart/form-data" }))
+    {
+ 
+        foreach (var item in Model)
+        {
+
+            <div class="col-lg-3 col-sm-6" >
+                <div class="thumbnail" style="height:350px; width:350px;">
+
+
+                    <div class="thumb thumb-rounded"  >
+                        <a @*id="statimg" data-toggle="modal" data-id="@item.Id"*@>
+                            <img href="#" src=@item.image alt="" style="width:200px; height: 150px;">
+                        </a>
+                        @*<div class="caption-overflow">
+                            <span>
+                                <a href="@item.image" data-popup="lightbox" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="icon-plus3"></i></a>
+                                <a href="#" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="icon-link2"></i></a>
+                            </span>
+                        </div>*@
+
+                    </div>
+
+                    <div class="caption text-center">
+                        <h6 class="no-margin-top text-semibold"><a href="#" class="text-default">@Html.DisplayFor(modelItem => item.userName)</a></h6>
+                        
+                        <h10 class="no-margin-top text-semibold">PseudoName:</h10> @Html.DisplayFor(modelItem =>item.pseudoName)
+                            <br />
+                        <h10 class="no-margin-top text-semibold">Role:</h10>  @Html.DisplayFor(modelItem => item.role)
+
+                        <br />
+                        <h10 class="no-margin-top text-semibold">Activité:</h10>  @Html.DisplayFor(modelItem => item.Activite)
+                        <br />
+                        <div>
+                            <a href="@Url.Action("JournalierSelectedAgent1", "Home", new { id = item.Id })" class="label label-success">Journalier</a>
+                            <a href="@Url.Action("HebdoSelectedAgent", "Home", new { id = item.Id })" class="label label-danger">Hebdomadaire</a>
+                            <a href="@Url.Action("MensuelSelectedAgent", "Home", new { id = item.Id })" class="label label-primary">Mensuel</a>
+                            <a href="@Url.Action("TrimestrielSelectedAgent", "Home", new { id = item.Id })" class="label label-warning">Trimestriel</a>
+                            <a href="@Url.Action("AnnuelleSelectedAgent", "Home", new { id = item.Id })" class="label label-default">Annuel</a>
+
+                        </div>
+                        
+</div>
+                </div>
+            </div>
+
+        }
+        <div id="explorer10">
+
+
+        </div>
+    }
+
+<!-- /global stylesheets -->
+<!-- Core JS files -->
+
+
+<script type="text/javascript">
+
+          $(document).ready ( function () {
+              $(document).on ("click", "#statimg", function () {
+                  var $buttonClicked = $(this);
+                  var id = $buttonClicked.attr('data-id');
+              $.ajax({
+                  url: '/Home/FindEmployee',
+                  type: "GET",
+                  contentType: "application/json; charset=utf-8",
+                  data: { "Id": id },
+                  datatype: "html",
+                  async:true,
+                  success: function(data) {
+                      $('#explorer10').html(data);
+                      $('#modifier2').modal('show');
+                    },
+
+
+
+              });
+
+
+              })
+          })
+
+</script>
+}
+@*@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+}
+@section testProfileLeft{
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+}*@
+ @section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Acceuil</span> -  Activité</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Activité</a></li>
+    <li class="active">Liste des Agents par Activité</li>
+}

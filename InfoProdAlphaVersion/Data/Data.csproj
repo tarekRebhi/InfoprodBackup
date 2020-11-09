@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FAB3405E-02C7-49F0-AD39-71E1FBF37359}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Data</RootNamespace>
+    <AssemblyName>Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Infrastructure\CustumConvention\DateTime2Convention.cs" />
+    <Compile Include="Infrastructure\DatabaseFactory.cs" />
+    <Compile Include="Infrastructure\Disposable.cs" />
+    <Compile Include="Infrastructure\IDatabaseFactory .cs" />
+    <Compile Include="Infrastructure\IRepositoryBase.cs" />
+    <Compile Include="Infrastructure\IRepositoryBaseAsynch.cs" />
+    <Compile Include="Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Migrations\201906251130161_vecteurplusMig.cs" />
+    <Compile Include="Migrations\201906251130161_vecteurplusMig.Designer.cs">
+      <DependentUpon>201906251130161_vecteurplusMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908270842444_IPD.cs" />
+    <Compile Include="Migrations\201908270842444_IPD.Designer.cs">
+      <DependentUpon>201908270842444_IPD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908270845348_IPDMig.cs" />
+    <Compile Include="Migrations\201908270845348_IPDMig.Designer.cs">
+      <DependentUpon>201908270845348_IPDMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908270922150_ipdtest.cs" />
+    <Compile Include="Migrations\201908270922150_ipdtest.Designer.cs">
+      <DependentUpon>201908270922150_ipdtest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908270928463_ipdsana.cs" />
+    <Compile Include="Migrations\201908270928463_ipdsana.Designer.cs">
+      <DependentUpon>201908270928463_ipdsana.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908271238025_ipdtest2.cs" />
+    <Compile Include="Migrations\201908271238025_ipdtest2.Designer.cs">
+      <DependentUpon>201908271238025_ipdtest2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908271245371_ipdAttendances.cs" />
+    <Compile Include="Migrations\201908271245371_ipdAttendances.Designer.cs">
+      <DependentUpon>201908271245371_ipdAttendances.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909101409249_EvaluationEnqueteMig.cs" />
+    <Compile Include="Migrations\201909101409249_EvaluationEnqueteMig.Designer.cs">
+      <DependentUpon>201909101409249_EvaluationEnqueteMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909250908390_SCGISI.cs" />
+    <Compile Include="Migrations\201909250908390_SCGISI.Designer.cs">
+      <DependentUpon>201909250908390_SCGISI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910111045525_QREvalChangesMigration.cs" />
+    <Compile Include="Migrations\201910111045525_QREvalChangesMigration.Designer.cs">
+      <DependentUpon>201910111045525_QREvalChangesMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910150844091_ChangesBOSCGISIMig.cs" />
+    <Compile Include="Migrations\201910150844091_ChangesBOSCGISIMig.Designer.cs">
+      <DependentUpon>201910150844091_ChangesBOSCGISIMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910181555240_SAMRCMigration.cs" />
+    <Compile Include="Migrations\201910181555240_SAMRCMigration.Designer.cs">
+      <DependentUpon>201910181555240_SAMRCMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910211259481_lastMigration.cs" />
+    <Compile Include="Migrations\201910211259481_lastMigration.Designer.cs">
+      <DependentUpon>201910211259481_lastMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910211546300_SERVICECLIENTSAMRCMig.cs" />
+    <Compile Include="Migrations\201910211546300_SERVICECLIENTSAMRCMig.Designer.cs">
+      <DependentUpon>201910211546300_SERVICECLIENTSAMRCMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912030729004_battonage.cs" />
+    <Compile Include="Migrations\201912030729004_battonage.Designer.cs">
+      <DependentUpon>201912030729004_battonage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912030731250_BattonageMigration.cs" />
+    <Compile Include="Migrations\201912030731250_BattonageMigration.Designer.cs">
+      <DependentUpon>201912030731250_BattonageMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003100913413_AchatPublicMigration.cs" />
+    <Compile Include="Migrations\202003100913413_AchatPublicMigration.Designer.cs">
+      <DependentUpon>202003100913413_AchatPublicMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003100923389_MigAchatPublic.cs" />
+    <Compile Include="Migrations\202003100923389_MigAchatPublic.Designer.cs">
+      <DependentUpon>202003100923389_MigAchatPublic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312148391_MigrationInvTest.cs" />
+    <Compile Include="Migrations\202003312148391_MigrationInvTest.Designer.cs">
+      <DependentUpon>202003312148391_MigrationInvTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312155229_migtestinv.cs" />
+    <Compile Include="Migrations\202003312155229_migtestinv.Designer.cs">
+      <DependentUpon>202003312155229_migtestinv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312159222_invtech.cs" />
+    <Compile Include="Migrations\202003312159222_invtech.Designer.cs">
+      <DependentUpon>202003312159222_invtech.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312214443_migrationtechnique.cs" />
+    <Compile Include="Migrations\202003312214443_migrationtechnique.Designer.cs">
+      <DependentUpon>202003312214443_migrationtechnique.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312224427_tech.cs" />
+    <Compile Include="Migrations\202003312224427_tech.Designer.cs">
+      <DependentUpon>202003312224427_tech.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312228256_tstt.cs" />
+    <Compile Include="Migrations\202003312228256_tstt.Designer.cs">
+      <DependentUpon>202003312228256_tstt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312235166_test.cs" />
+    <Compile Include="Migrations\202003312235166_test.Designer.cs">
+      <DependentUpon>202003312235166_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312247110_ss.cs" />
+    <Compile Include="Migrations\202003312247110_ss.Designer.cs">
+      <DependentUpon>202003312247110_ss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312313365_rtrtrtr.cs" />
+    <Compile Include="Migrations\202003312313365_rtrtrtr.Designer.cs">
+      <DependentUpon>202003312313365_rtrtrtr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312319311_ghhhhhh.cs" />
+    <Compile Include="Migrations\202003312319311_ghhhhhh.Designer.cs">
+      <DependentUpon>202003312319311_ghhhhhh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312331248_tt.cs" />
+    <Compile Include="Migrations\202003312331248_tt.Designer.cs">
+      <DependentUpon>202003312331248_tt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312334419_jj.cs" />
+    <Compile Include="Migrations\202003312334419_jj.Designer.cs">
+      <DependentUpon>202003312334419_jj.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003312341554_final.cs" />
+    <Compile Include="Migrations\202003312341554_final.Designer.cs">
+      <DependentUpon>202003312341554_final.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004010214323_ajoutsender.cs" />
+    <Compile Include="Migrations\202004010214323_ajoutsender.Designer.cs">
+      <DependentUpon>202004010214323_ajoutsender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006191035430_suivisamrc.cs" />
+    <Compile Include="Migrations\202006191035430_suivisamrc.Designer.cs">
+      <DependentUpon>202006191035430_suivisamrc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006230945012_battonageV2.cs" />
+    <Compile Include="Migrations\202006230945012_battonageV2.Designer.cs">
+      <DependentUpon>202006230945012_battonageV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007091141499_PRVmIGRATION.cs" />
+    <Compile Include="Migrations\202007091141499_PRVmIGRATION.Designer.cs">
+      <DependentUpon>202007091141499_PRVmIGRATION.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007091144204_PRVMig.cs" />
+    <Compile Include="Migrations\202007091144204_PRVMig.Designer.cs">
+      <DependentUpon>202007091144204_PRVMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007201040247_SAMRC_Migration.cs" />
+    <Compile Include="Migrations\202007201040247_SAMRC_Migration.Designer.cs">
+      <DependentUpon>202007201040247_SAMRC_Migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007201057094_tempsSamRcMig.cs" />
+    <Compile Include="Migrations\202007201057094_tempsSamRcMig.Designer.cs">
+      <DependentUpon>202007201057094_tempsSamRcMig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007210802443_tmpssamrcMigration.cs" />
+    <Compile Include="Migrations\202007210802443_tmpssamrcMigration.Designer.cs">
+      <DependentUpon>202007210802443_tmpssamrcMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007211017299_AppSortantsSamRc.cs" />
+    <Compile Include="Migrations\202007211017299_AppSortantsSamRc.Designer.cs">
+      <DependentUpon>202007211017299_AppSortantsSamRc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\EvaluationPRVRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportContext.cs" />
+    <Compile Include="ReportContextInitializor.cs" />
+    <Compile Include="ReportIdentityTestContext.cs" />
+    <Compile Include="Repository\AlerteRepository.cs" />
+    <Compile Include="Repository\AppelRepository.cs" />
+    <Compile Include="Repository\AttendanceHermesRepository.cs" />
+    <Compile Include="Repository\EmployeeRepository.cs" />
+    <Compile Include="Repository\EvaluationAchatPublicRepository.cs" />
+    <Compile Include="Repository\EvaluationBattonageRepository.cs" />
+    <Compile Include="Repository\EvaluationBOSAMRCRepository.cs" />
+    <Compile Include="Repository\EvaluationBOSCGISIRepository.cs" />
+    <Compile Include="Repository\EvaluationBPPRepository.cs" />
+    <Compile Include="Repository\EvaluationEnqueteAutoRepository.cs" />
+    <Compile Include="Repository\EvaluationFOSAMRCRepository.cs" />
+    <Compile Include="Repository\EvaluationFOSCGISIRepository.cs" />
+    <Compile Include="Repository\EvaluationKLMORepository.cs" />
+    <Compile Include="Repository\EvaluationPRVRepository.cs" />
+    <Compile Include="Repository\EvaluationRepository.cs" />
+    <Compile Include="Repository\EvaluationQRRepository.cs" />
+    <Compile Include="Repository\EventRepository.cs" />
+    <Compile Include="Repository\GroupeRepository.cs" />
+    <Compile Include="Repository\GroupesEmployeesRepository.cs" />
+    <Compile Include="Repository\IAlerteRepository.cs" />
+    <Compile Include="Repository\IAppelRepository.cs" />
+    <Compile Include="Repository\IAttencanceHermesRepository.cs" />
+    <Compile Include="Repository\IEmployeeRepository.cs" />
+    <Compile Include="Repository\IEvaluationAchatPublicRepository.cs" />
+    <Compile Include="Repository\IEvaluationBattonageRepository.cs" />
+    <Compile Include="Repository\IEvaluationBOSAMRCRepository.cs" />
+    <Compile Include="Repository\IEvaluationBOSCGISIRepository.cs" />
+    <Compile Include="Repository\IEvaluationBPPRepository.cs" />
+    <Compile Include="Repository\IEvaluationEnqueteAutoRepository.cs" />
+    <Compile Include="Repository\IEvaluationFOSAMRCRepository.cs" />
+    <Compile Include="Repository\IEvaluationKLMORepository.cs" />
+    <Compile Include="Repository\IEvaluationPRVRepository.cs" />
+    <Compile Include="Repository\IEvaluationRepository.cs" />
+    <Compile Include="Repository\IEvaluationQRRepository.cs" />
+    <Compile Include="Repository\IEvaluationFOSCGISIRepository.cs" />
+    <Compile Include="Repository\IEventRepository.cs" />
+    <Compile Include="Repository\IGroupeRepository.cs" />
+    <Compile Include="Repository\IGroupesEmployeesRepository.cs" />
+    <Compile Include="Repository\IIndicateurRepository.cs" />
+    <Compile Include="Repository\IIndicateursSAMRCRepository.cs" />
+    <Compile Include="Repository\IndicateurRepository.cs" />
+    <Compile Include="Repository\IndicateursSAMRCRepository.cs" />
+    <Compile Include="Repository\IPlaningRepository.cs" />
+    <Compile Include="Repository\ITitreRepository.cs" />
+    <Compile Include="Repository\IUtilisateurRepository.cs" />
+    <Compile Include="Repository\PlaningRepository.cs" />
+    <Compile Include="Repository\TitreRepository.cs" />
+    <Compile Include="Repository\UtilisateurRepository.cs" />
+    <Compile Include="Store\CustomRoleStore.cs" />
+    <Compile Include="Store\CustomUserStore.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{524f4d45-8ffb-4ee0-90a4-79aad9f59aee}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201906251130161_vecteurplusMig.resx">
+      <DependentUpon>201906251130161_vecteurplusMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908270842444_IPD.resx">
+      <DependentUpon>201908270842444_IPD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908270845348_IPDMig.resx">
+      <DependentUpon>201908270845348_IPDMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908270922150_ipdtest.resx">
+      <DependentUpon>201908270922150_ipdtest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908270928463_ipdsana.resx">
+      <DependentUpon>201908270928463_ipdsana.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908271238025_ipdtest2.resx">
+      <DependentUpon>201908271238025_ipdtest2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908271245371_ipdAttendances.resx">
+      <DependentUpon>201908271245371_ipdAttendances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909101409249_EvaluationEnqueteMig.resx">
+      <DependentUpon>201909101409249_EvaluationEnqueteMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909250908390_SCGISI.resx">
+      <DependentUpon>201909250908390_SCGISI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910111045525_QREvalChangesMigration.resx">
+      <DependentUpon>201910111045525_QREvalChangesMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910150844091_ChangesBOSCGISIMig.resx">
+      <DependentUpon>201910150844091_ChangesBOSCGISIMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910181555240_SAMRCMigration.resx">
+      <DependentUpon>201910181555240_SAMRCMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910211259481_lastMigration.resx">
+      <DependentUpon>201910211259481_lastMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910211546300_SERVICECLIENTSAMRCMig.resx">
+      <DependentUpon>201910211546300_SERVICECLIENTSAMRCMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912030729004_battonage.resx">
+      <DependentUpon>201912030729004_battonage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912030731250_BattonageMigration.resx">
+      <DependentUpon>201912030731250_BattonageMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003100913413_AchatPublicMigration.resx">
+      <DependentUpon>202003100913413_AchatPublicMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003100923389_MigAchatPublic.resx">
+      <DependentUpon>202003100923389_MigAchatPublic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312148391_MigrationInvTest.resx">
+      <DependentUpon>202003312148391_MigrationInvTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312155229_migtestinv.resx">
+      <DependentUpon>202003312155229_migtestinv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312159222_invtech.resx">
+      <DependentUpon>202003312159222_invtech.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312214443_migrationtechnique.resx">
+      <DependentUpon>202003312214443_migrationtechnique.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312224427_tech.resx">
+      <DependentUpon>202003312224427_tech.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312228256_tstt.resx">
+      <DependentUpon>202003312228256_tstt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312235166_test.resx">
+      <DependentUpon>202003312235166_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312247110_ss.resx">
+      <DependentUpon>202003312247110_ss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312313365_rtrtrtr.resx">
+      <DependentUpon>202003312313365_rtrtrtr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312319311_ghhhhhh.resx">
+      <DependentUpon>202003312319311_ghhhhhh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312331248_tt.resx">
+      <DependentUpon>202003312331248_tt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312334419_jj.resx">
+      <DependentUpon>202003312334419_jj.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003312341554_final.resx">
+      <DependentUpon>202003312341554_final.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004010214323_ajoutsender.resx">
+      <DependentUpon>202004010214323_ajoutsender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006191035430_suivisamrc.resx">
+      <DependentUpon>202006191035430_suivisamrc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006230945012_battonageV2.resx">
+      <DependentUpon>202006230945012_battonageV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007091141499_PRVmIGRATION.resx">
+      <DependentUpon>202007091141499_PRVmIGRATION.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007091144204_PRVMig.resx">
+      <DependentUpon>202007091144204_PRVMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007201040247_SAMRC_Migration.resx">
+      <DependentUpon>202007201040247_SAMRC_Migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007201057094_tempsSamRcMig.resx">
+      <DependentUpon>202007201057094_tempsSamRcMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007210802443_tmpssamrcMigration.resx">
+      <DependentUpon>202007210802443_tmpssamrcMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007211017299_AppSortantsSamRc.resx">
+      <DependentUpon>202007211017299_AppSortantsSamRc.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,104 @@
+﻿@model MVCWEB.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "IndexAgentGroupes";
+    Layout = "~/Views/Shared/_Layout_agent.cshtml";
+}
+
+@section title {
+<li class="text-semibold"> <b>Liste des Activités</b></li>
+@*<li> Statistiques de @Html.DisplayFor(model => model.UserName)</li>*@
+    }
+    @section test{
+
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h6 class="panel-title text-semibold">Liste des Groupes </h6>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            @*<li><a data-action="reload"></a></li>*@
+                        </ul>
+                    </div>
+                </div>
+                <br />
+                @using (Html.BeginForm("IndexAgentrGroupes", "IndicateursActivity", FormMethod.Get, new { enctype = "multipart/form-data" }))
+                {
+                    foreach (var item in Model.Group)
+                    {
+                        <ul class="media-list media-list-linked" style="height: 100px;">
+                            <li class="media">                              
+                                    <div class="media-left"><img src="/Content/template/Layout 1/LTR/assets/images/groups.png" class="img-circle" alt=""></div>
+                                    <div class="media-body">
+                                        <div class="media-heading text-semibold">@Html.DisplayFor(modelItem => item.nom)</div>
+                                        <span class="text-muted">Responsable: @Html.DisplayFor(modelItem => item.responsable)</span>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <a href="@Url.Action("AgentJournalierActivity", "IndicateursActivity", new { id = item.Id })" class="label label-primary">Journalier</a>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <a href="@Url.Action("AgentHebdoActivity", "IndicateursActivity", new { id = item.Id })" class="label label-danger">Hebdomadaire</a>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <a href="@Url.Action("AgentMensuelActivity", "IndicateursActivity", new { id = item.Id })" class="label label-success">Mensuel</a>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <a href="@Url.Action("AgentTrimestrielActivity", "IndicateursActivity", new { id = item.Id })" class="label label bg-indigo-400">Trimestriel</a>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <a href="@Url.Action("AgentAnnuelleActivity", "IndicateursActivity", new { id = item.Id })" class="label label-default">Annuel</a>
+                                    </div>                             
+                            </li>
+                        </ul>
+                    }
+                }
+            </div>
+        </div>
+
+    }
+
+@*@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.image alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+}
+@section testProfileLeft{
+    <a href="#" class="media-left"><img src=@Model.image class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+        </div>
+    </div>
+}*@
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.image alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.image class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Agent</span> -  Suivi par Activité</h4>
+}

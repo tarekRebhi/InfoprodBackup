@@ -1,0 +1,88 @@
+﻿@section test{
+@model MVCWEB.Models.EmployeeViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user.login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdHermes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdHermes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.userName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pseudoName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pseudoName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activite)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.role)
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.userLogin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userLogin)
+        </dd>
+
+        <dd>
+            <img src=@ViewBag.url width="400" height="400" />
+</dd>
+<dd><div class="form-group">
+    @Html.LabelFor(model => model.groupes, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("groupes", Model.groupes, htmlAttributes: new { @class = "form-control", @multiple = "multiple" })
+        @Html.ValidationMessageFor(model => model.groupes, "", new { @class = "text-danger" })
+
+        @*@Html.DropDownList("SelectedItem", Model.listItems, "-----Select----")*@
+    </div>
+</div></dd>
+       </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+    }

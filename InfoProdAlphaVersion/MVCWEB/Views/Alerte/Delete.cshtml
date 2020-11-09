@@ -1,0 +1,80 @@
+﻿@model Domain.Entity.Alerte
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Alerte</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.indicateur.mois)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.indicateur.mois)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.titreAlerte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.titreAlerte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateCreation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateCreation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.etatAlerte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.etatAlerte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reponseAlerte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reponseAlerte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateReponse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateReponse)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

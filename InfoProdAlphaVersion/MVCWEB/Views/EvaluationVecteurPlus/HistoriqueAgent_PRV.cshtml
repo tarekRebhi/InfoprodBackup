@@ -1,0 +1,260 @@
+﻿
+@model MVCWEB.Models.EvaluationViewModel
+
+@{
+    ViewBag.title = "HistoriqueAgent_PRV";
+    Layout = "~/Views/Shared/_Layout_agent_PRV.cshtml";
+}
+
+@section extract {
+    <li> <a onclick="tablesToExcel(['historiqueEmpPRV'], ['HistoriqueAgentPRV'], 'PRVHistoriqueEvaluations.xls', 'Excel')"> <span class="glyphicon glyphicon-export"></span>Télécharger Excel</a></li>
+}
+@section test{
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/pickers/daterangepicker.js"></script>
+
+    <div class="row">
+
+        <div class="col-xs-6">
+            <h6 class="col-xs-3 control-label">Filtrer par date</h6>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                    <input type="text" class="form-control daterange-basic" name="datetimes" id="datetimes" value="01/01/2020 - 01/31/2020">
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+            <button id="chercher" type="submit" class="btn bg-teal-400" data-title="Chercher Enregistrement" value="Chercher Enregistrement" data-toggle="modal">Recherche <i class="icon-play3 position-right"></i></button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div id="view"></div>
+    <script>
+var debut;
+var fin;
+$(function() {
+    $('#datetimes').daterangepicker({
+
+        opens: 'left',
+        format: 'DD/MM/YYYY',
+        locale: {
+
+            "daysOfWeek": [
+      "Dim",
+      "Lun",
+      "Mar",
+      "Mer",
+      "Jeu",
+      "Ven",
+      "Sam"
+            ],
+            "monthNames": [
+                "Jan",
+                "Fev",
+                "Mar",
+                "Avr",
+                "Mai",
+                "Ju",
+                "Jui",
+                "Aou",
+                "Sep",
+                "Oct",
+                "Nov",
+                "December"
+            ],
+        },
+        lan: 'fr',
+
+
+    },
+     function (start, end, label) {
+         debut = start.format('DD/MM/YYYY');
+         fin = end.format('DD/MM/YYYY');
+     }
+    );
+});
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+           // $(document).on("change", "#test", function () {
+
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/GetHistoAgentPRV',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        //username: $("#test").val(),
+                    },
+                    async: true,
+                    success: function (data) {
+                        $('#view').html(data);
+                        $('#historiqueEmpPRV').show();
+                        $('#errorFile2').modal('show');
+                    },
+
+               // });
+            })
+        })
+    </script>
+    <script>
+        $('#datePicker')
+               .daterangepicker({
+                   singleDatePicker: true,
+                   locale: {
+                       setDate: new Date(),
+                       format: 'DD/MM/YYYY',
+                       "daysOfWeek": [
+            "Dim",
+            "Lun",
+            "Mar",
+            "Mer",
+            "Jeu",
+            "Ven",
+            "Sam"
+                       ],
+                       "monthNames": [
+                           "Jan",
+                           "Fev",
+                           "Mar",
+                           "Avr",
+                           "Mai",
+                           "Ju",
+                           "Jui",
+                           "Aou",
+                           "Sep",
+                           "Oct",
+                           "Nov",
+                           "December"
+                       ],
+                   },
+                   lan: 'fr',
+                   autoclose: true,
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(document).on("click", "#chercher", function () {
+
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/GetHistoAgentPRVByDate',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        username: $("#test").val(),
+                        dateDebut: debut,
+                        dateFin:fin,
+                        //date: $("#datePicker").val()
+                    },
+                    async: true,
+                    success: function (data) {
+                        $('#view').html(data);
+                        $('#historiqueEmpPRV').show();
+                        $('#errorFile2').modal('show');
+                    },
+
+                });
+            })
+        })
+    </script>
+    <script>
+
+        var tablesToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+            , tmplWorkbookXML = '<?xml version="1.0"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'
+              + '<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office"><Author>Axel Richter</Author><Created>{created}</Created></DocumentProperties>'
+              + '<Styles>'
+              + '<Style ss:ID="Currency"><NumberFormat ss:Format="Currency"></NumberFormat></Style>'
+              + '<Style ss:ID="Date"><NumberFormat ss:Format="Medium Date"></NumberFormat></Style>'
+              + '</Styles>'
+              + '{worksheets}</Workbook>'
+            , tmplWorksheetXML = '<Worksheet ss:Name="{nameWS}"><Table>{rows}</Table></Worksheet>'
+            , tmplCellXML = '<Cell{attributeStyleID}{attributeFormula}><Data ss:Type="{nameType}">{data}</Data></Cell>'
+            , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (tables, wsnames, wbname, appname) {
+                var ctx = "";
+                var workbookXML = "";
+                var worksheetsXML = "";
+                var rowsXML = "";
+
+                for (var i = 0; i < tables.length; i++) {
+                    if (!tables[i].nodeType) tables[i] = document.getElementById(tables[i]);
+                    for (var j = 0; j < tables[i].rows.length; j++) {
+                        rowsXML += '<Row>'
+                        for (var k = 0; k < tables[i].rows[j].cells.length; k++) {
+                            var dataType = tables[i].rows[j].cells[k].getAttribute("data-type");
+                            var dataStyle = tables[i].rows[j].cells[k].getAttribute("data-style");
+                            var dataValue = tables[i].rows[j].cells[k].getAttribute("data-value");
+                            dataValue = (dataValue) ? dataValue : tables[i].rows[j].cells[k].innerHTML;
+                            var dataFormula = tables[i].rows[j].cells[k].getAttribute("data-formula");
+                            dataFormula = (dataFormula) ? dataFormula : (appname == 'Calc' && dataType == 'DateTime') ? dataValue : null;
+                            ctx = {
+                                attributeStyleID: (dataStyle == 'Currency' || dataStyle == 'Date') ? ' ss:StyleID="' + dataStyle + '"' : ''
+                                   , nameType: (dataType == 'Number' || dataType == 'DateTime' || dataType == 'Boolean' || dataType == 'Error') ? dataType : 'String'
+                                   , data: (dataFormula) ? '' : dataValue
+                                   , attributeFormula: (dataFormula) ? ' ss:Formula="' + dataFormula + '"' : ''
+                            };
+                            rowsXML += format(tmplCellXML, ctx);
+                        }
+                        rowsXML += '</Row>'
+                    }
+                    ctx = { rows: rowsXML, nameWS: wsnames[i] || 'Sheet' + i };
+                    worksheetsXML += format(tmplWorksheetXML, ctx);
+                    rowsXML = "";
+                }
+
+                ctx = { created: (new Date()).getTime(), worksheets: worksheetsXML };
+                workbookXML = format(tmplWorkbookXML, ctx);
+
+                console.log(workbookXML);
+
+                var link = document.createElement("A");
+                link.href = uri + base64(workbookXML);
+                link.download = wbname || 'Workbook.xls';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        })();
+    </script>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.ConnectedUsername</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.ConnectedUsername</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Agent</span> -  Historique des Evaluations</h4>
+}
+@section pagetitlebody {
+    <li class="text-semibold"> <b>Historique Evaluations Vecteur Plus (PRV)</b></li>
+    <li>de <span>@ViewBag.ConnectedUsername </span></li>
+}

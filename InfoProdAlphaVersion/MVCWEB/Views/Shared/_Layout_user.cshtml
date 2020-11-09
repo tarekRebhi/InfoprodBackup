@@ -1,0 +1,505 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<meta http-equiv="refresh" content="60" />*@
+    <title>InfoProd - Responsive Web Application Kit by InfoProd-Team</title>
+    <!-- Global stylesheets -->
+    @*<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">*@
+    <link href="/Content/template/Layout 1/LTR/assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="/Content/template/Layout 1/LTR/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/Content/template/Layout 1/LTR/assets/css/core.css" rel="stylesheet" type="text/css">
+    <link href="/Content/template/Layout 1/LTR/assets/css/components.css" rel="stylesheet" type="text/css">
+    <link href="/Content/template/Layout 1/LTR/assets/css/colors.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/loaders/pace.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/core/libraries/bootstrap.min.js"></script>
+    @*<script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/loaders/blockui.min.js"></script>*@
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    @*<script type="text/javascript" src="http://echarts.baidu.com/dist/echarts.min.js"></script>*@
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/visualization/d3/d3.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+    @*<script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/forms/styling/switchery.min.js"></script>*@
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/forms/styling/uniform.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/ui/moment/moment.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/pickers/daterangepicker.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/core/app.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/pages/form_multiselect.js"></script>
+    @*<script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/notifications/pnotify.min.js"></script>*@
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/forms/selects/bootstrap_select.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/pages/form_bootstrap_select.js"></script>
+    @*<script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/pages/dashboard.js"></script>*@
+    <!-- /theme JS files -->
+    @*<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>*@
+    @*<script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/core/libraries/jquery.min.js"></script>*@
+    @*<script src="http://echarts.baidu.com/dist/echarts.min.js"></script>*@
+
+
+    @*<script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/echarts.js"></script>
+        <script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/chart/pie.js"></script>
+        <script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/chart/bar.js"></script>
+        <script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/chart/radar.js"></script>
+        <script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/chart/gauge.js"></script>
+        <script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/chart/K.js"></script>
+        <script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/chart/line.js"></script>
+        <script type="text/javascript" src="~/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/chart/scatter.js"></script>
+        <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/visualization/echarts/theme/limitless.js"></script>
+        <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/charts/echarts/combinations.js"></script>*@
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    @*<script type="text/javascript" src="assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
+        <script type="text/javascript" src="assets/js/plugins/forms/styling/switchery.min.js"></script>
+        <script type="text/javascript" src="assets/js/plugins/ui/moment/moment.min.js"></script>
+        <script type="text/javascript" src="assets/js/plugins/ui/fullcalendar/fullcalendar.min.js"></script>
+        <script type="text/javascript" src="assets/js/plugins/ui/fullcalendar/lang/ar.js"></script>
+        <script type="text/javascript" src="assets/js/core/app.js"></script>
+        <script type="text/javascript" src="assets/js/pages/extra_fullcalendar_advanced.js"></script>*@
+    <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+    <!--Reference the autogenerated SignalR hub script. -->
+    <script src="/signalr/hubs"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/notifications/pnotify.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/pages/components_notifications_pnotify.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            // Declare a proxy to reference the hub.
+            var chat = $.connection.notificationHub;
+            chat.client.sendMessage = function (name,message) {
+
+                //$('#notif').append(
+                //    '<strong>:&nbsp;&nbsp;' + message + '</strong></li>'
+                //    );
+                var notice = new PNotify({
+                    title: name,
+                    text: message,
+                    addclass: 'bg-slate',
+                    hide: false,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+                notice.get().click(function () {
+                    notice.remove();
+                });
+            };
+
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+
+                    //chat.server.broadcast("salah");
+
+            });
+        });
+    </script>
+    <style type="text/css">
+        #myChart-license-text {
+            display: none;
+            color: white;
+        }
+    </style>
+    <style type="text/css">
+        #myChartFiche-license-text {
+            display: none;
+            color: white;
+        }
+    </style>
+    <style type="text/css">
+        #myChartTelephonie-license-text {
+            display: none;
+            color: white;
+        }
+    </style>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    @*<script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>*@
+</head>
+<body>
+    <!-- Main navbar -->
+    <div class="navbar navbar-inverse" style="color:chartreuse">
+        <div class="navbar-header">
+            <a class="navbar-brand" style="height:auto"><img src="/Content/template/Layout 1/LTR/assets/images/logoPng.png" style="height:80px"></a>
+            <div class="navbar-brand" style="position: absolute;left: 35%;font-size:40px;padding-top:39px;font-family:'Baskerville Old Face';font-weight:bold"><span style="color:gray">Bienvenue sur </span><span style="color:#ff0000"> INFO</span><span style="color:gray">-PROD</span></div>
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-mobile" style="padding-top:30px;">
+            <ul class="nav navbar-nav">
+                <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+                @*@{
+                        String nbAlertes = @HttpContext.Current.Session["nbAlertesAgent"].ToString();
+                        int nbAlertesTest = Convert.ToInt32(nbAlertes);
+                    }*@
+                @*<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-mail-read"></i>
+                        <span class="visible-xs-inline-block position-right">Notifications</span>
+                        <span id="notif" class="badge bg-warning-400">nbAlertesTest</span>
+                    </a>
+                    @{
+
+                        var listBackFromSession = (List<MVCWEB.Models.AlerteViewModel>)Session["alertesAgent"];
+                        // do what you want
+
+                    }*@
+                @*<div class="dropdown-menu dropdown-content">
+                            <div class="dropdown-content-heading">
+                                Notifications
+                                <ul class="icons-list">
+                                    <li><a href="#"><i class="icon-sync"></i></a></li>
+                                </ul>
+                            </div>
+                            <ul class="media-list dropdown-content-body width-350">
+                                @foreach (var item in @listBackFromSession)
+                                {
+                                    <li class="media">
+                                        <div class="media-left">
+                                            <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-mail-read"></i></a>
+                                        </div>
+                                        <div class="media-body">
+                                            Reponse Alerte de la part de  <a href="#">@item.reciverName</a> message est @item.reponseAlerte   @Html.ActionLink("Marquer Comme Lu", "UpdateAlerte", "Alerte", new { Id = @item.Id }, new { enctype = "multipart/form-data" })
+                                            @*<div class="media-annotation">4 minutes ago</div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="dropdown-content-footer">
+
+                            </div>
+                        </div>
+                    </li>*@
+            </ul>
+
+
+            @RenderSection("Notifications", required: false)
+
+
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown dropdown-user">
+                    @RenderSection("testProfile", required: false)
+
+
+                    @*@RenderSection("testProfile", required: false)*@
+                    @*@{
+                            String username = @HttpContext.Current.Session["userName"].ToString();
+                        }
+                        @{
+                            String image = @HttpContext.Current.Session["imageEmp"].ToString();
+                        }
+                        @{
+                            String pseudoname = @HttpContext.Current.Session["pseudoname"].ToString();
+                        }*@
+                    @*<a class="dropdown-toggle" data-toggle="dropdown">
+                            <img src=@image alt="">
+                            <span>@username</span>
+                            <i class="caret"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+
+                            <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+                        </ul>*@
+                    <ul class="dropdown-menu dropdown-menu-right">
+
+                        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /main navbar -->
+    <!-- Page container -->
+    <div class="page-container" style="min-height:925px">
+        <!-- Page content -->
+        <div class="page-content">
+            <!-- Main sidebar -->
+            <div class="sidebar sidebar-main" style="background-color:black">
+                <div class="sidebar-content" style="background-color:black">
+                    <!-- User menu -->
+                    <div class="sidebar-user">
+                        <div class="category-content">
+                            <div class="media">
+                                @RenderSection("sidebarProfile", required: false)
+
+
+                                @*<a href="#" class="media-left"><img src="/Content/template/Layout 1/LTR/assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+                                    <div class="media-body">
+                                        <span class="media-heading text-semibold">Victoria Baker</span>
+                                        <div class="text-size-mini text-muted">
+                                            <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
+                                        </div>
+                                    </div>*@
+                                @*@RenderSection("testProfileLeft", required: false)*@
+                                @*<a href="#" class="media-left"><img src=@image class="img-circle img-sm" alt=""></a>
+                                    <div class="media-body">
+                                        <span class="media-heading text-semibold">@username</span>
+                                        <div class="text-size-mini text-muted">
+                                            <i class="icon-user text-size-small"></i> &nbsp;@pseudoname
+                                        </div>
+                                    </div>
+                                    <div class="media-right media-middle">
+                                        <ul class="icons-list">
+                                            <li>
+                                                <a href="#"><i class="icon-cog3"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /user menu -->
+                    <!-- Main navigation -->
+                    <div class="sidebar-category sidebar-category-visible" style="background-color:black">
+                        <div class="category-content no-padding">
+                            <ul class="navigation navigation-main navigation-accordion">
+                                <!-- Main -->
+                                @*@{
+                String login = @HttpContext.Current.Session["loginIndex"].ToString();
+            }
+            @{
+                String idEmpConnected = @HttpContext.Current.Session["IdEmpConnected"].ToString();
+                int id = Convert.ToInt32(idEmpConnected);
+            }*@
+                                @*<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>*@
+
+                               @*@{
+
+                                    String GISIREAB = @Session["GISI-REAB"].ToString();
+                                    String GISIPROMO = @HttpContext.Current.Session["GISI-PROMO"].ToString();
+                                    String GMTREAB = @HttpContext.Current.Session["GMT-REAB"].ToString();
+                                    String GMTPROMO = @HttpContext.Current.Session["GMT-PROMO"].ToString();
+                                    String SuperMangerRole = @HttpContext.Current.Session["SuperMangerRole"].ToString();
+                                }*@
+                                <li class="active"><a href="@Url.Action("IndexManagerGroupes", "Home")"><i class="icon-home4"></i> <span>Accueil</span></a></li>
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-user"></i> <span>Suivi des Agents</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="@Url.Action("ManagerJournalierAgent", "Home")">Journalier </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ManagerHebdoAgent", "Home")"> Hebdomadaire </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ManagerMensuelAgent", "Home")">Mensuel </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ManagerTrimestrielleAgent", "Home")"> Trimestriel </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("ManagerAnnuelleAgent", "Home")"> Annuel</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-stats"></i> <span>Suivi des Activités</span></a>
+                                    <ul>
+                                        <li><a href="@Url.Action("ManagerJournalierActivity", "Home")">Journalier </a></li>
+                                        <li><a href="@Url.Action("ManagerHebdoActivity", "Home")">Hebdomadaire</a></li>
+                                        <li><a href="@Url.Action("ManagerMensuelActivity", "Home")">Mensuel</a></li>
+                                        <li><a href="@Url.Action("ManagerTrimestrielActivity", "Home")">Trimestriel</a></li>
+                                        <li><a href="@Url.Action("ManagerAnnuelleActivity", "Home")">Annuel</a></li>
+
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-th-list"></i> <span>Suivi Traitement des Campagnes</span></a>
+                                    <ul>
+                                        @*<li>
+                                            @if (GISIREAB == "GISI-REAB")
+                                            {
+                                                <a href="@Url.Action("GISI_REAB_Qualif", "DetailsActivites")">@GISIREAB </a>
+                                            }
+                                            @if (GISIPROMO != "")
+                                            {
+                                                <a href="@Url.Action("GISI_PROMO_Qualif", "DetailsActivites")"> @GISIPROMO</a>
+                                            }
+                                            @if (GMTREAB == "GMT-REAB")
+                                            {
+                                                <a href="@Url.Action("GMT_REAB_Qualif", "DetailsActivites")">@GMTREAB </a>
+                                            }
+                                            @if (GMTPROMO != "")
+                                            {
+                                                <a href="@Url.Action("GMT_PROMO_Qualif", "DetailsActivites")"> @GMTPROMO</a>
+                                            }
+                                        </li>*@
+
+                     <li><a href="@Url.Action("GISI_REAB_Qualif", "DetailsActivites")">GISI-REAB </a></li>
+                    <li><a href="@Url.Action("GISI_PROMO_Qualif", "DetailsActivites")">GISI-PROMO</a></li>
+                    <li><a href="@Url.Action("GMT_REAB_Qualif", "DetailsActivites")">GMT-REAB</a></li>
+                    <li><a href="@Url.Action("GMT_PROMO_Qualif", "DetailsActivites")">GMT-PROMO</a></li>
+
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-check"></i> <span>Suivi des Accords</span></a>
+                                    <ul>
+                                        @*<li>
+                                            @if (GISIREAB == "GISI-REAB")
+                                            {
+                                                <a href="@Url.Action("GISIREAB", "Accords")">@GISIREAB </a>
+                                            }
+                                            @if (GISIPROMO != "")
+                                            {
+                                                <a href="@Url.Action("GISIPROMO", "Accords")"> @GISIPROMO</a>
+                                            }
+                                            @if (GMTREAB == "GMT-REAB")
+                                            {
+                                                <a href="@Url.Action("GMTREAB", "Accords")">@GMTREAB </a>
+                                            }
+                                            @if (GMTPROMO != "")
+                                            {
+                                                <a href="@Url.Action("GMTPROMO", "Accords")"> @GMTPROMO</a>
+                                            }
+                                        </li>*@
+                                        <li><a href="@Url.Action("GISIREAB", "Accords")">GISI-REAB </a></li>
+                    <li><a href="@Url.Action("GISIPROMO", "Accords")">GISI-PROMO</a></li>
+                    <li><a href="@Url.Action("GMTREAB", "Accords")">GMT-REAB</a></li>
+                    <li><a href="@Url.Action("GMTPROMO", "Accords")">GMT-PROMO</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-import"></i> <span>Suivi des Injections</span></a>
+                                    <ul>
+                                        <li>
+                                            <a>Par Traitement des Campagnes </a>
+                                            <ul>
+                                                @*<li>
+                                                    @if (GISIREAB == "GISI-REAB")
+                                                    {
+                                                        <a href="@Url.Action("GISI_REAB_Injection", "DetailsActivitesInjection")">@GISIREAB </a>
+                                                    }
+                                                    @if (GISIPROMO != "")
+                                                    {
+                                                        <a href="@Url.Action("GISI_PROMO_Injection", "DetailsActivitesInjection")"> @GISIPROMO</a>
+                                                    }
+                                                    @if (GMTREAB == "GMT-REAB")
+                                                    {
+                                                        <a href="@Url.Action("GMT_REAB_Injection", "DetailsActivitesInjection")">@GMTREAB </a>
+                                                    }
+                                                    @if (GMTPROMO != "")
+                                                    {
+                                                        <a href="@Url.Action("GMT_PROMO_Injection", "DetailsActivitesInjection")"> @GMTPROMO</a>
+                                                    }
+                                                </li>*@
+                                                <li><a href="@Url.Action("GISI_REAB_Injection", "DetailsActivitesInjection")">GISI-REAB </a></li>
+                            <li><a href="@Url.Action("GISI_PROMO_Injection", "DetailsActivitesInjection")">GISI-PROMO</a></li>
+                            <li><a href="@Url.Action("GMT_REAB_Injection", "DetailsActivitesInjection")">GMT-REAB</a></li>
+                            <li><a href="@Url.Action("GMT_PROMO_Injection", "DetailsActivitesInjection")">GMT-PROMO</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="@Url.Action("Index", "DT_INJECTED")">Par Titres</a></li>
+                                        <li> <a href="@Url.Action("Index", "Objectifs")"> Paramètres des Objectifs</a> </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("SuiviTemps", "AttendanceHermes")"><i class="icon-table2"></i> <span>Suivi du Temps</span></a>
+                                </li>
+
+                                <li>
+                                    <a href="@Url.Action("Index", "Alerte")"><i class="glyphicon glyphicon-alert"></i> <span>Alertes</span></a>
+                                    <ul>
+                                        <li><a href="@Url.Action("IndexAgentManager", "Alerte")">Eléments Envoyés</a></li>
+                                        <li><a href="@Url.Action("CreateAlerteManager", "Alerte")">Nouvelle Alerte</a></li>
+
+                                    </ul>
+                                </li>
+                                @*<li>
+                                    <a href="@Url.Action("Calendar", "Home")"><i class="icon-calendar3"></i> <span>Planifications</span></a>
+
+                                </li>*@
+                                <li>
+                                    <a href="@Url.Action("Historique", "Evaluation")"><i class="glyphicon glyphicon-briefcase"></i> <span>Historique des Evaluations</span></a>
+
+                                </li>
+                                <li>
+                                    <a href="#"><i class="glyphicon glyphicon-volume-up"></i> <span>Accès aux Enregistrements </span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="@Url.Action("Index2", "Directory")">Par Compagne </a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("DiffusionManager", "Directory")"> Par Agent </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /main navigation -->
+                </div>
+            </div>
+            <!-- /main sidebar -->
+            <!-- Main content -->
+            <div class="content-wrapper" style="background-color: white">
+                <!-- Page header -->
+                <div class="page-header">
+                    <div class="page-header-content">
+                        <div class="page-title">
+                            @RenderSection("pagetitle", required: false)
+
+
+                            @*<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Acceuil</span> - Tableau de bord</h4>*@
+                        </div>
+                        <div class="heading-elements">
+
+                        </div>
+                    </div>
+                    <div class="breadcrumb-line">
+                        <ul class="breadcrumb">
+                            @*<li><a href="index.html"><i class="icon-home2 position-left"></i> Acceuil</a></li>
+            <li class="active">Acceuil</li>*@
+                            @RenderSection("pagetitlebody", required: false)
+
+                        </ul>
+                        <ul class="breadcrumb-elements">
+                            @RenderSection("extract", required: false)
+                            @RenderSection("extractPDF", required: false)
+
+                            @*<li><a onclick="downloadPDF()"><span class="glyphicon glyphicon-download"></span> Télécharger PDF</a></li>*@
+                            @*<li><a onclick="downloadPDF()"><span class="glyphicon glyphicon-download"></span> Télécharger PDF</a></li>*@
+
+                        </ul>
+
+                    </div>
+                </div>
+                <!-- /page header -->
+                <!-- Content area -->
+                <div class="content" style="background-color: white">
+                    <!-- Main charts -->
+                    <div class="row">
+                        @RenderSection("test", required: false)
+                    </div>
+                        <!-- /dashboard content -->
+                        <!-- Footer -->
+                        <div class="footer text-muted">
+                            &copy; 2018. <a href="#">INFOPROD</a> by <a href="#" target="_blank">DSI-Tunis</a>
+                        </div>
+                        <!-- /footer -->
+                    </div>
+                    <!-- /content area -->
+                </div>
+                <!-- /main content -->
+            </div>
+            <!-- /page content -->
+        </div>
+   
+    @RenderBody()
+    <!-- /page container -->
+    @*<script src="https://docraptor.com/docraptor-1.0.0.js"></script>*@
+    <script src="~/Scripts/docraptor1.0.0.js"></script>
+    <script src="~/Scripts/downloadPDF.js"></script>
+</body>
+</html>

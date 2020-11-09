@@ -1,0 +1,172 @@
+﻿@section test{
+    @model IEnumerable<Domain.Entity.Titre>
+
+    
+
+<div class="table-responsive">
+    <div id="dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+        @using (Html.BeginForm())
+            {
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="dataTable_length">
+                        <label>
+                            Show
+                            <select name="dataTable_length" aria-controls="dataTable" class="form-control form-control-sm">
+                                <option name="test" id="test" value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="dataTable_filter" class="dataTables_filter">
+                        <label>
+                            Search:
+                            @Html.TextBox("search", null, new { id = "search", @class = "form-control form-control-sm" })
+                        </label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-12">
+                </br>
+
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                   <tr>
+                    <th>
+                        @Html.DisplayNameFor(t => t.libelle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(t =>t.activite)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(t => t.type)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(t => t.codeOperation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(t => t.codeProvRelance)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(t => t.dateInjection)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(t => t.nombreFichesInjectees)
+                    </th>
+                    <th>
+                        @Html.DisplayName("Action")
+                    </th>
+                    </tr>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                               
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.libelle)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.activite)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.type)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.codeOperation)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.codeProvRelance)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.dateInjection)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.nombreFichesInjectees)
+                                                </td>
+                                                <td>
+                                                    @using (Html.BeginForm("Edit", "Titre", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                                                    {
+                                                        <div class="form-group">
+                                                            <div class="col-md-offset-2 col-md-10">
+                                                                <input type="submit" value="Editer" class="btn btn-primary" />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @using (Html.BeginForm("Details", "Titre", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                                                    {
+                                                        <div class="form-group">
+                                                            <div class="col-md-offset-2 col-md-10">
+                                                                <input type="submit" value="Details" class="btn btn-warning" />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </td>
+
+                                                <td>
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-2 col-md-10">
+                                                            <p data-placement="top" title="Delete">
+                                                                <button id="imed" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal" class="btn btn-danger">Delete</button>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+
+                        </tr>
+                    
+
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+<div id="explorer1">
+
+
+</div>
+<script src="/Content/Template1/vendor/jquery/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+          $(document).ready ( function () {
+              $(document).on ("click", "#imed", function () {
+                  var $buttonClicked = $(this);
+                  var id = $buttonClicked.attr('data-id');
+              $.ajax({
+                  url: '/Titre/FindTitre',
+                  type: "GET",
+                  contentType: "application/json; charset=utf-8",
+                  data: { "Id": id },
+                  datatype: "html",
+                  async:true,
+                  success: function(data) {
+                      $('#explorer1').html(data);
+                      $('#modifier').modal('show');
+                    },
+
+
+
+              });
+
+
+              })
+          })
+
+</script>
+<div>
+    @Html.ActionLink("Back", "Index")
+</div>   
+}
+    

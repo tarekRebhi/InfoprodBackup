@@ -1,0 +1,193 @@
+﻿@model MVCWEB.Models.DirectoryViewModel
+
+
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @Model.nbresEnrefgistrements</h5>
+    <h5><b>Enregistrements</b></h5>
+    <h5 class="text-semibold no-margin"><i class="icon-watch position-left text-slate"></i> @Model.minutes Minutes : @Model.secondes Secondes</h5>
+    <h5><b>Temps de recherche</b></h5>
+</div>
+<div class="content-group">
+
+</div>
+<br />
+<div class="row">
+
+    @foreach (var item in @Model.files)
+    {
+        <div class="col-lg-3 col-sm-6">
+
+            <div class="thumbnail" style="height:500px;width:450px;">
+
+
+                <div class="thumb thumb-rounded">
+                  
+                    <a href="@Url.Action("Details", "Directory", new { enctype = "multipart/form-data" ,Value=item})" @*id="statimg" data-toggle="modal" data-id="@item.Id"*@>
+                        <img href="#" src="~/Content/smart_folders_icon.png" alt="">
+                    </a>
+                 
+                </div>
+
+                <div class="caption text-center">
+
+                    <h6 class="no-margin-top text-semibold"><a href="#" class="text-default">@Html.DisplayFor(modelItem => item)</a></h6>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+    <div class="panel panel-flat">
+        <div class="panel-heading">
+            <div class="heading-elements">
+               
+            </div>
+        </div>
+        <div class="panel-body">
+        </div>
+        @{ 
+            int i = 0;
+          }
+        <table class="table datatable-save-state">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Enregistrement</th>
+                    <th>numéro enregistrements</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+           
+            <tbody>
+
+                @foreach (var item in @Model.filesTestsInfo)
+                {
+
+
+                    <tr>
+                        <td><img style="width:20px;height:20px;" src="~/Content/aa.jpg" /></td>
+                        <td><a id="NameEnreg">@item.Name</a></td>
+                        @{
+                            int s = i + 1;
+                            i = i + 1;
+                        }
+                        <td>@s</td>
+                        <td><aside type="button" class="btn bg-teal-400" id="test5" data-id="@item.Name" data-FullName="@item.FullName" data-directory="@item.DirectoryName">Ecouter <i class="icon-play"></i></aside></td>
+                        <td>
+                          
+                            @if (Model.roleName == "COMONLINE" || Model.roleName == "558667233464F6B4")
+                            {
+                            <div class="btn-group">
+                                <button type="button" class="btn bg-blue-300 dropdown-toggle" data-toggle="dropdown"><i class="icon-accessibility"></i> Evaluer <span class="caret"></span></button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="@Url.Action("QRVecteurPlus", "EvaluationVecteurPlus", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i> QR VecteurPlus </a></li>
+                                    <li><a href="@Url.Action("KLMOVecteurPlus", "EvaluationVecteurPlus", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-point-up"></i> KLMO VecteurPlus</a></li>
+                                    <li><a href="@Url.Action("BPPVecteurPlus", "EvaluationVecteurPlus", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i> BPP VecteurPlus</a></li>
+                                    <li><a href="@Url.Action("BattonageVecteurPlus", "EvaluationVecteurPlus", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-point-up"></i> Battonage VecteurPlus</a></li>
+                                    <li><a href="@Url.Action("PRVVecteurPlus", "EvaluationVecteurPlus", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i> PRV VecteurPlus</a></li>  
+                                 </ul>
+                            </div>
+                            }
+
+@if (Model.roleName == "SERVICE_CLIENT" || Model.roleName == "5586770313D415B4")
+{
+    <div class="btn-group">
+        <button type="button" class="btn bg-blue-300 dropdown-toggle" data-toggle="dropdown"><i class="icon-accessibility"></i> Evaluer <span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="@Url.Action("EnqueteAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-point-up"></i>Enquete Automobile </a></li>   
+            <li><a href="@Url.Action("SAMRCFOAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i>SAM/RC Auto (Front Office) </a></li>                 
+            <li><a href="@Url.Action("FrontOfficeSCGISI", "EvaluationSCGISI", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-point-up"></i> SC GISI (Front Office)</a></li>
+            <li><a href="@Url.Action("AchatPublic", "EvaluationAchatPublic", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i> Achat Public</a></li>
+        </ul>
+    </div>
+}
+@if (Model.roleName == "AUTO")
+{
+    <div class="btn-group">
+        <button type="button" class="btn bg-blue-300 dropdown-toggle" data-toggle="dropdown"><i class="icon-accessibility"></i> Evaluer <span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="@Url.Action("EnqueteAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-point-up"></i>Enquete Automobile </a></li>
+            <li><a href="@Url.Action("SAMRCFOAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i>SAM/RC Auto (Front Office) </a></li>           
+        </ul>
+    </div>
+}
+
+@if (Model.roleName == "DIFFUSION" || Model.roleName == "5526B414C43414B4")
+{
+                                    <div class="col-md-2">
+                                        <a type="button" class="btn bg-blue-300" href="@Url.Action("Reab2", "Evaluation", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })">Evaluer <i class="icon-accessibility"></i></a>                          
+                                    </div>
+                                    }
+                             </td>
+                      
+                    </tr>
+                    <tr></tr>
+                    <tr></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="details"></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+      $('aside').on('click', function () {
+
+           //  $(document).on("click", "#test5", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var fullname = $buttonClicked.attr('data-FullName');
+            var directoryName = $buttonClicked.attr('data-directory');
+            //$.ajaxSetup({
+            //headers: {
+            //    'x-custom': 'value'
+            //  }
+            //});
+            //delete $.ajaxSettings.headers["x-custom"]
+            $.ajax({
+                url: '/Superviseur/FindCustomEnregistrement',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                    'name': id,
+                    'fullName': fullname,
+                    'DirectoryName': directoryName
+                },
+
+                async: false,//requetes asynchrone attend ou non la prochaine réquete avant de s'éxecuter
+                success: function (data) {
+              
+                    if ($("#details").is(":empty") == false) {
+
+                        $('#details').removeData("#detailsFile");
+                        $("div.modal-backdrop.fade.in").remove();
+                        $('#details').html(data);
+
+                    }
+                    else {
+                        $('#details').html(data);                   
+                    }
+
+                    $('#detailsFile').modal(({
+                        backdrop: 'static',
+                        keyboard: false
+                    }));
+
+                },
+                complete: function () {
+
+                    $('#details').show();
+              
+                }
+            });
+
+      });
+});
+</script>
+

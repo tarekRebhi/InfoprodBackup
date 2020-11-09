@@ -1,0 +1,229 @@
+﻿@if (ViewBag.role == "Qualité")
+{
+    ViewBag.Title = "ReabRef";
+
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_Diffusion")
+{
+    ViewBag.Title = "ReabRef";
+
+    Layout = "~/Views/Shared/_Layout_Diffusion.cshtml";
+}
+@section test{
+
+
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold">Grille d'écoute et Référentiel REAB Diffusion</h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr style="background-color:darkblue">
+                    <th><font color="white">Items</font> </th>
+                    <th><font color="white">Définition</font></th>
+                    <th><font color="white">Discours (Exp)</font></th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td width="12%">
+                        <h5 style="font-weight:bold;">
+                        <font color="black"> Accueil / Présentation</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:cadetblue" width="38%"><font color="White">Se présenter avec le nom et prénom, et présenter l'enseigne (Revue ou Magazine)
+Identifier le client par son Nom et Prénom ou demander la personne décisionnaire pour la souscription d’abonnement. </font></td>
+                    <td style="color:black; background-color:aquamarine" width="50%"><b><u>Fichier nominatif :</u></b>
+                    <br />
+Bonjour, Dominique Delval du magazine La Revue du Jouet, je souhaite m’entretenir quelques instants avec Mr/Mme…, pouvez-vous me mettre en relation SVP ? <br/>
+<b><u>Fichier non nominatif : </u></b>
+                    <br />
+Bonjour, Dominique Delval du magazine La Revue du Jouet,  je souhaite m’entretenir quelques instants avec le responsable  (ou la personne décisionnaire pour la souscription d’abonnement à une revue professionnelle). Pouvez-vous me mettre en relation SVP ?</td>
+                </tr>
+
+
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Objet de l'appel</font></h5></td>
+                    <td style="background-color:cadetblue"><font color="white">Présenter clairement l'objet du Contact (tout interlocuteurs)
+Fixer systematiquement un rappel (date et heure) en cas d'indisponibilité de la personne concerné</font></td>
+                    <td style="color:black; ">
+                        <b><u>1-Barrage secrétaire ou tiers personne:</u></b>
+                        <br />
+                        <b><u>C’est à quel sujet ?</u></b>
+                        <br />
+                        Je vous contact aujourd'hui au sujet du renouvellement de votre abonnement a la revue X, ... pouvez vous me mettre en relation SVP?
+                        <br/>
+                        <b><u>Absent/occupé</u></b>
+                        <br/>
+                        A quel moment puis-je le/la rappeler SVP ? (noter)
+                        Est-il/elle plus disponible en début ou fin d’après-midi/ en début ou fin de semaine ?
+                        <br />
+                        <br/>
+                        <b><u>2-Bon Interlocuteur:</u></b>
+                        <br/>
+                        Je vous contact aujourd'hui pour valider le renouvellement de votre abonnement a la revue X
+                    </td>
+
+                </tr>
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Présentation de l'offre / Valider la satisfaction Client</font></h5></td>
+                    <td style="background-color:cadetblue"><font color="white">Le collaborateur:
+                        <br/>
+Présente l'offre dans le cas ou il y a eu un changement du decisionnaire
+Valide la satisfaction du client par rapport au contenu de la revue  </font></td>
+<td style="background-color:aquamarine"></td>
+                </tr>
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Gestion des objections </font></h5></td>
+                    <td style="background-color:cadetblue"><font color="white">Le collaborateur traite les objections du client via <br/>
+-Un questionnement ciblé et structuré pour spécifier l'objection
+                        <br/>
+-Une reformulation positive de l'objection
+                        <br/>
+-Une argumentation structuré baser sur la valorisation des points forts de la revue
+</font></td>
+                    <td style="color:black;">
+                        <b>Support en cours d'élaboration </b>
+                        </td>
+</tr>
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Verrouillage et Conclusion du contact</font></h5></td>
+                    <td style="background-color:cadetblue"><font color="white">le collaborateur :<br/>
+-Valide le consentement du client <br/>
+- Applique correctement les procédures et consignes de traitement des données  (les incontournables)<br/>
+- Valide la compréhension réciproque des termes de l’entretien<br/>
+- Précise la suite donnée ou à donner <br />
+</font></td>
+                    <td style="color:black;background-color:aquamarine;">
+                        <b><u>Ok abonnement : </u></b><br/>
+                        <b>Validation de l’adresse d’envoi <br/>
+Validation de l’adresse de facturation<br/>
+Validation du nom du titulaire<br/>
+Validation de l’adresse mail<br/>
+Explication de la procédure d’envoi :<br/>
+le client reçoit une facture dans un délai de 15 jours, il choisit le mode de paiement virement ou chèque. Une fois le paiement effectué le client recevra le dernier numéro .</b>
+                        <br/><br/>"Très bien M/Mme… je prends note de votre accord pour un abonnement de … an au prix de ….
+                        Je vous adresse par mail la confirmation de votre accord pour un abonnement  X (revue ou magazine) puis (Valorisation du contenu et des avantages)
+                        <br/>
+                        <br/>
+                        <b><u>Préciser la suite donnée ou a donner:</u></b><br />
+                        En cas de rappel il faut impérativement fixer un RDV (Date et Heure)
+                        A quel moment puis-je le/la rappeler SVP ? (noter)
+                        Est-il/elle plus disponible en début ou fin d’après-midi/ en début ou fin de semaine 
+                    </td>
+                </tr>
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Proposition Cross</font></h5></td>
+                    <td style="background-color:cadetblue">
+                    
+                    <font color="white">
+                        Le collaborateur doit:<br />
+                        -Faire une bonne découverte (Questionnement ciblé)<br />
+                        -Provoquer le désir du client<br />
+                        - Conseiller et orienter le client : en argumentant et mettant en avant le contenu de l'offre<br /> avant de mettre en avant le tarif.<br/>
+                        - Valoriser la proposition avec les caractéristiques, avantages et bénéfices<br />
+                        -Mettre en valeur les promotions en cours associées à l'offre. (valoriser l'économie a réaliser) <br />
+                    </font>
+                    </td>
+                    <td style="color:black;">
+                        <b><u>En cas d'accord et après le verrouillage:</u></b><br />
+                        Mr / Mme est ce que vous avez d'autres secteurs d'activités a part le secteur (x) ? <br/>
+                        Mr / Mme est ce que vous connaisez la revue ou magazine X , il s'agit d'une source d'information <br/>
+                        complementaire pour votre secteur d'activité ???<br/><br/><br/>
+                        <b><u>En cas de refus: </u></b><br />
+                        <b>*Changement d'activité</b> (creuser et proposer la revue ou le magazine qui correspond a son nouveau secteur d'activité)<br/>
+                        <b>*Pas concerné </b> (creuser et proposer la revue ou le magazine qui correspond a son secteur d'activité)....
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Discours</font></h5></td>
+                    <td style="background-color:cadetblue">
+
+                        <font color="white">
+                            Le Collaborateur:<br />
+                            - Il adopte un rythme maîtrisé : une idée par phrase (ni hachuré, ni surchargé), <br />une pause pondérée en fin de phrase (ni saccadé, ni maculé de blancs).<br />
+                            - Il respecte la règle des 4C (court, clair, concret, cohérent).<br />
+                            - Il use d'une bonne intonation et d'une attitude chaleureuse :<br />
+                            - Voix (volume, articulation, rythme, débit, intonation).<br />
+                            - Langage = professionnel, simple, présent, positif.<br />
+                            Le collaborateur utilise un vocabulaire bien choisi et fait preuve d'une bonne<br /> qualité d'expression garantissant la compréhension du client et favorisant<br /> une bonne communication:
+                            - Choix des termes (vocabulaire + synchronisation verbale).<br />
+                            - Forme de termes (grammaire).<br />
+                            - Conjugaison des verbes.<br />
+                            - Structure de la phrase (syntaxe).<br />
+                            - Débit adapté<br />
+                        </font>
+                    </td>
+                    <td style="background-color:aquamarine"></td>
+                </tr>
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Attitude </font></h5></td>
+                    <td style="background-color:cadetblue">
+
+                        <font color="white">
+                            Le collaborateur met en place un climat chaleureux (sourire, intonation, écoute)<br/>
+                            - Il  se montre disponible, aimable et dynamique durant tout l'appel et réussit à <br/>établir une relation personnalisée et à gagner la confiance du client (utilise des <br/>mots positifs et rassurants).
+                        </font>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><h5 style="font-weight:bold;"><font color="black">Prise de congé  </font></h5></td>
+                    <td style="background-color:cadetblue">
+
+                    <font color="white">
+                        Assurer une prise de congé courtoise avec au minimum une formule de politesse et laisser l’initiative au client de raccrocher.
+                    </font>
+                    </td>
+                    <td style="color:black;background-color:aquamarine">
+                        "Je vous remercie encore de votre accueil, sachez que l’équipe du magazine La Revue du <br /> Jouet reste à votre disposition pour toute demande complémentaire. Je vous souhaite une <br/> excellente journée/soirée." 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'écoute et Référentiel</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'écoute et Référentiel</a></li>
+    <li class="active">Reab Diffusion</li>
+}

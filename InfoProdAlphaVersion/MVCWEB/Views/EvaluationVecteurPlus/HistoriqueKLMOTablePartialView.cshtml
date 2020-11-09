@@ -1,0 +1,392 @@
+﻿@model IEnumerable<MVCWEB.Models.EvaluationVecteurPlusViewModel>
+
+<div id="details"></div>
+<div id="comments"></div>
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+    <h5><b>Nombre des Evaluations</b></h5>
+</div>
+<table id="historiqueEmpKLMO" class="table datatable-basic">
+    <thead>
+        <tr style="font-weight:bold;">
+            <th style="font-weight:bold;">Date </th>
+            <th style="font-weight:bold;">Score</th>
+            <th style="font-weight:bold;">Emetteur de l'évaluation</th>
+            <th hidden>Présentation et Identification</th>
+            <th hidden>Objet Appel</th>
+            <th hidden>Mutualisation</th>
+            <th hidden>Maîtrise d'œuvre attribuée</th>
+            <th hidden>Coordonnées attributaire</th>
+            <th hidden>Parution de l'avis d'attribution</th>
+            <th hidden>Traitement des objections</th>
+            <th hidden>Transcription des information</th>
+            <th hidden>Envoi de Mail</th>
+            <th hidden>Discours</th>
+            <th hidden>Attitude</th>
+            <th hidden>Prise de congé</th>
+            <th style="font-weight:bold;">Commentaires</th>
+            <th hidden>Réponse Agent</th>
+            <th style="font-weight:bold;">Notes</th>
+            <th style="font-weight:bold;">Enregistrement</th>
+            <th style="font-weight:bold;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <a>@item.dateTempEvaluation.Day/@item.dateTempEvaluation.Date.Month/@item.dateTempEvaluation.Date.Year</a>
+                </td>
+                @{
+
+                    String str = item.note.ToString("N2");
+                }
+
+                <td><font color="red">@str%</font></td>
+
+                <td>@item.senderName</td>
+
+                <td hidden>
+                    @item.presentationIdentification
+                </td>
+                <td hidden>
+                    @item.objetAppel
+                </td>           
+                <td hidden>
+                    @if (item.mutualisation >= 0)
+                    {
+                        @item.mutualisation
+                    }
+                    else
+                    {
+                       <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                    </td>
+                    <td hidden>
+                        @if (item.maitriseOeuvre >= 0)
+                        {
+                            @item.maitriseOeuvre
+                        }
+                        else
+                        {
+                            <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                        }
+                    </td>
+                    <td hidden>
+                        @if (item.coordonneesAttr >= 0)
+                        {
+                            @item.coordonneesAttr
+                        }
+                        else
+                        {
+                            <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                        }
+                    </td>
+                <td hidden>
+                    @if (item.avisAttr >= 0)
+                    {
+                        @item.avisAttr
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.traitementObjections >= 0)
+                    {
+                        @item.traitementObjections
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.transcriptionsInformations >= 0)
+                    {
+                        @item.transcriptionsInformations
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.envoiMail >= 0)
+                    {
+                        @item.envoiMail
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+            
+                    <td hidden>
+                        @item.discours
+                    </td>
+                    <td hidden>
+                        @item.attitude
+                    </td>
+                    <td hidden>
+                        @item.priseConge
+                    </td> 
+                <td hidden>
+                    @item.commentaireQualite
+                </td>
+                <td hidden>
+                    @item.commentaireAgent
+                </td>
+                 
+                <td>
+                    @*<button type="button" class="btn btn-info btn-sm" data-popup="popover" data-html="true" data-trigger="focus" data-content="Présentation et Identification : @item.presentationIdentification <br> Objet Appel : @item.objetAppel <br> Mutualisation : @item.mutualisation <br> Maîtrise d'œuvre attribuée : @item.maitriseOeuvre <br> Coordonnées attributaire : @item.coordonneesAttr <br> Parution de l'avis d'attribution : @item.avisAttr <br> Traitement des objections : @item.traitementObjections <br> Transcription des information : @item.transcriptionsInformations <br> Envoi de Mail : @item.envoiMail <br> Discours : @item.discours <br> Attitude : @item.attitude <br> Prise de congé : @item.priseConge">Voir Notes <i class="icon-chevron-right"></i></button>*@
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" style="background-color: aqua;color:#000;">Voir Notes <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
+                                <li>
+                                    Présentation et Identification: <span>@item.presentationIdentification</span>
+                                <li>
+                                    Objet Appel: <span> @item.objetAppel</span>
+                                </li>
+                                <li>
+                                    Mutualisation:
+                                    <span>
+                                        @if (item.mutualisation >= 0)
+                                        {@item.mutualisation }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Maîtrise d'œuvre attribuée:
+                                    <span>
+                                        @if (item.maitriseOeuvre >= 0)
+                                        {@item.maitriseOeuvre }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                               
+                                <li>
+                                    Coordonnées attributaire:
+                                    <span>
+                                        @if (item.coordonneesAttr >= 0)
+                                        {@item.coordonneesAttr }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Parution de l'avis d'attribution:
+                                    <span>
+                                        @if (item.avisAttr >= 0)
+                                        {@item.avisAttr }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Traitement des objections:
+                                    <span>
+                                        @if (item.traitementObjections >= 0)
+                                        {@item.traitementObjections }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Transcription des informations:
+                                    <span>
+                                        @if (item.transcriptionsInformations >= 0)
+                                        {@item.transcriptionsInformations }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Envoi de Mail:
+                                    <span>
+                                        @if (item.envoiMail >= 0)
+                                        {@item.envoiMail }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Discours : <span> @item.discours</span>
+                                </li>
+                                <li>
+                                    Attitude  : <span> @item.attitude</span>
+                                </li>
+                                <li>
+                                    Prise de congé : <span> @item.priseConge</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                 </td>
+                    
+                    <td>
+                        <button class="btn btn-warning" id="test6" data-com="@item.commentaireQualite" data-reponse="@item.commentaireAgent">Details&nbsp;<i class="icon-popout"></i></button>
+                    </td>
+                    <td>
+                        @if (item.enregistrementFullName != null)
+                    {
+                            <aside type="button" class="btn bg-teal-400" id="test5" data-id="@item.enregistrementFullName" data-FullName="@item.enregistrementUrl" data-directory="@item.enregistrementDirectory">Ecouter&nbsp;<i class="icon-play"></i></aside>
+                        }
+                    </td>
+                <td>
+                    <ul class="icons-list">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-menu9"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="@Url.Action("EditKLMO", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-edit"></i> Modifier</a>
+                                </li>
+                                <li>
+                                    @*<a href="@Url.Action("DeleteBPP", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-trash"></i> Supprimer</a>*@
+                                    <a>
+                                    <article id="delete" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> Supprimer</article>
+                                        </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<div id="explorer1"></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('aside').on('click', function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var fullname = $buttonClicked.attr('data-FullName');
+            var directoryName = $buttonClicked.attr('data-directory');
+            $.ajax({
+                url: '/Evaluation/FindCustomEnregistrement',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                    'name': id,
+                    'fullName': fullname,
+                    'DirectoryName': directoryName
+                },
+                async: false,
+                success: function (data) {
+                    if ($("#details").is(":empty") == false) {
+                        $('#details').removeData("#detailsFile");
+                        $("div.modal-backdrop.fade.in").remove();
+                        $('#details').html(data);
+                    }
+                    else {
+
+                        $('#details').html(data);
+                    }
+
+                    //$('.modal fade in').remove();
+                    //$('#detailsFile').empty();
+                    //$('#details').html(data);
+                    $('#detailsFile').modal(({
+                        backdrop: 'static',
+                        keyboard: false
+                    }));
+                    //$('#errorFile2').modal('show');
+
+                    //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                },
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+
+        $(document).on("click", "#test6", function () {
+            var $buttonClicked = $(this);
+           var comqualite = $buttonClicked.attr('data-com');
+            var comagent = $buttonClicked.attr('data-reponse');
+            $.ajax({
+                url: '/Evaluation/FindComments',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                    'CommentQualite': comqualite,
+                    'CommentAgent': comagent
+                },
+                async: false,
+                success: function (data) {
+                    if ($("#comments").is(":empty") == false) {
+                        $('#comments').removeData("#commentsFile");
+                        $("div.modal-backdrop.fade.in").remove();
+                        $('#comments').html(data);
+                    }
+                    else {
+
+                        $('#comments').html(data);
+                    }
+
+                    //$('.modal fade in').remove();
+                    //$('#detailsFile').empty();
+                    //$('#details').html(data);
+                    $('#commentsFile').modal(({
+                        backdrop: 'static',
+                        keyboard: false
+                    }));
+                    //$('#errorFile2').modal('show');
+
+                    //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                },
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+    })
+</script>
+<script>
+    $(function () {
+    $('[data-popup="popover"]').popover();
+    $('[data-popup="tooltip"]').tooltip();
+    });
+</script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            // $(document).on("click", "#delete", function () {
+            $("article").on("click", function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindEvaluationKLMO',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "html",
+                    async: true,
+                    success: function (data) {
+                        $('#explorer1').html(data);
+                        $('#alerteSuppression').modal('show');
+                    },
+
+
+
+                });
+
+
+            })
+        })
+
+</script>

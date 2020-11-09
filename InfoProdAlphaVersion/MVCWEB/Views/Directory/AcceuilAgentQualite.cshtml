@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "TestDiffusion";
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+@model MVCWEB.Models.DirectoryViewModel
+
+@section pagetitle{
+    <h4> <span class="text-semibold">Accueil</span> - Espace Qualité</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Espace Qualité</a></li>
+    <li class="active">Tableau du bord</li>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section test{
+    <div class="row" style="padding-left:250px">
+
+
+        @*<a href="@Url.Action("IndexManagerAgentTest", "Home", new { id = item.Id })"><img src="~/Content/template/Layout 1/LTR/assets/images/grp.png" alt="..." class="img-thumbnail">
+                 @Html.DisplayFor(modelItem =>
+                                    item.nom)
+            </a>*@
+
+
+        <div class="col-lg-3" style="padding-top:20px;height:200px;width:35%">
+            <div class="thumbnail" style="-moz-border-radius: 5px;border-radius: 20px;-webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);-moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);background-color:azure">
+                <a href="@Url.Action("listeSitesAgentQualite","Superviseur")">
+                    <h1 style="padding-left:35px;color:gray;padding-top:30px;font-family:Arial;font-weight:bold;text-align:center">Accès aux Enregistrements</h1>
+                </a>
+                <br />
+                <div class="caption">
+                    <p>
+
+                    </p>
+                    @*<p>
+                            Responsable<br />
+                            <span style="color:darkblue">Omda</span>
+                        </p>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3" style="padding-top:20px;padding-left:100px;height:200px;width:40%">
+            <div class="thumbnail" style="-moz-border-radius: 5px;border-radius: 20px;-webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);-moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);background-color:azure">
+                <a href="@Url.Action("ReabRef","Directory")">
+                    <h1 style="padding-left:35px;color:gray;padding-top:30px;font-family:Arial;font-weight:bold;text-align:center">Grille d'écoute et Référentiel</h1>
+                </a>
+                <br />
+                <div class="caption">
+                    <p>
+
+                    </p>
+                    @*<p>
+                            Responsable<br />
+                            <span style="color:darkblue">Omda</span>
+                        </p>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row" style="padding-left:250px">
+        <div class="col-lg-3" style="padding-top:20px;height:200px;width:35%">
+            <div class="thumbnail" style="-moz-border-radius: 5px;border-radius: 20px;-webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);-moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);background-color:azure">
+                <a href="@Url.Action("Reab","Evaluation")">
+                    <h1 style="padding-left:35px;color:gray;padding-top:30px;font-family:Arial;font-weight:bold;text-align:center">Grille d'évaluation</h1>
+                </a>
+                <br />
+                <div class="caption">
+                    <p>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3" style="padding-top:20px;padding-left:100px;height:200px;width:40%">
+            <div class="thumbnail" style="-moz-border-radius: 5px;border-radius: 20px;-webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);-moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);background-color:azure">
+                <a href="@Url.Action("Historique","Evaluation")">
+                    <h1 style="padding-left:35px;color:gray;padding-top:30px;font-family:Arial;font-weight:bold;text-align:center">Historique qualité</h1>
+                </a>
+                <br />
+                <div class="caption">
+                    <p>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

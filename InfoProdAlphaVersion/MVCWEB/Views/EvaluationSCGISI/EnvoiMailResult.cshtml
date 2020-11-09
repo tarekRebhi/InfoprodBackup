@@ -1,0 +1,20 @@
+﻿@model MVCWEB.Models.EvaluationSCGISIViewModel
+<div class="modal fade" id="EnvoiMailResult" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-image:url('../../Content/template/Layout 1/.JPG');">
+            <div class="modal-header" style="background-color:white;">
+                <button type="button" id="fermer" class="close" data-dismiss="modal">&times;</button>
+                <h5><font color="black"> Evaluation ajoutée </font></h5>
+            </div>
+            <div class="modal-body">
+                <p> Succés d'envoi du mail à <label>@Html.DisplayFor(modelItem => modelItem.agentName)</label></p>
+            </div>
+
+        </div>
+        @*<div class="modal-footer" style="background-color:#26A69A;">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+            </div>*@
+
+    </div>
+</div>
+

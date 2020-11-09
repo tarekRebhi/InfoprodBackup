@@ -1,0 +1,347 @@
+﻿@if (ViewBag.role == "Qualité")
+{
+    ViewBag.Title = "OptionRechercheV5";
+
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité")
+{
+    ViewBag.Title = "OptionRechercheV5";
+
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_CustomerService")
+{
+    ViewBag.Title = "OptionRechercheV5";
+
+    Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_Diffusion")
+{
+    ViewBag.Title = "OptionRechercheV5";
+
+    Layout = "~/Views/Shared/_Layout_Diffusion.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_AchatPublic")
+{
+    ViewBag.Title = "OptionRecherche";
+
+    Layout = "~/Views/Shared/_Layout_AchatPublic.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_PRV")
+{
+    ViewBag.Title = "OptionRecherche";
+
+    Layout = "~/Views/Shared/_Layout_PRV.cshtml";
+}
+
+@model MVCWEB.Models.DirectoryViewModel
+
+@section test{
+
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/pickers/daterangepicker.js"></script>
+    <style>
+        body {
+            background: #303030;
+        }
+
+        #pricing-table {
+            margin: 10px 10px;
+            text-align: center;
+            width: 100%; /* total computed width = 222 x 3 + 226 */
+        }
+
+            #pricing-table .plan {
+                font: 12px 'Lucida Sans', 'trebuchet MS', Arial, Helvetica;
+                text-shadow: 0 1px rgba(255,255,255,.8);
+                background: #fff;
+                border: 1px solid #ddd;
+                color: #333;
+                padding: 20px;
+                width: 200px; /* plan width = 180 + 20 + 20 + 1 + 1 = 222px */
+                height: 260px;
+                float: left;
+                position: relative;
+            }
+
+            #pricing-table #most-popular {
+                z-index: 2;
+                top: -13px;
+                border-width: 3px;
+                padding: 30px 20px;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+                border-radius: 5px;
+                -moz-box-shadow: 20px 0 10px -10px rgba(0, 0, 0, .15), -20px 0 10px -10px rgba(0, 0, 0, .15);
+                -webkit-box-shadow: 20px 0 10px -10px rgba(0, 0, 0, .15), -20px 0 10px -10px rgba(0, 0, 0, .15);
+                box-shadow: 20px 0 10px -10px rgba(0, 0, 0, .15), -20px 0 10px -10px rgba(0, 0, 0, .15);
+            }
+
+            #pricing-table .plan:nth-child(1) {
+                -moz-border-radius: 5px 0 0 5px;
+                -webkit-border-radius: 5px 0 0 5px;
+                border-radius: 5px 0 0 5px;
+            }
+
+            #pricing-table .plan:nth-child(4) {
+                -moz-border-radius: 0 5px 5px 0;
+                -webkit-border-radius: 0 5px 5px 0;
+                border-radius: 0 5px 5px 0;
+            }
+
+            /* --------------- */
+
+            #pricing-table h3 {
+                font-size: 20px;
+                font-weight: normal;
+                padding: 20px;
+                margin: -20px -20px 50px -20px;
+                background-color: #eee;
+                background-image: -moz-linear-gradient(#fff,#eee);
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+                background-image: -webkit-linear-gradient(#fff, #eee);
+                background-image: -o-linear-gradient(#fff, #eee);
+                background-image: -ms-linear-gradient(#fff, #eee);
+                background-image: linear-gradient(#fff, #eee);
+            }
+
+            #pricing-table #most-popular h3 {
+                background-color: #ddd;
+                background-image: -moz-linear-gradient(#eee,#ddd);
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ddd));
+                background-image: -webkit-linear-gradient(#eee, #ddd);
+                background-image: -o-linear-gradient(#eee, #ddd);
+                background-image: -ms-linear-gradient(#eee, #ddd);
+                background-image: linear-gradient(#eee, #ddd);
+                margin-top: -30px;
+                padding-top: 30px;
+                -moz-border-radius: 5px 5px 0 0;
+                -webkit-border-radius: 5px 5px 0 0;
+                border-radius: 5px 5px 0 0;
+            }
+
+            #pricing-table .plan:nth-child(1) h3 {
+                -moz-border-radius: 5px 0 0 0;
+                -webkit-border-radius: 5px 0 0 0;
+                border-radius: 5px 0 0 0;
+            }
+
+            #pricing-table .plan:nth-child(4) h3 {
+                -moz-border-radius: 0 5px 0 0;
+                -webkit-border-radius: 0 5px 0 0;
+                border-radius: 0 5px 0 0;
+            }
+
+            #pricing-table h3 span {
+                display: block;
+                font: bold 25px/100px Georgia, Serif;
+                color: #777;
+                background: #fff;
+                border: 5px solid #fff;
+                height: 100px;
+                width: 100px;
+                margin: 10px auto -65px;
+                -moz-border-radius: 100px;
+                -webkit-border-radius: 100px;
+                border-radius: 100px;
+                -moz-box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+                -webkit-box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+                box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+            }
+
+            /* --------------- */
+
+            #pricing-table ul {
+                margin: 20px 0 0 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            #pricing-table li {
+                border-top: 1px solid #ddd;
+                padding: 10px 0;
+            }
+
+            /* --------------- */
+
+            #pricing-table .signup {
+                position: relative;
+                padding: 8px 20px;
+                margin: 20px 0 0 0;
+                color: #fff;
+                font: bold 14px Arial, Helvetica;
+                text-transform: uppercase;
+                text-decoration: none;
+                display: inline-block;
+                background-color: #72ce3f;
+                background-image: -moz-linear-gradient(#72ce3f, #62bc30);
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#72ce3f), to(#62bc30));
+                background-image: -webkit-linear-gradient(#72ce3f, #62bc30);
+                background-image: -o-linear-gradient(#72ce3f, #62bc30);
+                background-image: -ms-linear-gradient(#72ce3f, #62bc30);
+                background-image: linear-gradient(#72ce3f, #62bc30);
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                text-shadow: 0 1px 0 rgba(0,0,0,.3);
+                -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 0 rgba(0, 0, 0, .7);
+                -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 0 rgba(0, 0, 0, .7);
+                box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 0 rgba(0, 0, 0, .7);
+            }
+
+                #pricing-table .signup:hover {
+                    background-color: #62bc30;
+                    background-image: -moz-linear-gradient(#62bc30, #72ce3f);
+                    background-image: -webkit-gradient(linear, left top, left bottom, from(#62bc30), to(#72ce3f));
+                    background-image: -webkit-linear-gradient(#62bc30, #72ce3f);
+                    background-image: -o-linear-gradient(#62bc30, #72ce3f);
+                    background-image: -ms-linear-gradient(#62bc30, #72ce3f);
+                    background-image: linear-gradient(#62bc30, #72ce3f);
+                }
+
+                #pricing-table .signup:active, #pricing-table .signup:focus {
+                    background: #62bc30;
+                    top: 2px;
+                    -moz-box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset;
+                    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset;
+                    box-shadow: 0 0 3px rgba(0, 0, 0, .7) inset;
+                }
+
+        /* --------------- */
+
+        .clear:before, .clear:after {
+            content: "";
+            display: table;
+        }
+
+        .clear:after {
+            clear: both;
+        }
+
+        .clear {
+            zoom: 1;
+        }
+    </style>
+
+    <div class="row-md-12">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+
+                <a href="@Url.Action("AcceuilV5","Superviseur",new {Version = Model.roleKey, Id=Model.roleName})" class="btn bg-teal-400"><i class="icon-statistics position-left"></i> Statistiques du Site @Model.roleKey</a>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li>
+                        <li><a data-action="reload"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div id="pricing-table" class="clear">
+
+                    <div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Par Campagne<span><i class="icon-file-play" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("CompagneParDate","Superviseur",new { Version = Model.roleKey, Id=Model.roleName })">Chercher</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Par Campagne / Par Agent<span><i class="icon-file-eye" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("Index","Superviseur",new {Version = Model.roleKey, Id=Model.roleName})">Chercher</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Par Collaborateur<span><i class="icon-user" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("Diffusion","Superviseur",new { Version = Model.roleKey, Id=Model.roleName })">Chercher</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Multiple Agents<span><i class="icon-users4" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("IndexMultipleAgent","Superviseur",new {Version = Model.roleKey, Id=Model.roleName})">Chercher</a>
+                        </div>
+                    </div>
+
+                </div>
+                <br /><br />
+                <div id="pricing-table" class="clear">
+
+                    <div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Par Numéro Téléphone<span><i class="icon-phone" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("RechercheNumTel","Superviseur",new {Version = Model.roleKey, Id=Model.roleName})">Chercher</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Par Numéro Fiche<span><i class="icon-file-text2" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("RechercheParNumeroFiche","Superviseur",new {Version = Model.roleKey, Id=Model.roleName})">Chercher</a>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Par Qualification Fiche<span><i class="icon-file-check" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("RechercheParQualification","Superviseur",new {Version = Model.roleKey, Id=Model.roleName})">Chercher</a>
+                        </div>
+                    </div>*@
+
+                    <div class="col-md-3">
+                        <div class="plan col-md-3">
+                            <h3>Multiple Choix<span><i class="icon-folder-search" style="font-size:40px;"></i></span></h3>
+                            <a class="btn bg-teal-400" href="@Url.Action("AllCases","Superviseur",new {Version = Model.roleKey, Id=Model.roleName})">Chercher</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.roleName, new { @Id = "roleName" })
+    </div>
+
+}
+
+@section pagetitle{
+    <h4> <span class="text-semibold">Accès aux Enregistrements</span>  </h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Accès aux Enregistrements</a></li>
+    <li class="active">Options de Recherche</li>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}

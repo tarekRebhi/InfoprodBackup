@@ -1,0 +1,42 @@
+﻿@*
+@model Domain.Entity.GroupesEmployees
+
+
+@Html.AntiForgeryToken()
+<div class="modal fade" id="modifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        @*<div class="head-modal">Supprimer Correspondance </div>
+            <div class="col-md-12">
+                <div class="loginmodal-submit">
+
+                    <div class="col-md-5">
+                        <textarea name="details" id="details" placeholder="Description" rows="18">
+                          Vouez étes sure de supprimer l'employée  @Html.DisplayFor(modelItem => modelItem.userName)
+                        </textarea>
+                        <input type="submit" name="login" class="login loginmodal-submit" value="Supprimer">
+                    </div>
+                </div>
+            </div>*@
+        @*<div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <p> Vouez étes sure de supprimer le groupe  @Html.DisplayFor(modelItem => modelItem.employeeId)</p>
+              <p> Affecté au employé @Html.DisplayFor(modelItem => modelItem.groupeId)</p> 
+             
+                @*<p> Ayant le pseudoName @Html.DisplayFor(modelItem => modelItem.pseudoName)
+            </div>
+            @using (Html.BeginForm("Delete", "Employee", new { id = Model.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+*@

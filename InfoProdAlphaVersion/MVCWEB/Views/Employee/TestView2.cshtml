@@ -1,0 +1,79 @@
+﻿@model IEnumerable<MVCWEB.Models.EmployeeViewModel>
+
+@{
+    ViewBag.Title = "TestView2";
+    Layout = "~/Views/Shared/_layout_test.cshtml";
+}
+
+<h2>TestView2</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.user.login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdHermes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.userName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pseudoName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdAD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.role)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.userLogin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.user.login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdHermes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.userName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pseudoName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdAD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.role)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Activite)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.userLogin)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+
+

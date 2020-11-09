@@ -1,0 +1,604 @@
+﻿@model MVCWEB.Models.EvaluationViewModel
+
+@if (ViewBag.role == "Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" />
+
+@section test{
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js" charset="utf-8"></script>
+
+    <script type='text/javascript'>
+
+        $(document).ready(function () {
+            $('#planDate').datetimepicker({
+
+                format: 'YYYY-MM-DD HH:mm',
+                daysOfWeekDisabled: [0, 6],
+            });
+        });
+
+    </script>
+
+    <div class="form-horizontal">
+        <div class="row">
+
+            <h6 class="col-xs-2 control-label"><font color="black"> <b>Nom Complet d'enregistrement</b></font></h6>
+            <div class="col-xs-8 date">
+                @Html.EditorFor(model => model.enregistrementFullName, new { htmlAttributes = new { @class = "form-control", @id = "listen", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.enregistrementFullName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-xs-4 date" hidden>
+                @Html.EditorFor(model => model.enregistrementUrl, new { htmlAttributes = new { @class = "form-control", @id = "listen2" } })
+                @Html.ValidationMessageFor(model => model.enregistrementUrl, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-xs-4 date" hidden>
+                @Html.EditorFor(model => model.enregistrementDirectory, new { htmlAttributes = new { @class = "form-control", @id = "listen3" } })
+                @Html.ValidationMessageFor(model => model.enregistrementDirectory, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-1">
+            <h6 class="col-xs-2 control-label"><font color="black"><b>Nom Agent:</b></font></h6>
+            <div class="col-xs-3">
+                @Html.EditorFor(model => model.agentName, new { htmlAttributes = new { @class = "form-control", @id = "nomAgent", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.agentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-1">
+            <h6 class="col-xs-2 control-label"><font color="black"> <b>Date et temps d'évaluation</b></font></h6>
+            <div class="col-xs-3 date" style="width:25%">
+                <div class="input-group input-append date">
+                    <input type='text' id='planDate' name="planDate" class="form-control" value="01/06/2018 08:00" lang="fr" style="min-width: 100%" />
+                    <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Sélectionner Type:</label>
+                <div class="col-md-8">
+                    <select class="bootstrap-select" id="type" name="type" style="height: 25px;">
+                        <option value="Mairie">Mairie</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Avancement:</label>
+                <div class="col-xs-8">
+                    <select class="bootstrap-select" id="avancement" name="avancement" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Nature:</label>
+                <div class="col-xs-8">
+                    <select class="bootstrap-select" id="nature" name="nature" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Typologie:</label>
+                <div class="col-xs-8">
+                    <select class="bootstrap-select" id="typologie" name="typologie" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Lieu d'Execution:</label>
+                <div class="col-xs-8">
+                    <select class="bootstrap-select" id="lieuExecution" name="lieuExecution" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Destination:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="destination" name="destination" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Code RP:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="codeRP" name="codeRP" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Nom du programme:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="nomProgramme" name="nomProgramme" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Post IT:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="postIT" name="postIT" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Object:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="objects" name="objects" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Note Clients:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="notreClients" name="notreClients" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">MOA:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="moa" name="moa" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">MOA & Architectes:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="moaArchitectes" name="moaArchitectes" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Bureaux d'études:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="bureauxEtudes" name="bureauxEtudes" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!--fin col-6-->
+            </div>
+        </div>
+  
+ 
+
+
+    <div class="col-md-6">
+
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Bailleurs Sociaux:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="bailleurSociaux" name="bailleurSociaux" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Mairie:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="mairie" name="mairie" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Surface de Plancher:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="surfacePlancher" name="surfacePlancher" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Surface Terrain:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="surfaceTerrain" name="surfaceTerrain" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Surface par Typologie:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="surfaceTypologie" name="surfaceTypologie" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Nombre de Batiment:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="nombreBatiment" name="nombreBatiment" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Nombre d'Etage:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="nombreEtage" name="nombreEtage" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4" style="font-weight: bold;">Ascenseur Oui/Non:</label>
+            <div class="col-xs-8">
+                <select class="bootstrap-select" id="ascenseur" name="ascenseur" style="height: 25px;">
+                    <option value="1">OK</option>
+                    <option value="0">KO</option>
+                    <option value="-1">NE</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Nombre d'ascenseur:</label>
+                <div class="col-xs-8">
+                    <select class="bootstrap-select" id="nombreAscenseur" name="nombreAscenseur" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Date Accord:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="dateAccords" name="dateAccords" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Date PC:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="datePC" name="datePC" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Date de Consultation:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="dateConsultation" name="dateConsultation" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Date de Travaux:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="dateTravaux" name="dateTravaux" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-4" style="font-weight: bold;">Date de Livraison:</label>
+                    <div class="col-xs-8">
+                        <select class="bootstrap-select" id="dateLivraison" name="dateLivraison" style="height: 25px;">
+                            <option value="1">OK</option>
+                            <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--fin col-6-->
+    </div>
+    <!--fin row-->
+    </div>
+
+
+
+    <br />
+    <div class="row" id="commentaireRow">
+        <div class="col-xs-10">
+            <div class="form-group">
+                <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Commentaire</b></font></h6>
+                <textarea id="commentaire" name="commentaire" rows="5" cols="5" class="form-control" placeholder="Entrer votre commentaire">
+ 1/ Numéro de Fiche :
+ 2/ Points Forts : 
+ 3/ Axe d'amélioration : 
+ 4/ Plan d'action : 
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <center>
+        <div class="text-md-center" id="imedSaveRow">
+            <button type="submit" id="Calcul" class="btn bg-teal-400" data-toggle="modal">Evaluer Enregistrement <i class="icon-check position-fixed"></i></button>
+            <button type="submit" id="Save" class="btn bg-danger-400" data-title="Sauvegarder Alerte">Sauvegarder et Envoyer Mail <i class="icon-arrow-right14 position-fixed"></i></button>
+
+        </div>
+    </center>
+    <div id="view"></div>
+    <br /><br />
+
+    <script>
+        $('#datePicker')
+               .daterangepicker({
+                   singleDatePicker: true,
+                   autoApply: true,
+                   opens: 'left',
+
+                   locale: {
+                       setDate: new Date(),
+                       format: 'DD/MM/YYYY hh:mm:ss',
+                       "daysOfWeek": [
+            "Dim",
+            "Lun",
+            "Mar",
+            "Mer",
+            "Jeu",
+            "Ven",
+            "Sam"
+                       ],
+                       "monthNames": [
+                           "Jan",
+                           "Fev",
+                           "Mar",
+                           "Avr",
+                           "Mai",
+                           "Ju",
+                           "Jui",
+                           "Aou",
+                           "Sep",
+                           "Oct",
+                           "Nov",
+                           "December"
+                       ],
+                   },
+                   lan: 'fr',
+                   autoclose: true,
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", "#Calcul", function () {
+
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/CalculBattonageVecteurPlus',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        nomAgent: $("#nomAgent").val(),
+                        planDate: $("#planDate").val(),
+                        type: $("#type").val(),
+                        nature: $("#nature").val(),
+                        typologie: $("#typologie").val(),
+                        avancement: $("#avancement").val(),
+                        destination: $("#destination").val(),
+                        codeRP: $("#codeRP").val(),
+                        nomProgramme: $("#nomProgramme").val(),
+                        postIT: $("#postIT").val(),
+                        objects: $("#objects").val(),
+                        notreClients: $("#notreClients").val(),
+                        moa: $("#moa").val(),
+                        moaArchitectes: $("#moaArchitectes").val(),
+                        bureauxEtudes: $("#bureauxEtudes").val(),
+                        bailleurSociaux: $("#bailleurSociaux").val(),
+                        mairie: $("#mairie").val(),
+                        dateAccords: $("#dateAccords").val(),
+                        datePC: $("#datePC").val(),
+                        dateConsultation: $("#dateConsultation").val(),
+                        dateTravaux: $("#dateTravaux").val(),
+                        dateLivraison: $("#dateLivraison").val(),
+                        surfacePlancher: $("#surfacePlancher").val(),
+                        surfaceTerrain: $("#surfaceTerrain").val(),
+                        surfaceTypologie: $("#surfaceTypologie").val(),
+                        nombreBatiment: $("#nombreBatiment").val(),
+                        nombreEtage: $("#nombreEtage").val(),
+                        ascenseur: $("#ascenseur").val(),
+                        nombreAscenseur: $("#nombreAscenseur").val(),
+                        lieuExecution: $("#lieuExecution").val(),
+
+                        commentaire: $("#commentaire").val(),
+                        enregistrement: $("#listen").val(),
+                        enregistrementUrl: $("#listen2").val(),
+                        enregistrementDirectory: $("#listen3").val()
+                    },
+                    async: true,
+                    success: function (data) {
+                        $('#view').html(data);
+                        $('#BattonageResult').modal('show');
+                    },
+                });
+            })
+        })
+
+        $(document).ready(function () {
+            $(document).on("click", "#Save", function () {
+
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/SaveEvalBattonageVecteurPlus',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        nomAgent: $("#nomAgent").val(),
+                        planDate: $("#planDate").val(),
+                        type: $("#type").val(),
+                        nature: $("#nature").val(),
+                        typologie: $("#typologie").val(),
+                        avancement: $("#avancement").val(),
+                        destination: $("#destination").val(),
+                        codeRP: $("#codeRP").val(),
+                        nomProgramme: $("#nomProgramme").val(),
+                        postIT: $("#postIT").val(),
+                        objects: $("#objects").val(),
+                        notreClients: $("#notreClients").val(),
+                        moa: $("#moa").val(),
+                        moaArchitectes: $("#moaArchitectes").val(),
+                        bureauxEtudes: $("#bureauxEtudes").val(),
+                        bailleurSociaux: $("#bailleurSociaux").val(),
+                        mairie: $("#mairie").val(),
+                        dateAccords: $("#dateAccords").val(),
+                        datePC: $("#datePC").val(),
+                        dateConsultation: $("#dateConsultation").val(),
+                        dateTravaux: $("#dateTravaux").val(),
+                        dateLivraison: $("#dateLivraison").val(),
+                        surfacePlancher: $("#surfacePlancher").val(),
+                        surfaceTerrain: $("#surfaceTerrain").val(),
+                        surfaceTypologie: $("#surfaceTypologie").val(),
+                        nombreBatiment: $("#nombreBatiment").val(),
+                        nombreEtage: $("#nombreEtage").val(),
+                        ascenseur: $("#ascenseur").val(),
+                        nombreAscenseur: $("#nombreAscenseur").val(),
+                        lieuExecution: $("#lieuExecution").val(),
+
+                        commentaire: $("#commentaire").val(),
+                        enregistrement: $("#listen").val(),
+                        enregistrementUrl: $("#listen2").val(),
+                        enregistrementDirectory: $("#listen3").val()
+                    },
+                    async: true,
+                    success: function (data) {
+                        $('#view').html(data);
+                        $('#EnvoiMailResult').modal('show');
+                    },
+                });
+            })
+        })
+
+    </script>
+
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'évaluation</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'évaluation</a></li>
+    <li class="active">Vecteur Plus / Battonage</li>
+}

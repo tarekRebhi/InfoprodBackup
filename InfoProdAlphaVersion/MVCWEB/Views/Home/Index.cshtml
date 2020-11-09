@@ -1,0 +1,181 @@
+﻿
+@section test{
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@*<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>*@
+
+
+
+<div id="wrap" class="oe_structure oe_empty">
+    <section class="s_three_columns">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("Index", "Employee")">
+                        @*<img class="img img-responsive" style="width:337px;height:254px;" src="/Content/Template1/Images/12.png" alt="Echantillon n°1 pour trois colonnes ">*@
+                    </a>
+                    <br/><br />
+                    <a href="@Url.Action("Index", "Employee")" >
+                        <h5 style="color:black;" align="center" >Employés</h5>
+                        <img class="img img-responsive" style="width:337px;height:254px;" src="/Content/Template1/Images/12.png" alt="Echantillon n°1 pour trois colonnes ">
+                    </a>
+                    <br/><br/>
+                    <p class="o_default_snippet_text">
+                                   Vous trouverez dans ce menu les détails concernant les Agents,
+                        ou collaborteurs et leurs managers parvenant du CRM Hermes.
+                    </p>
+                </div>
+                @*<div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("Index", "Planing")">
+                        <img class="img img-responsive" src="/Content/Template1/Images/90.png" alt="Odoo- Echantillon n° 2 pour trois colonnes">
+                        </a>
+                    <a href="@Url.Action("Index", "Planing")">
+                        <h4 class="mt16 o_default_snippet_text">Planing </h4>
+                        </a>
+                        <p class="o_default_snippet_text">
+                            Le service plannig contient la liste des palnings par service,
+                            ou département  par activité,par titre,par collaborateur
+                        </p>
+                </div>*@
+                <div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("Index", "Groupe")">
+                        @*<img class="img img-responsive" style="width:337px;height:254px;" src="/Content/Template1/Images/25.png" >*@
+                    </a>
+                    <br /><br />
+                    <a href="@Url.Action("Index", "Groupe")">
+                        <h5 style="color:black;" align="center">Groupes</h5>
+                        <img class="img img-responsive" style="width:337px;height:254px;" src="/Content/Template1/Images/25.png">
+                    </a>
+                    <br /><br/>
+                    <p class="o_default_snippet_text">
+                        Le menu groupe contient la liste des groupes affecté aux service,agent et manager
+
+                    </p>
+                </div>
+
+
+                <div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("Index", "User")">
+                        @*<img class="img img-responsive" style="width:337px;height:254px;" src="/Content/Template1/Images/18.png">*@
+                    </a>
+                    <br /><br />
+                    <a href="@Url.Action("Index", "User")">
+                        <h5 style="color:black;" align="center">Users</h5>
+                        <img class="img img-responsive" style="width:337px;height:254px;" src="/Content/Template1/Images/18.png">
+                    </a>
+                    <br /><br/>
+                    <p class="o_default_snippet_text">
+                        Vous trouverez dans ce menu les détails concernant les Agents,
+                        ou collaborteurs et leurs managers connectant via AD.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+            <br/>
+            <br/>
+    </section>
+    <section class="s_three_columns">
+        <div class="container">
+            <div class="row">
+             
+                @*<div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("Index", "Titre")">
+                        <img class="img img-responsive" src="/Content/Template/19.png" alt="Odoo- Echantillon n° 2 pour trois colonnes"></a>
+                    <a href="@Url.Action("Index", "Titre")">
+                        <h4 class="mt16 o_default_snippet_text">Titres</h4></a>
+                    <p class="o_default_snippet_text">
+                        Le menu titre contient la liste des titres par service,
+                        ou département  par activité,par titre,par collaborateur
+                    </p>
+                </div>*@
+                @*<div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("IndexAdmin", "Indicateurs")">
+                        <img class="img img-responsive" src="/Content/Template1/Images/indicateur-performance-18-novembre-2015.jpg" alt="Odoo- Echantillon n° 3 pour trois colonnes"></a>
+                    <a href="@Url.Action("IndexAdmin", "Indicateurs")">
+                        <h4 class="mt16 o_default_snippet_text">Indicateur</h4></a>
+                    <p class="o_default_snippet_text">
+                        Le menu Indicateur contient la liste des facteurs ou resultats par service,
+                        ou département  par activité,par titre,par collaborateur journalier hebdo ,mensuel,annuel
+                    </p>
+                </div>*@
+            </div>
+        </div>
+    </section>
+    <section class="s_three_columns">
+        <div class="container">
+            <div class="row">
+                @*<style>
+                    p.indent {
+                        padding-left: 1.8em;
+                    }
+                </style>*@
+                @*<div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("Index", "Alerte")">
+                    </a>
+                    <br /><br />
+                    <a href="@Url.Action("Index", "Alerte")">
+                        <h5 style="color:black;" align="center">Alertes</h5>
+                        <img class="img img-responsive" src="/Content/Template/sirene_TEST_oms_-a1d04.jpg" alt="Odoo- Echantillon n° 3 pour trois colonnes"/>
+                    </a>
+                    <br/><br/>
+                    <p class="o_default_snippet_text">
+                        Vous trouverez dans ce menu les détails concernant les alertes,
+                        qui concernent les employées suite au résultats générées par les indicateurs
+
+                    </p>
+                </div>*@
+                <div class="col-md-4 mt32 mb48">
+                    <a href="@Url.Action("Index", "Role")">
+                        @*<img class="img img-responsive" src="/Content/Template1/Images/15.png" alt="Odoo- Echantillon n° 3 pour trois colonnes">*@
+                    </a>
+                    <br /><br />
+                    <a href="@Url.Action("Index", "Role")">
+                        <h5 style="color:black;" align="center">Rôles</h5>
+                        <img class="img img-responsive" src="/Content/Template/roles.jpg" style="width:350px;height:150px;" alt="roles">
+                    </a>
+                    <br /><br/>
+                    <p class="o_default_snippet_text">
+                        Vous trouverez dans ce menu les détails concernant les alertes,
+                        qui concernent les employées suite au résultats générées par les indicateurs
+
+                    </p>
+                </div>
+                  
+
+</div>
+            <br/>
+        </div>
+    </section>
+    
+</div>
+
+}

@@ -1,0 +1,680 @@
+﻿@model  MVCWEB.Models.EvaluationVecteurPlusViewModel
+<br />
+<div class="row">
+    <div class="col-md-12" id="myChart3"></div>
+    @*<div class="col-xs-6">
+            <div class="content-group" style="margin-left:500px">
+                <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+                <h5><b>Nombre des Evaluations</b></h5>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="content-group">
+                <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @Model.note%</h5>
+                <h5><b>Moyenne des Notes</b></h5>
+            </div>
+        </div>*@
+</div>
+
+<br />
+
+<div class="panel border-left-lg border-left-info" style="margin-left: 0.2cm;">
+    <div class="panel-body">
+        <h6 class="no-margin-top"><a href="task_manager_detailed.html"># Moyenne Items</a></h6>
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight: bold;">Nature:</label>
+                    <div class="col-md-3">
+                        @if (@Model.nature >= 0)
+                        {
+                            <span>@Model.nature%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Typologie:</label>
+                    <div class="col-md-3">
+                        @if (@Model.typologie >= 0)
+                        {
+                            <span>@Model.typologie%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Avancement:</label>
+                    <div class="col-md-3">
+                        @if (@Model.avancement >= 0)
+                        {
+                            <span>@Model.avancement%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Destination:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.destination >= 0)
+                        {
+                            <span>@Model.destination%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Code RP:</label>
+                    <div class="col-md-3">
+                        @if (@Model.codeRP >= 0)
+                        {
+                            <span>@Model.codeRP%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">MOA:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.moa >= 0)
+                        {
+                            <span>@Model.moa%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">MOA & Architectes:</label>
+                    <div class="col-md-3">
+                        @if (@Model.moaArchitectes >= 0)
+                        {
+                            <span>@Model.moaArchitectes%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Bureaux d'Etudes:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.bureauxEtudes >= 0)
+                        {
+                            <span>@Model.bureauxEtudes%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Bailleur Sociaux:</label>
+                    <div class="col-md-3">
+                        @if (@Model.bailleurSociaux >= 0)
+                        {
+                            <span>@Model.bailleurSociaux%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Date Accord:</label>
+                    <div class="col-md-3">
+                        @if (@Model.dateAccords >= 0)
+                        {
+                            <span>@Model.dateAccords%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Date PC:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.datePC >= 0)
+                        {
+                            <span>@Model.datePC%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Date de Consultation:</label>
+                    <div class="col-md-3">
+                        @if (@Model.dateConsultation >= 0)
+                        {
+                            <span>@Model.dateConsultation%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Date de Travaux:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.dateTravaux >= 0)
+                        {
+                            <span>@Model.dateTravaux%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Date de Livraison:</label>
+                    <div class="col-md-3">
+                        @if (@Model.dateLivraison >= 0)
+                        {
+                            <span>@Model.dateLivraison%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Surface Plancher:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.surfacePlancher >= 0)
+                        {
+                            <span>@Model.surfacePlancher%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Surface Terrain:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.surfaceTerrain >= 0)
+                        {
+                            <span>@Model.surfaceTerrain%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Surface par Typologie:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.surfaceTypologie >= 0)
+                        {
+                            <span>@Model.surfaceTypologie%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Nombre de Batiment:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.nombreBatiment >= 0)
+                        {
+                            <span>@Model.nombreBatiment%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Nombre d'étages:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.nombreEtage >= 0)
+                        {
+                            <span>@Model.nombreEtage%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Ascenceur Oui/Non:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.ascenseur >= 0)
+                        {
+                            <span>@Model.ascenseur%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Nombre d'ascenceur:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.nombreAscenseur >= 0)
+                        {
+                            <span>@Model.nombreAscenseur%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">Lieu d'exécution:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.lieuExecution >= 0)
+                        {
+                            <span>@Model.lieuExecution%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
+                <br />             
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h6 class="panel-title"><i class="icon-stats-bars3"></i> <span style="font-size: 16px;">Répartition Moyenne des Items Battonage</span></h6><hr />
+            </div>
+            <div class="container-fluid">
+                <div>
+                    <div id="myChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h6 class="panel-title"><i class="icon-pie-chart"></i> <span style="font-size: 16px;">Moyenne des Notes </span></h6><hr />
+            </div>
+            <div class="container-fluid">
+                <div>
+                    <div id="myChartPie"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        var namesList = ["Nature", "Typologie", "Avancement", "Destination", "Code RP","MOA", "MOA & Architectes","Bureaux d'Etudes",
+            "Bailleur Sociaux", "Date Accord", "Date PC", "Date de Consultation", "Date de Travaux","Date de Livraison","Surface Plancher","Surface Terrain",
+            "Surface par Typologie","Nombre de Batiment","Nombre d'étages","Ascenceur Oui/Non","Nombre d'ascenceur","Lieu d'exécution"];
+        var values = [@Model.nature,@Model.typologie, @Model.avancement, @Model.destination, @Model.codeRP, @Model.moa,
+         @Model.moaArchitectes, @Model.bureauxEtudes, @Model.bailleurSociaux, @Model.dateAccords, @Model.datePC, @Model.dateConsultation,
+         @Model.dateTravaux, @Model.dateLivraison, @Model.surfacePlancher,@Model.surfaceTerrain,@Model.surfaceTypologie,
+         @Model.nombreBatiment, @Model.nombreEtage, @Model.ascenseur,@Model.nombreAscenseur, @Model.lieuExecution];
+        var valuesList = [];
+        $.each(values, function (i, t)
+        {
+            if(t>=0){
+                valuesList.push(t);
+            }
+          else{
+                valuesList.push(null);
+            }
+        })
+                let chartConfig = {
+                        backgroundColor: '#ecf2f6',
+                        graphset: [
+                          {
+                    type: 'bar',
+                              backgroundColor: '#fff',
+                              borderWidth: '1px',
+                              borderColor: '#dae5ec',
+                              width: '100%',
+                              height: '100%',
+                              x: '0%',
+                              y: '0%',
+
+                              plot: {
+                        tooltip: {
+                            padding: '5px 10px',
+                                      backgroundColor: '#707e94',
+                                      borderRadius: '6px',
+                                      fontColor: '#fff',
+                                      fontFamily: 'Arial',
+                                      fontSize: '11px',
+                                      shadow: false
+                                  },
+                                  animation: {
+                            delay: 300,
+                                      effect: 'ANIMATION_SLIDE_BOTTOM'
+                                  },
+                                  barWidth: '33px',
+                                  hoverState: {
+                            visible: false
+                                  }
+                    },
+                              plotarea: {
+                        margin: '45px 20px 120px 45px'
+                              },
+                              scaleX: {
+                        values: namesList,
+                                  guide: {
+                            visible: false
+                                  },
+                                  item: {
+                            angle: -50,
+                                      paddingTop: '2px',
+                                      fontColor: '#000',
+                                      fontFamily: 'Arial',
+                                      fontSize: '11px'
+                                  },
+                                  itemsOverlap: true,
+                                  lineColor: '#d2dae2',
+                                  maxItems: 9999,
+                                  offsetY: '1px',
+                                  tick: {
+                            lineColor: '#d2dae2',
+                                      visible: false
+                                  }
+                    },
+                              scaleY: {
+                        values: '0:100:50',
+                                  guide: {
+                            rules: [
+                                        {
+                                lineWidth: '0px',
+                                            rule: '%i == 0'
+                                        },
+                                        {
+                                alpha: 0.4,
+                                            lineColor: '#d2dae2',
+                                            lineStyle: 'solid',
+                                            lineWidth: '1px',
+                                            rule: '%i > 0'
+                                        }
+                                      ]
+                                  },
+                                  item: {
+                            paddingRight: '5px',
+                                      fontColor: '#8391a5',
+                                      fontFamily: 'Arial',
+                                      fontSize: '10px'
+                                  },
+                                  lineColor: 'none',
+                                  maxItems: 4,
+                                  maxTicks: 4,
+                                  tick: {
+                            visible: false
+                                  }
+                    },
+                              series: [
+                                {
+                                    values: valuesList,
+                                    backgroundColor: '#f3950d',
+                                    valueBox: [{
+                            placement: "top-out",
+                                        color: "#000",
+                                        text: "%v%",
+                                        fontSize: 14
+                                    }]
+                                }
+                              ]
+                          }
+                        ]
+                    }
+
+            zingchart.render({
+                        id: 'myChart',
+                        data: chartConfig,
+                        height: '500',
+                        width: '100%'
+                    });
+
+        var diff = 100 - @Model.note;
+                    var myConfig = {
+                        "background-color": "#FFF",
+                        "graphset": [
+
+                            {
+                                "type": "pie",
+                                "width": "100%",
+                                "x": "-5%",
+                                "background-color": "#FFF",
+                                "title": {
+                                    "background-color": "none",
+                                    "font-weight": "normal",
+                                    "font-family": "Arial",
+                                    "font-color": "#ffffff",
+                                    "height": "30px"
+                                },
+
+                                "plotarea": {
+                                    "margin": "20 280 25 30"
+                                },
+
+                                "plot": {
+                                    "animation": {
+                                        "delay": 0,
+                                        "effect": 2,
+                                        "speed": 700,
+                                        "method": 6,
+                                        "sequence": 1
+                                    },
+                                    refAngle: 270,
+
+                                },
+                                "series": [
+                                    {
+                                        "text": "Moyenne Notes",
+                                        "values": [@Model.note],
+                                        "background-color": "#35D884",
+                                        "border-color": "#454754",
+                                        "border-width": "1px",
+                                        "shadow": 0,
+                                        "tooltip": {
+                                            "background-color": "#35D884",
+                                            "font-color": "#000",
+                                            "border-radius": "6px",
+                                            "shadow": false,
+                                            "padding": "5px 10px"
+                                        },
+                                        valueBox: [{
+                                            placement: "in",
+                                            color: "#000",
+                                            text: "%t: %v %",
+                                            fontSize: 14
+                                        }]
+                                    },
+
+                                          {
+                                              "text": "",
+                                              "values": [
+                                             diff
+                                              ],
+                                              "background-color": "#E8E8E8",
+                                              "border-color": "#454754",
+                                              "border-width": "1px",
+                                              "shadow": 0,
+                                              "tooltip": {
+                                                  "background-color": "#E8E8E8",
+                                                  "font-color": "#000",
+                                                  "border-radius": "6px",
+                                                  "shadow": false,
+                                                  "padding": "5px 10px"
+                                              },
+                                              valueBox: [{
+                                                  placement: "in",
+                                                  color: "#E8E8E8",
+                                                  text: "%t: %v %",
+                                                  fontSize: 14
+                                              }]
+                                          }
+
+                                ]
+                            },
+
+
+                        ]
+                    }
+                    zingchart.render({
+                        id: 'myChartPie',
+                        data: myConfig,
+                        height: 500,
+                        width: 700
+                    });
+
+                    let chartConfig3 = {
+
+                        graphset: [
+
+                            {
+                                type: 'null',
+                                backgroundColor: '#fbfcf7',
+                                borderColor: '#384653',
+                                borderRadius: '4px',
+                                borderWidth: '1px',
+                                width: '15%',
+                                height: '90%',
+                                x: '33.2%',
+                                y: '3%',
+                                title: {
+                                    text: 'Nombre des Evaluations',
+                                    backgroundColor: 'none',
+                                    fontColor: '#384653',
+                                    fontSize: '12px',
+                                    height: '70px',
+                                    textAlign: 'center'
+                                },
+                                subtitle: {
+                                    text:  @ViewBag.nbreEvaluations,
+                                    paddingTop: '35%',
+                                    bold: true,
+                                    fontColor: '#dd655f',
+                                    fontSize: '24px',
+                                    height: '40px',
+                                    textAlign: 'center'
+                                }
+                            },
+                          {
+                              type: 'null',
+                              backgroundColor: '#fbfcf7',
+                              borderColor: '#384653',
+                              borderRadius: '4px',
+                              borderWidth: '1px',
+                              width: '15%',
+                              height: '90%',
+                              x: '50.8%',
+                              y: '3%',
+                              title: {
+                                  text: 'Moyenne des Notes',
+                                  backgroundColor: 'none',
+                                  fontColor: '#384653',
+                                  fontSize: '12px',
+                                  height: '70px',
+                                  textAlign: 'center'
+                              },
+                              subtitle: {
+                                  text:@Model.note + '%',
+                                  paddingTop: '35%',
+                                  bold: true,
+                                  fontColor: '#4cc2bb',
+                                  fontSize: '24px',
+                                  height: '40px',
+                                  textAlign: 'center'
+                              }
+                          }
+                        ]
+                    };
+                    zingchart.render({
+                        id: 'myChart3',
+                        data: chartConfig3,
+                        height: '120',
+                        width: '100%'
+                    });
+
+    })
+</script> 

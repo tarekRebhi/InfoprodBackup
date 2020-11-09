@@ -1,0 +1,202 @@
+﻿@if (ViewBag.role == "Qualité")
+{
+    ViewBag.Title = "Ref_BO_SCDiff";
+
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_Diffusion")
+{
+    ViewBag.Title = "Ref_BO_SCDiff";
+
+    Layout = "~/Views/Shared/_Layout_Diffusion.cshtml";
+}
+@section test{
+
+
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold">Grille d'écoute et Référentiel Back Office Service Client Diffusion GISI / ETAI / ROL / GM </h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr style="background-color:indianred;">
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Items</font> </th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Définition</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Ponderation</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white"> Note</font></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Identification du client CRM</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit créer l'intervention dans le compte du client correspondant (modifier le compte si l'intervention est créée automatiquement).                                                                                                                                                                                               
+                          </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b> OK/KO</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b>5</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Qualification des demandes sur CRM</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Sur l'intervention créée, le conseiller doit sélectionner la bonne typologie de la réclamation (catégorie/sous catégorie), la source de la demande et le titre.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>  OK/KO</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Respect des process de travail</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            le conseiller doit respecter les consignes et les instructions de travail pour le traitement des dossiers clients:
+                            <br />
+                           - Bonne utilisation des BO
+                            <br />
+                           - Respect des règles: ne pas proposer le paiement par le CB…
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 6</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Compréhension de la question et pertinence de la réponse</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Analyser la demande et apporter la réponse la plus appropriée et complète dès le premier contact.
+                            <br />
+                            Utiliser les modèles s'ils sont pertinents.
+                          </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 6</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Discours et rédaction de la réponse</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Apporter une réponse claire en respectant les règles de syntaxe et d'orthographe.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Approche commerciale</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le conseiller doit mettre en valeur nos produits:
+                            <br />
+                            exemple:
+                            <br />
+                            - Un abonné 1 accès web on découvre qu'il y a plusieurs utilisateurs: rappeler CGv et proposer licence ou abonnement en plusieurs exemplaires/accès
+                            <br />
+                            - Demande de réexpédition car revue non reçue: rappeler que nos revues sont consultables sous format numérique
+                           <br />
+                             - Joindre les guides utilisateurs avec rappel de login avec formules: Ci-joint notre guide utilisateur pour vous accompagner dans la découverte de nos nouveaux services web,
+                          <br />
+                              - Utiliser les argumentaires hausse de tarif ne pas acter une résiliation sur simple précision prix trop élevé
+                            
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+              
+            </tbody>
+        </table>
+    </div>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'écoute et Référentiel</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'écoute et Référentiel</a></li>
+    <li class="active">Back Office Service Client Diffusion</li>
+}

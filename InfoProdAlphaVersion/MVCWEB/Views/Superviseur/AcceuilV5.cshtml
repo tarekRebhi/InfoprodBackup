@@ -1,0 +1,148 @@
+﻿
+@if (ViewBag.role == "Qualité")
+{
+    ViewBag.Title = "AcceuilV5";
+
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité")
+{
+    ViewBag.Title = "AcceuilV5";
+
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_CustomerService")
+{
+    ViewBag.Title = "AcceuilV5";
+
+    Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_Diffusion")
+{
+    ViewBag.Title = "AcceuilV5";
+
+    Layout = "~/Views/Shared/_Layout_Diffusion.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_AchatPublic")
+{
+    Layout = "~/Views/Shared/_Layout_AchatPublic.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_PRV")
+{
+    Layout = "~/Views/Shared/_Layout_PRV.cshtml";
+}
+@model MVCWEB.Models.DirectoryViewModel
+
+
+@section test{
+
+    <!-- Basic tabs -->
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <a href="#" class="btn bg-teal-400"><span class="badge badge-danger position-left" style="font-size: 14px;">@Model.NombreEnregistrements </span> <span style="font-weight:bold">@Model.indice</span> : Campagne plus Active Aujourd'hui</a>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <li><a data-action="reload"></a></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+                <div class="panel-body">
+
+                    @foreach (var item in Model.compagneEnregV5)
+                    {
+                        double p = Math.Round(@item.Percent, 0);
+                        <div class="col-md-11">
+                            <h5 class="text-semibold no-margin">@item.Text</h5>
+                            <p>  <code>Nombre des Enregistrements : </code><span class="text-success-600"><i class="icon-stats-growth2 position-left"></i> @item.Value</span></p>
+
+                            @if (@item.Percent >= 0 && @item.Percent < 10)
+                            {
+
+                                <div class="progress content-group-sm">
+                                    <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: @p%">
+                                        <span>@item.Percent %</span>
+                                    </div>
+                                </div>
+                            }
+                            @if (@item.Percent >= 10 && @item.Percent < 20)
+        {
+                                <div class="progress content-group-sm">
+                                    <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: @p%">
+                                        <span>@item.Percent %</span>
+                                    </div>
+                                </div>
+                            }
+                            @if (@item.Percent >= 20 && @item.Percent < 30)
+        {
+                                <div class="progress content-group-sm">
+                                    <div class="progress-bar progress-bar-primary progress-bar-striped active" style="width: @p%">
+                                        <span>@item.Percent %</span>
+                                    </div>
+                                </div>
+                            }
+                            @if (@item.Percent >= 30 && @item.Percent < 50)
+        {
+                                <div class="progress content-group-sm">
+                                    <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: @p%">
+                                        <span>@item.Percent %</span>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (@item.Percent >= 50 && @item.Percent <= 100)
+                            {
+                                <div class="progress content-group-sm">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: @p%">
+                                        <span>@item.Percent % </span>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Acceuil</span> - Records @Model.roleName</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i>Tableau du bord </a></li>
+    <li class="active">Accès aux Enregistrements</li>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}

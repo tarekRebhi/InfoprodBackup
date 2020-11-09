@@ -1,0 +1,819 @@
+﻿@model MVCWEB.Models.EmployeeViewModel
+@if (ViewBag.role == "Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_CustomerService")
+{
+    Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
+}
+
+@section test{
+    <script src="~/Scripts/zingchart.min.js"></script>
+
+    <style type="text/css">
+        .zc-ref {
+            display: none;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-xs-2">
+            <h6>Sélectionner Dates Début/Fin</h6>
+        </div>
+        <div class="col-xs-3">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                    <input type="text" class="form-control daterange-basic" name="datetimes" id="datetimes" value="01/01/2020 - 01/31/2020">
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-flat">
+
+            <div class="panel-heading">
+                <h6 class="panel-title"><i class="glyphicon glyphicon-th-list"></i> <span style="font-size: 16px;">Table Détails des Appels Par Tranche Horaire</span></h6><hr />
+            </div>
+            <div class="container-fluid">
+                <div class="row-md-12">
+                    <ul class="list-inline text-center" style="font-size: 16px;">
+                        <li>
+                            <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                        </li>
+                        <li class="text-left">
+                            <div class="text-semibold">Total Appels Reçus</div>
+                            <div id="recus"></div>
+                        </li>
+
+                        <li>
+                            <a href="#" class="btn border-teal text-teal btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                        </li>
+                        <li class="text-left">
+                            <div class="text-semibold">Total Appels Décrochés</div>
+                            <div id="decroches"></div>
+                        </li>
+
+                        <li>
+                            <a href="#" class="btn border-pink text-pink btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                        </li>
+                        <li class="text-left">
+                            <div class="text-semibold">Total Appels Perdus</div>
+                            <div id="perdus"></div>
+                        </li>
+                        <li>
+                            <a href="#" class="btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                        </li>
+                        <li class="text-left">
+                            <div class="text-semibold">QS</div>
+                            <div id="qs"></div>
+                        </li>
+                    </ul>
+                </div>
+                @*<div class="row-md-12">
+                    <ul class="list-inline text-center" style="font-size: 16px;">
+                       
+
+                        <li>
+                            <a href="#" class="btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                        </li>
+                        <li class="text-left">
+                            <div class="text-semibold">DMC</div>
+                            <div id="dmc"></div>
+                        </li>
+
+                        <li>
+                            <a href="#" class="btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"><i class="icon-statistics"></i></a>
+                        </li>
+                        <li class="text-left">
+                            <div class="text-semibold">DMT</div>
+                            <div id="dmt"></div>
+                        </li>
+
+                    </ul>
+                </div>*@
+                <br />
+                <div>
+                    <table id="Grid" class="table table-bordered">
+                        <thead>
+                            <tr class="bg-grey">
+                                <th style="text-align: center;font-weight:bold;">Heure</th>
+                                <th style="text-align: center;font-weight:bold;">Appels Reçus</th>
+                                <th style="text-align: center;font-weight:bold;">Appels Décrochés</th>
+                                <th style="text-align: center;font-weight:bold;">Appels Perdus</th>
+                                <th style="text-align: center;font-weight:bold;">DMC</th>
+                                <th style="text-align: center;font-weight:bold;">DMT</th>
+                                <th style="text-align: center;font-weight:bold;">QS%</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align: center;"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title"><i class="icon-chart"></i> <span style="font-size: 16px;">Evolution QS% Par Tranche Horaire</span></h6><hr />
+                </div>
+                <div class="container-fluid">
+                 <div id="myChart1"></div>
+                    </div>
+                </div>
+            
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title"><i class="icon-stats-bars3"></i> <span style="font-size: 16px;">Répartition des Appels Entrants Par Tranche Horaire</span></h6><hr />
+                </div>
+                <div class="container-fluid">
+                    <div id="myChart2"></div>
+                </div>
+            </div>
+
+            @*fin col6*@
+                </div>
+
+
+        @*fin row*@
+            </div>
+
+    }
+
+    <script>
+        var debut = '01/01/2020';
+        var fin = '31/01/2020';
+        // var debut;
+        // var fin;
+        $(function () {
+            $('#datetimes').daterangepicker({
+
+                opens: 'right',
+                format: 'DD/MM/YYYY',
+                locale: {
+
+                    "daysOfWeek": [
+              "Dim",
+              "Lun",
+              "Mar",
+              "Mer",
+              "Jeu",
+              "Ven",
+              "Sam"
+                    ],
+                    "monthNames": [
+                        "Jan",
+                        "Fev",
+                        "Mar",
+                        "Avr",
+                        "Mai",
+                        "Ju",
+                        "Jui",
+                        "Aou",
+                        "Sep",
+                        "Oct",
+                        "Nov",
+                        "December"
+                    ],
+                },
+                lan: 'fr',
+
+
+            },
+             function (start, end, label) {
+                 debut = start.format('DD/MM/YYYY');
+                 fin = end.format('DD/MM/YYYY');
+             }
+            );
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: '@Url.Action("GetTrancheHoraireValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    dateDebut: debut,
+                    dateFin: fin
+                },
+
+                success: function (c) {
+                    var tblHtml = "";
+                    var plus = 0;
+                    var totAppRecus = 0;
+                    var totAppDecroches = 0;
+                    var totAppPerdus = 0;
+                    var totQS = 0;
+                    var QSList = [];
+                    var RecusList = [];
+                    var DecrochesList = [];
+                    var PerdusList = [];
+                  
+                    $.each(c, function (index, cal) {
+                        var DMCmm = "", DMCss = "";
+                        var DMTmm = "", DMTss = "";
+                        QSList.push(cal.QS);
+                        RecusList.push(cal.AppelsRecus);
+                        DecrochesList.push(cal.AppelsDecroches);
+                        PerdusList.push(cal.AppelsPerdus);
+
+                        plus = cal.Heure + 1;
+                        totAppRecus += cal.AppelsRecus;
+                        totAppDecroches += cal.AppelsDecroches;
+                        totAppPerdus += cal.AppelsPerdus;
+                        totQS += cal.QS;
+                        if (cal.DMC.Minutes < 10) {
+                            DMCmm += "0" +cal.DMC.Minutes;
+                        }
+                        else {
+                            DMCmm += cal.DMC.Minutes;
+                        }
+
+                        if (cal.DMC.Seconds > 10) {
+                            DMCss += cal.DMC.Seconds;
+                        }
+                        else  {
+                            DMCss += "0"+cal.DMC.Seconds;
+                        }
+                        //DMT
+                        if (cal.DMT.Minutes < 10) {
+                            DMTmm += "0" + cal.DMT.Minutes;
+                        }
+                        else {
+                            DMTmm += cal.DMT.Minutes;
+                        }
+
+                        if (cal.DMT.Seconds > 10) {
+                            DMTss += cal.DMT.Seconds;
+                        }
+                        else {
+                            DMTss += "0" + cal.DMT.Seconds;
+                        }
+                        tblHtml += "<tr><td style='width:400px;font-weight:bold;'><span class='label label-default' style='font-size:14px;width:150px;'>" + cal.Heure + "h : " + cal.Heure + "h -> " + plus + "h" + "</span></td>";
+                        tblHtml += "<td style='width:400px;'>" + cal.AppelsRecus + "</td>";
+                        tblHtml += "<td style='width:400px;'>" + cal.AppelsDecroches + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.AppelsPerdus + "</td>";
+                        tblHtml += "<td style='width:400px;'>" + "0" + cal.DMC.Hours + ":"  + DMCmm + ":" + DMCss + "</td>";
+                        tblHtml += "<td style='width:400px;'>" + "0" + cal.DMT.Hours + ":" + DMTmm + ":" + DMTss + "</td>";
+                        if (cal.QS >= 90) {
+                            tblHtml += "<td style='width:200px;'><span class='label label-success' style='font-size:12px;width:60px;'>" + cal.QS + "%" + "</span></td></tr>";
+                        }
+                        else {
+                            tblHtml += "<td style='width:200px;'><span class='label label-danger' style='font-size:12px;width:60px;'>" + cal.QS + "%" + "</span></td></tr>";
+                        }
+                      
+                    });
+                    var ech = Math.max.apply(null, RecusList) + 10;
+                    MoyQS = ((totAppDecroches / totAppRecus) * 100).toFixed(2);
+                    $("#Grid > tbody").html(tblHtml);
+                    $("#recus").html(totAppRecus);
+                    $("#decroches").html(totAppDecroches);
+                    $("#perdus").html(totAppPerdus);
+                    $("#qs").html(MoyQS + "%");
+
+                    var HeuresList = ["7h","8h","9h","10h","11h","12h","13h","14h","15h","16h","17h","18h"]
+                    var chartConfig1 = {
+
+                        backgroundColor: '#ecf2f6',
+                        graphset: [
+                        {
+                            "type": "area",
+                            "background-color": "#fff",
+                            "width": "100%",
+                            "height": "100%",
+                            "x": "0%",
+                            "y": "0%",
+                           
+                            "plot": {
+                                "animation": {
+                                    "delay": 500,
+                                    "effect": "ANIMATION_SLIDE_LEFT"
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "20px 25px 70px 46px"
+                            },
+                            "scale-y": {
+                                "values": "0:100:20",
+                                "line-color": "none",
+                                "guide": {
+                                    "line-style": "solid",
+                                    "line-color": "#d2dae2",
+                                    "line-width": "1px",
+                                    "alpha": 0.5
+                                },
+                                "tick": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-color": "#8391a5",
+                                    "font-family": "Arial",
+                                    "font-size": "10px",
+                                    "padding-right": "5px"
+                                }
+                            },
+                            "scale-x": {
+                                "line-color": "#d2dae2",
+                                "line-width": "2px",
+                                "values": HeuresList,
+                                "tick": {
+                                    "line-color": "#d2dae2",
+                                    "line-width": "1px"
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-color": "#8391a5",
+                                    "font-family": "Arial",
+                                    "font-size": "12px",
+                                    "padding-top": "5px"
+                                }
+                            },
+                            "crosshair-x": {
+                                "lineWidth": 1,
+                                "line-color": "#707d94",
+                                "plotLabel": {
+                                    "shadow": false,
+                                    "font-color": "#000",
+                                    "font-family": "Arial",
+                                    "font-size": "10px",
+                                    "padding": "5px 10px",
+                                    "border-radius": "5px",
+                                    "alpha": 1
+                                },
+                                "scale-label": {
+                                    "font-color": "#ffffff",
+                                    "background-color": "#707d94",
+                                    "font-family": "Arial",
+                                    "font-size": "10px",
+                                    "padding": "5px 10px",
+                                    "border-radius": "5px"
+                                }
+                            },
+                            "tooltip": {
+                                "visible": false
+                            },
+                            "series": [
+
+                            {
+                                "values": QSList,
+                                "text": "QS%",
+                                "line-color": "#ad6bae",
+                                "line-width": "2px",
+                                "shadow": 0,
+                                "marker": {
+                                    "background-color": "#fff",
+                                    "size": 3,
+                                    "border-width": 1,
+                                    "border-color": "#975098",
+                                    "shadow": 0
+                                },
+                                "palette": 1,
+                                "visible": 1
+                            }
+                            ]
+                        }
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChart1',
+                        data: chartConfig1,
+                        height: 320,
+                        width: '100%'
+                    });
+
+                    var chartConfig2 = {
+                        type: 'mixed',
+                        legend: {
+                            layout: 'h',
+                            x: '30%',
+                            backgroundColor: '#fff',
+                            borderColor: 'none',
+                            borderWidth: '0px',
+                        },
+                        plot: {
+                            animation: {
+                                effect: 'ANIMATION_SLIDE_TOP',
+                                method: 'ANIMATION_BOUNCE_EASE_OUT',
+                                sequence: 'ANIMATION_NO_SEQUENCE',
+                                speed: 975,
+                                delay: 500,
+                            },
+                            barWidth: '20px',
+                            hoverState: {
+                                visible: false
+                            }
+                        },
+                        scaleX: {
+                            labels: HeuresList
+                        },
+                        scaleY: {
+                            minValue: 0,
+                            maxValue: ech,
+                            step: 20,
+                            guide: { // dashed lines
+                                visible: false
+                            }
+                        },
+
+                        crosshairX: {
+                            lineColor: '#424242',
+                            lineStyle: 'dotted',
+                            lineGapSize: '4px',
+                            plotLabel: {
+                                backgroundColor: "white",
+                                borderColor: "#e3e3e3",
+                                borderRadius: "5px",
+                                bold: true,
+                                fontSize: "12px",
+                                fontFamily: "Lato",
+                                fontColor: "#2f2f2f",
+                                textAlign: 'right',
+                                padding: '15px',
+                                shadow: true,
+                                shadowAlpha: 0.2,
+                                shadowBlur: 5,
+                                shadowDistance: 4,
+                                shadowColor: "#a1a1a1",
+                                textAlign: 'left'
+                            },
+                            scaleLabel: {
+                                backgroundColor: '#424242'
+                            }
+                        },
+                        series: [
+                  {
+                      type: 'bar',
+                      values: RecusList,
+                      text: 'Appels Recus',
+                      backgroundColor: '#42a5f5',
+                      scales: 'scale-x, scale-y'
+                  },
+                  {
+                      type: 'bar',
+                      values: DecrochesList,
+                      text: 'Appels Décrochés',
+                      backgroundColor: '#66bb6a',
+                      scales: 'scale-x, scale-y'
+                  },
+                         {
+                             type: 'line',
+                             values: PerdusList,
+                             text: 'Appels Perdus',
+                             lineColor: '#DC143C',
+                             marker: {
+                                 visible: false
+                             },
+                             scales: 'scale-x, scale-y'
+                         }
+
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChart2',
+                        data: chartConfig2,
+                        height: 315,
+                        width: '100%'
+                    });
+                },
+                error: function () { }
+            })
+        })
+
+        $('#datetimes').on('apply.daterangepicker', function () {
+
+            $.ajax({
+                url: '@Url.Action("GetTrancheHoraireValues")',
+                type: 'POST',
+                datatype: 'json',
+                data: {
+                    dateDebut: debut,
+                    dateFin: fin
+                },
+
+                success: function (c) {
+                    var tblHtml = "";
+                    var plus = 0;
+                    var totAppRecus = 0;
+                    var totAppDecroches = 0;
+                    var totAppPerdus = 0;
+                    var totQS = 0;
+                    var QSList = [];
+                    var RecusList = [];
+                    var DecrochesList = [];
+                    var PerdusList = [];
+                    $.each(c, function (index, cal) {
+                        var DMCmm = "", DMCss = "";
+                        var DMTmm = "", DMTss = "";
+                        QSList.push(cal.QS);
+                        RecusList.push(cal.AppelsRecus);
+                        DecrochesList.push(cal.AppelsDecroches);
+                        PerdusList.push(cal.AppelsPerdus);
+
+                        plus = cal.Heure + 1;
+                        totAppRecus += cal.AppelsRecus;
+                        totAppDecroches += cal.AppelsDecroches;
+                        totAppPerdus += cal.AppelsPerdus;
+                        totQS += cal.QS;
+                        if (cal.DMC.Minutes < 10) {
+                            DMCmm += "0" + cal.DMC.Minutes;
+                        }
+                        else {
+                            DMCmm += cal.DMC.Minutes;
+                        }
+
+                        if (cal.DMC.Seconds > 10) {
+                            DMCss += cal.DMC.Seconds;
+                        }
+                        else {
+                            DMCss += "0" + cal.DMC.Seconds;
+                        }
+                        //DMT
+                        if (cal.DMT.Minutes < 10) {
+                            DMTmm += "0" + cal.DMT.Minutes;
+                        }
+                        else {
+                            DMTmm += cal.DMT.Minutes;
+                        }
+
+                        if (cal.DMT.Seconds > 10) {
+                            DMTss += cal.DMT.Seconds;
+                        }
+                        else {
+                            DMTss += "0" + cal.DMT.Seconds;
+                        }
+                        tblHtml += "<tr><td style='width:400px;font-weight:bold;'><span class='label label-default' style='font-size:14px;width:150px;'>" + cal.Heure + "h : " + cal.Heure + "h -> " + plus + "h" + "</span></td>";
+                        tblHtml += "<td style='width:400px;'>" + cal.AppelsRecus + "</td>";
+                        tblHtml += "<td style='width:400px;'>" + cal.AppelsDecroches + "</td>";
+                        tblHtml += "<td style='width:200px;'>" + cal.AppelsPerdus + "</td>";
+                        tblHtml += "<td style='width:400px;'>" + "0" + cal.DMC.Hours + ":" + DMCmm + ":" + DMCss + "</td>";
+                        tblHtml += "<td style='width:400px;'>" + "0" + cal.DMT.Hours + ":" + DMTmm + ":" + DMTss + "</td>";
+                        if (cal.QS >= 90) {
+                            tblHtml += "<td style='width:200px;'><span class='label label-success' style='font-size:12px;width:60px;'>" + cal.QS + "%" + "</span></td></tr>";
+                        }
+                        else {
+                            tblHtml += "<td style='width:200px;'><span class='label label-danger' style='font-size:12px;width:60px;'>" + cal.QS + "%" + "</span></td></tr>";
+                        }
+
+                    });
+                    var ech = Math.max.apply(null, RecusList) + 10;
+                    MoyQS = ((totAppDecroches / totAppRecus) * 100).toFixed(2);
+                    $("#Grid > tbody").html(tblHtml);
+                    $("#recus").html(totAppRecus);
+                    $("#decroches").html(totAppDecroches);
+                    $("#perdus").html(totAppPerdus);
+                    $("#qs").html(MoyQS + "%");
+
+                    var HeuresList = ["7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h"]
+                    var chartConfig1 = {
+
+                        backgroundColor: '#ecf2f6',
+                        graphset: [
+                        {
+                            "type": "area",
+                            "background-color": "#fff",
+                            "width": "100%",
+                            "height": "100%",
+                            "x": "0%",
+                            "y": "0%",
+
+                            "plot": {
+                                "animation": {
+                                    "delay": 500,
+                                    "effect": "ANIMATION_SLIDE_LEFT"
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "20px 25px 70px 46px"
+                            },
+                            "scale-y": {
+                                "values": "0:100:20",
+                                "line-color": "none",
+                                "guide": {
+                                    "line-style": "solid",
+                                    "line-color": "#d2dae2",
+                                    "line-width": "1px",
+                                    "alpha": 0.5
+                                },
+                                "tick": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-color": "#8391a5",
+                                    "font-family": "Arial",
+                                    "font-size": "10px",
+                                    "padding-right": "5px"
+                                }
+                            },
+                            "scale-x": {
+                                "line-color": "#d2dae2",
+                                "line-width": "2px",
+                                "values": HeuresList,
+                                "tick": {
+                                    "line-color": "#d2dae2",
+                                    "line-width": "1px"
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-color": "#8391a5",
+                                    "font-family": "Arial",
+                                    "font-size": "12px",
+                                    "padding-top": "5px"
+                                }
+                            },
+                            "crosshair-x": {
+                                "lineWidth": 1,
+                                "line-color": "#707d94",
+                                "plotLabel": {
+                                    "shadow": false,
+                                    "font-color": "#000",
+                                    "font-family": "Arial",
+                                    "font-size": "10px",
+                                    "padding": "5px 10px",
+                                    "border-radius": "5px",
+                                    "alpha": 1
+                                },
+                                "scale-label": {
+                                    "font-color": "#ffffff",
+                                    "background-color": "#707d94",
+                                    "font-family": "Arial",
+                                    "font-size": "10px",
+                                    "padding": "5px 10px",
+                                    "border-radius": "5px"
+                                }
+                            },
+                            "tooltip": {
+                                "visible": false
+                            },
+                            "series": [
+
+                            {
+                                "values": QSList,
+                                "text": "QS%",
+                                "line-color": "#ad6bae",
+                                "line-width": "2px",
+                                "shadow": 0,
+                                "marker": {
+                                    "background-color": "#fff",
+                                    "size": 3,
+                                    "border-width": 1,
+                                    "border-color": "#975098",
+                                    "shadow": 0
+                                },
+                                "palette": 1,
+                                "visible": 1
+                            }
+                            ]
+                        }
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChart1',
+                        data: chartConfig1,
+                        height: 320,
+                        width: '100%'
+                    });
+
+                    var chartConfig2 = {
+                        type: 'mixed',
+                        legend: {
+                            layout: 'h',
+                            x: '30%',
+                            backgroundColor: '#fff',
+                            borderColor: 'none',
+                            borderWidth: '0px',
+                        },
+                        plot: {
+                            animation: {
+                                effect: 'ANIMATION_SLIDE_TOP',
+                                method: 'ANIMATION_BOUNCE_EASE_OUT',
+                                sequence: 'ANIMATION_NO_SEQUENCE',
+                                speed: 975,
+                                delay: 500,
+                            },
+                            barWidth: '20px',
+                            hoverState: {
+                                visible: false
+                            }
+                        },
+                        scaleX: {
+                            labels: HeuresList
+                        },
+                        scaleY: {
+                            minValue: 0,
+                            maxValue: ech,
+                            step: 20,
+                            guide: { // dashed lines
+                                visible: false
+                            }
+                        },
+
+                        crosshairX: {
+                            lineColor: '#424242',
+                            lineStyle: 'dotted',
+                            lineGapSize: '4px',
+                            plotLabel: {
+                                backgroundColor: "white",
+                                borderColor: "#e3e3e3",
+                                borderRadius: "5px",
+                                bold: true,
+                                fontSize: "12px",
+                                fontFamily: "Lato",
+                                fontColor: "#2f2f2f",
+                                textAlign: 'right',
+                                padding: '15px',
+                                shadow: true,
+                                shadowAlpha: 0.2,
+                                shadowBlur: 5,
+                                shadowDistance: 4,
+                                shadowColor: "#a1a1a1",
+                                textAlign: 'left'
+                            },
+                            scaleLabel: {
+                                backgroundColor: '#424242'
+                            }
+                        },
+                        series: [
+                  {
+                      type: 'bar',
+                      values: RecusList,
+                      text: 'Appels Recus',
+                      backgroundColor: '#42a5f5',
+                      scales: 'scale-x, scale-y'
+                  },
+                  {
+                      type: 'bar',
+                      values: DecrochesList,
+                      text: 'Appels Décrochés',
+                      backgroundColor: '#66bb6a',
+                      scales: 'scale-x, scale-y'
+                  },
+                         {
+                             type: 'line',
+                             values: PerdusList,
+                             text: 'Appels Perdus',
+                             lineColor: '#DC143C',
+                             marker: {
+                                 visible: false
+                             },
+                             scales: 'scale-x, scale-y'
+                         }
+
+                        ]
+                    };
+
+                    zingchart.render({
+                        id: 'myChart2',
+                        data: chartConfig2,
+                        height: 315,
+                        width: '100%'
+                    });
+                },
+                error: function () { }
+            })
+        })
+    </script>
+    @section testProfile{
+
+        <a class="dropdown-toggle" data-toggle="dropdown">
+            <img src=@Model.Url alt="">
+            <span>@Model.userName</span>
+            <i class="caret"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+
+            <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+        </ul>
+    }
+    @section sidebarProfile{
+
+        <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+        <div class="media-body">
+            <span class="media-heading text-semibold">@Model.userName</span>
+            <div class="text-size-mini text-muted">
+                <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoName
+            </div>
+        </div>
+        <div class="media-right media-middle">
+
+        </div>
+    }
+
+    @section pagetitlebody{
+        <li><a href="#"><i class="icon-home2 position-left"></i> Suivi SAM RC</a></li>
+        <li class="active">Par Tranche Horaire</li>
+    }

@@ -1,0 +1,335 @@
+﻿@if (ViewBag.role == "Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité")
+{ 
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_PRV")
+{
+    Layout = "~/Views/Shared/_Layout_PRV.cshtml";
+}
+@section test{
+
+
+
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h6 class="panel-title text-semibold">Grille d'écoute et Référentiel PRV Vecteur Plus Comonline</h6>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a data-action="collapse"></a></li>
+                    <li><a data-action="reload"></a></li>
+                    <li><a data-action="close"></a></li>
+                </ul>
+            </div>
+        </div>
+        <table class="table table-striped media-library table-lg">
+            <thead>
+                <tr style="background-color:darkblue;">
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Items</font> </th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Définition</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Evaluation</font></th>
+                    <th style="text-align:center;font-weight:bold;"><font color="white">Ponderation</font></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Présentation et Identification</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Le conseiller se présente personnellement et présente la société « Vecteur PLUS du groupe le Moniteur" 
+                            <br />
+                            - Identification de la personne qui gère, les appels d’offres, directeur Commercial ou autre…
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b> OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Presenter l'objet de l'appel</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            - Présenter clairement et efficacement l’objet et le motif de l'appel: 
+                            <br />
+                            Je vous appelle suite à la demande de mon responsable « NOM DU COMMERCIAL) pour savoir quand est ce qu’il peut vous appeler/ se déplacer pour vous présenter ce que nous pouvons vous apporter en amont.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>  OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Validation de la disponibilité</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Est-ce que vous êtes disponible quelques instants? / Avez-vous quelques instants a m'accorder?                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Questionnement</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Quel est votre secteur d'activité svp ?  
+                            <br />
+                            - Vous intervenez sur quel secteur géographique aujourd’hui ?
+                            <br />
+                            - Vous répondez à des projets plutôt publics ou privés ?
+                            <br />
+                            - Si public : vous répondez à combien d’appel d’offre par an ?
+                            <br />
+                            - Si privé : votre orientation aujourd’hui plutôt sur des projets ; chantier … ?
+                            <br />
+                            - Vous utilisez quel moyen pour détecter les AO ou les projets privés ?
+                            <br />
+                            - Avez-vous un prestataire en place ?
+                      </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 8</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Reformulation </font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Reformuler brièvement, les informations fournis par le prospect                     
+                           </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Proposition du Rendez-vous</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Le but de ce RDV réellement est de vous fournir des solutions en amont, sur mesures, des informations exhaustives, selon votre profil métier, votre département… etc.
+                         </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 6</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Objections</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Accueillir l'objection, rassure le prospect, traite l'objection, et argumente pour le convaincre de nouveau. (Trame d'objections)
+                      </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Calendrier/ Disponibilité</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Quand est-ce que ça vous arrange? Début ou fin de semaine ? Matin ou après-midi?  
+                          </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Rebondir / Validation </font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Vérification si créneau horaire OK pour les deux parties, sinon proposer selon la disponibilité du commercial.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Récapitulatif</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                           - Récapitulatif, en validant, date et heure, mobile du prospect en cas de besoin, et communiquer celui du commercial, ou le vôtre en cas d'annulation, besoin ou autre.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 6</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Discours</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            - Adopte un rythme maîtrisé : une idée par phrase (ni hachuré, ni surchargé), une pause pondérée en fin de phrase (ni saccadé, ni maculé de blancs).
+                            <br />
+                            - Débit adapté
+                            <br />
+                            - Langage = professionnel, simple, présent, positif.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA/NE</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Empathie / Attitude</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Le collaborateur met en place un climat chaleureux (sourire, intonation, écoute)
+                            <br />
+                            - Il se montre disponible, aimable et dynamique durant tout l'appel.
+                            <br />
+                            - Fais preuve d'empathie, personnalise le prospect.
+                        </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 5</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">
+                        <h5 style="font-weight:bold;">
+                            <font color="black">Prise de congé</font>
+                        </h5>
+                    </td>
+                    <td style="background-color:grey" width="50%">
+                        <font color="White">
+                            Assurer une prise de congé courtoise avec une formule de politesse, et personnalisation du prospect.                     
+                           </font>
+                    </td>
+                    <td style="color:black;text-align:center;" width="20%">
+                        <b>OK/KO/AA</b>
+                    </td>
+                    <td style="color:black;text-align:center;" width="10%">
+                        <b> 4</b>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'écoute et Référentiel</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'écoute et Référentiel</a></li>
+    <li class="active">Prise de Rendez-vous Vecteur Plus</li>
+}

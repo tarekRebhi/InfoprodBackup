@@ -1,0 +1,420 @@
+﻿@model MVCWEB.Models.EvaluationViewModel
+
+@if (ViewBag.role == "Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité")
+{
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_PRV")
+{
+    Layout = "~/Views/Shared/_Layout_PRV.cshtml";
+}
+<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" />
+
+@section test{
+    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js" charset="utf-8"></script>
+
+    <script type='text/javascript'>
+		$( document ).ready(function() {
+		    $('#planDate').datetimepicker({
+		        format: 'YYYY-MM-DD HH:mm',
+		        daysOfWeekDisabled: [0, 6],
+		    });
+		});
+    </script>
+
+    <div class="form-horizontal">
+        <div class="row">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"> <b>Nom Complet d'enregistrement</b></font></h6>
+            <div class="col-xs-4 date">
+                @Html.EditorFor(model => model.enregistrementFullName, new { htmlAttributes = new { @class = "form-control", @id = "listen", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.enregistrementFullName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-xs-4 date" hidden>
+                @Html.EditorFor(model => model.enregistrementUrl, new { htmlAttributes = new { @class = "form-control", @id = "listen2" } })
+                @Html.ValidationMessageFor(model => model.enregistrementUrl, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-xs-4 date" hidden>
+                @Html.EditorFor(model => model.enregistrementDirectory, new { htmlAttributes = new { @class = "form-control", @id = "listen3" } })
+                @Html.ValidationMessageFor(model => model.enregistrementDirectory, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Nom Agent:</b></font></h6>
+            <div class="col-xs-4">
+
+                @Html.EditorFor(model => model.agentName, new { htmlAttributes = new { @class = "form-control", @id = "nomAgent", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.agentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"> <b>Date et temps d'évaluation</b></font></h6>
+        <div class="col-xs-4 date" style="width:25%">
+            <div class="input-group input-append date">
+                <input type='text' id='planDate' name="planDate" class="form-control" value="01/06/2018 08:00" lang="fr" style="min-width: 100%" />
+                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="presentationRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Présentation et Identification</b></font></h6>
+
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="presentation" name="presentation" style="height: 25px;">
+
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="row" id="objetAppelRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Présenter l'objet de l'appel</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="objetAppel" name="objetAppel" style="height: 35px;">
+
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" id="validationDisponibiliteRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Validation de la disponibilité</b> </font> </h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="validationDisponibilite" name="validationDisponibilite" style="height: 45px;">
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                    <option value="-4">NE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="questionnementRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Questionnement</b> </font> </h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="questionnement" name="questionnement" style="height: 45px;">
+
+                    <option value="8">OK</option>
+                    <option value="0">KO</option>
+                    <option value="4">AA</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="reformulationRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Reformulation </b> </font> </h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="reformulation" name="reformulation" style="height: 45px;">
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                    <option value="-4">NE</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="propositionPRVRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Proposition du Rendez-vous</b></font> </h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="propositionPRV" name="propositionPRV" style="height: 45px;">
+                    <option value="6">OK</option>
+                    <option value="0">KO</option>
+                    <option value="3">AA</option>
+                    <option value="-6">NE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="objectionsRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Objections</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="objections" name="objections" style="height: 45px;">
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                    <option value="-4">NE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="calendrierRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Calendrier/ Disponibilité</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="calendrier" name="calendrier" style="height: 45px;">
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                    <option value="-4">NE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="validationRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Rebondir / Validation</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="validation" name="validation" style="height: 45px;">
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                    <option value="-4">NE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="recapitulatifRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Récapitulatif</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="recapitulatif" name="recapitulatif" style="height: 45px;">
+                    <option value="6">OK</option>
+                    <option value="0">KO</option>
+                    <option value="3">AA</option>
+                    <option value="-6">NE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="discoursRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Discours</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="discours" name="discours" style="height: 45px;">
+                    <option value="5">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2.5">AA</option>
+                    <option value="-5">NE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="attitudeRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Empathie / Attitude</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="attitude" name="attitude" style="height: 45px;">
+                    <option value="5">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2.5">AA</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="priseCongeRow">
+        <div class="col-1">
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Prise de congé</b></font></h6>
+            <div class="col-xs-4">
+                <select class="bootstrap-select" id="priseConge" name="priseConge" style="height: 45px;">
+                    <option value="4">OK</option>
+                    <option value="0">KO</option>
+                    <option value="2">AA</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" id="commentaireRow">
+        <div class="col-xs-10">
+            <div class="form-group">
+                <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Commentaire</b></font></h6>
+                <textarea id="commentaire" name="commentaire" rows="5" cols="5" class="form-control" placeholder="Entrer votre commentaire"></textarea>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <center>
+        <div class="text-md-center" id="imedSaveRow">
+            <button type="submit" id="Calcul" class="btn bg-teal-400" data-toggle="modal">Evaluer Enregistrement <i class="icon-check position-fixed"></i></button>
+            <button type="submit" id="Save" class="btn bg-danger-400" data-title="Sauvegarder Alerte">Sauvegarder et Envoyer Mail <i class="icon-arrow-right14 position-fixed"></i></button>
+
+        </div>
+    </center>
+    <div id="view"></div>
+    <br /><br />
+
+    <script>
+        $('#datePicker')
+               .daterangepicker({
+                   singleDatePicker: true,
+                   autoApply: true,
+                   opens: 'left',
+
+                   locale: {
+                       setDate: new Date(),
+                       format: 'DD/MM/YYYY hh:mm:ss',
+                       "daysOfWeek": [
+            "Dim",
+            "Lun",
+            "Mar",
+            "Mer",
+            "Jeu",
+            "Ven",
+            "Sam"
+                       ],
+                       "monthNames": [
+                           "Jan",
+                           "Fev",
+                           "Mar",
+                           "Avr",
+                           "Mai",
+                           "Ju",
+                           "Jui",
+                           "Aou",
+                           "Sep",
+                           "Oct",
+                           "Nov",
+                           "December"
+                       ],
+                   },
+                   lan: 'fr',
+                   autoclose: true,
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", "#Calcul", function () {
+
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/CalculPRVVecteurPlus',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        nomAgent: $("#nomAgent").val(),
+                        planDate: $("#planDate").val(),
+
+                        presentation: $("#presentation").val(),
+                        objetAppel: $("#objetAppel").val(),
+                        validationDisponibilite: $("#validationDisponibilite").val(),
+                        questionnement: $("#questionnement").val(),
+                        reformulation: $("#reformulation").val(),
+                        propositionPRV: $("#propositionPRV").val(),
+                        objections: $("#objections").val(),
+                        calendrier: $("#calendrier").val(),
+                        validation: $("#validation").val(),
+                        recapitulatif: $("#recapitulatif").val(),
+                        discours: $("#discours").val(),
+                        attitude: $("#attitude").val(),
+                        priseConge: $("#priseConge").val(),
+
+                        commentaire: $("#commentaire").val(),
+                         enregistrement: $("#listen").val(),
+                         enregistrementUrl: $("#listen2").val(),
+                         enregistrementDirectory: $("#listen3").val()
+                    },
+                    async: true,
+                    success: function (data) {
+                        $('#view').html(data);
+                        $('#PRVResult').modal('show');
+                    },
+                });
+            })
+        })
+
+        $(document).ready(function () {
+            $(document).on("click", "#Save", function () {
+
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/SaveEvalPRVVecteurPlus',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        nomAgent: $("#nomAgent").val(),
+                        planDate: $("#planDate").val(),
+
+                        presentation: $("#presentation").val(),
+                        objetAppel: $("#objetAppel").val(),
+                        validationDisponibilite: $("#validationDisponibilite").val(),
+                        questionnement: $("#questionnement").val(),
+                        reformulation: $("#reformulation").val(),
+                        propositionPRV: $("#propositionPRV").val(),
+                        objections: $("#objections").val(),
+                        calendrier: $("#calendrier").val(),
+                        validation: $("#validation").val(),
+                        recapitulatif: $("#recapitulatif").val(),
+                        discours: $("#discours").val(),
+                        attitude: $("#attitude").val(),
+                        priseConge: $("#priseConge").val(),
+
+                        commentaire: $("#commentaire").val(),
+                        enregistrement: $("#listen").val(),
+                        enregistrementUrl: $("#listen2").val(),
+                        enregistrementDirectory: $("#listen3").val()
+                    },
+                    async: true,
+                    success: function (data) {
+                        $('#view').html(data);
+                        $('#EnvoiMailResult').modal('show');
+                    },
+                });
+            })
+        })
+
+    </script>
+
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Grille d'évaluation</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Grille d'évaluation</a></li>
+    <li class="active">Vecteur Plus / PRV</li>
+}

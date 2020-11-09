@@ -1,0 +1,104 @@
+﻿@section test{
+@model MVCWEB.Models.TestIndicateur
+
+@{
+    ViewBag.Title = "Hebdo";
+}
+<h2>Stats Par Agent Hebdo</h2>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<span></span>
+@*@Html.DropDownList("semaines", ViewData["SemainesList"] as SelectList)*@
+
+<select id="semaineDropDown" onchange="getSelected()">
+    <option value="0">Select</option>
+        @foreach (var semaine in ViewBag.SemaineItems as IEnumerable<SelectListItem>)
+        {
+            <option value="@semaine.Value">@semaine.Text</option>
+        }
+    
+</select>
+
+<br />
+<label>Taux de ventes:</label>
+<span>@ViewBag.TauxVentesHebdo%</span>
+<br />
+<label>Taux d'absence:</label>
+<span>@ViewBag.TauxACWHebdo%</span>
+<br />
+<label>Taux ACW:</label>
+<span>@ViewBag.TauxVentesHebdo%</span>
+<br />
+<label>Taux Pause Brief:</label>
+<span>@ViewBag.TauxPauseBriefHebdo%</span>
+<br />
+<label>Taux Pause Perso:</label>
+<span>@ViewBag.TauxPausePersoHebdo%</span>
+<br />
+<label>Taux Preview:</label>
+<span>@ViewBag.TauxPreviewHebdo%</span>
+<br />
+<label>Taux d'Occupation:</label>
+<span>@ViewBag.TauxOccupation%</span>
+<br />
+<label>Taux de Communication:</label>
+<span>@ViewBag.TauxComunication%</span>
+<br />
+<label>Taux de Ventes Par Heure:</label>
+<span>@ViewBag.TauxVenteParHeure%</span>
+<br />
+<label>Total Appel Emis:</label>
+<span>@ViewBag.TotalAppelEmis</span>
+<br />
+<label>Total Contact Argumentés:</label>
+<span>@ViewBag.TotalCA</span>
+<br />
+<label>Nombre de ventes global:</label>
+<span>@ViewBag.TotalAccord</span>
+<br />
+<label>Temps de Prod réel:</label>
+<span>@ViewBag.TotalProdReel</span>
+<br />
+<label>Temps de Présence par Heure:</label>
+<span>@ViewBag.TempsPresenceParHeure h</span>
+<br />
+<label>Nombre des jours travailés:</label>
+<span>@ViewBag.NobreJourTravaillés jour(s)</span>
+<br />
+<label>ETP planifié:</label>
+<span>@ViewBag.ETPplanifie </span>
+
+<br />
+<label>Moyenne des Accords:</label>
+<span>@ViewBag.MoyenneAccord </span>
+
+<br />
+<label>Moyenne des Appels:</label>
+<span>@ViewBag.MoyenneAppels </span>
+<span>@ViewBag.b </span>
+
+<script>
+    function getSelected()
+    {
+        var semaineSel = 1;
+        var semaineSel = $("#semaineDropDown").val();
+       
+        $.ajax({
+            url: 'http://localhost:15879/TestIndicateurs/Hebdo',
+            type: 'GET',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data:JSON.stringify( { "semaineSel": semaineSel }),
+            success: function (result) {
+
+                alert("Semaine" + semaineSel + "Selected");
+              
+            },
+            error: function(){alert("Something went wrong..")},
+        });
+    }
+</script>
+ }
+
+
+
+

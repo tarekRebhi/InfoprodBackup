@@ -1,0 +1,224 @@
+﻿@{
+    ViewBag.Title = "ListeSites";
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@model MVCWEB.Models.DirectoryViewModel
+
+@section test{
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/visualization/d3/d3.min.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+    <script type="text/javascript" src="/Content/template/Layout 1/LTR/assets/js/plugins/pickers/daterangepicker.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        body {
+            background: #d5d5d5;
+            font-family: trebuchet MS;
+            color: #6B6B6B;
+            border: 0 none;
+            margin: 0;
+            font-size: 13px;
+            padding: 0;
+        }
+
+        #wrapper {
+            padding: 60px 0px;
+        }
+
+        .container {
+        }
+
+        .row {
+        }
+
+        .circle {
+            background: #DCDCDC;
+            padding: 35px;
+            text-align: center;
+            height: 250px;
+            width: 250px;
+            transition: all 0.5s;
+            -moz-transition: all 0.5s; /* Firefox 4 */
+            -webkit-transition: all 0.5s; /* Safari and Chrome */
+            -o-transition: all 0.5s; /* Opera */
+        }
+
+            .circle h4 {
+                margin: 0;
+                padding: 0;
+            }
+
+            .circle p {
+            }
+
+            .circle span {
+            }
+
+                .circle span.icon {
+                }
+
+                    .circle span.icon i {
+                        font-size: 48px;
+                    }
+
+                .circle span.price-large {
+                    font-size: 68px;
+                }
+
+        .price-small {
+            font-size: 24px;
+        }
+
+        .c1:hover {
+            background: #39b3d7;
+            color: #ffffff;
+        }
+
+        .c1 .blue {
+            color: #39b3d7;
+        }
+
+        .c1:hover .blue {
+            color: #ffffff;
+        }
+
+        .c2:hover {
+            background: #ed9c28;
+            color: #ffffff;
+        }
+
+        .c2 .yellow {
+            color: #ed9c28;
+        }
+
+        .c2:hover .yellow {
+            color: #ffffff;
+        }
+
+        .c3:hover {
+            background: #47a447;
+            color: #ffffff;
+        }
+
+        .c3 .green {
+            color: #47a447;
+        }
+
+        .c3:hover .green {
+            color: #ffffff;
+        }
+
+        .c4:hover {
+            background: #d2322d;
+            color: #ffffff;
+        }
+
+        .c4 .red {
+            color: #d2322d;
+        }
+
+        .c4:hover .red {
+            color: #ffffff;
+        }
+    </style>
+    @*liste des nouveaux sites*@
+    <div class="row-md-12">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h6>Liste des Nouveaux Sites (Hermes Version5)</h6>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li>
+                        <li><a data-action="reload"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                @foreach (var item in Model.listeSitesV5)
+                {
+                    <div class="col-md-3">
+                        <div class="circle c1 img-circle">
+                            <h4 class="price-small blue" style="font-size: 16px;">Nouveau Site</h4>
+                            <span class="price-large blue" style="font-size: 28px;">@Html.DisplayFor(modelItem => item.Text)</span>
+                            <p>Bornage des dates >= Juin 2019</p>
+                            <a type="button" class="btn btn-info" href="@Url.Action("OptionRechercheV5", "Superviseur",new { Id=item.Value, Version = item.Text})"> Recherche</a>
+                        </div>
+                    </div><!-- .Col-md-3 ends here -->
+                }
+            </div>
+        </div>
+    </div>
+
+    @*liste des anciens sites*@
+    <div class="row-md-12">
+        <div class="panel panel-flat">
+            <div class="panel-heading">
+                <h6>Liste des Anciens Sites (Hermes Version4)</h6>
+                <div class="heading-elements">
+                    <ul class="icons-list">
+                        <li><a data-action="collapse"></a></li>
+                        <li><a data-action="reload"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                @foreach (var item in Model.listeSites)
+                {
+                    <div class="col-md-3">
+                        <div class="circle c4 img-circle">
+                            <h4 class="price-small red" style="font-size: 16px;">Ancien Site</h4>
+                            <span class="price-large red" style="font-size: 28px;">@Html.DisplayFor(modelItem => item.Text)</span>
+                            <p>Bornage des dates < Juin 2019</p>
+                            <a type="button" class="btn btn-danger" href="@Url.Action("OptionRecherche", "Superviseur", new { Id = item.Text, Version = item.Value })"> Recherche</a>
+                        </div>
+                    </div><!-- .Col-md-3 ends here -->
+                }
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.roleName, new { @Id = "roleName" })
+    </div>
+
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Accès aux Enregistrements</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Accès aux Enregistrements</a></li>
+    <li class="active">Liste des Sites</li>
+}

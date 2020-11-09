@@ -1,0 +1,128 @@
+﻿@section test{
+    @model Domain.Entity.Titre
+
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(t => t.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.libelle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(t => t.libelle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(t => t.libelle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.activite, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @{
+                        List<SelectListItem> listItems = new List<SelectListItem>();
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "GISI",
+                            Value = "GISI"
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "GMT",
+                            Value = "GMT",
+
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "CONFERENCE",
+                            Value = "CONFERENCE"
+                        });
+                    }
+                    @Html.DropDownListFor(t => t.activite, listItems, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(t => t.activite, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @{
+                        List<SelectListItem> listItems1 = new List<SelectListItem>();
+                        listItems1.Add(new SelectListItem
+                        {
+                            Text = "REAB",
+                            Value = "REAB"
+                        });
+                        listItems1.Add(new SelectListItem
+                        {
+                            Text = "PROMO",
+                            Value = "PROMO",
+
+                        });
+                        listItems1.Add(new SelectListItem
+                        {
+                            Text = "CROSS",
+                            Value = "CROSS"
+                        });
+                    }
+                    @Html.DropDownListFor(t => t.activite, listItems1, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(t => t.activite, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.codeOperation, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(t => t.codeOperation, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(t => t.codeOperation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(t => t.codeProvRelance, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(t => t.codeProvRelance, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(t => t.codeProvRelance, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.nombreFichesInjectees, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(t => t.nombreFichesInjectees, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(t => t.nombreFichesInjectees, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(t => t.dateInjection, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(t => t.dateInjection, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(t => t.dateInjection, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.indicateurId, "indicateurId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("indicateurId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.indicateurId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-success" />
+                            </div>
+                        </div>
+
+
+                        <div>
+                            @Html.ActionLink("Back to List", "List")
+                        </div>
+                        }
+}

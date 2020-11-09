@@ -1,0 +1,235 @@
+﻿@model Domain.Entity.GrilleEvaluationBOSAMRC
+@{
+
+    Layout = "~/Views/Shared/_Layout_agent_SAMRC.cshtml";
+}
+
+@section test{
+
+    <!-- Basic layout-->
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Répondre à l'évaluation</h5>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <li><a data-action="reload"></a></li>
+                            <li><a data-action="close"></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.identificationClient, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.identificationClient, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.identificationClient, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.qualificationDemandes, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.qualificationDemandes, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.qualificationDemandes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.pertinenceReponse, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.pertinenceReponse, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.pertinenceReponse, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.discours, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.discours, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.discours, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date d'évaluation: </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                                @Html.EditorFor(model => model.dateTempEvaluation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.dateTempEvaluation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.type, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.employeeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.employeeId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.employeeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.note, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Commentaire Responsable Qualité:</label>
+                            <div class="input-group col-md-12">
+                                @Html.EditorFor(model => model.commentaireQualite, new { htmlAttributes = new { @class = "form-control", @placeholder = "Message récue de la part du responsable qualité", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.commentaireQualite, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Numéro Intervention:</label>
+                            <div class="input-group col-md-12">
+                                @Html.EditorFor(model => model.numIntervention, new { htmlAttributes = new { @class = "form-control", @placeholder = "Num Intervention", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.numIntervention, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Votre réponse:</label>
+                            <div class="input-group col-md-12">
+                                @Html.TextAreaFor(model => model.commentaireAgent, new { cols = "60", rows = "10", @class = "form-control", @placeholder = "Entrer votre réponse" })
+                                @Html.ValidationMessageFor(model => model.commentaireAgent, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.enregistrementFullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.enregistrementFullName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.enregistrementFullName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.enregistrementUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.enregistrementUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.enregistrementUrl, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.enregistrementDirectory, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.enregistrementDirectory, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.enregistrementDirectory, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.senderId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.senderId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.senderId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="text-right">
+                                <button type="submit" value="Save" class="btn btn-primary">Sauvegarder <i class="icon-arrow-right14 position-fixed"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    }
+    <script>
+        $('#datePicker')
+               .daterangepicker({
+                   singleDatePicker: true,
+                   locale: {
+                       setDate: new Date(),
+                       format: 'YYYY/MM/DD'
+                   },
+                   autoclose: true,
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+
+    </script>
+    @*<script>
+
+                  //var idEval = "@Model.Id";
+                    $(document).on("click", "#save", function () {
+                        $.ajax({
+                            url: '/Evaluation/ReponseEvaluationTest',
+                            type: 'POST',
+                            datatype: 'json',
+                            data: {
+                                id : 1,
+                                 message : $("#message").val()
+                           },
+                          //  async: true,
+                            success: function (data) {
+                                // alert("utilisateur"+" "+idEval+"");
+                                alert("success");
+                            },
+                        });
+                    })
+
+        </script>*@
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Agent</span> -  Historique des Evaluations</h4>
+}
+@section pagetitlebody {
+    <li class="text-semibold"> <b>Historique Evaluations Service Client SAM RC</b></li>
+    <li> Répondre à l'évaluation SAM RC Back Office </li>
+}

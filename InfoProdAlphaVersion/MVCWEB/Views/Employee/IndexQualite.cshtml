@@ -1,0 +1,94 @@
+﻿
+    @model IEnumerable<MVCWEB.Models.EmployeeViewModel>
+
+    @{
+        ViewBag.Title = "IndexQualite";
+        Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+    }
+
+<script src="/Content/Template1/vendor/datatables/jquery.dataTables.js"></script>
+<script src="/Content/Template1/js/sb-admin-datatables.min.js"></script>
+<!-- Page level plugin CSS-->
+<link href="/Content/Template1/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+ @section test{
+    <br />
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="font-weight:bold; font-size: 16px;">ID Hermes</th>
+                    <th style="font-weight:bold; font-size: 16px;">Nom Complet</th>
+                    <th style="font-weight:bold; font-size: 16px;">Pseudo Hermes</th>
+                    <th style="font-weight:bold; font-size: 16px;">Activitée(s)</th>
+                    @*<th>Activite</th>
+                        <th>Role</th>*@             
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>             
+                    <th style="font-weight:bold; font-size: 16px;">ID Hermes</th>
+                    <th style="font-weight:bold; font-size: 16px;">Nom Complet</th>
+                    <th style="font-weight:bold; font-size: 16px;">Pseudo Hermes</th>
+                    <th style="font-weight:bold; font-size: 16px;">Activitée(s</th>
+                    @*<th>Activite</th>*@
+                    @*<th>Role</th>*@
+                 
+                </tr>
+            </tfoot>
+            <tbody style="font-size: 16px;">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdHermes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.userName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pseudoName)
+                        </td>
+                        <td >
+                            @Html.ListBox("groupes", item.groupes, htmlAttributes: new { @class = "form-control", @multiple = "multiple", @style = "height: 50px;" })
+                            @Html.ValidationMessageFor(model => item.groupes, "", new { @class = "text-danger" })                     
+                       </td>         
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.Url alt="">
+        <span>@ViewBag.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+@section pagetitle{
+    <h4> <span class="text-semibold">Espace Qualité</span> -  Employés</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Employés</a></li>
+    <li class="active">Correspendance employés</li>
+}

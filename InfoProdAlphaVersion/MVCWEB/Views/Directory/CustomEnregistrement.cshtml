@@ -1,0 +1,86 @@
+﻿@model MVCWEB.Models.DirectoryViewModel
+<div id="detailsFile" class="modal fade"  role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#26A69A;">
+                <button type="button" id="fermer" data-id="@Model.pseudoName" class="close" data-dismiss="modal">&times;</button>
+                <h5><font color="white">Details : Enregistrement</font></h5>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <h10>
+                         <b>Nom d'Enregistrement selectionnée :</b><br/><br/>
+                         <font color="black">@Html.DisplayFor(modelItem => modelItem.pseudoName)</font>
+                    </h10>
+                </p>
+                <br/><br/><br/>
+                <div>
+                    <audio controls>
+                    <source src="~/Files/@Model.pseudoName" type="audio/wav" >
+                    </audio>
+                    <br /><br />
+                    <i class="icon-download"><a style="align-self:center" href="~/Files/@Model.pseudoName" title="download" download="@Model.pseudoName">
+                    Télecharger Enregistrement
+                    </a></i>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="fermer2" data-id="@Model.pseudoName" class="btn bg-teal-400" data-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", "#fermer", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            $.ajax({
+                url: '/Directory/deleteEnregistrement',
+                type: 'GET',
+                datatype: 'json',
+                async: true,
+                data:{
+                    'name':id
+                },
+                success: function (data) {
+                    $("div.modal-backdrop.fade.in").remove();
+                    $("#fermer").removeAttr('data-id');
+                    $("#fermer2").removeAttr('data-id');
+                //   $('#details').html(data);
+                //   $('#Sound').modal('show');
+                //    //$('#errorFile2').modal('show');
+                 //alert("utilisateur success");
+                },
+                //complete: function () {
+                //    $('#loadimage').hide();
+                //    $('#details').show();
+
+                //}
+            });
+        })
+    })
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", "#fermer2", function () {
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            $.ajax({
+                url: '/Directory/deleteEnregistrement',
+                type: 'GET',
+                datatype: 'json',
+                async: true,
+                data:{
+                    'name':id
+                },
+               success: function (data) {
+                   $("div.modal-backdrop.fade.in").remove();
+                   $("#fermer").removeAttr('data-id');
+                   $("#fermer2").removeAttr('data-id');
+                },
+                
+            });
+        })
+    })
+</script>

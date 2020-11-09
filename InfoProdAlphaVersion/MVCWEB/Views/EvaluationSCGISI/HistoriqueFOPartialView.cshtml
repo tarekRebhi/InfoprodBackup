@@ -1,0 +1,341 @@
+﻿@model IEnumerable<MVCWEB.Models.EvaluationSCGISIViewModel>
+
+
+<div id="details"></div>
+<div id="comments"></div>
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+    <h5><b>Nombre des Evaluations</b></h5>
+</div>
+<div>
+    <table id="historiqueEmp" class="table datatable-scroll-y">
+        <thead>
+            <tr>
+                <th style="font-weight:bold;">Date </th>
+                <th style="font-weight:bold;">Score</th>
+                <th style="font-weight:bold;">Emetteur de l'évaluation</th>
+                <th hidden>Accueil</th>
+                <th hidden>Analyse/compréhension de la demande</th>
+                <th hidden>Maitrise des outils de travail</th>
+                <th hidden>Connaissance du produit</th>
+                <th hidden>Respect des process de travail</th>
+                <th hidden>Pertinence de la réponse</th>
+                <th hidden>Autonomie</th>
+                <th hidden>Approche Commerciale</th>
+                <th hidden>Discours/empathie/attitude</th>
+                <th hidden>Prise de congé</th>
+                <th hidden>Identification du client CRM</th>
+                <th hidden>Qualification des demandes sur CRM</th>
+                <th style="font-weight:bold;">Notes</th>
+                <th hidden>Réponse Agent</th>
+                <th style="font-weight:bold;">Commentaires</th>
+                <th style="font-weight:bold;">Enregistrement</th>
+                <th style="font-weight:bold;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a>@item.dateTempEvaluation.Day/@item.dateTempEvaluation.Date.Month/@item.dateTempEvaluation.Date.Year</a>
+                    </td>
+                    @{
+
+                        String str = item.note.ToString("N2");
+                    }
+
+                    <td><font color="red">@str%</font></td>
+
+                    <td>@item.senderName</td>
+                    <td hidden>                      
+                            @item.accueil                      
+                    </td>
+                    <td hidden>
+                            @item.analyseDemande
+                    </td>
+                    <td hidden>
+                            @item.maitriseOutils
+                    </td>
+                    <td hidden>
+                        @if (item.connaissanceProduit >= 0)
+                        {
+                            @item.connaissanceProduit
+                        }
+                        else
+                        {
+                            <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                        }
+                    </td>
+                    <td hidden>
+                            @item.respectProcess
+                    </td>
+                    <td hidden>
+                            @item.pertinenceReponse
+                    </td>
+                    <td hidden>
+                            @item.autonomie
+                    </td>
+                    <td hidden>
+                        @if (item.approcheCommerciale >= 0)
+                        {
+                            @item.approcheCommerciale
+                        }
+                        else
+                        {
+                            <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                        }
+                    </td>
+
+                    <td hidden>
+                            @item.discours
+                    </td>
+                    <td hidden>
+                            @item.priseConge
+                    </td>
+                    <td hidden>
+                        @item.identificationClient
+                    </td>
+                    <td hidden>
+                        @item.qualificationDemande
+                    </td>
+
+                    <td hidden>
+                        @item.commentaireQualite
+                    </td>
+                    <td hidden>
+                        @item.commentaireAgent
+                    </td>
+                    <td>
+                        @*<button type="button" class="btn btn-info btn-sm" data-popup="popover" data-html="true" data-trigger="focus" data-content="Présentation et Identification : @item.presentationIdentification <br> Objet Appel : @item.objetAppel <br> Mutualisation : @item.mutualisation <br> Marché Renouvelable : @item.marcheRenouvlable <br> Durée du marché : @item.dureeMarche <br> Coordonnées attributaire : @item.coordonneesAttr <br> Montant du marché(HT ou TTC) : @item.montantMarche <br> Responsable du marché : @item.responsableMarche <br> Traitement des objections : @item.traitementObjections <br> Transcription des information : @item.transcriptionsInformations <br> Envoi de Mail : @item.envoiMail <br> Discours : @item.discours <br> Attitude : @item.attitude <br> Prise de congé : @item.priseConge">Voir Notes <i class="icon-chevron-right"></i></button>*@
+
+                        <ul class="nav nav-pills">
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" style="background-color: aqua;color:#000;">Voir Notes <span class="caret"></span></a>
+                                <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
+                                    <li>
+                                        Accueil:
+                                        <span>@item.accueil  </span>
+                                    <li>
+                                        Analyse/compréhension de la demande:
+                                        <span>@item.analyseDemande  </span>        
+                                    </li>
+                                    <li>
+                                        Maitrise des outils de travail:
+                                        <span>@item.maitriseOutils  </span>
+                                    </li>
+                                    <li>
+                                        Connaissance du produit:
+                                        <span>
+                                            @if (item.connaissanceProduit >= 0)
+                                            {@item.connaissanceProduit }
+                                            else
+                                            {<label>-</label>}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Respect des process de travail:
+                                        <span>@item.respectProcess </span>
+                                    </li>
+                                    <li>
+                                        Pertinence de la réponse:
+                                        <span>@item.pertinenceReponse</span>
+                                    </li>
+                                    <li>
+                                        Autonomie:
+                                        <span>@item.autonomie </span>
+                                    </li>
+                                    <li>
+                                        Approche Commerciale:
+                                        <span>
+                                            @if (item.approcheCommerciale >= 0)
+                                            {@item.approcheCommerciale }
+                                            else
+                                            {<label>-</label>}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        Discours/empathie/attitude:
+                                        <span>@item.discours </span>
+                                    </li>
+                                    <li>
+                                        Prise de congé:
+                                        <span>@item.priseConge </span>
+                                    </li>
+                                    <li>
+                                        Identification du client CRM:
+                                        <span>@item.identificationClient </span>
+                                    </li>
+                                    <li>
+                                        Qualification des demandes sur CRM:
+                                        <span>@item.qualificationDemande </span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-warning" id="test6" data-com="@item.commentaireQualite" data-reponse="@item.commentaireAgent">Details&nbsp;<i class="icon-popout"></i></button>
+                    </td>
+                    <td>
+                        @if (item.enregistrementFullName != null)
+                {
+                            <aside type="button" class="btn bg-teal-400" id="test5" data-id="@item.enregistrementFullName" data-FullName="@item.enregistrementUrl" data-directory="@item.enregistrementDirectory">Ecouter&nbsp;<i class="icon-play"></i></aside>
+                        }
+                    </td>
+                    <td>
+                        <ul class="icons-list">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-menu9"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a href="@Url.Action("EditFOSCGISI", "EvaluationSCGISI", new { id = item.Id })"><i class="glyphicon glyphicon-edit"></i> Modifier</a>
+                                    </li>
+                                    <li>
+                                        @*<a href="@Url.Action("DeleteBPP", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-trash"></i> Supprimer</a>*@
+                                        <a>
+                                        <article id="delete" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> Supprimer</article>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                        }
+        </tbody>
+    </table>
+</div>
+<div id="explorer1"></div>
+<!-- /basic datatable -->
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $('aside').on('click', function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var fullname = $buttonClicked.attr('data-FullName');
+                var directoryName = $buttonClicked.attr('data-directory');
+                $.ajax({
+                    url: '/EvaluationSCGISI/FindCustomEnregistrement',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'name': id,
+                        'fullName': fullname,
+                        'DirectoryName': directoryName
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#details").is(":empty") == false) {
+                            $('#details').removeData("#detailsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#details').html(data);
+                        }
+                        else {
+
+                            $('#details').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#detailsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();cccc
+
+                    //}
+                });
+            })
+
+            $(document).on("click", "#test6", function () {
+                var $buttonClicked = $(this);
+                var comqualite = $buttonClicked.attr('data-com');
+                var comagent = $buttonClicked.attr('data-reponse');
+                $.ajax({
+                    url: '/EvaluationSCGISI/FindComments',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'CommentQualite': comqualite,
+                        'CommentAgent': comagent
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#comments").is(":empty") == false) {
+                            $('#comments').removeData("#commentsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#comments').html(data);
+                        }
+                        else {
+
+                            $('#comments').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#commentsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+        })
+</script>
+
+<script>
+        $(function () {
+            $('[data-popup="popover"]').popover();
+            $('[data-popup="tooltip"]').tooltip();
+        });
+</script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            // $(document).on("click", "#delete", function () {
+            $("article").on("click", function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                $.ajax({
+                    url: '/EvaluationSCGISI/FindEvaluationFOSCGISI',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "html",
+                    async: true,
+                    success: function (data) {
+                        $('#explorer1').html(data);
+                        $('#alerteSuppression').modal('show');
+                    },
+
+
+
+                });
+
+
+            })
+        })
+
+</script>

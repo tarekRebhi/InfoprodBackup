@@ -1,0 +1,518 @@
+﻿@model Domain.Entity.Inventaire
+
+@{
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+
+@section test{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Create</title>
+    </head>
+    <body>
+        @{
+            List<SelectListItem> Managerslist = new List<SelectListItem>();
+            Managerslist = ViewBag.managers;
+
+            List<SelectListItem> list1 = new List<SelectListItem>();
+            list1.Add(new SelectListItem { Text = "OUI", Value = "OUI" });
+            list1.Add(new SelectListItem { Text = "NON", Value = "NON" });
+
+            List<SelectListItem> listSociete = new List<SelectListItem>();
+            listSociete.Add(new SelectListItem { Text = "ETAI TUNISIE", Value = "ETAI TUNISIE" });
+            listSociete.Add(new SelectListItem { Text = "COMONLINE", Value = "COMONLINE" });
+
+            List<SelectListItem> listteletravail = new List<SelectListItem>();
+            listteletravail.Add(new SelectListItem { Text = "OUI", Value = "OUI" });
+            listteletravail.Add(new SelectListItem { Text = "NON", Value = "NON" });
+            listteletravail.Add(new SelectListItem { Text = "STAND-BY", Value = "STAND-BY" });
+
+            List<SelectListItem> listpc = new List<SelectListItem>();
+            listpc.Add(new SelectListItem { Text = "Pro", Value = "Pro" });
+            listpc.Add(new SelectListItem { Text = "Perso", Value = "Perso" });
+            listpc.Add(new SelectListItem { Text = "NOK", Value = "NOK" });
+
+            List<SelectListItem> listType = new List<SelectListItem>();
+            listType.Add(new SelectListItem { Text = "ADSL", Value = "ADSL" });
+            listType.Add(new SelectListItem { Text = "3G", Value = "3G" });
+            listType.Add(new SelectListItem { Text = "4G", Value = "4G" });
+            listType.Add(new SelectListItem { Text = "FO", Value = "FO" });
+
+            List<SelectListItem> listDebit = new List<SelectListItem>();
+            listDebit.Add(new SelectListItem { Text = "<=10 Mo", Value = "<=10 Mo" });
+            listDebit.Add(new SelectListItem { Text = ">=10 Mo", Value = ">=10 Mo" });
+
+            List<SelectListItem> list2 = new List<SelectListItem>();
+            list2.Add(new SelectListItem { Text = "OK", Value = "OK" });
+            list2.Add(new SelectListItem { Text = "NOK", Value = "NOK" });
+
+            List<SelectListItem> listOrdinateur = new List<SelectListItem>();
+            listOrdinateur.Add(new SelectListItem { Text = "ASUS", Value = "ASUS" });
+            listOrdinateur.Add(new SelectListItem { Text = "DELL", Value = "DELL" });
+            listOrdinateur.Add(new SelectListItem { Text = "HP", Value = "HP" });
+            listOrdinateur.Add(new SelectListItem { Text = "LENOVO", Value = "LENOVO" });
+
+            List<SelectListItem> listPeripherique = new List<SelectListItem>();
+            listPeripherique.Add(new SelectListItem { Text = "Clavier", Value = "Clavier" });
+            listPeripherique.Add(new SelectListItem { Text = "Souris", Value = "Souris" });
+            listPeripherique.Add(new SelectListItem { Text = "Clavier Souris", Value = "Clavier Souris" });
+            listPeripherique.Add(new SelectListItem { Text = "Casque", Value = "Casque" });
+
+            List<SelectListItem> listContrat = new List<SelectListItem>();
+            listContrat.Add(new SelectListItem { Text = "OUI", Value = "OUI" });
+            listContrat.Add(new SelectListItem { Text = "NON", Value = "NON" });
+            listContrat.Add(new SelectListItem { Text = "En Cours", Value = "En Cours" });
+            listContrat.Add(new SelectListItem { Text = "N/A", Value = "N/A" });
+
+        }
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <!-- Info RH -->
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<form class="form-horizontal" action="#">*@
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Informations RH</h5>
+                                <div class="heading-elements">
+                                    <ul class="icons-list">
+                                        <li><a data-action="collapse"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <legend class="text-semibold"><i class="icon-reading position-left"></i> Détails Société</legend>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Manager:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.DropDownList("Manager", Managerslist, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "utilisateurs", selected = "selected" })
+                                                    @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })
+                                              </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Société:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.DropDownList("Societe", listSociete, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "utilisateurs", selected = "selected" })
+                                                    @Html.ValidationMessageFor(model => model.Societe, "", new { @class = "text-danger" })
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Matricule:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.Matricule, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Matricule, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Email:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Qualification:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.Qualification, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Qualification, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Service:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.Service, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Service, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <legend class="text-semibold"><i class="icon-user-lock position-left"></i> Détails Personnels</legend>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Nom Complet:</label>
+                                                <div class="col-lg-9">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Prenom, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Numéro du Téléphone:</label>
+                                                <div class="col-lg-9">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.Tel1, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Tel1, "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.Tel2, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Tel2, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Adresse:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.Adresse, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Adresse, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Ville:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.Ville, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Ville, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">CIN:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.CIN, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.CIN, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Date Délivrance CIN:</label>
+                                                <div class="col-lg-9">
+                                                    @Html.EditorFor(model => model.Date_Delivrance_CIN, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Date_Delivrance_CIN, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*</form>*@
+
+                    </div>
+                </div>
+                <!-- /Info RH -->
+                <!-- Horizontal form  -->
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <!-- Environnement Technique-->
+                        @*<form action="#" class="form-horizontal">*@
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Environnement et Test Technique</h5>
+                                <div class="heading-elements">
+                                    <ul class="icons-list">
+                                        <li><a data-action="collapse"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Télétravail:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("Teletravail", listteletravail, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "Teletravail", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Teletravail, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">PC:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("PC", listpc, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "pc", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.PC, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Connexion:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("Connexion", list1, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "cnx", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Connexion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Type:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("Type", listType, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "type", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Débit:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("Debit", listDebit, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "debit", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Debit, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Hemès:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("Hermes", list1, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "hermes", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Hermes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Accès VPN:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("Acces_VPN", list2, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "vpn", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Acces_VPN, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Accès Bureau à Distance:</label>
+                                    <div class="col-lg-9">
+                                        @Html.DropDownList("Acces_TSE", list2, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "tse", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Acces_TSE, "", new { @class = "text-danger" })
+
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Opérationnel:</label>
+                                    <div class="col-lg-9">
+                                        @*@Html.DropDownList("Opérationnel", listteletravail, "-----Select----", htmlAttributes: new { @class = "form-control",  @readonly = "readonly", @id = "operationnel", selected = "selected" })
+                                        @Html.ValidationMessageFor(model => model.Opérationnel, "", new { @class = "text-danger" })*@
+                                        @Html.EditorFor(model => model.Opérationnel, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.Opérationnel, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Commentaire:</label>
+                                    <div class="col-lg-9">
+                                        @Html.TextAreaFor(model => model.Commentaire1, new { @class = "form-control", @rows = 11 })
+                                        @Html.ValidationMessageFor(model => model.Commentaire1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        @*</form>*@
+                    </div>
+                    <!-- /Environnement et test technique -->
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <!-- Matériel -->
+                                @*<form class="form-horizontal" action="#">*@
+                                <div class="panel panel-flat">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">Matériel fourni par l'employeur</h5>
+                                        <div class="heading-elements">
+                                            <ul class="icons-list">
+                                                <li><a data-action="collapse"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Ordinateur Pro:</label>
+                                            <div class="col-lg-9">
+                                                @Html.DropDownList("OrdinateurPro", listOrdinateur, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "ordinateur", selected = "selected" })
+                                                @Html.ValidationMessageFor(model => model.OrdinateurPro, "", new { @class = "text-danger" })
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Modèle:</label>
+                                            <div class="col-lg-9">
+                                                @Html.EditorFor(model => model.Modele, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Modele, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Sac à dos:</label>
+                                            <div class="col-lg-9">
+                                                @Html.DropDownList("SacaDos", list1, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "sac", selected = "selected" })
+                                                @Html.ValidationMessageFor(model => model.SacaDos, "", new { @class = "text-danger" })
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Ecran:</label>
+                                            <div class="col-lg-9">
+                                                @Html.DropDownList("Ecran", list1, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "ecran", selected = "selected" })
+                                                @Html.ValidationMessageFor(model => model.Ecran, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Adaptateur HDMI:</label>
+                                            <div class="col-lg-9">
+                                                @Html.DropDownList("Adaptateur_HDMI", list1, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "adap", selected = "selected" })
+                                                @Html.ValidationMessageFor(model => model.Adaptateur_HDMI, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Périphériques:</label>
+                                            <div class="col-lg-9">
+                                                @Html.DropDownList("Peripheriques", listPeripherique, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "peri", selected = "selected" })
+                                                @Html.ValidationMessageFor(model => model.Peripheriques, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Commentaire:</label>
+                                            <div class="col-lg-9">
+                                                @Html.TextAreaFor(model => model.Commentaire2, new { @class = "form-control", @rows = 3 })
+                                                @Html.ValidationMessageFor(model => model.Commentaire2, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*</form>*@
+                            </div>
+                        </div>
+                        <!-- /Matériels -->
+                        <!-- Autres -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                @*<form class="form-horizontal" action="#">*@
+                                <div class="panel panel-flat">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">Autres</h5>
+                                        <div class="heading-elements">
+                                            <ul class="icons-list">
+                                                <li><a data-action="collapse"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-10 col-md-offset-1">
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Contrat Signé:</label>
+                                                    <div class="col-lg-9">
+                                                        @Html.DropDownList("Contrat_Teletravail", listContrat, "-----Select----", htmlAttributes: new { @class = "form-control", @id = "contrat", selected = "selected" })
+                                                        @Html.ValidationMessageFor(model => model.Contrat_Teletravail, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Date de mise en Télétravail:</label>
+                                                    <div class="col-lg-9">
+                                                        @Html.EditorFor(model => model.Date_Teletravail, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Date_Teletravail, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Commentaire:</label>
+                                                    <div class="col-lg-9">
+                                                        @Html.TextAreaFor(model => model.Commentaire3, new { @class = "form-control", @rows = 3 })
+                                                        @Html.ValidationMessageFor(model => model.Commentaire3, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*</form>*@
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /Autres -->
+                </div>
+            </div>
+
+            <center>
+                <div class="text-md-center">
+                    <a href="@Url.Action("Index", "Inventaire")" class="btn btn-danger">Retour à la Liste<i class="icon-arrow-right14 position-fixed"></i></a>
+                    <button type="submit" class="btn btn-success" data-toggle="modal">Modifier &nbsp;<i class="icon-database-edit2 position-fixed"></i></button>
+
+                 </div>
+            </center>
+
+        }
+
+    </body>
+</html>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Accueil</a></li>
+    <li class="active">Inventaires Techniques</li>
+    <li class="active">Détails Inventaire</li>
+}

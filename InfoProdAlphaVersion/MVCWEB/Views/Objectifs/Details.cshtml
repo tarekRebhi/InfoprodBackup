@@ -1,0 +1,42 @@
+﻿@model Domain.Entity.Objectif
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+
+@section test{
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Namegroupe)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Namegroupe)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ObjectifAccords)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ObjectifAccords)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    }
+    @section pagetitle{
+        <h4> <span class="text-semibold">Espace Manager</span> -  Suivi Par Injections</h4>
+    }
+    @section pagetitlebody{
+        <li><a href="#"><i class="icon-home2 position-left"></i> Suivi Par Injections</a></li>
+        <li class="active">Paramètres des Objectifs</li>
+    }
+
+

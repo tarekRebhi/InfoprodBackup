@@ -1,0 +1,165 @@
+﻿@model IEnumerable<Domain.Entity.Indicateur>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.employee.pseudoName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.titre.activite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.agent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.accord)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.totAboutis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsLog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsComm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsAtt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsACW)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPausePerso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPreview)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tempsPauseBrief)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.responsable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.semaine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mois)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.appelEmis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tvente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tAbs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nomCampagne)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee.pseudoName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.titre.activite)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.agent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.accord)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CNA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.totAboutis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsComm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsAtt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsACW)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPausePerso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPreview)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tempsPauseBrief)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.responsable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.semaine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mois)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.appelEmis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tvente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tAbs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nomCampagne)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,145 @@
+﻿@section test{
+    @model IEnumerable<Domain.Entity.Utilisateur>
+
+    @{
+        ViewBag.Title = "Index";
+    }
+
+    <h5>Liste des utilisateurs AD</h5>
+
+
+@using (Html.BeginForm("Create", "User", FormMethod.Get, new { enctype = "multipart/form-data" }))
+{        <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Nouveau Utilisateur" class="btn btn-success" />
+        </div>
+    </div>
+}
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    @*<th>ID</th>*@
+                    <th>LOGIN</th>
+                    <th>Nom Prenom</th>
+                    <th>Log Entree</th>
+                    <th>Log Sortie</th>
+                    @*<th>Role</th>*@
+                    @*<th>Action</th>*@
+                    
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    @*<th>ID</th>*@
+                    <th>LOGIN</th>
+                    <th>Nom Prenom</th>
+                    <th>Log Entree</th>
+                    <th>Log Sortie</th>
+                    @*<th>Role</th>*@
+                    @*<th>Action</th>*@
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.login)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nomPrenom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.logEntree)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.logSortie)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.role)
+                        </td>*@
+                        @*<td>
+                            @using (Html.BeginForm("Edit", "User", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Editer" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Details", "User", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <input type="submit" value="Details" class="btn btn-warning" />
+                                    </div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <p data-placement="top" title="Delete">
+                                        <button id="imed" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal" class="btn btn-danger">Delete</button>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </td>*@
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="explorer1">
+    </div>
+    <script src="/Content/Template1/vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $("#table").dataTable({
+                });
+            });
+    </script>
+
+    <script type="text/javascript">
+
+          $(document).ready ( function () {
+              $(document).on ("click", "#imed", function () {
+                  var $buttonClicked = $(this);
+                  var id = $buttonClicked.attr('data-id');
+              $.ajax({
+                  url: '/User/FindUser',
+                  type: "GET",
+                  contentType: "application/json; charset=utf-8",
+                  data: { "Id": id },
+                  datatype: "html",
+                  async:true,
+                  success: function(data) {
+                      $('#explorer1').html(data);
+                      $('#modifier').modal('show');
+                    },
+
+
+
+              });
+
+
+              })
+          })
+
+    </script>
+}
+
+
+

@@ -1,0 +1,264 @@
+﻿
+@if (ViewBag.role == "Qualité")
+{
+    ViewBag.Title = "Acceuil";
+
+    Layout = "~/Views/Shared/_Layout_Qualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité")
+{
+    ViewBag.Title = "Acceuil";
+
+    Layout = "~/Views/Shared/_Layout_AgentQualite.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_CustomerService")
+{
+    ViewBag.Title = "Acceuil";
+
+    Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_Diffusion")
+{
+    ViewBag.Title = "Acceuil";
+
+    Layout = "~/Views/Shared/_Layout_Diffusion.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_AchatPublic")
+{
+    Layout = "~/Views/Shared/_Layout_AchatPublic.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_PRV")
+{
+    Layout = "~/Views/Shared/_Layout_PRV.cshtml";
+}
+@model MVCWEB.Models.DirectoryViewModel
+
+@section pagetitle{
+    <h4> <span class="text-semibold">Acceuil</span> - Records @Model.roleName</h4>
+}
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i>Tableau du bord </a></li>
+    <li class="active">Accès aux Enregistrements</li>
+}
+@*@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}*@
+@section test{
+    
+    <div class="row">
+    <div class="col-lg-5">
+        <!-- Members online -->
+        <div class="panel bg-teal-400">
+            <div class="panel-body">
+                <div class="heading-elements">
+                    <span class="heading-text badge bg-teal-800">@Model.indice</span>
+                </div>
+                <h3 class="no-margin">Compagne plus actif</h3>
+               @Model.NombreEnregistrements Enregistrements
+                @*<div class="text-muted text-size-small">489 avg</div>*@
+            </div>
+            <div class="container-fluid">
+                <div id="members-online"></div>
+            </div>
+        </div>
+        <!-- /members online -->
+    </div>
+        <!-- Current server load -->
+   
+</div>
+    @*<div class="row">
+        @foreach (var item in Model.compagneEnreg)
+        {
+            <div class="col-lg-4">
+                <!-- Today's revenue -->
+                <div class="panel bg-indigo-400">
+                    <div class="panel-body">
+                        <div class="heading-elements">
+                            
+                        </div>
+                        <h3 class="no-margin">@item.Text</h3>
+                        @item.Value Enregistrements
+                        <div class="text-muted text-size-small"></div>
+                    </div>
+                    <div id="today-revenue"></div>
+                </div>
+                <!-- /today's revenue -->
+            </div>
+        }
+     
+    </div>*@
+    <br/>
+<div class="table-responsive">
+    <table class="table table-lg text-nowrap">
+        <tbody>
+            <tr>
+                <td class="col-md-5">
+                    <div class="media-left">
+                        <div id="campaigns-donut"></div>
+                    </div>
+                    <div class="media-left">
+                        <h5 class="text-semibold no-margin">@Model.indice <small class="text-success text-size-base"><i class="icon-arrow-up12"></i> </small></h5>
+                        <ul class="list-inline list-inline-condensed no-margin">
+                            <li>
+                                <span class="status-mark border-success"></span>
+                            </li>
+                            <li>
+                                <span class="text-muted">@DateTime.Now.Date.Day-@DateTime.Now.Date.Month-@DateTime.Now.Date.Year</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td class="col-md-5">
+                    <div class="media-left">
+                        <div id="campaign-status-pie"></div>
+                    </div>
+                    <div class="media-left">
+                        <h5 class="text-semibold no-margin">@Model.NombreEnregistrements <small class="text-danger text-size-base"><i class="icon-arrow-down12"></i></small></h5>
+                        <ul class="list-inline list-inline-condensed no-margin">
+                            <li>
+                                <span class="status-mark border-danger"></span>
+                            </li>
+                            <li>
+                                <span class="text-muted">Enregistrements</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+               
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="table-responsive">
+    <table class="table text-nowrap">
+        <thead>
+            <tr>
+                <th>Campagne</th>
+                <th>Nombre d'enregistrements</th>
+                <th class="text-center" style="width: 20px;"><i class="icon-arrow-down12"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="active border-double">
+                <td colspan="5">Aujourd'hui</td>
+                <td class="text-right">
+                    <span class="progress-meter" id="today-progress" data-progress="30"></span>
+                </td>
+            </tr>
+            @foreach (var item in Model.compagneEnreg)
+            {
+            <tr>
+           
+                <td><span class="text-blue">@item.Text</span></td>
+                <td><span class="text-success-600"><i class="icon-stats-growth2 position-left"></i> @item.Value</span></td>
+                
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+    @*<br />
+    <br/>
+    <br/>
+  <div class="row" style="padding-left:250px">
+      <div class="col-lg-3" style="padding-top:20px;height:200px;width:35%">
+          <div class="thumbnail" style="-moz-border-radius: 5px;border-radius: 20px;-webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);-moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);background-color:azure">
+              <a href="@Url.Action("Reab","Evaluation")">
+                  <h1 style="padding-left:35px;color:gray;padding-top:30px;font-family:Arial;font-weight:bold;text-align:center">Grille d'évaluation</h1>
+              </a>
+              <br />
+              <div class="caption">
+                  <p>
+
+                  </p>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3" style="padding-top:20px;padding-left:100px;height:200px;width:40%">
+          <div class="thumbnail" style="-moz-border-radius: 5px;border-radius: 20px;-webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);-moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);background-color:azure">
+              <a href="@Url.Action("Historique","Evaluation")">
+                  <h1 style="padding-left:35px;color:gray;padding-top:30px;font-family:Arial;font-weight:bold;text-align:center">Historique qualité</h1>
+              </a>
+              <br />
+              <div class="caption">
+                  <p>
+
+                  </p>
+              </div>
+          </div>
+      </div>
+    </div>*@
+@*<br/><br/>
+<div class="row" style="padding-left:500px">
+
+
+
+    @foreach (var item in Model.DirecoryModel.roles)
+    {
+        <div class="col-lg-3" style="padding-top:20px;height:200px;width:35%">
+            <div class="thumbnail" style="-moz-border-radius: 5px;border-radius: 20px;-webkit-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);-moz-box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.97);background-color:azure">
+                <a href="@Url.Action("Index", "Directory")">
+                    <h1 style="padding-left:35px;color:gray;padding-top:30px;font-family:Arial;font-weight:bold;text-align:center">@item.Text</h1>
+                </a>
+                <br />
+                <div class="caption">
+                    <p>
+
+                  
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>*@
+
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@Model.Url alt="">
+        <span>@Model.userName</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@Model.Url class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@Model.userName</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@Model.pseudoNameEmp
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}

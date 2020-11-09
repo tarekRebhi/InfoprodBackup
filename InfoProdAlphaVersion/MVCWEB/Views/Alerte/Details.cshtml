@@ -1,0 +1,76 @@
+﻿@section test{
+@model Domain.Entity.Alerte
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Alerte</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.indicateur.mois)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.indicateur.mois)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.titreAlerte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.titreAlerte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateCreation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateCreation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.etatAlerte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.etatAlerte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reponseAlerte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reponseAlerte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateReponse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateReponse)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+    }

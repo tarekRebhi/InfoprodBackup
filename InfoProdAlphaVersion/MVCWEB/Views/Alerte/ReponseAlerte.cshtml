@@ -1,0 +1,113 @@
+﻿@model MVCWEB.Models.AlerteViewModel
+
+@{
+    ViewBag.Title = "ReponseAlerte";
+    Layout = "~/Views/Shared/_Layout_agent.cshtml";
+}
+
+@section test{
+
+    <!-- Basic layout-->
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Répondre</h5>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <li><a data-action="reload"></a></li>
+                            <li><a data-action="close"></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Titre:</label>
+                        @*<input type="text" readonly name="titre" class="form-control" placeholder="Ajouter Titre de l'alerte'">*@
+                        @Html.EditorFor(model => model.titreAlerte, new { htmlAttributes = new { @class = "form-control",@placeholder = "Ajouter Titre de l'alerte", @readonly = "readonly" } })
+
+
+                    </div>
+                    @*<div class="form-group">
+                        <label>Description:</label>
+                        <input type="text" readonly name="description" class="form-control" placeholder="Description">
+                        @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ajouter Titre de l'alerte", @readonly = "readonly" } })
+                    </div>*@
+                    <div class="form-group">
+                        <label>Date de réception: </label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                            @*<input type="text" name="dateCreation" class="form-control daterange-single" value="11/04/2018">*@
+                            @*<input type="text" readonly="readonly" class="form-control" name="dateCreation" id="datePicker" />*@
+                            @Html.EditorFor(model => model.dateCreation.Date.Date, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ajouter Titre de l'alerte", @readonly = "readonly" } })
+
+
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label>Message reçue:</label>
+                        @*<textarea name="message" rows="5" cols="5" class="form-control" placeholder="Entrer votre message"></textarea>*@
+                        @Html.EditorFor(model => model.description,new { htmlAttributes = new { rows = "5", cols = "5",@class = "form-control", @placeholder = "Message récue de la part du manager", @readonly = "readonly" } })
+
+                    
+                    </div>
+                    <div class="form-group">
+                        <label>Votre réponse:</label>
+                      <textarea name="message" rows="5" cols="5" class="form-control" placeholder="Entrer votre réponse"></textarea>                       
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary" data-title="Sauvegarder Alerte" value="Enregistrer" data-toggle="modal">Sauvegarder Alerte <i class="icon-arrow-right14 position-fixed"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+    <script>
+        $('#datePicker')
+               .daterangepicker({
+                   singleDatePicker: true,
+                   locale: {
+                       setDate: new Date(),
+                       format: 'YYYY/MM/DD'
+                   },
+                   autoclose: true,
+               })
+               .on('changeDate', function (e) {
+                   $('#datepicker').hide();
+               });
+
+    </script>
+}
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}

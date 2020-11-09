@@ -1,0 +1,291 @@
+﻿@model IEnumerable<Domain.Entity.Inventaire>
+
+@{
+    Layout = "~/Views/Shared/_Layout_user.cshtml";
+}
+<script src="/Content/Template1/vendor/datatables/jquery.dataTables.js"></script>
+<script src="/Content/Template1/js/sb-admin-datatables.min.js"></script>
+<!-- Page level plugin CSS-->
+<link href="/Content/Template1/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+@section test{
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+  
+    <p>
+        <a href="@Url.Action("Create", "Inventaire")" class="btn btn-success">Ajouter Inventaire</a>
+    </p>
+    <div class="table-responsive">
+        <table class="table" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+             <tr>
+                 <th style="font-weight:bold; font-size: 14px;">Manager</th>
+                 <th style="font-weight:bold; font-size: 14px;">Société</th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Matricule)
+                </th>
+                 <th style="font-weight:bold; font-size: 14px;">Nom</th>
+                 <th style="font-weight:bold; font-size: 14px;">Prénom</th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Mail)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Qualification)
+                </th>
+                 <th style="font-weight:bold; font-size: 14px;">Service</th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Adresse)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Ville)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.CIN)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Date_Delivrance_CIN)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Tel1)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Tel2)
+                </th>
+                 <th style="font-weight:bold; font-size: 14px;">Télétravail</th>
+                 <th style="font-weight:bold; font-size: 14px;">PC</th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Connexion)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Debit)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Hermes)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Acces_VPN)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Acces_TSE)
+                 </th>
+                 <th style="font-weight:bold; font-size: 14px;">Opérationnel</th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Commentaire1)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.OrdinateurPro)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Modele)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.SacaDos)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Ecran)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Adaptateur_HDMI)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Peripheriques)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Commentaire2)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Contrat_Teletravail)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Date_Teletravail)
+                </th>
+                <th hidden>
+                    @Html.DisplayNameFor(model => model.Commentaire3)
+                </th>
+                 <th style="font-weight:bold; font-size: 14px;">Détails</th>
+            </tr>
+            </thead>
+            <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manager)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Societe)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Matricule)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prenom)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Mail)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Qualification)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Adresse)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Ville)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.CIN)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Date_Delivrance_CIN)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Tel1)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Tel2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teletravail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PC)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Connexion)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Debit)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Hermes)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Acces_VPN)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Acces_TSE)
+            </td>
+            <td>
+                @if (item.Opérationnel == "OUI")
+                {
+                    <span class="label label-success">&nbsp;&nbsp;@Html.DisplayFor(modelItem => item.Opérationnel)&nbsp;&nbsp;</span>
+                }
+                @if (item.Opérationnel == "NON")
+                {
+                    <span class="label label-danger">&nbsp;&nbsp;@Html.DisplayFor(modelItem => item.Opérationnel)&nbsp;&nbsp;</span>
+                }
+                @if (item.Opérationnel == "STAND-BY")
+                {
+                    <span class="label label-info">&nbsp;@Html.DisplayFor(modelItem => item.Opérationnel)&nbsp;</span>
+                }
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Commentaire1)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.OrdinateurPro)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Modele)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.SacaDos)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Ecran)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Adaptateur_HDMI)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Peripheriques)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Commentaire2)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Contrat_Teletravail)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Date_Teletravail)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Commentaire3)
+            </td>
+            <td>
+                 @if (ViewBag.role == "RH")
+                 {
+
+                  using (Html.BeginForm("Edit", "Inventaire", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                  {
+                    <button type="submit" class="btn btn-warning btn-float btn-rounded"><i class="icon-search4"></i></button>
+                  }
+                 }
+                @if (ViewBag.role == "IT")
+                {
+
+                    using (Html.BeginForm("EditIT", "Inventaire", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                    {
+                        <button type="submit" class="btn btn-warning btn-float btn-rounded"><i class="icon-search4"></i></button>
+                    }
+                }
+            </td>
+
+        </tr>
+      
+    }
+  </tbody>
+        </table>
+        </div>
+</body>
+</html>
+    }
+
+@section testProfile{
+
+    <a class="dropdown-toggle" data-toggle="dropdown">
+        <img src=@ViewBag.empConnectedImage alt="">
+        <span>@ViewBag.nameEmpConnected</span>
+        <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
+
+        <li><a href="@Url.Action("logout", "Authentification")"><i class="icon-switch2"></i> Logout</a></li>
+    </ul>
+}
+@section sidebarProfile{
+
+    <a href="#" class="media-left"><img src=@ViewBag.empConnectedImage class="img-circle img-sm" alt=""></a>
+    <div class="media-body">
+        <span class="media-heading text-semibold">@ViewBag.nameEmpConnected</span>
+        <div class="text-size-mini text-muted">
+            <i class="icon-user text-size-small"></i> &nbsp;@ViewBag.pseudoNameEmpConnected
+        </div>
+    </div>
+    <div class="media-right media-middle">
+
+    </div>
+}
+
+@section pagetitlebody{
+    <li><a href="#"><i class="icon-home2 position-left"></i> Accueil</a></li>
+    <li class="active">Inventaires Techniques</li>
+    <li class="active">Liste des inventaires</li>
+}
