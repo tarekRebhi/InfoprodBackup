@@ -50,6 +50,12 @@
                 </div>
                 <br />
                 <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">MAJ des coordonnées Client:</label>
+                    <div class="col-md-3" id="MajDonnees">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
                     <label class="col-md-7" style="font-weight:bold;">Découverte des attentes:</label>
                     <div class="col-md-3" id="decouverteAttentes">
                     
@@ -216,6 +222,10 @@
                         var note = data.note;
                         var NbreEvaluations = data.nbreEvaluations;
                         var accueil = data.accueil + "%";
+                        if (data.MajDonnees >= 0) {
+                            var MajDonnees = data.MajDonnees + "%";
+                        }
+                        else { var MajDonnees = "NE" }
                         var decouverteAttentes = data.decouverteAttentes + "%";
                         var utilisationOutils = data.utilisationOutils + "%";
                         if (data.miseAttente >= 0) {
@@ -236,6 +246,7 @@
                         $("#Details").show();
                         $("#Graphs").show();
                         $("#accueil").html(accueil);
+                        $("#MajDonnees").html(MajDonnees);
                         $("#decouverteAttentes").html(decouverteAttentes);
                         $("#utilisationOutils").html(utilisationOutils);
                         $("#miseAttente").html(miseAttente);
@@ -247,9 +258,9 @@
                         $("#historisation").html(historisation);
                         $("#priseConge").html(priseConge);
 
-                        var namesList = ["Accueil", "Découverte Attentes", "utilisation Outils","Mise en Attente","Temps d'attente", 
+                        var namesList = ["Accueil", "MAJ des coordonnées Client", "Découverte Attentes", "utilisation Outils", "Mise en Attente", "Temps d'attente",
              "Pertinence du Réponse", "Conclusion du Contact", "Discours", "Attitude","Historisation","Prise de Congé"];
-                        var values = [data.accueil, data.decouverteAttentes, data.utilisationOutils, data.miseAttente,
+                        var values = [data.accueil, data.MajDonnees, data.decouverteAttentes, data.utilisationOutils, data.miseAttente,
                             data.tempsAttente, data.pertinenceReponse, data.conclusionContact, data.discours, data.attitude,
                             data.historisation, data.priseConge];
 

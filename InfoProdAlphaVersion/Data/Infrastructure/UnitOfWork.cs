@@ -144,6 +144,14 @@ namespace MyFinance.Data.Infrastructure
             get { return evaluationBPPRepository = new EvaluationBPPRepository(dbFactory); }
         }
 
+
+        private IEvaluationBPPTypologieRepository evaluationBPPTypologieRepository;
+        public IEvaluationBPPTypologieRepository EvaluationBPPTypologieRepository
+        {
+            get { return evaluationBPPTypologieRepository = new EvaluationBPPTypologieRepository(dbFactory); }
+        }
+
+
         private IEvaluationBattonageRepository evaluationBattonageRepository;
         public IEvaluationBattonageRepository EvaluationBattonageRepository
         {

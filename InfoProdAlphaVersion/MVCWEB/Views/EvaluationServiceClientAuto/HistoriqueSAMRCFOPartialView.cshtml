@@ -13,6 +13,7 @@
             <th style="font-weight:bold;">Score</th>
             <th style="font-weight:bold;">Emetteur de l'évaluation</th>
             <th hidden>Accueil</th>
+            <th hidden>MAJ des coordonnées Client</th>
             <th hidden>Découverte des attentes</th>
             <th hidden>Utilisation des Outils</th>
             <th hidden>Mise en attente</th>
@@ -48,6 +49,16 @@
                 <td>@item.senderName</td>
                 <td hidden>
                     @item.accueil
+                </td>
+                <td hidden>
+                    @if (item.MajDonnees >= 0)
+                    {
+                        @item.MajDonnees
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
                 </td>
                 <td hidden>
                     @item.decouverteAttentes
@@ -108,6 +119,9 @@
                             <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
                                 <li>
                                     Accueil: <span>@item.accueil</span>
+                                <li>
+                                <li>
+                                    MAJ des coordonnées Client: <span>@item.MajDonnees</span>
                                 <li>
                                     Découverte des attentes: <span> @item.decouverteAttentes</span>
                                 </li>

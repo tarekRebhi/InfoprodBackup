@@ -1436,6 +1436,41 @@ namespace MVCWEB.Controllers
 
             return View(directory);
         }
+
+        public ActionResult Ref_Typologie_VecteurPlus()
+        {
+            Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            var directory = new DirectoryViewModel();
+            directory.empId = "" + emp.Id;
+
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 5))
+            {
+                ViewBag.role = "Agent Qualité";
+            }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 3))
+            {
+                ViewBag.role = "Agent";
+            }
+            directory.userName = emp.UserName;
+            directory.pseudoNameEmp = emp.pseudoName;
+            if (emp.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(emp.Content);
+                String Url = "data:" + emp.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                directory.Url = Url;
+
+            }
+
+            return View(directory);
+        }
+
+
+
         [Authorize(Roles = "Qualité,Manager,Agent Qualité_CustomerService,Agent_CustomerService")]
         public ActionResult Ref_Enquete_Auto()
         {
@@ -1560,7 +1595,7 @@ namespace MVCWEB.Controllers
 
             return View(directory);
         }
-        [Authorize(Roles = "Qualité,Manager,Agent Qualité_Diffusion")]
+        [Authorize(Roles = "Qualité,Manager,Agent Qualité_Diffusion,Agent Qualité_AchatPublic")]
         public ActionResult Ref_FO_SCDiff()
         {
             Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
@@ -1570,6 +1605,10 @@ namespace MVCWEB.Controllers
             if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
+            }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 2009))
+            {
+                ViewBag.role = "Agent Qualité_AchatPublic";
             }
             if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 4))
             {

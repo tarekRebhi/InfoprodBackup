@@ -5709,6 +5709,19 @@
     <Content Include="Views\EvaluationVecteurPlus\EditPRV.cshtml" />
     <Content Include="Views\EvaluationVecteurPlus\_AlerteDeSuppressionPRV.cshtml" />
     <Content Include="Views\Shared\_Layout_PRV.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\BPPTypologieVecteurPlus.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\BPPTypologieVecteurPlusWithoutAgent.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\BPPTypologieResultpartialView.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\BPPTypologieHistorique.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\ArchiveTypologieEvaluationsQualite.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\TypologieHistorique.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\HistoriqueTypologieTablePartialView.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\_AlerteDeSuppressionTypologie.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\ArchiveTypologieTablePartialView.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\EditTypologie.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\ArchiveTypologieEvaluationsAgentQualite.cshtml" />
+    <Content Include="Views\EvaluationVecteurPlus\ReportsTypologie.cshtml" />
+    <Content Include="Views\Directory\Ref_Typologie_VecteurPlus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

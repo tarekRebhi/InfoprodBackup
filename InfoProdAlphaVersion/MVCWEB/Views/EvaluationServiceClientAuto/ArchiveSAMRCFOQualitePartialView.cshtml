@@ -50,6 +50,16 @@
                     @item.accueil
                 </td>
                 <td hidden>
+                    @if (item.MajDonnees >= 0)
+                    {
+                        @item.MajDonnees
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @item.decouverteAttentes
                 </td>
                 <td hidden>
@@ -107,7 +117,11 @@
                             <a data-toggle="dropdown" style="background-color: aqua;color:#000;">Voir Notes <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
                                 <li>
-                                    Accueil: <span>@item.accueil</span>
+                                    Accueil: <span>@item.accueil</span>                                    
+                                </li>
+                                <li>
+                                    MAJ des coordonnées Client: <span>@item.MajDonnees</span>
+                                </li>
                                 <li>
                                     Découverte des attentes: <span> @item.decouverteAttentes</span>
                                 </li>

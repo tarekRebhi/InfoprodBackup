@@ -33,11 +33,12 @@ namespace MVCWEB.Controllers
             IEvaluationQRService service;
             IEvaluationKLMOService KLMOservice;
             IEvaluationBPPService BPPservice;
+            IEvaluationBppTypologieService BPPTypologieService;
             IEvaluationBattonageService Battonageservice;
             IEvaluationPRVService PRVservice;
             IGroupeEmployeeService serviceGroupeEmp;
             IGroupeService serviceGroupe;
-        private ApplicationSignInManager _signInManager;
+            private ApplicationSignInManager _signInManager;
             private ApplicationUserManager _userManager;
             private ApplicationRoleManager _roleManager;
             #endregion
@@ -49,6 +50,7 @@ namespace MVCWEB.Controllers
                 service = new EvaluationQRService();
                 KLMOservice = new EvaluationKLMOService();
                 BPPservice = new EvaluationBPPService();
+                BPPTypologieService = new EvaluationBPPTypologieService();
                 Battonageservice = new EvaluationBattonageService();
                 PRVservice = new EvaluationPRVService();
                 serviceGroupeEmp = new GroupesEmployeService();
@@ -792,6 +794,915 @@ namespace MVCWEB.Controllers
 
         }
         #endregion
+
+
+
+        #region Evaluation BPP Typologie Vecteur Plus
+        public ActionResult BPPTypologieVecteurPlus(string enregistrementFullName, string enregistrementUrl, string enregistrementDirectory, string agentName)
+        {
+
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 5))
+            {
+                ViewBag.role = "Agent Qualité";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+            var a = new EvaluationViewModel();
+
+            a.enregistrementFullName = enregistrementFullName;
+            a.enregistrementUrl = enregistrementUrl;
+            a.enregistrementDirectory = enregistrementDirectory;
+            a.agentName = agentName;
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            a.empId = "" + employee.Id;
+
+            a.userName = employee.UserName;
+            a.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                a.Url = Url;
+            }
+            return View(a);
+        }
+        public ActionResult BPPTypologieVecteurPlusWithoutAgent(string enregistrementFullName, string enregistrementUrl, string enregistrementDirectory, string siteName)
+        {
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            var a = new EvaluationViewModel();
+            List<SelectListItem> agents = new List<SelectListItem>();
+            List<Employee> logins = new List<Employee>();
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 5))
+            {
+                ViewBag.role = "Agent Qualité";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+
+            a.enregistrementFullName = enregistrementFullName;
+            a.enregistrementUrl = enregistrementUrl;
+            a.enregistrementDirectory = enregistrementDirectory;
+
+            if (siteName == "DIFFUSION")
+            {
+                List<string> listdiffusiongr = new List<string>(new string[] { "GISI-REAB", "GISI-PROMO", "GMT-REAB", "GMT-PROMO" });
+                foreach (var g in listdiffusiongr)
+                {
+                    Groupe grr = serviceGroupe.getByNom(g);
+
+                    var loginsdiffusion = serviceGroupeEmp.getListEmployeeByGroupeId(grr.Id);
+                    logins.AddRange(loginsdiffusion);
+                }
+            }
+            else
+            {
+                Groupe gr = serviceGroupe.getByNom(siteName);
+                logins = serviceGroupeEmp.getListEmployeeByGroupeId(gr.Id);
+            }
+            var us = logins.Select(o => o).Distinct().ToList();
+            var ordredpseudoNames = us.OrderBy(u => u.pseudoName).ToList();
+            int j = 0;
+            string agentName = "";
+            while (j < logins.Count)
+            {
+                string d = logins[j].pseudoName.Replace(" ", "-").Replace("é", "Ã©"); ;
+                string dd = logins[j].pseudoName.Replace(" ", "--").Replace("é", "Ã©");
+                string tv = "TV." + logins[j].IdHermes;
+                if (enregistrementFullName.Contains(tv))
+                {
+                    agentName = logins[j].UserName;
+                }
+                j++;
+            }
+            a.agentName = agentName;
+            a.empId = "" + user.Id;
+            a.userName = user.UserName;
+            a.pseudoNameEmp = user.pseudoName;
+            if (user.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(user.Content);
+                String Url = "data:" + user.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                a.Url = Url;
+            }
+            return View(a);
+        }
+
+        public ActionResult SaveEvalBPPTypologieVecteurPlus(string nomAgent, string planDate, string nombreLogement, string nombreSociaux, string typeCommerce , string typeIndustrie , string typeEtablissementSante , string typeAcceuil , string capaciteAcceuilSante , string typeEtablissementHR , string nombreEtoile , string typeEnseignement , string capaciteAcceuilEnseignement , string typeLoisirs , string frigorifique, string plateformeLogistique, string nombreLogementRs, string nombreSociauxRs, string typeCommerceRs, string typeIndustrieRs, string typeEtablissementSanteRs, string typeAcceuilRs, string capaciteAcceuilSanteRs, string typeEtablissementHRRs, string nombreEtoileRs, string typeEnseignementRs, string capaciteAcceuilEnseignementRs, string typeLoisirsRs, string frigorifiqueRs, string plateformeLogistiqueRs, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        {
+            var userConnected = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            Employee emp = serviceEmployee.getByPseudoName(nomAgent.ToLower());
+            GrilleEvaluationBPPTypologie a = new GrilleEvaluationBPPTypologie();
+            float total = 14;
+            float totalRs = 14;
+            List<string> NEList = new List<string>(new string[] { nombreLogement, nombreSociaux, typeCommerce, typeIndustrie, typeEtablissementSante, typeAcceuil, capaciteAcceuilSante, typeEtablissementHR, nombreEtoile, typeEnseignement, capaciteAcceuilEnseignement, typeLoisirs , frigorifique , plateformeLogistique });
+            List<string> NEListRs = new List<string>(new string[] { nombreLogementRs, nombreSociauxRs, typeCommerceRs, typeIndustrieRs, typeEtablissementSanteRs, typeAcceuilRs, capaciteAcceuilSanteRs, typeEtablissementHRRs, nombreEtoileRs, typeEnseignementRs, capaciteAcceuilEnseignementRs, typeLoisirsRs, frigorifiqueRs, plateformeLogistiqueRs });
+            float notes=0;            
+            float notesRs = 0;
+
+            foreach (var i in NEList)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    total += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {
+                    notes += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+            }
+            foreach (var i in NEListRs)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    totalRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {
+                    notesRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+            }
+            a.nombreLogements = float.Parse(nombreLogement, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreSociaux = float.Parse(nombreSociaux, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeCommerce = float.Parse(typeCommerce, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeIndustrie = float.Parse(typeIndustrie, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementSante = float.Parse(typeEtablissementSante, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeAcceuil = float.Parse(typeAcceuil, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilSante = float.Parse(capaciteAcceuilSante, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementHR = float.Parse(typeEtablissementHR, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreEtoile = float.Parse(nombreEtoile, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEnseignement = float.Parse(typeEnseignement, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilEnseignement = float.Parse(capaciteAcceuilEnseignement, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeLoisirs = float.Parse(typeLoisirs, CultureInfo.InvariantCulture.NumberFormat);
+            a.frigorifique = float.Parse(frigorifique, CultureInfo.InvariantCulture.NumberFormat);
+            a.plateformeLogistique = float.Parse(plateformeLogistique, CultureInfo.InvariantCulture.NumberFormat);
+            //
+            a.nombreLogementsRs = float.Parse(nombreLogementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreSociauxRs = float.Parse(nombreSociauxRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeCommerceRs = float.Parse(typeCommerceRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeIndustrieRs = float.Parse(typeIndustrieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementSanteRs = float.Parse(typeEtablissementSanteRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeAcceuilRs = float.Parse(typeAcceuilRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilSanteRs = float.Parse(capaciteAcceuilSanteRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementHRRs = float.Parse(typeEtablissementHRRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreEtoileRs = float.Parse(nombreEtoileRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEnseignementRs = float.Parse(typeEnseignementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilEnseignementRs = float.Parse(capaciteAcceuilEnseignementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeLoisirsRs = float.Parse(typeLoisirsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.frigorifiqueRs = float.Parse(frigorifiqueRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.plateformeLogistiqueRs = float.Parse(plateformeLogistiqueRs, CultureInfo.InvariantCulture.NumberFormat);
+
+            a.dateTempEvaluation = DateTime.Parse(planDate);
+            a.employeeId = emp.Id;
+            a.senderId = userConnected.Id;
+            a.note = (notes / total) * 100;
+            a.noteRs = (notesRs / total) * 100;
+            a.type = "BPP Typologie Vecteur Plus";
+
+            a.commentaireQualite = commentaire;
+            a.enregistrementFullName = enregistrement;
+            a.enregistrementUrl = enregistrementUrl;
+            a.enregistrementDirectory = enregistrementDirectory;
+
+            BPPTypologieService.Add(a);
+            BPPTypologieService.SaveChange();
+
+            var eval = new EvaluationVecteurPlusViewModel();
+            eval.agentName = nomAgent;
+
+            string SenderMail = "alerte.infoprod@infopro-digital.com";
+            string receiverMail = emp.Email;
+            MailAddress to = new MailAddress(receiverMail);
+            MailAddress from = new MailAddress(SenderMail);
+
+            MailMessage message = new MailMessage(from, to);
+            message.Subject = "Notification Nouvelle Evaluation";
+            message.IsBodyHtml = true;
+            message.Body = "<html><head></head><body><p>Bonjour,</p><p>Nous vous informons qu'un audit qualité viens d'être enregistré, vous pouvez le consulter sur l’interface INFO-PROD QUALITE </p><p>En attendant le débriefe de l’évaluateur</p><p>Cordialement.</p></body></html>";
+
+            SmtpClient client = new SmtpClient("smtp.info.local", 587)
+            {
+                UseDefaultCredentials = true,
+                // Credentials = new NetworkCredential("alerte.infoprod@infopro-digital.com", "Welcome01"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true
+            };
+            // code in brackets above needed if authentication required 
+            try
+            {
+                client.Send(message);
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("EnvoiMailPartialView", eval);
+            }
+            return RedirectToAction("Acceuil", "Directory");
+        }
+
+        public ActionResult CalculBPPTypologieVecteurPlus(string nomAgent, string planDate, string nombreLogement, string nombreSociaux, string typeCommerce, string typeIndustrie, string typeEtablissementSante, string typeAcceuil, string capaciteAcceuilSante, string typeEtablissementHR, string nombreEtoile, string typeEnseignement, string capaciteAcceuilEnseignement, string typeLoisirs, string frigorifique, string plateformeLogistique, 
+            string nombreLogementRs, string nombreSociauxRs, string typeCommerceRs, string typeIndustrieRs, string typeEtablissementSanteRs, string typeAcceuilRs, string capaciteAcceuilSanteRs, string typeEtablissementHRRs, string nombreEtoileRs, string typeEnseignementRs, string capaciteAcceuilEnseignementRs, string typeLoisirsRs, string frigorifiqueRs, string plateformeLogistiqueRs, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        {
+            float total = 14;
+            float totalRs = 14;
+            List<string> NEList = new List<string>(new string[] { nombreLogement, nombreSociaux, typeCommerce, typeIndustrie, typeEtablissementSante, typeAcceuil, capaciteAcceuilSante, typeEtablissementHR, nombreEtoile, typeEnseignement, capaciteAcceuilEnseignement, typeLoisirs, frigorifique, plateformeLogistique });
+            List<string> NEListRs = new List<string>(new string[] { nombreLogementRs, nombreSociauxRs, typeCommerceRs, typeIndustrieRs, typeEtablissementSanteRs, typeAcceuilRs, capaciteAcceuilSanteRs, typeEtablissementHRRs, nombreEtoileRs, typeEnseignementRs, capaciteAcceuilEnseignementRs, typeLoisirsRs, frigorifiqueRs, plateformeLogistiqueRs });
+            float notes = 0;
+            float notesRs = 0;
+
+            foreach (var i in NEList)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    total += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {
+                    notes += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+            }
+            foreach (var i in NEListRs)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    totalRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {
+                    notesRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+            }
+            
+            var a = new EvaluationVecteurPlusViewModel();
+            a.nombreLogements = float.Parse(nombreLogement, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreSociaux = float.Parse(nombreSociaux, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeCommerce = float.Parse(typeCommerce, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeIndustrie = float.Parse(typeIndustrie, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementSante = float.Parse(typeEtablissementSante, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeAcceuil = float.Parse(typeAcceuil, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilSante = float.Parse(capaciteAcceuilSante, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementHR = float.Parse(typeEtablissementHR, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreEtoile = float.Parse(nombreEtoile, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEnseignement = float.Parse(typeEnseignement, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilEnseignement = float.Parse(capaciteAcceuilEnseignement, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeLoisirs = float.Parse(typeLoisirs, CultureInfo.InvariantCulture.NumberFormat);
+            a.frigorifique = float.Parse(frigorifique, CultureInfo.InvariantCulture.NumberFormat);
+            a.plateformeLogistique = float.Parse(plateformeLogistique, CultureInfo.InvariantCulture.NumberFormat);
+            //
+            a.nombreLogementsRs = float.Parse(nombreLogementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreSociauxRs = float.Parse(nombreSociauxRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeCommerceRs = float.Parse(typeCommerceRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeIndustrieRs = float.Parse(typeIndustrieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementSanteRs = float.Parse(typeEtablissementSanteRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeAcceuilRs = float.Parse(typeAcceuilRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilSanteRs = float.Parse(capaciteAcceuilSanteRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEtablissementHRRs = float.Parse(typeEtablissementHRRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreEtoileRs = float.Parse(nombreEtoileRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeEnseignementRs = float.Parse(typeEnseignementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.capaciteAcceuilEnseignementRs = float.Parse(capaciteAcceuilEnseignementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typeLoisirsRs = float.Parse(typeLoisirsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.frigorifiqueRs = float.Parse(frigorifiqueRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.plateformeLogistiqueRs = float.Parse(plateformeLogistiqueRs, CultureInfo.InvariantCulture.NumberFormat);
+
+            a.dateTempEvaluation = DateTime.Parse(planDate);
+            a.agentName = nomAgent;
+            a.note = notes;
+            a.noteRs = notesRs;
+            a.pourcentageNotes = (notes / total) * 100;
+            a.pourcentageNotesRs = (notesRs / total) * 100;
+            a.type = "BPP Typologie Vecteur Plus";
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("BPPTypologieResultPartialView", a);
+            }
+            return RedirectToAction("Acceuil", "Directory");
+
+        }
+
+
+        //typologie historique
+
+        public ActionResult TypologieHistorique()
+        {
+            List<Employee> logins = new List<Employee>();
+            EvaluationViewModel evaluation = new EvaluationViewModel();
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 5))
+            {
+                ViewBag.role = "Agent Qualité";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2))
+            {
+                ViewBag.role = "Manager";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 6))
+            {
+                ViewBag.role = "Manager";
+            }
+
+
+            string d = "COMONLINE";
+            Groupe gr = serviceGroupe.getByNom(d);
+            List<Employee> emp = serviceGroupeEmp.getListEmployeeByGroupeId(gr.Id);
+            foreach (var e in emp)
+            {
+                if (!logins.Exists(l => l.UserName == e.UserName))
+                {
+                    logins.Add(e);
+                }
+            }
+            var employees = logins.OrderBy(a => a.UserName).ToList();
+            foreach (var test in employees)
+            {
+                if (!test.UserName.Equals(user.UserName) && test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 3))
+                {
+                    evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
+
+                }
+            }
+
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+        public ActionResult GetHistoTypologieVecteurPlus(string username)
+        {
+            List<EvaluationVecteurPlusViewModel> a = new List<EvaluationVecteurPlusViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                var historstionsBPP = BPPTypologieService.GetEvaluationsByEmployee(emp.Id);
+                ViewBag.nbreEvaluations = historstionsBPP.Count();
+                foreach (var item in historstionsBPP)
+                {
+                    EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
+                    test.Id = item.Id;
+                    //
+                    test.nombreLogements = item.nombreLogements;
+                    test.nombreSociaux = item.nombreSociaux;
+                    test.typeCommerce = item.typeCommerce;
+                    test.typeIndustrie = item.typeIndustrie;
+                    test.typeEtablissementSante = item.typeEtablissementSante;
+                    test.typeAcceuil = item.typeAcceuil;
+                    test.capaciteAcceuilSante = item.capaciteAcceuilSante;
+                    test.typeEtablissementHR = item.typeEtablissementHR;
+                    test.nombreEtoile = item.nombreEtoile;
+                    test.typeEnseignement = item.typeEnseignement;
+                    test.capaciteAcceuilEnseignement = item.capaciteAcceuilEnseignement;
+                    test.typeLoisirs = item.typeLoisirs;
+                    test.frigorifique = item.frigorifique;
+                    test.plateformeLogistique = item.plateformeLogistique;
+
+                    //
+                    test.nombreLogementsRs = item.nombreLogementsRs;
+                    test.nombreSociauxRs = item.nombreSociauxRs;
+                    test.typeCommerceRs = item.typeCommerceRs;
+                    test.typeIndustrieRs = item.typeIndustrieRs;
+                    test.typeEtablissementSanteRs = item.typeEtablissementSanteRs;
+                    test.typeAcceuilRs = item.typeAcceuilRs;
+                    test.capaciteAcceuilSanteRs = item.capaciteAcceuilSanteRs;
+                    test.typeEtablissementHRRs = item.typeEtablissementHRRs;
+                    test.nombreEtoileRs = item.nombreEtoileRs;
+                    test.typeEnseignementRs = item.typeEnseignementRs;
+                    test.capaciteAcceuilEnseignementRs = item.capaciteAcceuilEnseignementRs;
+                    test.typeLoisirsRs = item.typeLoisirsRs;
+                    test.frigorifiqueRs = item.frigorifiqueRs;
+                    test.plateformeLogistiqueRs = item.plateformeLogistiqueRs;
+                    //
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.noteRs = item.noteRs;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("HistoriqueTypologieTablePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("TypologieHistorique");
+        }
+        public ActionResult GetHistoTypologieByDate(string username, string dateDebut, string dateFin)
+        {
+            List<EvaluationVecteurPlusViewModel> a = new List<EvaluationVecteurPlusViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+                DateTime daterecherchefin = DateTime.Parse(dateFin);
+
+                var historstions = BPPTypologieService.GetEvaluationsEmployeeBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
+                    test.Id = item.Id;
+                    test.type = item.type;
+
+                    test.nombreLogements = item.nombreLogements;
+                    test.nombreSociaux = item.nombreSociaux;
+                    test.typeCommerce = item.typeCommerce;
+                    test.typeIndustrie = item.typeIndustrie;
+                    test.typeEtablissementSante = item.typeEtablissementSante;
+                    test.typeAcceuil = item.typeAcceuil;
+                    test.capaciteAcceuilSante = item.capaciteAcceuilSante;
+                    test.typeEtablissementHR = item.typeEtablissementHR;
+                    test.nombreEtoile = item.nombreEtoile;
+                    test.typeEnseignement = item.typeEnseignement;
+                    test.capaciteAcceuilEnseignement = item.capaciteAcceuilEnseignement;
+                    test.typeLoisirs = item.typeLoisirs;
+                    test.frigorifique = item.frigorifique;
+                    test.plateformeLogistique = item.plateformeLogistique;
+
+                    //
+                    test.nombreLogementsRs = item.nombreLogementsRs;
+                    test.nombreSociauxRs = item.nombreSociauxRs;
+                    test.typeCommerceRs = item.typeCommerceRs;
+                    test.typeIndustrieRs = item.typeIndustrieRs;
+                    test.typeEtablissementSanteRs = item.typeEtablissementSanteRs;
+                    test.typeAcceuilRs = item.typeAcceuilRs;
+                    test.capaciteAcceuilSanteRs = item.capaciteAcceuilSanteRs;
+                    test.typeEtablissementHRRs = item.typeEtablissementHRRs;
+                    test.nombreEtoileRs = item.nombreEtoileRs;
+                    test.typeEnseignementRs = item.typeEnseignementRs;
+                    test.capaciteAcceuilEnseignementRs = item.capaciteAcceuilEnseignementRs;
+                    test.typeLoisirsRs = item.typeLoisirsRs;
+                    test.frigorifiqueRs = item.frigorifiqueRs;
+                    test.plateformeLogistiqueRs = item.plateformeLogistiqueRs;
+                    //
+
+                    test.note = item.note;
+                    test.noteRs = item.noteRs;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("HistoriqueTypologieTablePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("TypologieHistorique");
+        }
+
+        //Archive Typologie Qualité
+        public ActionResult ArchiveTypologieEvaluationsQualite()
+        {
+            EvaluationVecteurPlusViewModel evaluation = new EvaluationVecteurPlusViewModel();
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            var logins = serviceEmployee.GetAll();
+            var employees = logins.Select(o => o).Distinct().ToList();
+
+            foreach (var test in employees)
+            {
+                if (test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 4 || r.RoleId == 5))
+                {
+                    evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
+                }
+            }
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+
+        public ActionResult GetTypologieArchiveEvaluationsQualite(string username)
+        {
+            List<EvaluationVecteurPlusViewModel> a = new List<EvaluationVecteurPlusViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                var historstions = BPPTypologieService.GetEvaluationsBySenderId(emp.Id);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
+                    test.Id = item.Id;
+
+                    test.nombreLogements = item.nombreLogements;
+                    test.nombreSociaux = item.nombreSociaux;
+                    test.typeCommerce = item.typeCommerce;
+                    test.typeIndustrie = item.typeIndustrie;
+                    test.typeEtablissementSante = item.typeEtablissementSante;
+                    test.typeAcceuil = item.typeAcceuil;
+                    test.capaciteAcceuilSante = item.capaciteAcceuilSante;
+                    test.typeEtablissementHR = item.typeEtablissementHR;
+                    test.nombreEtoile = item.nombreEtoile;
+                    test.typeEnseignement = item.typeEnseignement;
+                    test.capaciteAcceuilEnseignement = item.capaciteAcceuilEnseignement;
+                    test.typeLoisirs = item.typeLoisirs;
+                    test.frigorifique = item.frigorifique;
+                    test.plateformeLogistique = item.plateformeLogistique;
+
+                    //
+                    test.nombreLogementsRs = item.nombreLogementsRs;
+                    test.nombreSociauxRs = item.nombreSociauxRs;
+                    test.typeCommerceRs = item.typeCommerceRs;
+                    test.typeIndustrieRs = item.typeIndustrieRs;
+                    test.typeEtablissementSanteRs = item.typeEtablissementSanteRs;
+                    test.typeAcceuilRs = item.typeAcceuilRs;
+                    test.capaciteAcceuilSanteRs = item.capaciteAcceuilSanteRs;
+                    test.typeEtablissementHRRs = item.typeEtablissementHRRs;
+                    test.nombreEtoileRs = item.nombreEtoileRs;
+                    test.typeEnseignementRs = item.typeEnseignementRs;
+                    test.capaciteAcceuilEnseignementRs = item.capaciteAcceuilEnseignementRs;
+                    test.typeLoisirsRs = item.typeLoisirsRs;
+                    test.frigorifiqueRs = item.frigorifiqueRs;
+                    test.plateformeLogistiqueRs = item.plateformeLogistiqueRs;
+                    //
+                                    
+                    test.note = item.note;
+                    test.noteRs = item.noteRs;
+
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveTypologieTablePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("ArchiveTypologieEvaluationsQualite");
+        }
+                            
+        public ActionResult GetArchiveTypologieEvaluationsByDate(string username, string dateDebut, string dateFin)
+        {
+            List<EvaluationVecteurPlusViewModel> a = new List<EvaluationVecteurPlusViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+                DateTime daterecherchefin = DateTime.Parse(dateFin);
+                var historstions = BPPTypologieService.GetEvaluationsSenderBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
+                    test.Id = item.Id;
+
+                    test.nombreLogements = item.nombreLogements;
+                    test.nombreSociaux = item.nombreSociaux;
+                    test.typeCommerce = item.typeCommerce;
+                    test.typeIndustrie = item.typeIndustrie;
+                    test.typeEtablissementSante = item.typeEtablissementSante;
+                    test.typeAcceuil = item.typeAcceuil;
+                    test.capaciteAcceuilSante = item.capaciteAcceuilSante;
+                    test.typeEtablissementHR = item.typeEtablissementHR;
+                    test.nombreEtoile = item.nombreEtoile;
+                    test.typeEnseignement = item.typeEnseignement;
+                    test.capaciteAcceuilEnseignement = item.capaciteAcceuilEnseignement;
+                    test.typeLoisirs = item.typeLoisirs;
+                    test.frigorifique = item.frigorifique;
+                    test.plateformeLogistique = item.plateformeLogistique;
+
+                    //
+                    test.nombreLogementsRs = item.nombreLogementsRs;
+                    test.nombreSociauxRs = item.nombreSociauxRs;
+                    test.typeCommerceRs = item.typeCommerceRs;
+                    test.typeIndustrieRs = item.typeIndustrieRs;
+                    test.typeEtablissementSanteRs = item.typeEtablissementSanteRs;
+                    test.typeAcceuilRs = item.typeAcceuilRs;
+                    test.capaciteAcceuilSanteRs = item.capaciteAcceuilSanteRs;
+                    test.typeEtablissementHRRs = item.typeEtablissementHRRs;
+                    test.nombreEtoileRs = item.nombreEtoileRs;
+                    test.typeEnseignementRs = item.typeEnseignementRs;
+                    test.capaciteAcceuilEnseignementRs = item.capaciteAcceuilEnseignementRs;
+                    test.typeLoisirsRs = item.typeLoisirsRs;
+                    test.frigorifiqueRs = item.frigorifiqueRs;
+                    test.plateformeLogistiqueRs = item.plateformeLogistiqueRs;
+                    //
+                    //                    
+                    test.note = item.note;
+                    test.noteRs = item.noteRs;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveTypologieTablePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("ArchiveTypologieEvaluationsQualite");
+        }
+
+        //Archive Typologie par Agent Qualité
+        public ActionResult ArchiveTypologieEvaluationsAgentQualite()
+        {
+            EvaluationVecteurPlusViewModel evaluation = new EvaluationVecteurPlusViewModel();
+
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+                           
+        public ActionResult GetArchiveTypologieEvaluationsAgentQualite()
+        {
+            List<EvaluationVecteurPlusViewModel> a = new List<EvaluationVecteurPlusViewModel>();
+            try
+            {
+                Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+
+                var historstions = BPPTypologieService.GetEvaluationsBySenderId(emp.Id);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
+                    test.Id = item.Id;
+                    test.nombreLogements = item.nombreLogements;
+                    test.nombreSociaux = item.nombreSociaux;
+                    test.typeCommerce = item.typeCommerce;
+                    test.typeIndustrie = item.typeIndustrie;
+                    test.typeEtablissementSante = item.typeEtablissementSante;
+                    test.typeAcceuil = item.typeAcceuil;
+                    test.capaciteAcceuilSante = item.capaciteAcceuilSante;
+                    test.typeEtablissementHR = item.typeEtablissementHR;
+                    test.nombreEtoile = item.nombreEtoile;
+                    test.typeEnseignement = item.typeEnseignement;
+                    test.capaciteAcceuilEnseignement = item.capaciteAcceuilEnseignement;
+                    test.typeLoisirs = item.typeLoisirs;
+                    test.frigorifique = item.frigorifique;
+                    test.plateformeLogistique = item.plateformeLogistique;
+
+                    //
+                    test.nombreLogementsRs = item.nombreLogementsRs;
+                    test.nombreSociauxRs = item.nombreSociauxRs;
+                    test.typeCommerceRs = item.typeCommerceRs;
+                    test.typeIndustrieRs = item.typeIndustrieRs;
+                    test.typeEtablissementSanteRs = item.typeEtablissementSanteRs;
+                    test.typeAcceuilRs = item.typeAcceuilRs;
+                    test.capaciteAcceuilSanteRs = item.capaciteAcceuilSanteRs;
+                    test.typeEtablissementHRRs = item.typeEtablissementHRRs;
+                    test.nombreEtoileRs = item.nombreEtoileRs;
+                    test.typeEnseignementRs = item.typeEnseignementRs;
+                    test.capaciteAcceuilEnseignementRs = item.capaciteAcceuilEnseignementRs;
+                    test.typeLoisirsRs = item.typeLoisirsRs;
+                    test.frigorifiqueRs = item.frigorifiqueRs;
+                    test.plateformeLogistiqueRs = item.plateformeLogistiqueRs;
+                    //
+                    test.note = item.note;
+                    test.noteRs = item.noteRs;
+
+
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee receiver = serviceEmployee.getById(item.employeeId);
+                        test.agentName = receiver.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveTypologieTablePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("ArchiveTypologieEvaluationsAgentQualite");
+        }
+                            
+        public ActionResult GetArchiveTypologieEvaluationsAgentQualiteByDate(string dateDebut, string dateFin)
+        {
+            List<EvaluationVecteurPlusViewModel> a = new List<EvaluationVecteurPlusViewModel>();
+            try
+            {
+                Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+                DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+                DateTime daterecherchefin = DateTime.Parse(dateFin);
+                var historstions = BPPTypologieService.GetEvaluationsSenderBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
+                    test.Id = item.Id;
+                    //
+                    test.nombreLogements = item.nombreLogements;
+                    test.nombreSociaux = item.nombreSociaux;
+                    test.typeCommerce = item.typeCommerce;
+                    test.typeIndustrie = item.typeIndustrie;
+                    test.typeEtablissementSante = item.typeEtablissementSante;
+                    test.typeAcceuil = item.typeAcceuil;
+                    test.capaciteAcceuilSante = item.capaciteAcceuilSante;
+                    test.typeEtablissementHR = item.typeEtablissementHR;
+                    test.nombreEtoile = item.nombreEtoile;
+                    test.typeEnseignement = item.typeEnseignement;
+                    test.capaciteAcceuilEnseignement = item.capaciteAcceuilEnseignement;
+                    test.typeLoisirs = item.typeLoisirs;
+                    test.frigorifique = item.frigorifique;
+                    test.plateformeLogistique = item.plateformeLogistique;
+
+                    //
+                    test.nombreLogementsRs = item.nombreLogementsRs;
+                    test.nombreSociauxRs = item.nombreSociauxRs;
+                    test.typeCommerceRs = item.typeCommerceRs;
+                    test.typeIndustrieRs = item.typeIndustrieRs;
+                    test.typeEtablissementSanteRs = item.typeEtablissementSanteRs;
+                    test.typeAcceuilRs = item.typeAcceuilRs;
+                    test.capaciteAcceuilSanteRs = item.capaciteAcceuilSanteRs;
+                    test.typeEtablissementHRRs = item.typeEtablissementHRRs;
+                    test.nombreEtoileRs = item.nombreEtoileRs;
+                    test.typeEnseignementRs = item.typeEnseignementRs;
+                    test.capaciteAcceuilEnseignementRs = item.capaciteAcceuilEnseignementRs;
+                    test.typeLoisirsRs = item.typeLoisirsRs;
+                    test.frigorifiqueRs = item.frigorifiqueRs;
+                    test.plateformeLogistiqueRs = item.plateformeLogistiqueRs;
+                    //
+                    test.note = item.note;
+                    test.noteRs = item.noteRs;
+
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee receiver = serviceEmployee.getById(item.employeeId);
+                        test.agentName = receiver.UserName;
+                    }
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveTypologieTablePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("ArchiveTypologieEvaluationsAgentQualite");
+        }
+   
+
+
+
+        #endregion
+
+
         #region Historique Vecteur Plus Par Collaborateur
         [Authorize(Roles = "Qualité, Agent Qualité, Manager,SuperManager")]
         //Historique QR
@@ -1242,7 +2153,7 @@ namespace MVCWEB.Controllers
                     EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
                     test.Id = item.Id;
                     test.presentationIdentification = item.presentationIdentification;
-                  test.objetAppel = item.objetAppel;
+                    test.objetAppel = item.objetAppel;
                     test.validationNature = item.validationNature;
                     test.calendrier = item.calendrier;
                     test.envergure = item.envergure;
@@ -2204,7 +3115,7 @@ namespace MVCWEB.Controllers
                 return PartialView("SelectError");
             }
 
-            return RedirectToAction("ArchiveBPPvaluationsAgentQualite");
+            return RedirectToAction("ArchiveBPPEvaluationsAgentQualite");
         }
 
         public ActionResult GetArchiveBPPEvaluationsAgentQualiteByDate(string dateDebut, string dateFin)
@@ -2271,7 +3182,7 @@ namespace MVCWEB.Controllers
                 return PartialView("SelectError");
             }
 
-            return RedirectToAction("ArchiveBPPEvaluationsAgentQualite");
+            return RedirectToAction("ArchiveTypologieEvaluationsAgentQualite");
         }
         #endregion
 
@@ -3232,11 +4143,16 @@ namespace MVCWEB.Controllers
             return View(a);
         }
 
-        public ActionResult CalculBattonageVecteurPlus(string nomAgent, string planDate, string type, string nature, string typologie, string avancement, string destination, string codeRP,string nomProgramme,string postIT, string objects, string notreClients, string moa, string moaArchitectes, string bureauxEtudes, string bailleurSociaux,string mairie, string dateAccords, string datePC, string dateConsultation, string dateTravaux, string dateLivraison, string surfacePlancher, string surfaceTerrain, string surfaceTypologie, string nombreBatiment, string nombreEtage, string ascenseur, string nombreAscenseur, string lieuExecution, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult CalculBattonageVecteurPlus(string nomAgent, string planDate, string type, string nature, string typologie, string avancement, string destination, string codeRP,string nomProgramme,string postIT, string objects, string notreClients, string moa, string moaArchitectes, string bureauxEtudes, string bailleurSociaux,string mairie, string dateAccords, string datePC, string dateConsultation, string dateTravaux, string dateLivraison, string surfacePlancher, string surfaceTerrain, string surfaceTypologie, string nombreBatiment, string nombreEtage, string ascenseur, string nombreAscenseur, string lieuExecution, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory,
+           string natureRs, string typologieRs, string avancementRs, string destinationRs, string codeRPRs, string nomProgrammeRs, string postITRs, string objectsRs, string notreClientsRs, string moaRs, string moaArchitectesRs, string bureauxEtudesRs, string bailleurSociauxRs, string mairieRs, string dateAccordsRs, string datePCRs, string dateConsultationRs, string dateTravauxRs, string dateLivraisonRs, string surfacePlancherRs, string surfaceTerrainRs, string surfaceTypologieRs, string nombreBatimentRs, string nombreEtageRs, string ascenseurRs, string nombreAscenseurRs, string lieuExecutionRs)
         {
             float total = 27;
+            float totalRs = 27;
             List<string> NEList = new List<string>(new string[] { nature, typologie, avancement, destination, codeRP, nomProgramme, postIT, objects, notreClients, moa, moaArchitectes, bureauxEtudes, bailleurSociaux, mairie, dateAccords, datePC, dateConsultation, dateTravaux, dateLivraison, surfacePlancher, surfaceTerrain, surfaceTypologie, nombreBatiment, nombreEtage, ascenseur, nombreAscenseur, lieuExecution });
+            List<string> NEListRs = new List<string>(new string[] { natureRs, typologieRs, avancementRs, destinationRs, codeRPRs, nomProgrammeRs, postITRs, objectsRs, notreClientsRs, moaRs, moaArchitectesRs, bureauxEtudesRs, bailleurSociauxRs, mairieRs, dateAccordsRs, datePCRs, dateConsultationRs, dateTravauxRs, dateLivraisonRs, surfacePlancherRs, surfaceTerrainRs, surfaceTypologieRs, nombreBatimentRs, nombreEtageRs, ascenseurRs, nombreAscenseurRs, lieuExecutionRs });
+
             float notes = 0;
+            float notesRs = 0;
             foreach (var i in NEList)
             {
                 if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
@@ -3245,7 +4161,18 @@ namespace MVCWEB.Controllers
                 }
                 else
                 {
-                    notes += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                    notes += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);                    
+                }
+            }
+            foreach (var i in NEListRs)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    totalRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {                    
+                    notesRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
                 }
             }
             var a = new EvaluationVecteurPlusViewModel();
@@ -3277,26 +4204,60 @@ namespace MVCWEB.Controllers
             a.ascenseur = float.Parse(ascenseur, CultureInfo.InvariantCulture.NumberFormat);
             a.nombreAscenseur = float.Parse(nombreAscenseur, CultureInfo.InvariantCulture.NumberFormat);
             a.lieuExecution = float.Parse(lieuExecution, CultureInfo.InvariantCulture.NumberFormat);
+            //
+            a.natureRs = float.Parse(natureRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typologieRs = float.Parse(typologieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.avancementRs = float.Parse(avancementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.destinationRs = float.Parse(destinationRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.codeRPRs = float.Parse(codeRPRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nomProgrammeRs = float.Parse(nomProgrammeRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.postITRs = float.Parse(postITRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.objectsRs = float.Parse(objectsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.notreClientsRs = float.Parse(notreClientsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.moaRs = float.Parse(moaRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.moaArchitectesRs = float.Parse(moaArchitectesRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.bureauxEtudesRs = float.Parse(bureauxEtudesRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.bailleurSociauxRs = float.Parse(bailleurSociauxRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.mairieRs = float.Parse(mairieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateAccordsRs = float.Parse(dateAccordsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.datePCRs = float.Parse(datePCRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateConsultationRs = float.Parse(dateConsultationRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateTravauxRs = float.Parse(dateTravauxRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateLivraisonRs = float.Parse(dateLivraisonRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.surfacePlancherRs = float.Parse(surfacePlancherRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.surfaceTerrainRs = float.Parse(surfaceTerrainRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.surfaceTypologieRs = float.Parse(surfaceTypologieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreBatimentRs = float.Parse(nombreBatimentRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreEtageRs = float.Parse(nombreEtageRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.ascenseurRs = float.Parse(ascenseurRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreAscenseurRs = float.Parse(nombreAscenseurRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.lieuExecutionRs = float.Parse(lieuExecutionRs, CultureInfo.InvariantCulture.NumberFormat);
 
             a.dateTempEvaluation = DateTime.Parse(planDate);
             a.agentName = nomAgent;
             a.note = notes;
+            a.noteRs = notesRs;
             a.pourcentageNotes = (notes / total) * 100;
-            
+            a.pourcentageNotesRs = (notesRs / totalRs) * 100;
+
             if (Request.IsAjaxRequest())
             {
                 return PartialView("BattonageResultPartialView", a);
             }
             return RedirectToAction("Acceuil", "Directory");
         }
-        public ActionResult SaveEvalBattonageVecteurPlus(string nomAgent, string planDate, string type, string nature, string typologie, string avancement, string destination, string codeRP, string nomProgramme, string postIT, string objects, string notreClients, string moa, string moaArchitectes, string bureauxEtudes, string bailleurSociaux,string mairie, string dateAccords, string datePC, string dateConsultation, string dateTravaux, string dateLivraison, string surfacePlancher, string surfaceTerrain, string surfaceTypologie, string nombreBatiment, string nombreEtage, string ascenseur, string nombreAscenseur, string lieuExecution, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult SaveEvalBattonageVecteurPlus(string nomAgent, string planDate, string type, string nature, string typologie, string avancement, string destination, string codeRP, string nomProgramme, string postIT, string objects, string notreClients, string moa, string moaArchitectes, string bureauxEtudes, string bailleurSociaux,string mairie, string dateAccords, string datePC, string dateConsultation, string dateTravaux, string dateLivraison, string surfacePlancher, string surfaceTerrain, string surfaceTypologie, string nombreBatiment, string nombreEtage, string ascenseur, string nombreAscenseur, string lieuExecution, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory,
+            string natureRs, string typologieRs, string avancementRs, string destinationRs, string codeRPRs, string nomProgrammeRs, string postITRs, string objectsRs, string notreClientsRs, string moaRs, string moaArchitectesRs, string bureauxEtudesRs, string bailleurSociauxRs, string mairieRs, string dateAccordsRs, string datePCRs, string dateConsultationRs, string dateTravauxRs, string dateLivraisonRs, string surfacePlancherRs, string surfaceTerrainRs, string surfaceTypologieRs, string nombreBatimentRs, string nombreEtageRs, string ascenseurRs, string nombreAscenseurRs, string lieuExecutionRs)
         {
             var userConnected = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
             Employee emp = serviceEmployee.getByPseudoName(nomAgent.ToLower());
             GrilleEvaluationBattonage a = new GrilleEvaluationBattonage();
             float total = 27;
+            float totalRs = 27;
             List<string> NEList = new List<string>(new string[] { nature, typologie, avancement, destination, codeRP, nomProgramme, postIT, objects, notreClients, moa, moaArchitectes, bureauxEtudes, bailleurSociaux, mairie, dateAccords, datePC, dateConsultation, dateTravaux, dateLivraison, surfacePlancher, surfaceTerrain, surfaceTypologie, nombreBatiment, nombreEtage, ascenseur, nombreAscenseur, lieuExecution });
+            List<string> NEListRs = new List<string>(new string[] { natureRs, typologieRs, avancementRs, destinationRs, codeRPRs, nomProgrammeRs, postITRs, objectsRs, notreClientsRs, moaRs, moaArchitectesRs, bureauxEtudesRs, bailleurSociauxRs, mairieRs, dateAccordsRs, datePCRs, dateConsultationRs, dateTravauxRs, dateLivraisonRs, surfacePlancherRs, surfaceTerrainRs, surfaceTypologieRs, nombreBatimentRs, nombreEtageRs, ascenseurRs, nombreAscenseurRs, lieuExecutionRs });
             float notes = 0;
+            float notesRs = 0;
             foreach (var i in NEList)
             {
                 if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
@@ -3306,6 +4267,17 @@ namespace MVCWEB.Controllers
                 else
                 {
                     notes += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+            }
+            foreach (var i in NEListRs)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    totalRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {
+                    notesRs += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
                 }
             }
             a.type = type;
@@ -3337,17 +4309,46 @@ namespace MVCWEB.Controllers
             a.nombreAscenseur = float.Parse(nombreAscenseur, CultureInfo.InvariantCulture.NumberFormat);
             a.lieuExecution = float.Parse(lieuExecution, CultureInfo.InvariantCulture.NumberFormat);
 
+            a.natureRs = float.Parse(natureRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.typologieRs = float.Parse(typologieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.avancementRs = float.Parse(avancementRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.destinationRs = float.Parse(destinationRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.codeRPRs = float.Parse(codeRPRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nomProgrammeRs = float.Parse(nomProgrammeRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.postITRs = float.Parse(postITRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.objectsRs = float.Parse(objectsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.notreClientsRs = float.Parse(notreClientsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.moaRs = float.Parse(moaRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.moaArchitectesRs = float.Parse(moaArchitectesRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.bureauxEtudesRs = float.Parse(bureauxEtudesRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.bailleurSociauxRs = float.Parse(bailleurSociauxRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.mairieRs = float.Parse(mairieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateAccordsRs = float.Parse(dateAccordsRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.datePCRs = float.Parse(datePCRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateConsultationRs = float.Parse(dateConsultationRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateTravauxRs = float.Parse(dateTravauxRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.dateLivraisonRs = float.Parse(dateLivraisonRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.surfacePlancherRs = float.Parse(surfacePlancherRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.surfaceTerrainRs = float.Parse(surfaceTerrainRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.surfaceTypologieRs = float.Parse(surfaceTypologieRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreBatimentRs = float.Parse(nombreBatimentRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreEtageRs = float.Parse(nombreEtageRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.ascenseurRs = float.Parse(ascenseurRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.nombreAscenseurRs = float.Parse(nombreAscenseurRs, CultureInfo.InvariantCulture.NumberFormat);
+            a.lieuExecutionRs = float.Parse(lieuExecutionRs, CultureInfo.InvariantCulture.NumberFormat);
+
             a.dateTempEvaluation = DateTime.Parse(planDate);
             a.employeeId = emp.Id;
             a.senderId = userConnected.Id;
             a.note = (notes / total) * 100;
+            a.noteRs = (notesRs / totalRs) * 100;
             a.commentaireQualite = commentaire;
             a.enregistrementFullName = enregistrement;
             a.enregistrementUrl = enregistrementUrl;
             a.enregistrementDirectory = enregistrementDirectory;
 
-           Battonageservice.Add(a);
-           Battonageservice.SaveChange();
+            Battonageservice.Add(a);
+            Battonageservice.SaveChange();
             var eval = new EvaluationVecteurPlusViewModel();
             eval.agentName = nomAgent;
             string SenderMail = "alerte.infoprod@infopro-digital.com";
@@ -3359,15 +4360,15 @@ namespace MVCWEB.Controllers
             message.Subject = "Notification Nouvelle Evaluation";
             message.IsBodyHtml = true;
             message.Body = "<html><head></head><body><p>Bonjour,</p><p>Nous vous informons qu'un audit qualité viens d'être enregistré, vous pouvez le consulter sur l’interface INFO-PROD QUALITE </p><p>En attendant le débriefe de l’évaluateur</p><p>Cordialement.</p></body></html>";
-            
+
             SmtpClient client = new SmtpClient("smtp.info.local", 587)
             {
                 UseDefaultCredentials = true,
-            //    // Credentials = new NetworkCredential("alerte.infoprod@infopro-digital.com", "Welcome01"),
+                // Credentials = new NetworkCredential("alerte.infoprod@infopro-digital.com", "Welcome01"),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true
             };
-            //// code in brackets above needed if authentication required 
+            // code in brackets above needed if authentication required 
             try
             {
                 client.Send(message);
@@ -3382,6 +4383,7 @@ namespace MVCWEB.Controllers
             }
             return RedirectToAction("Acceuil", "Directory");
         }
+        
         //Battonage Historique
         public ActionResult BattonageHistorique()
         {
@@ -3481,9 +4483,39 @@ namespace MVCWEB.Controllers
                     test.nombreAscenseur = item.nombreAscenseur;
                     test.lieuExecution = item.lieuExecution;
 
-                   test.dateTempEvaluation = item.dateTempEvaluation;
+                    //
+                    test.natureRs = item.natureRs;
+                    test.typologieRs = item.typologieRs;
+                    test.avancementRs = item.avancementRs;
+                    test.destinationRs = item.destinationRs;
+                    test.codeRPRs = item.codeRPRs;
+                    test.nomProgrammeRs = item.nomProgrammeRs;
+                    test.postITRs = item.postITRs;
+                    test.objectsRs = item.objectsRs;
+                    test.notreClientsRs = item.notreClientsRs;
+                    test.moaRs = item.moaRs;
+                    test.moaArchitectesRs = item.moaArchitectesRs;
+                    test.bureauxEtudesRs = item.bureauxEtudesRs;
+                    test.bailleurSociauxRs = item.bailleurSociauxRs;
+                    test.mairieRs = item.mairieRs;
+                    test.dateAccordsRs = item.dateAccordsRs;
+                    test.datePCRs = item.datePCRs;
+                    test.dateConsultationRs = item.dateConsultationRs;
+                    test.dateTravauxRs = item.dateTravauxRs;
+                    test.dateLivraisonRs = item.dateLivraisonRs;
+                    test.surfacePlancherRs = item.surfacePlancherRs;
+                    test.surfaceTerrainRs = item.surfaceTerrainRs;
+                    test.surfaceTypologieRs = item.surfaceTypologieRs;
+                    test.nombreBatimentRs = item.nombreBatimentRs;
+                    test.nombreEtageRs = item.nombreEtageRs;
+                    test.ascenseurRs = item.ascenseurRs;
+                    test.nombreAscenseurRs = item.nombreAscenseurRs;
+                    test.lieuExecutionRs = item.lieuExecutionRs;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
                     test.type = item.type;
                     test.note = item.note;
+                    test.noteRs = item.noteRs;
                     test.commentaireQualite = item.commentaireQualite;
                     test.commentaireAgent = item.commentaireAgent;
                     test.enregistrementFullName = item.enregistrementFullName;
@@ -3533,6 +4565,8 @@ namespace MVCWEB.Controllers
                 {
                     EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
                     test.Id = item.Id;
+                    test.type = item.type;
+
                     test.nature = item.nature;
                     test.typologie = item.typologie;
                     test.avancement = item.avancement;
@@ -3560,9 +4594,41 @@ namespace MVCWEB.Controllers
                     test.ascenseur = item.ascenseur;
                     test.nombreAscenseur = item.nombreAscenseur;
                     test.lieuExecution = item.lieuExecution;
-                    test.dateTempEvaluation = item.dateTempEvaluation;
-                    test.type = item.type;
+
+                    //
+                    test.natureRs = item.natureRs;
+                    test.typologieRs = item.typologieRs;
+                    test.avancementRs = item.avancementRs;
+                    test.destinationRs = item.destinationRs;
+                    test.codeRPRs = item.codeRPRs;
+                    test.nomProgrammeRs = item.nomProgrammeRs;
+                    test.postITRs = item.postITRs;
+                    test.objectsRs = item.objectsRs;
+                    test.notreClientsRs = item.notreClientsRs;
+                    test.moaRs = item.moaRs;
+                    test.moaArchitectesRs = item.moaArchitectesRs;
+                    test.bureauxEtudesRs = item.bureauxEtudesRs;
+                    test.bailleurSociauxRs = item.bailleurSociauxRs;
+                    test.mairieRs = item.mairieRs;
+                    test.dateAccordsRs = item.dateAccordsRs;
+                    test.datePCRs = item.datePCRs;
+                    test.dateConsultationRs = item.dateConsultationRs;
+                    test.dateTravauxRs = item.dateTravauxRs;
+                    test.dateLivraisonRs = item.dateLivraisonRs;
+                    test.surfacePlancherRs = item.surfacePlancherRs;
+                    test.surfaceTerrainRs = item.surfaceTerrainRs;
+                    test.surfaceTypologieRs = item.surfaceTypologieRs;
+                    test.nombreBatimentRs = item.nombreBatimentRs;
+                    test.nombreEtageRs = item.nombreEtageRs;
+                    test.ascenseurRs = item.ascenseurRs;
+                    test.nombreAscenseurRs = item.nombreAscenseurRs;
+                    test.lieuExecutionRs = item.lieuExecutionRs;
+                    //
+
                     test.note = item.note;
+                    test.noteRs = item.noteRs;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
                     test.commentaireQualite = item.commentaireQualite;
                     test.commentaireAgent = item.commentaireAgent;
                     test.enregistrementFullName = item.enregistrementFullName;
@@ -3641,6 +4707,7 @@ namespace MVCWEB.Controllers
                 {
                     EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
                     test.Id = item.Id;
+
                     test.nature = item.nature;
                     test.typologie = item.typologie;
                     test.avancement = item.avancement;
@@ -3668,9 +4735,42 @@ namespace MVCWEB.Controllers
                     test.ascenseur = item.ascenseur;
                     test.nombreAscenseur = item.nombreAscenseur;
                     test.lieuExecution = item.lieuExecution;
+
+                    //
+                    test.natureRs = item.natureRs;
+                    test.typologieRs = item.typologieRs;
+                    test.avancementRs = item.avancementRs;
+                    test.destinationRs = item.destinationRs;
+                    test.codeRPRs = item.codeRPRs;
+                    test.nomProgrammeRs = item.nomProgrammeRs;
+                    test.postITRs = item.postITRs;
+                    test.objectsRs = item.objectsRs;
+                    test.notreClientsRs = item.notreClientsRs;
+                    test.moaRs = item.moaRs;
+                    test.moaArchitectesRs = item.moaArchitectesRs;
+                    test.bureauxEtudesRs = item.bureauxEtudesRs;
+                    test.bailleurSociauxRs = item.bailleurSociauxRs;
+                    test.mairieRs = item.mairieRs;
+                    test.dateAccordsRs = item.dateAccordsRs;
+                    test.datePCRs = item.datePCRs;
+                    test.dateConsultationRs = item.dateConsultationRs;
+                    test.dateTravauxRs = item.dateTravauxRs;
+                    test.dateLivraisonRs = item.dateLivraisonRs;
+                    test.surfacePlancherRs = item.surfacePlancherRs;
+                    test.surfaceTerrainRs = item.surfaceTerrainRs;
+                    test.surfaceTypologieRs = item.surfaceTypologieRs;
+                    test.nombreBatimentRs = item.nombreBatimentRs;
+                    test.nombreEtageRs = item.nombreEtageRs;
+                    test.ascenseurRs = item.ascenseurRs;
+                    test.nombreAscenseurRs = item.nombreAscenseurRs;
+                    test.lieuExecutionRs = item.lieuExecutionRs;
+                    //
+
                     test.dateTempEvaluation = item.dateTempEvaluation;
                     test.type = item.type;
                     test.note = item.note;
+                    test.noteRs = item.noteRs;
+
                     test.commentaireQualite = item.commentaireQualite;
                     test.commentaireAgent = item.commentaireAgent;
                     test.enregistrementFullName = item.enregistrementFullName;
@@ -3714,6 +4814,7 @@ namespace MVCWEB.Controllers
                 {
                     EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
                     test.Id = item.Id;
+
                     test.nature = item.nature;
                     test.typologie = item.typologie;
                     test.avancement = item.avancement;
@@ -3741,9 +4842,39 @@ namespace MVCWEB.Controllers
                     test.ascenseur = item.ascenseur;
                     test.nombreAscenseur = item.nombreAscenseur;
                     test.lieuExecution = item.lieuExecution;
+                    //
+                    test.natureRs = item.natureRs;
+                    test.typologieRs = item.typologieRs;
+                    test.avancementRs = item.avancementRs;
+                    test.destinationRs = item.destinationRs;
+                    test.codeRPRs = item.codeRPRs;
+                    test.nomProgrammeRs = item.nomProgrammeRs;
+                    test.postITRs = item.postITRs;
+                    test.objectsRs = item.objectsRs;
+                    test.notreClientsRs = item.notreClientsRs;
+                    test.moaRs = item.moaRs;
+                    test.moaArchitectesRs = item.moaArchitectesRs;
+                    test.bureauxEtudesRs = item.bureauxEtudesRs;
+                    test.bailleurSociauxRs = item.bailleurSociauxRs;
+                    test.mairieRs = item.mairieRs;
+                    test.dateAccordsRs = item.dateAccordsRs;
+                    test.datePCRs = item.datePCRs;
+                    test.dateConsultationRs = item.dateConsultationRs;
+                    test.dateTravauxRs = item.dateTravauxRs;
+                    test.dateLivraisonRs = item.dateLivraisonRs;
+                    test.surfacePlancherRs = item.surfacePlancherRs;
+                    test.surfaceTerrainRs = item.surfaceTerrainRs;
+                    test.surfaceTypologieRs = item.surfaceTypologieRs;
+                    test.nombreBatimentRs = item.nombreBatimentRs;
+                    test.nombreEtageRs = item.nombreEtageRs;
+                    test.ascenseurRs = item.ascenseurRs;
+                    test.nombreAscenseurRs = item.nombreAscenseurRs;
+                    test.lieuExecutionRs = item.lieuExecutionRs;
+                    //
                     test.dateTempEvaluation = item.dateTempEvaluation;
                     test.type = item.type;
                     test.note = item.note;
+                    test.noteRs = item.noteRs;
                     test.commentaireQualite = item.commentaireQualite;
                     test.commentaireAgent = item.commentaireAgent;
                     test.enregistrementFullName = item.enregistrementFullName;
@@ -3836,7 +4967,38 @@ namespace MVCWEB.Controllers
                     test.lieuExecution = item.lieuExecution;
                     test.dateTempEvaluation = item.dateTempEvaluation;
                     test.type = item.type;
-                    test.note = item.note;
+                    test.note = item.note;                    
+                    //
+                    test.natureRs = item.natureRs;
+                    test.typologieRs = item.typologieRs;
+                    test.avancementRs = item.avancementRs;
+                    test.destinationRs = item.destinationRs;
+                    test.codeRPRs = item.codeRPRs;
+                    test.nomProgrammeRs = item.nomProgrammeRs;
+                    test.postITRs = item.postITRs;
+                    test.objectsRs = item.objectsRs;
+                    test.notreClientsRs = item.notreClientsRs;
+                    test.moaRs = item.moaRs;
+                    test.moaArchitectesRs = item.moaArchitectesRs;
+                    test.bureauxEtudesRs = item.bureauxEtudesRs;
+                    test.bailleurSociauxRs = item.bailleurSociauxRs;
+                    test.mairieRs = item.mairieRs;
+                    test.dateAccordsRs = item.dateAccordsRs;
+                    test.datePCRs = item.datePCRs;
+                    test.dateConsultationRs = item.dateConsultationRs;
+                    test.dateTravauxRs = item.dateTravauxRs;
+                    test.dateLivraisonRs = item.dateLivraisonRs;
+                    test.surfacePlancherRs = item.surfacePlancherRs;
+                    test.surfaceTerrainRs = item.surfaceTerrainRs;
+                    test.surfaceTypologieRs = item.surfaceTypologieRs;
+                    test.nombreBatimentRs = item.nombreBatimentRs;
+                    test.nombreEtageRs = item.nombreEtageRs;
+                    test.ascenseurRs = item.ascenseurRs;
+                    test.nombreAscenseurRs = item.nombreAscenseurRs;
+                    test.lieuExecutionRs = item.lieuExecutionRs;
+                    test.noteRs = item.noteRs;
+
+
                     test.commentaireQualite = item.commentaireQualite;
                     test.commentaireAgent = item.commentaireAgent;
                     test.enregistrementFullName = item.enregistrementFullName;
@@ -3869,7 +5031,7 @@ namespace MVCWEB.Controllers
                 return PartialView("SelectError");
             }
 
-            return RedirectToAction("ArchiveBPPvaluationsAgentQualite");
+            return RedirectToAction("ArchiveBPPEvaluationsAgentQualite");
         }
 
         public ActionResult GetArchiveBattonageEvaluationsAgentQualiteByDate(string dateDebut, string dateFin)
@@ -3886,6 +5048,7 @@ namespace MVCWEB.Controllers
                 {
                     EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
                     test.Id = item.Id;
+                    //
                     test.nature = item.nature;
                     test.typologie = item.typologie;
                     test.avancement = item.avancement;
@@ -3916,6 +5079,36 @@ namespace MVCWEB.Controllers
                     test.dateTempEvaluation = item.dateTempEvaluation;
                     test.type = item.type;
                     test.note = item.note;
+                    //
+                    test.natureRs = item.natureRs;
+                    test.typologieRs = item.typologieRs;
+                    test.avancementRs = item.avancementRs;
+                    test.destinationRs = item.destinationRs;
+                    test.codeRPRs = item.codeRPRs;
+                    test.nomProgrammeRs = item.nomProgrammeRs;
+                    test.postITRs = item.postITRs;
+                    test.objectsRs = item.objectsRs;
+                    test.notreClientsRs = item.notreClientsRs;
+                    test.moaRs = item.moaRs;
+                    test.moaArchitectesRs = item.moaArchitectesRs;
+                    test.bureauxEtudesRs = item.bureauxEtudesRs;
+                    test.bailleurSociauxRs = item.bailleurSociauxRs;
+                    test.mairieRs = item.mairieRs;
+                    test.dateAccordsRs = item.dateAccordsRs;
+                    test.datePCRs = item.datePCRs;
+                    test.dateConsultationRs = item.dateConsultationRs;
+                    test.dateTravauxRs = item.dateTravauxRs;
+                    test.dateLivraisonRs = item.dateLivraisonRs;
+                    test.surfacePlancherRs = item.surfacePlancherRs;
+                    test.surfaceTerrainRs = item.surfaceTerrainRs;
+                    test.surfaceTypologieRs = item.surfaceTypologieRs;
+                    test.nombreBatimentRs = item.nombreBatimentRs;
+                    test.nombreEtageRs = item.nombreEtageRs;
+                    test.ascenseurRs = item.ascenseurRs;
+                    test.nombreAscenseurRs = item.nombreAscenseurRs;
+                    test.lieuExecutionRs = item.lieuExecutionRs;               
+                    test.noteRs = item.noteRs;
+
                     test.commentaireQualite = item.commentaireQualite;
                     test.commentaireAgent = item.commentaireAgent;
                     test.enregistrementFullName = item.enregistrementFullName;
@@ -3985,8 +5178,11 @@ namespace MVCWEB.Controllers
         public ActionResult EditBattonage(int? id, GrilleEvaluationBattonage evaluation)
         {
             float total = 27;
+            float totalRs = 27;
             List<float> NEList = new List<float>(new float[] { evaluation.nature, evaluation.typologie, evaluation.avancement, evaluation.destination, evaluation.codeRP, evaluation.nomProgramme,evaluation.postIT, evaluation.objects, evaluation.notreClients, evaluation.moa, evaluation.moaArchitectes, evaluation.bureauxEtudes, evaluation.bailleurSociaux, evaluation.mairie, evaluation.dateAccords, evaluation.datePC, evaluation.dateConsultation, evaluation.dateTravaux, evaluation.dateLivraison, evaluation.surfacePlancher, evaluation.surfaceTerrain, evaluation.surfaceTypologie, evaluation.nombreBatiment, evaluation.nombreEtage, evaluation.ascenseur, evaluation.nombreAscenseur, evaluation.lieuExecution });
+            List<float> NEListRs = new List<float>(new float[] { evaluation.natureRs, evaluation.typologieRs, evaluation.avancementRs, evaluation.destinationRs, evaluation.codeRPRs, evaluation.nomProgrammeRs, evaluation.postITRs, evaluation.objectsRs, evaluation.notreClientsRs, evaluation.moaRs, evaluation.moaArchitectesRs, evaluation.bureauxEtudesRs, evaluation.bailleurSociauxRs, evaluation.mairieRs, evaluation.dateAccordsRs, evaluation.datePCRs, evaluation.dateConsultationRs, evaluation.dateTravauxRs, evaluation.dateLivraisonRs, evaluation.surfacePlancherRs, evaluation.surfaceTerrainRs, evaluation.surfaceTypologieRs, evaluation.nombreBatimentRs, evaluation.nombreEtageRs, evaluation.ascenseurRs, evaluation.nombreAscenseurRs, evaluation.lieuExecutionRs });
             float notes = 0;
+            float notesRs = 0;
 
             foreach (var i in NEList)
             {
@@ -3999,9 +5195,21 @@ namespace MVCWEB.Controllers
                     notes += i;
                 }
             }
+            foreach (var i in NEListRs)
+            {
+                if (i < 0)
+                {
+                    totalRs += i;
+                }
+                else
+                {
+                    notesRs += i;
+                }
+            }
             if (ModelState.IsValid)
             {
                 evaluation.note = (notes / total) * 100;
+                evaluation.noteRs = (notesRs / totalRs) * 100;
                 db.Entry(evaluation).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("BattonageHistorique");
@@ -4696,12 +5904,20 @@ namespace MVCWEB.Controllers
             float totNature = 0, totTypologie = 0, totAvancement = 0, totDestination = 0, totCodeRP = 0, totNomProgramme = 0, totPostIT = 0,
                totObject = 0, totNoteClients = 0, totMoa = 0, totMoaArchitectes = 0, totBureauxEtudes = 0, totBailleurSociaux = 0, totMairie = 0, totDateAccords = 0,
                 totDatePC = 0, totDateConsultation = 0, totDateTravaux = 0, totDateLivraison = 0, totSurfacePlancher = 0, totSurfaceTerrain = 0,
-                totSurfaceTypologie = 0, totNombreBatiment = 0, totNombreEtage = 0, totAscenseur = 0, totNombreAscenseur = 0, totLieuExecution = 0, totNotes = 0;
+                totSurfaceTypologie = 0, totNombreBatiment = 0, totNombreEtage = 0, totAscenseur = 0, totNombreAscenseur = 0, totLieuExecution = 0, totNotes = 0
+                ,totNatureRs=0, totTypologieRs = 0, totAvancementRs = 0, totDestinationRs = 0, totCodeRPRs = 0, totNomProgrammeRs = 0, totPostITRs = 0,
+               totObjectRs = 0, totNoteClientsRs = 0, totMoaRs = 0, totMoaArchitectesRs = 0, totBureauxEtudesRs = 0, totBailleurSociauxRs = 0, totMairieRs = 0, totDateAccordsRs = 0,
+                totDatePCRs = 0, totDateConsultationRs = 0, totDateTravauxRs = 0, totDateLivraisonRs = 0, totSurfacePlancherRs = 0, totSurfaceTerrainRs = 0,
+                totSurfaceTypologieRs = 0, totNombreBatimentRs = 0, totNombreEtageRs = 0, totAscenseurRs = 0, totNombreAscenseurRs = 0, totLieuExecutionRs = 0, totNotesRs = 0;
 
             float NbreNature = 0, NbreTypologie = 0, NbreAvancement = 0, NbreDestination = 0, NbreCodeRP = 0, NbreNomProgramme = 0, NbrePostIT = 0,
                  NbreObject = 0, NbreNoteClients = 0, NbreMoa = 0, NbreMoaArchitectes = 0, NbreBureauxEtudes = 0, NbreBailleurSociaux = 0, NbreMairie = 0, NbreDateAccords = 0,
                 NbreDatePC = 0, NbreDateConsultation = 0, NbreDateTravaux = 0, NbreDateLivraison = 0, NbreSurfacePlancher = 0, NbreSurfaceTerrain = 0,
-                NbreSurfaceTypologie = 0, NbreNombreBatiment = 0, NbreNombreEtage = 0, NbreAscenseur = 0, NbreNombreAscenseur = 0, NbreLieuExecution = 0;
+                NbreSurfaceTypologie = 0, NbreNombreBatiment = 0, NbreNombreEtage = 0, NbreAscenseur = 0, NbreNombreAscenseur = 0, NbreLieuExecution = 0
+                , NbreNatureRs = 0, NbreTypologieRs = 0, NbreAvancementRs = 0, NbreDestinationRs = 0, NbreCodeRPRs = 0, NbreNomProgrammeRs = 0, NbrePostITRs = 0,
+                 NbreObjectRs = 0, NbreNoteClientsRs = 0, NbreMoaRs = 0, NbreMoaArchitectesRs = 0, NbreBureauxEtudesRs = 0, NbreBailleurSociauxRs = 0, NbreMairieRs = 0, NbreDateAccordsRs = 0,
+                NbreDatePCRs = 0, NbreDateConsultationRs = 0, NbreDateTravauxRs = 0, NbreDateLivraisonRs = 0, NbreSurfacePlancherRs = 0, NbreSurfaceTerrainRs = 0,
+                NbreSurfaceTypologieRs = 0, NbreNombreBatimentRs = 0, NbreNombreEtageRs = 0, NbreAscenseurRs = 0, NbreNombreAscenseurRs = 0, NbreLieuExecutionRs = 0;
 
             DateTime daterecherchedebut = DateTime.Parse(dateDebut);
             DateTime daterecherchefin = DateTime.Parse(dateFin);
@@ -4717,27 +5933,32 @@ namespace MVCWEB.Controllers
             foreach (var item in historstionsBattonage)
             {
                 totNotes += item.note;
-              
+                totNotesRs += item.noteRs;
+
                 if (item.nature >= 0)
                 {
                     totNature += item.nature;
                     NbreNature += 1;
                 }
+
                 if (item.typologie >= 0)
                 {
                     totTypologie += item.typologie;
                     NbreTypologie += 1;
                 }
+
                 if (item.avancement >= 0)
                 {
                     totAvancement += item.avancement;
                     NbreAvancement += 1;
                 }
+
                 if (item.destination >= 0)
                 {
                     totDestination += item.destination;
                     NbreDestination += 1;
                 }
+
                 if (item.codeRP >= 0)
                 {
                     totCodeRP += item.codeRP;
@@ -4854,6 +6075,147 @@ namespace MVCWEB.Controllers
                     totLieuExecution += item.lieuExecution;
                     NbreLieuExecution += 1;
                 }
+                //
+                if (item.natureRs >= 0)
+                {
+                    totNatureRs += item.natureRs;
+                    NbreNatureRs += 1;
+                }
+
+                if (item.typologieRs >= 0)
+                {
+                    totTypologieRs += item.typologieRs;
+                    NbreTypologieRs += 1;
+                }
+
+                if (item.avancementRs >= 0)
+                {
+                    totAvancementRs += item.avancementRs;
+                    NbreAvancementRs += 1;
+                }
+
+                if (item.destinationRs >= 0)
+                {
+                    totDestinationRs += item.destinationRs;
+                    NbreDestinationRs += 1;
+                }
+
+                if (item.codeRPRs >= 0)
+                {
+                    totCodeRPRs += item.codeRPRs;
+                    NbreCodeRPRs += 1;
+                }
+                if (item.nomProgrammeRs >= 0)
+                {
+                    totNomProgrammeRs += item.nomProgrammeRs;
+                    NbreNomProgrammeRs += 1;
+                }
+                if (item.postITRs >= 0)
+                {
+                    totPostITRs += item.postITRs;
+                    NbrePostITRs += 1;
+                }
+                if (item.objectsRs >= 0)
+                {
+                    totObjectRs += item.objectsRs;
+                    NbreObjectRs += 1;
+                }
+                if (item.notreClientsRs >= 0)
+                {
+                    totNoteClientsRs += item.notreClientsRs;
+                    NbreNoteClientsRs += 1;
+                }
+                if (item.moaRs >= 0)
+                {
+                    totMoaRs += item.moaRs;
+                    NbreMoaRs += 1;
+                }
+                if (item.moaArchitectesRs >= 0)
+                {
+                    totMoaArchitectesRs += item.moaArchitectesRs;
+                    NbreMoaArchitectesRs += 1;
+                }
+                if (item.bureauxEtudesRs >= 0)
+                {
+                    totBureauxEtudesRs += item.bureauxEtudesRs;
+                    NbreBureauxEtudesRs += 1;
+                }
+
+                if (item.bailleurSociauxRs >= 0)
+                {
+                    totBailleurSociauxRs += item.bailleurSociauxRs;
+                    NbreBailleurSociauxRs += 1;
+                }
+                if (item.mairieRs >= 0)
+                {
+                    totMairieRs += item.mairieRs;
+                    NbreMairieRs += 1;
+                }
+                if (item.dateAccordsRs >= 0)
+                {
+                    totDateAccordsRs += item.dateAccordsRs;
+                    NbreDateAccordsRs += 1;
+                }
+                if (item.datePCRs >= 0)
+                {
+                    totDatePCRs += item.datePCRs;
+                    NbreDatePCRs += 1;
+                }
+                if (item.dateConsultationRs >= 0)
+                {
+                    totDateConsultationRs += item.dateConsultationRs;
+                    NbreDateConsultationRs += 1;
+                }
+                if (item.dateTravauxRs >= 0)
+                {
+                    totDateTravauxRs += item.dateTravauxRs;
+                    NbreDateTravauxRs += 1;
+                }
+                if (item.dateLivraisonRs >= 0)
+                {
+                    totDateLivraisonRs += item.dateLivraisonRs;
+                    NbreDateLivraisonRs += 1;
+                }
+                if (item.surfacePlancherRs >= 0)
+                {
+                    totSurfacePlancherRs += item.surfacePlancherRs;
+                    NbreSurfacePlancherRs += 1;
+                }
+                if (item.surfaceTerrainRs >= 0)
+                {
+                    totSurfaceTerrainRs += item.surfaceTerrainRs;
+                    NbreSurfaceTerrainRs += 1;
+                }
+                if (item.surfaceTypologieRs >= 0)
+                {
+                    totSurfaceTypologieRs += item.surfaceTypologieRs;
+                    NbreSurfaceTypologieRs += 1;
+                }
+                if (item.nombreBatimentRs >= 0)
+                {
+                    totNombreBatimentRs += item.nombreBatimentRs;
+                    NbreNombreBatimentRs += 1;
+                }
+                if (item.nombreEtageRs >= 0)
+                {
+                    totNombreEtageRs += item.nombreEtageRs;
+                    NbreNombreEtageRs += 1;
+                }
+                if (item.ascenseurRs >= 0)
+                {
+                    totAscenseurRs += item.ascenseurRs;
+                    NbreAscenseurRs += 1;
+                }
+                if (item.nombreAscenseurRs >= 0)
+                {
+                    totNombreAscenseurRs += item.nombreAscenseurRs;
+                    NbreNombreAscenseurRs += 1;
+                }
+                if (item.lieuExecutionRs >= 0)
+                {
+                    totLieuExecutionRs += item.lieuExecutionRs;
+                    NbreLieuExecutionRs += 1;
+                }
 
             }
 
@@ -4864,26 +6226,31 @@ namespace MVCWEB.Controllers
                 test.nature = (float)Math.Round((totNature / NbreNature ) * 100, 2);
             }
             else { test.nature = -1; }
+
             if (NbreTypologie != 0)
             {
                 test.typologie = (float)Math.Round((totTypologie / NbreTypologie ) * 100, 2);
             }
             else { test.typologie = -1; }
+
             if (NbreAvancement != 0)
             {
                 test.avancement = (float)Math.Round((totAvancement / NbreAvancement) * 100, 2);
             }
             else { test.avancement = -1; }
+
             if (NbreDestination != 0)
             {
                 test.destination = (float)Math.Round((totDestination / NbreDestination) * 100, 2);
             }
             else { test.destination = -1; }
+
             if (NbreCodeRP != 0)
             {
                 test.codeRP = (float)Math.Round((totCodeRP / NbreCodeRP) * 100, 2);
             }
             else { test.codeRP = -1; }
+
             if (NbreNomProgramme != 0)
             {
                 test.nomProgramme = (float)Math.Round((totNomProgramme / NbreNomProgramme) * 100, 2);
@@ -4895,26 +6262,31 @@ namespace MVCWEB.Controllers
                 test.postIT = (float)Math.Round((totPostIT / NbrePostIT) * 100, 2);
             }
             else { test.postIT = -1; }
+
             if (NbreObject != 0)
             {
                 test.objects = (float)Math.Round((totObject / NbreObject) * 100, 2);
             }
             else { test.objects = -1; }
+
             if (NbreNoteClients != 0)
             {
                 test.notreClients = (float)Math.Round((totNoteClients / NbreNoteClients) * 100, 2);
             }
             else { test.notreClients = -1; }
+
             if (NbreMoa != 0)
             {
                 test.moa = (float)Math.Round((totMoa / NbreMoa) * 100, 2);
             }
             else { test.moa = -1; }
+
             if (NbreMoaArchitectes != 0)
             {
                 test.moaArchitectes = (float)Math.Round((totMoaArchitectes / NbreMoaArchitectes) * 100, 2);
             }
             else { test.moaArchitectes = -1; }
+
             if (NbreBureauxEtudes != 0)
             {
                 test.bureauxEtudes = (float)Math.Round((totBureauxEtudes / NbreBureauxEtudes) * 100, 2);
@@ -4926,76 +6298,91 @@ namespace MVCWEB.Controllers
                 test.bailleurSociaux = (float)Math.Round((totBailleurSociaux / NbreBailleurSociaux) * 100, 2);
             }
             else { test.bailleurSociaux = -1; }
+
             if (NbreMairie != 0)
             {
                 test.mairie = (float)Math.Round((totMairie / NbreMairie) * 100, 2);
             }
             else { test.mairie = -1; }
+
             if (NbreDateAccords != 0)
             {
                 test.dateAccords = (float)Math.Round((totDateAccords / NbreDateAccords) * 100, 2);
             }
             else { test.dateAccords = -1; }
+
             if (NbreDatePC != 0)
             {
                 test.datePC = (float)Math.Round((totDatePC / NbreDatePC) * 100, 2);
             }
             else { test.datePC = -1; }
+
             if (NbreDateConsultation != 0)
             {
                 test.dateConsultation = (float)Math.Round((totDateConsultation / NbreDateConsultation) * 100, 2);
             }
             else { test.dateConsultation = -1; }
+
             if (NbreDateTravaux != 0)
             {
                 test.dateTravaux = (float)Math.Round((totDateTravaux / NbreDateTravaux) * 100, 2);
             }
             else { test.dateTravaux = -1; }
+
             if (NbreDateLivraison != 0)
             {
                 test.dateLivraison = (float)Math.Round((totDateLivraison / NbreDateLivraison) * 100, 2);
             }
             else { test.dateLivraison = -1; }
+
             if (NbreSurfacePlancher != 0)
             {
                 test.surfacePlancher = (float)Math.Round((totSurfacePlancher / NbreSurfacePlancher) * 100, 2);
             }
             else { test.surfacePlancher = -1; }
+
             if (NbreSurfaceTerrain != 0)
             {
                 test.surfaceTerrain = (float)Math.Round((totSurfaceTerrain / NbreSurfaceTerrain) * 100, 2);
             }
             else { test.surfaceTerrain = -1; }
+
             if (NbreSurfaceTypologie != 0)
             {
                 test.surfaceTypologie = (float)Math.Round((totSurfaceTypologie / NbreSurfaceTypologie) * 100, 2);
             }
             else { test.surfaceTypologie = -1; }
+
             if (NbreNombreBatiment != 0)
             {
                 test.nombreBatiment = (float)Math.Round((totNombreBatiment / NbreNombreBatiment) * 100, 2);
             }
             else { test.nombreBatiment = -1; }
+
             if (NbreNombreEtage != 0)
             {
                 test.nombreEtage = (float)Math.Round((totNombreEtage / NbreNombreEtage) * 100, 2);
             }
             else { test.nombreEtage = -1; }
+
             if (NbreAscenseur != 0)
             {
                 test.ascenseur = (float)Math.Round((totAscenseur / NbreAscenseur) * 100, 2);
             }
             else { test.ascenseur = -1; }
+
             if (NbreNombreAscenseur != 0)
             {
                 test.nombreAscenseur = (float)Math.Round((totNombreAscenseur / NbreNombreAscenseur) * 100, 2);
             }
             else { test.nombreAscenseur = -1; }
+
             if (NbreLieuExecution != 0)
             {
                 test.lieuExecution = (float)Math.Round((totLieuExecution / NbreLieuExecution) * 100, 2);
             }
             else { test.lieuExecution = -1; }
+
             if (nbreEvaluations != 0)
             {
                 test.note = (float)Math.Round((totNotes / (nbreEvaluations * 100)) * 100, 2);
@@ -5004,6 +6391,178 @@ namespace MVCWEB.Controllers
             {
                 test.note = 0;
             }
+            //
+            if (NbreNatureRs != 0)
+            {
+                test.natureRs = (float)Math.Round((totNatureRs / NbreNatureRs) * 100, 2);
+            }
+            else { test.natureRs = -1; } 
+
+            if (NbreTypologieRs != 0)
+            {
+                test.typologieRs = (float)Math.Round((totTypologieRs / NbreTypologieRs) * 100, 2);
+            }
+            else { test.typologieRs = -1; }
+
+            if (NbreAvancementRs != 0)
+            {
+                test.avancementRs = (float)Math.Round((totAvancementRs / NbreAvancementRs) * 100, 2);
+            }
+            else { test.avancementRs = -1; }
+
+            if (NbreDestinationRs != 0)
+            {
+                test.destinationRs = (float)Math.Round((totDestinationRs / NbreDestinationRs) * 100, 2);
+            }
+            else { test.destinationRs = -1; }
+
+            if (NbreCodeRPRs != 0)
+            {
+                test.codeRPRs = (float)Math.Round((totCodeRPRs / NbreCodeRPRs) * 100, 2);
+            }
+            else { test.codeRPRs = -1; }
+
+            if (NbreNomProgrammeRs != 0)
+            {
+                test.nomProgrammeRs = (float)Math.Round((totNomProgrammeRs / NbreNomProgrammeRs) * 100, 2);
+            }
+            else { test.nomProgrammeRs = -1; }
+
+            if (NbrePostITRs != 0)
+            {
+                test.postITRs = (float)Math.Round((totPostITRs / NbrePostITRs) * 100, 2);
+            }
+            else { test.postITRs = -1; }
+
+            if (NbreObjectRs != 0)
+            {
+                test.objectsRs = (float)Math.Round((totObjectRs / NbreObjectRs) * 100, 2);
+            }
+            else { test.objectsRs = -1; }
+
+            if (NbreNoteClientsRs != 0)
+            {
+                test.notreClientsRs = (float)Math.Round((totNoteClientsRs / NbreNoteClientsRs) * 100, 2);
+            }
+            else { test.notreClientsRs = -1; }
+
+            if (NbreMoaRs != 0)
+            {
+                test.moaRs = (float)Math.Round((totMoaRs / NbreMoaRs) * 100, 2);
+            }
+            else { test.moaRs = -1; }
+
+            if (NbreMoaArchitectesRs != 0)
+            {
+                test.moaArchitectesRs = (float)Math.Round((totMoaArchitectesRs / NbreMoaArchitectesRs) * 100, 2);
+            }
+            else { test.moaArchitectesRs = -1; }
+
+            if (NbreBureauxEtudesRs != 0)
+            {
+                test.bureauxEtudesRs = (float)Math.Round((totBureauxEtudesRs / NbreBureauxEtudesRs) * 100, 2);
+            }
+            else { test.bureauxEtudesRs = -1; }
+
+            if (NbreBailleurSociauxRs != 0)
+            {
+                test.bailleurSociauxRs = (float)Math.Round((totBailleurSociauxRs / NbreBailleurSociauxRs) * 100, 2);
+            }
+            else { test.bailleurSociauxRs = -1; }
+
+            if (NbreMairieRs != 0)
+            {
+                test.mairieRs = (float)Math.Round((totMairieRs / NbreMairieRs) * 100, 2);
+            }
+            else { test.mairieRs = -1; }
+
+            if (NbreDateAccordsRs != 0)
+            {
+                test.dateAccordsRs = (float)Math.Round((totDateAccordsRs / NbreDateAccordsRs) * 100, 2);
+            }
+            else { test.dateAccordsRs = -1; }
+
+            if (NbreDatePCRs != 0)
+            {
+                test.datePCRs = (float)Math.Round((totDatePCRs / NbreDatePCRs) * 100, 2);
+            }
+            else { test.datePCRs = -1; }
+
+            if (NbreDateConsultationRs != 0)
+            {
+                test.dateConsultationRs = (float)Math.Round((totDateConsultationRs / NbreDateConsultationRs) * 100, 2);
+            }
+            else { test.dateConsultationRs = -1; }
+
+            if (NbreDateTravauxRs != 0)
+            {
+                test.dateTravauxRs = (float)Math.Round((totDateTravauxRs / NbreDateTravauxRs) * 100, 2);
+            }
+            else { test.dateTravauxRs = -1; }
+
+            if (NbreDateLivraisonRs != 0)
+            {
+                test.dateLivraisonRs = (float)Math.Round((totDateLivraisonRs / NbreDateLivraisonRs) * 100, 2);
+            }
+            else { test.dateLivraisonRs = -1; }
+
+            if (NbreSurfacePlancherRs != 0)
+            {
+                test.surfacePlancherRs = (float)Math.Round((totSurfacePlancherRs / NbreSurfacePlancherRs) * 100, 2);
+            }
+            else { test.surfacePlancherRs = -1; }
+
+            if (NbreSurfaceTerrainRs != 0)
+            {
+                test.surfaceTerrainRs = (float)Math.Round((totSurfaceTerrainRs / NbreSurfaceTerrainRs) * 100, 2);
+            }
+            else { test.surfaceTerrainRs = -1; }
+
+            if (NbreSurfaceTypologieRs != 0)
+            {
+                test.surfaceTypologieRs = (float)Math.Round((totSurfaceTypologieRs / NbreSurfaceTypologieRs) * 100, 2);
+            }
+            else { test.surfaceTypologieRs = -1; }
+
+            if (NbreNombreBatimentRs != 0)
+            {
+                test.nombreBatimentRs = (float)Math.Round((totNombreBatimentRs / NbreNombreBatimentRs) * 100, 2);
+            }
+            else { test.nombreBatimentRs = -1; }
+
+            if (NbreNombreEtageRs != 0)
+            {
+                test.nombreEtageRs = (float)Math.Round((totNombreEtageRs / NbreNombreEtageRs) * 100, 2);
+            }
+            else { test.nombreEtageRs = -1; }
+
+            if (NbreAscenseurRs != 0)
+            {
+                test.ascenseurRs = (float)Math.Round((totAscenseurRs / NbreAscenseurRs) * 100, 2);
+            }
+            else { test.ascenseurRs = -1; }
+
+            if (NbreNombreAscenseurRs != 0)
+            {
+                test.nombreAscenseurRs = (float)Math.Round((totNombreAscenseurRs / NbreNombreAscenseurRs) * 100, 2);
+            }
+            else { test.nombreAscenseurRs = -1; }
+
+            if (NbreLieuExecutionRs != 0)
+            {
+                test.lieuExecutionRs = (float)Math.Round((totLieuExecutionRs / NbreLieuExecutionRs) * 100, 2);
+            }
+            else { test.lieuExecutionRs = -1; }
+
+            if (nbreEvaluations != 0)
+            {
+                test.noteRs = (float)Math.Round((totNotesRs / (nbreEvaluations * 100)) * 100, 2);
+            }
+            else
+            {
+                test.noteRs = 0;
+            }
+            //
             return Json(test, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -5063,7 +6622,7 @@ namespace MVCWEB.Controllers
             {
                 ViewBag.role = "Qualité";
             }
-            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2014))
             {
                 ViewBag.role = "Agent Qualité_PRV";
             }
@@ -5442,7 +7001,7 @@ namespace MVCWEB.Controllers
 
             foreach (var test in employees)
             {
-                if (test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 4 || r.RoleId == 5))
+                if (test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 4 || r.RoleId == 5||r.RoleId==2014))
                 {
                     evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
                 }
@@ -6198,6 +7757,540 @@ namespace MVCWEB.Controllers
         }
 
         #endregion
+
+        #region Edit et delete Typologie
+        [Authorize(Roles = "Qualité")]
+
+        public ActionResult EditTypologie(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GrilleEvaluationBPPTypologie evaluation = db.GrilleEvaluationBPPTypologies.Find(id);
+            EvaluationVecteurPlusViewModel eval = new EvaluationVecteurPlusViewModel();
+            eval.dateTempEvaluation = evaluation.dateTempEvaluation;
+            eval.commentaireQualite = evaluation.commentaireQualite;
+
+            var emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+
+            if (emp.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(emp.Content);
+                String empConnectedImage = "data:" + emp.ContentType + ";base64," + strbase64;
+                ViewBag.empConnectedImage = empConnectedImage;
+            }
+            ViewBag.nameEmpConnected = emp.UserName;
+            ViewBag.pseudoNameEmpConnected = emp.pseudoName;
+            return View(evaluation);
+        }
+        // POST: Evaluation/Edit/5
+        [HttpPost, ActionName("EditTypologie")]
+        [Authorize(Roles = "Qualité")]
+        public ActionResult EditTypologie(int? id, GrilleEvaluationBPPTypologie evaluation)
+        {
+            float total = 14;
+            float totalRs = 14;
+            List<float> NEList = new List<float>(new float[] { evaluation.nombreLogements, evaluation.nombreSociaux, evaluation.typeCommerce, evaluation.typeIndustrie, evaluation.typeEtablissementSante, evaluation.typeAcceuil, evaluation.capaciteAcceuilSante, evaluation.typeEtablissementHR, evaluation.nombreEtoile, evaluation.typeEnseignement, evaluation.capaciteAcceuilEnseignement, evaluation.typeLoisirs, evaluation.frigorifique, evaluation.plateformeLogistique });
+            List<float> NEListRs = new List<float>(new float[] { evaluation.nombreLogementsRs, evaluation.nombreSociauxRs, evaluation.typeCommerceRs, evaluation.typeIndustrieRs, evaluation.typeEtablissementSanteRs, evaluation.typeAcceuilRs, evaluation.capaciteAcceuilSanteRs, evaluation.typeEtablissementHRRs, evaluation.nombreEtoileRs, evaluation.typeEnseignementRs, evaluation.capaciteAcceuilEnseignementRs, evaluation.typeLoisirsRs, evaluation.frigorifiqueRs, evaluation.plateformeLogistiqueRs });
+            float notes = 0;
+            float notesRs = 0;
+
+            foreach (var i in NEList)
+            {
+                if (i < 0)
+                {
+                    total += i;
+                }
+                else
+                {
+                    notes += i;
+                }
+            }
+            foreach (var i in NEListRs)
+            {
+                if (i < 0)
+                {
+                    totalRs += i;
+                }
+                else
+                {
+                    notesRs += i;
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                evaluation.note = (notes / total) * 100;
+                evaluation.noteRs = (notesRs / totalRs) * 100;
+                db.Entry(evaluation).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("TypologieHistorique");
+            }
+            return View(evaluation);
+        }
+        [Authorize(Roles = "Qualité")]
+        [HttpGet]
+        public ActionResult FindEvaluationTypologie(int? Id)
+        {
+            GrilleEvaluationBPPTypologie item = BPPTypologieService.getById(Id);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_AlerteDeSuppressionTypologie", item);
+            }
+
+            else
+            {
+                return View(item);
+            }
+        }
+        [Authorize(Roles = "Qualité")]
+        public ActionResult DeleteTypologie(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GrilleEvaluationBPPTypologie evaluation = BPPTypologieService.getById(id);
+            int? empId = evaluation.employeeId;
+            BPPTypologieService.DeleteEvaluations(id, empId);
+            BPPTypologieService.SaveChange();
+            return RedirectToAction("TypologieHistorique");
+        }
+
+        #endregion
+
+
+        #region Reportings Typologie
+        public ActionResult ReportsTypologie()
+        {
+            List<Employee> logins = new List<Employee>();
+            EvaluationViewModel evaluation = new EvaluationViewModel();
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 5))
+            {
+                ViewBag.role = "Agent Qualité";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+
+            string d = "COMONLINE";
+            Groupe gr = serviceGroupe.getByNom(d);
+            List<Employee> emp = serviceGroupeEmp.getListEmployeeByGroupeId(gr.Id);
+            foreach (var e in emp)
+            {
+                if (!logins.Exists(l => l.UserName == e.UserName))
+                {
+                    logins.Add(e);
+                }
+            }
+            var employees = logins.OrderBy(a => a.UserName).ToList();
+            foreach (var test in employees)
+            {
+                if (!test.UserName.Equals(user.UserName) && test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 3))
+                {
+                    evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
+
+                }
+            }
+
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+
+        public JsonResult GetReportsTypologie(string username, string dateDebut, string dateFin)
+        {
+            float totNombreLogements = 0, totNombreSociaux = 0, totTypeCommerce = 0, totTypeIndustrie = 0, totTypeEtablissementSante = 0, totTypeAcceuil = 0, totCapaciteAcceuilSante = 0,
+               totTypeEtablissementHR = 0, totNombreEtoile = 0, totTypeEnseignement = 0, totCapaciteAcceuilEnseignement = 0, totTypeLoisirs = 0, totFrigorifique = 0, totPlateformeLogistique = 0
+               , totNombreLogementsRs = 0, totNombreSociauxRs = 0, totTypeCommerceRs = 0, totTypeIndustrieRs = 0, totTypeEtablissementSanteRs = 0, totTypeAcceuilRs = 0, totCapaciteAcceuilSanteRs = 0,
+               totTypeEtablissementHRRs = 0, totNombreEtoileRs = 0, totTypeEnseignementRs = 0, totCapaciteAcceuilEnseignementRs = 0, totTypeLoisirsRs = 0, totFrigorifiqueRs = 0, totPlateformeLogistiqueRs = 0,
+               totNotes = 0, totNotesRs = 0; ;               
+
+            float NbreNombreLogements = 0, NbreNombreSociaux = 0, NbreTypeCommerce = 0, NbreTypeIndustrie = 0, NbreTypeEtablissementSante = 0, NbreTypeAcceuil = 0, NbreCapaciteAcceuilSante = 0,
+               NbreTypeEtablissementHR = 0, NbreNombreEtoile = 0, NbreTypeEnseignement = 0, NbreCapaciteAcceuilEnseignement = 0, NbreTypeLoisirs = 0, NbreFrigorifique = 0, NbrePlateformeLogistique = 0
+               , NbreNombreLogementsRs = 0, NbreNombreSociauxRs = 0, NbreTypeCommerceRs = 0, NbreTypeIndustrieRs = 0, NbreTypeEtablissementSanteRs = 0, NbreTypeAcceuilRs = 0, NbreCapaciteAcceuilSanteRs = 0,
+               NbreTypeEtablissementHRRs = 0, NbreNombreEtoileRs = 0, NbreTypeEnseignementRs = 0, NbreCapaciteAcceuilEnseignementRs = 0, NbreTypeLoisirsRs = 0, NbreFrigorifiqueRs = 0, NbrePlateformeLogistiqueRs = 0;
+
+            DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+            DateTime daterecherchefin = DateTime.Parse(dateFin);
+
+            var historstionsTypologie = BPPTypologieService.GetEvaluationsBetweenTwoDates(daterecherchedebut, daterecherchefin);
+            if (username != "")
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                historstionsTypologie = BPPTypologieService.GetEvaluationsEmployeeBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+            }
+            float nbreEvaluations = historstionsTypologie.Count();
+            ViewBag.nbreEvaluations = nbreEvaluations;
+            foreach (var item in historstionsTypologie)
+            {
+                totNotes += item.note;
+                totNotesRs += item.noteRs;
+
+                if (item.nombreLogements >= 0)
+                {
+                    totNombreLogements += item.nombreLogements;
+                    NbreNombreLogements += 1;
+                }
+
+                if (item.nombreSociaux >= 0)
+                {
+                    totNombreSociaux += item.nombreSociaux;
+                    NbreNombreSociaux += 1;
+                }
+
+                if (item.typeCommerce >= 0)
+                {
+                    totTypeCommerce += item.typeCommerce;
+                    NbreTypeCommerce += 1;
+                }
+
+                if (item.typeIndustrie >= 0)
+                {
+                    totTypeIndustrie += item.typeIndustrie;
+                    NbreTypeIndustrie += 1;
+                }
+
+                if (item.typeEtablissementSante >= 0)
+                {
+                    totTypeEtablissementSante += item.typeEtablissementSante;
+                    NbreTypeEtablissementSante += 1;
+                }
+                if (item.typeAcceuil >= 0)
+                {
+                    totTypeAcceuil += item.typeAcceuil;
+                    NbreTypeAcceuil += 1;
+                }
+                if (item.capaciteAcceuilSante >= 0)
+                {
+                    totCapaciteAcceuilSante += item.capaciteAcceuilSante;
+                    NbreCapaciteAcceuilSante += 1;
+                }
+                if (item.typeEtablissementHR >= 0)
+                {
+                    totTypeEtablissementHR += item.typeEtablissementHR;
+                    NbreTypeEtablissementHR += 1;
+                }
+                if (item.nombreEtoile >= 0)
+                {
+                    totNombreEtoile += item.nombreEtoile;
+                    NbreNombreEtoile += 1;
+                }
+                if (item.typeEnseignement >= 0)
+                {
+                    totTypeEnseignement += item.typeEnseignement;
+                    NbreTypeEnseignement += 1;
+                }
+                if (item.capaciteAcceuilEnseignement >= 0)
+                {
+                    totCapaciteAcceuilEnseignement += item.capaciteAcceuilEnseignement;
+                    NbreCapaciteAcceuilEnseignement += 1;
+                }
+                if (item.typeLoisirs >= 0)
+                {
+                    totTypeLoisirs += item.typeLoisirs;
+                    NbreTypeLoisirs += 1;
+                }
+
+                if (item.frigorifique >= 0)
+                {
+                    totFrigorifique += item.frigorifique;
+                    NbreFrigorifique += 1;
+                }
+                if (item.plateformeLogistique >= 0)
+                {
+                    totPlateformeLogistique += item.plateformeLogistique;
+                    NbrePlateformeLogistique += 1;
+                }
+
+                //
+
+                if (item.nombreLogementsRs >= 0)
+                {
+                    totNombreLogementsRs += item.nombreLogementsRs;
+                    NbreNombreLogementsRs += 1;
+                }
+
+                if (item.nombreSociauxRs >= 0)
+                {
+                    totNombreSociauxRs += item.nombreSociauxRs;
+                    NbreNombreSociauxRs += 1;
+                }
+
+                if (item.typeCommerceRs >= 0)
+                {
+                    totTypeCommerceRs += item.typeCommerceRs;
+                    NbreTypeCommerceRs += 1;
+                }
+
+                if (item.typeIndustrieRs >= 0)
+                {
+                    totTypeIndustrieRs += item.typeIndustrieRs;
+                    NbreTypeIndustrieRs += 1;
+                }
+
+                if (item.typeEtablissementSanteRs >= 0)
+                {
+                    totTypeEtablissementSanteRs += item.typeEtablissementSanteRs;
+                    NbreTypeEtablissementSanteRs += 1;
+                }
+                if (item.typeAcceuilRs >= 0)
+                {
+                    totTypeAcceuilRs += item.typeAcceuilRs;
+                    NbreTypeAcceuilRs += 1;
+                }
+                if (item.capaciteAcceuilSanteRs >= 0)
+                {
+                    totCapaciteAcceuilSanteRs += item.capaciteAcceuilSanteRs;
+                    NbreCapaciteAcceuilSanteRs += 1;
+                }
+                if (item.typeEtablissementHRRs >= 0)
+                {
+                    totTypeEtablissementHRRs += item.typeEtablissementHRRs;
+                    NbreTypeEtablissementHRRs += 1;
+                }
+                if (item.nombreEtoileRs >= 0)
+                {
+                    totNombreEtoileRs += item.nombreEtoileRs;
+                    NbreNombreEtoileRs += 1;
+                }
+                if (item.typeEnseignementRs >= 0)
+                {
+                    totTypeEnseignementRs += item.typeEnseignementRs;
+                    NbreTypeEnseignementRs += 1;
+                }
+                if (item.capaciteAcceuilEnseignementRs >= 0)
+                {
+                    totCapaciteAcceuilEnseignementRs += item.capaciteAcceuilEnseignementRs;
+                    NbreCapaciteAcceuilEnseignementRs += 1;
+                }
+                if (item.typeLoisirsRs >= 0)
+                {
+                    totTypeLoisirsRs += item.typeLoisirsRs;
+                    NbreTypeLoisirsRs += 1;
+                }
+
+                if (item.frigorifiqueRs >= 0)
+                {
+                    totFrigorifiqueRs += item.frigorifiqueRs;
+                    NbreFrigorifiqueRs += 1;
+                }
+                if (item.plateformeLogistiqueRs >= 0)
+                {
+                    totPlateformeLogistiqueRs += item.plateformeLogistiqueRs;
+                    NbrePlateformeLogistiqueRs += 1;
+                }
+
+
+            }
+
+            EvaluationVecteurPlusViewModel test = new EvaluationVecteurPlusViewModel();
+            test.nbreEvaluations = Convert.ToInt32(nbreEvaluations);
+            if (NbreNombreLogements != 0)
+            {
+                test.nombreLogements = (float)Math.Round((totNombreLogements / NbreNombreLogements) * 100, 2);
+            }
+            else { test.nombreLogements = -1; }
+
+            if (NbreNombreSociaux != 0)
+            {
+                test.nombreSociaux = (float)Math.Round((totNombreSociaux / NbreNombreSociaux) * 100, 2);
+            }
+            else { test.nombreSociaux = -1; }
+
+            if (NbreTypeCommerce != 0)
+            {
+                test.typeCommerce = (float)Math.Round((totTypeCommerce / NbreTypeCommerce) * 100, 2);
+            }
+            else { test.typeCommerce = -1; }
+
+            if (NbreTypeIndustrie != 0)
+            {
+                test.typeIndustrie = (float)Math.Round((totTypeIndustrie / NbreTypeIndustrie) * 100, 2);
+            }
+            else { test.typeIndustrie = -1; }
+
+            if (NbreTypeEtablissementSante != 0)
+            {
+                test.typeEtablissementSante = (float)Math.Round((totTypeEtablissementSante / NbreTypeEtablissementSante) * 100, 2);
+            }
+            else { test.typeEtablissementSante = -1; }
+
+            if (NbreTypeAcceuil != 0)
+            {
+                test.typeAcceuil = (float)Math.Round((totTypeAcceuil / NbreTypeAcceuil) * 100, 2);
+            }
+            else { test.typeAcceuil = -1; }
+
+            if (NbreCapaciteAcceuilSante != 0)
+            {
+                test.capaciteAcceuilSante = (float)Math.Round((totCapaciteAcceuilSante / NbreCapaciteAcceuilSante) * 100, 2);
+            }
+            else { test.capaciteAcceuilSante = -1; }
+
+            if (NbreTypeEtablissementHR != 0)
+            {
+                test.typeEtablissementHR = (float)Math.Round((totTypeEtablissementHR / NbreTypeEtablissementHR) * 100, 2);
+            }
+            else { test.typeEtablissementHR = -1; }
+
+            if (NbreNombreEtoile != 0)
+            {
+                test.nombreEtoile = (float)Math.Round((totNombreEtoile / NbreNombreEtoile) * 100, 2);
+            }
+            else { test.nombreEtoile = -1; }
+
+            if (NbreTypeEnseignement != 0)
+            {
+                test.typeEnseignement = (float)Math.Round((totTypeEnseignement / NbreTypeEnseignement) * 100, 2);
+            }
+            else { test.typeEnseignement = -1; }
+
+            if (NbreCapaciteAcceuilEnseignement != 0)
+            {
+                test.capaciteAcceuilEnseignement = (float)Math.Round((totCapaciteAcceuilEnseignement / NbreCapaciteAcceuilEnseignement) * 100, 2);
+            }
+            else { test.capaciteAcceuilEnseignement = -1; }
+
+            if (NbreTypeLoisirs != 0)
+            {
+                test.typeLoisirs = (float)Math.Round((totTypeLoisirs / NbreTypeLoisirs) * 100, 2);
+            }
+            else { test.typeLoisirs = -1; }
+
+            if (NbreFrigorifique != 0)
+            {
+                test.frigorifique = (float)Math.Round((totFrigorifique / NbreFrigorifique) * 100, 2);
+            }
+            else { test.frigorifique = -1; }
+
+            if (NbrePlateformeLogistique != 0)
+            {
+                test.plateformeLogistique = (float)Math.Round((totPlateformeLogistique / NbrePlateformeLogistique) * 100, 2);
+            }
+            else { test.plateformeLogistique = -1; }
+
+            if (nbreEvaluations != 0)
+            {
+                test.note = (float)Math.Round((totNotes / (nbreEvaluations * 100)) * 100, 2);
+            }
+            else
+            {
+                test.note = 0;
+            }
+
+            //
+            if (NbreNombreLogementsRs != 0)
+            {
+                test.nombreLogementsRs = (float)Math.Round((totNombreLogementsRs / NbreNombreLogementsRs) * 100, 2);
+            }
+            else { test.nombreLogementsRs = -1; }
+
+            if (NbreNombreSociauxRs != 0)
+            {
+                test.nombreSociauxRs = (float)Math.Round((totNombreSociauxRs / NbreNombreSociauxRs) * 100, 2);
+            }
+            else { test.nombreSociauxRs = -1; }
+
+            if (NbreTypeCommerceRs != 0)
+            {
+                test.typeCommerceRs = (float)Math.Round((totTypeCommerceRs / NbreTypeCommerceRs) * 100, 2);
+            }
+            else { test.typeCommerceRs = -1; }
+
+            if (NbreTypeIndustrieRs != 0)
+            {
+                test.typeIndustrieRs = (float)Math.Round((totTypeIndustrieRs / NbreTypeIndustrieRs) * 100, 2);
+            }
+            else { test.typeIndustrieRs = -1; }
+
+            if (NbreTypeEtablissementSanteRs != 0)
+            {
+                test.typeEtablissementSanteRs = (float)Math.Round((totTypeEtablissementSanteRs / NbreTypeEtablissementSanteRs) * 100, 2);
+            }
+            else { test.typeEtablissementSanteRs = -1; }
+
+            if (NbreTypeAcceuilRs != 0)
+            {
+                test.typeAcceuilRs = (float)Math.Round((totTypeAcceuilRs / NbreTypeAcceuilRs) * 100, 2);
+            }
+            else { test.typeAcceuilRs = -1; }
+
+            if (NbreCapaciteAcceuilSanteRs != 0)
+            {
+                test.capaciteAcceuilSanteRs = (float)Math.Round((totCapaciteAcceuilSanteRs / NbreCapaciteAcceuilSanteRs) * 100, 2);
+            }
+            else { test.capaciteAcceuilSanteRs = -1; }
+
+            if (NbreTypeEtablissementHRRs != 0)
+            {
+                test.typeEtablissementHRRs = (float)Math.Round((totTypeEtablissementHRRs / NbreTypeEtablissementHRRs) * 100, 2);
+            }
+            else { test.typeEtablissementHRRs = -1; }
+
+            if (NbreNombreEtoileRs != 0)
+            {
+                test.nombreEtoileRs = (float)Math.Round((totNombreEtoileRs / NbreNombreEtoileRs) * 100, 2);
+            }
+            else { test.nombreEtoileRs = -1; }
+
+            if (NbreTypeEnseignementRs != 0)
+            {
+                test.typeEnseignementRs = (float)Math.Round((totTypeEnseignementRs / NbreTypeEnseignementRs) * 100, 2);
+            }
+            else { test.typeEnseignementRs = -1; }
+
+            if (NbreCapaciteAcceuilEnseignementRs != 0)
+            {
+                test.capaciteAcceuilEnseignementRs = (float)Math.Round((totCapaciteAcceuilEnseignementRs / NbreCapaciteAcceuilEnseignementRs) * 100, 2);
+            }
+            else { test.capaciteAcceuilEnseignementRs = -1; }
+
+            if (NbreTypeLoisirsRs != 0)
+            {
+                test.typeLoisirsRs = (float)Math.Round((totTypeLoisirsRs / NbreTypeLoisirsRs) * 100, 2);
+            }
+            else { test.typeLoisirsRs = -1; }
+
+            if (NbreFrigorifiqueRs != 0)
+            {
+                test.frigorifiqueRs = (float)Math.Round((totFrigorifiqueRs / NbreFrigorifiqueRs) * 100, 2);
+            }
+            else { test.frigorifiqueRs = -1; }
+
+            if (NbrePlateformeLogistiqueRs != 0)
+            {
+                test.plateformeLogistiqueRs = (float)Math.Round((totPlateformeLogistiqueRs / NbrePlateformeLogistiqueRs) * 100, 2);
+            }
+            else { test.plateformeLogistiqueRs = -1; }
+
+            if (nbreEvaluations != 0)
+            {
+                test.noteRs = (float)Math.Round((totNotesRs / (nbreEvaluations * 100)) * 100, 2);
+            }
+            else
+            {
+                test.noteRs = 0;
+            }
+            //
+            return Json(test, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

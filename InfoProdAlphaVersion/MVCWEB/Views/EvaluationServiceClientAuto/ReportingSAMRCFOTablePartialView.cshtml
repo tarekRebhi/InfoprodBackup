@@ -30,6 +30,20 @@
                         <span>@Model.accueil%</span>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">MAJ des coordonnées Client:</label>
+                    <div class="col-md-3">
+
+                        @if (@Model.MajDonnees >= 0)
+                        {
+                            <span>@Model.MajDonnees%</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </div>
+                </div>
                 <br />
                 <div class="form-group">
                     <label class="col-md-7" style="font-weight:bold;">Découverte des attentes:</label>
@@ -160,9 +174,9 @@
 </div>
 <script>
     $(document).ready(function () {
-        var namesList = ["Accueil", "Découverte Attentes", "utilisation Outils","Mise en Attente","Temps d'attente", 
+        var namesList = ["Accueil","MAJ des coordonnées Client", "Découverte Attentes", "utilisation Outils","Mise en Attente","Temps d'attente", 
             "Pertinence du Réponse", "Conclusion du Contact", "Discours", "Attitude","Historisation","Prise de Congé"];
-        var values = [@Model.accueil, @Model.decouverteAttentes, @Model.utilisationOutils, @Model.miseAttente,
+        var values = [@Model.accueil,@Model.MajDonnees, @Model.decouverteAttentes, @Model.utilisationOutils, @Model.miseAttente,
             @Model.tempsAttente,@Model.pertinenceReponse,@Model.conclusionContact,@Model.discours,@Model.attitude,
             @Model.historisation,@Model.priseConge];
         var valuesList = [];

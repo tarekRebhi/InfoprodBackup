@@ -59,6 +59,7 @@
     <Compile Include="EvaluationBOSAMRCService.cs" />
     <Compile Include="EvaluationBOSCGISIService .cs" />
     <Compile Include="EvaluationBPPService.cs" />
+    <Compile Include="EvaluationBPPTypologieService.cs" />
     <Compile Include="EvaluationEnqueteAutoService.cs" />
     <Compile Include="EvaluationFOSAMRCService.cs" />
     <Compile Include="EvaluationFOSCGISIService.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="IEvaluationBOSAMRCService.cs" />
     <Compile Include="IEvaluationBOSCGISIService.cs" />
     <Compile Include="IEvaluationBPPService.cs" />
+    <Compile Include="IEvaluationBppTypologieService.cs" />
     <Compile Include="IEvaluationEnqueteAutoService.cs" />
     <Compile Include="IEvaluationFOSAMRCService.cs" />
     <Compile Include="IEvaluationFOSCGISIService.cs" />

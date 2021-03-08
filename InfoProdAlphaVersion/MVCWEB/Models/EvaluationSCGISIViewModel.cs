@@ -32,10 +32,10 @@ namespace MVCWEB.Models
         public float analyseDemande { get; set; }
         public float maitriseOutils { get; set; }
         public float connaissanceProduit { get; set; }
+        public float FCR { get; set; }
         public float autonomie { get; set; }
         public float priseConge { get; set; }
-
-       
+                       
 
         //Autres Champs en commun
         public DateTime dateTempEvaluation { get; set; }

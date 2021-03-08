@@ -25,6 +25,7 @@ namespace MVCWEB.Models
         public float ecouteReformulation { get; set; }
         //champs SAM RC Auto FO
         public float accueil { get; set; }
+        public float MajDonnees { get; set; }
         public float decouverteAttentes { get; set; }
         public float utilisationOutils { get; set; }
         public float miseAttente { get; set; }

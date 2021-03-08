@@ -85,6 +85,13 @@
 
                     <br />
                     <div class="form-group">
+                        <label class="col-md-7" style="font-weight:bold;">FCR:</label>
+                        <div class="col-md-3" id="FCR">
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="form-group">
                         <label class="col-md-7" style="font-weight:bold;">Autonomie:</label>
                         <div class="col-md-3" id="autonomie">
                         </div>
@@ -101,17 +108,17 @@
                         <div class="col-md-3" id="identificationClient">
                         </div>
                     </div>
-                    <br />
+                    
+
+                </div>
+
+                <div class="col-md-4">                    
                     <div class="form-group">
                         <label class="col-md-7" style="font-weight:bold;">Qualification des demandes sur CRM:</label>
                         <div class="col-md-3" id="qualificationDemande">
                         </div>
                     </div>
-
-                </div>
-
-                <div class="col-md-4">
-
+                    <br />
                     <div class="form-group">
                         <label class="col-md-7" style="font-weight:bold;">Discours:</label>
                         <div class="col-md-3" id="discours">
@@ -236,6 +243,9 @@
                         } else { var approcheCommerciale = "NE" }
                         var respectProcess = data.respectProcess + "%";
                         var pertinenceReponse = data.pertinenceReponse + "%";
+                        if (data.FCR >= 0) {
+                            var FCR = data.FCR + "%";
+                        } else { var FCR = "NE" }
                         var autonomie = data.autonomie + "%";
                         var identificationClient = data.identificationClient + "%";
                         var qualificationDemande = data.qualificationDemande + "%";
@@ -251,6 +261,7 @@
                         $("#connaissanceProduit").html(connaissanceProduit);
                         $("#respectProcess").html(respectProcess);
                         $("#pertinenceReponse").html(pertinenceReponse);
+                        $("#FCR").html(FCR);
                         $("#autonomie").html(autonomie);
                         $("#approcheCommerciale").html(approcheCommerciale);
                         $("#identificationClient").html(identificationClient);
@@ -259,10 +270,10 @@
                         $("#priseConge").html(priseConge);
 
                         var namesList = ["Accueil", "Analyse de demande", "Maitrise des outils de travail", "Connaissance du produit", "Respect des process", "Pertinence de la réponse",
-        "Autonomie", "Approche Commerciale", "Identification du client CRM", "Qualification des demandes", "Discours", "Prise de congé"];
+       "FCR", "Autonomie", "Approche Commerciale", "Identification du client CRM", "Qualification des demandes", "Discours", "Prise de congé"];
 
                         var values = [ data.accueil,data.analyseDemande, data.maitriseOutils,data.connaissanceProduit,
-       data.respectProcess, data.pertinenceReponse, data.autonomie, data.approcheCommerciale,
+       data.respectProcess, data.pertinenceReponse,data.FCR, data.autonomie, data.approcheCommerciale,
        data.identificationClient,data.qualificationDemande,data.discours, data.priseConge]
                         var valuesList = [];
                         $.each(values, function (i, t) {

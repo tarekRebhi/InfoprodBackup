@@ -41,6 +41,11 @@
                             list2.Add(new SelectListItem { Text = "Mairie", Value = "Mairie" });
                             list2.Add(new SelectListItem { Text = "Autre", Value = "Autre" });
 
+                            List<SelectListItem> list3 = new List<SelectListItem>();
+                            list3.Add(new SelectListItem { Text = "OUI", Value = "1" });
+                            list3.Add(new SelectListItem { Text = "NON", Value = "0" });
+                            list3.Add(new SelectListItem { Text = "NE", Value = "-1" });
+
                         }
                         <div class="row">
                             <div class="col-md-6">
@@ -79,6 +84,13 @@
                                         @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                                <div class="form-group" hidden>
+                                    <label class="col-md-2" style="font-weight: bold;">Score: </label>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.noteRs, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.noteRs, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -94,92 +106,131 @@
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Avancement:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.avancement, list1, @Model.avancement)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.avancementRs, list3, @Model.avancementRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight: bold;">Nature:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.nature, list1, @Model.nature)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.natureRs, list3, @Model.natureRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Typologie:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.typologie, list1, @Model.typologie)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.typologieRs, list3, @Model.typologieRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Lieu d'Execution:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.lieuExecution, list1, @Model.lieuExecution)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.lieuExecutionRs, list3, @Model.lieuExecutionRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Destination:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.destination, list1, @Model.destination)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.destinationRs, list3, @Model.destinationRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Code RP:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.codeRP, list1, @Model.codeRP)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.codeRPRs, list3, @Model.codeRPRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Nom du Programme:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.nomProgramme, list1, @Model.nomProgramme)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.nomProgrammeRs, list3, @Model.nomProgrammeRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Post IT:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.postIT, list1, @Model.postIT)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.postITRs, list3, @Model.postITRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Object:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.objects, list1, @Model.objects)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.objectsRs, list3, @Model.objectsRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Note Clients:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.notreClients, list1, @Model.notreClients)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.notreClientsRs, list3, @Model.notreClientsRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">MOA:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.moa, list1, @Model.moa)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.moaRs, list3, @Model.moaRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">MOA Architectes:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.moaArchitectes, list1, @Model.moaArchitectes)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.moaArchitectesRs, list3, @Model.moaArchitectesRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Bureaux d'Etudes:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.bureauxEtudes, list1, @Model.bureauxEtudes)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.bureauxEtudesRs, list3, @Model.bureauxEtudesRs)
                                     </div>
                                 </div>
 
@@ -189,102 +240,143 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Bailleur Sociaux:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.bailleurSociaux, list1, @Model.bailleurSociaux)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.bailleurSociauxRs, list3, @Model.bailleurSociauxRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Mairie:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.mairie, list1, @Model.mairie)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.mairieRs, list3, @Model.mairieRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Surface Plancher:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.surfacePlancher, list1, @Model.surfacePlancher)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.surfacePlancherRs, list3, @Model.surfacePlancherRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Surface Terrain:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.surfaceTerrain, list1, @Model.surfaceTerrain)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.surfaceTerrainRs, list3, @Model.surfaceTerrainRs)
                                     </div>
                                 </div>
 
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Surface par Typologie:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.surfaceTypologie, list1, @Model.surfaceTypologie)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.surfaceTypologieRs, list3, @Model.surfaceTypologieRs)
                                     </div>
                                 </div>
 
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Nombre de Batiment:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.nombreBatiment, list1, @Model.nombreBatiment)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.nombreBatimentRs, list3, @Model.nombreBatimentRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Nombre d'Etage:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.nombreEtage, list1, @Model.nombreEtage)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.nombreEtageRs, list3, @Model.nombreEtageRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Ascenseur Oui/Non:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.ascenseur, list1, @Model.ascenseur)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.ascenseurRs, list3, @Model.ascenseurRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Nombre d'ascenseur:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.nombreAscenseur, list1, @Model.nombreAscenseur)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.nombreAscenseurRs, list3, @Model.nombreAscenseurRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Date Accord:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.dateAccords, list1, @Model.dateAccords)
-
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.dateAccordsRs, list3, @Model.dateAccordsRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Date PC:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.datePC, list1, @Model.datePC)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.datePCRs, list3, @Model.datePCRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Date Consultation:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.dateConsultation, list1, @Model.dateConsultation)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.dateConsultationRs, list3, @Model.dateConsultationRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Date Travaux:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.dateTravaux, list1, @Model.dateTravaux)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.dateTravauxRs, list3, @Model.dateTravauxRs)
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Date de Livraison:</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         @Html.DropDownListFor(model => model.dateLivraison, list1, @Model.dateLivraison)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(model => model.dateLivraisonRs, list3, @Model.dateLivraisonRs)
                                     </div>
                                 </div>
 

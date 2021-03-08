@@ -1,5 +1,4 @@
 ﻿using Domain.Entity;
-using EASendMail;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using MVCWEB.Models;
@@ -10,19 +9,16 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
-using NAudio.Wave;
 using System.Data;
 using Data;
 using System.Data.Entity;
 
 namespace MVCWEB.Controllers
 {
-    [Authorize(Roles = "Qualité,Agent Qualité_Diffusion")]
+    [Authorize(Roles = "Qualité,Agent Qualité_Diffusion,Agent Qualité_AchatPublic")]
     public class EvaluationSCGISIController : Controller
     {
         private ReportContext db = new ReportContext();
@@ -101,6 +97,10 @@ namespace MVCWEB.Controllers
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
             }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2009))
+            {
+                ViewBag.role = "Agent Qualité_AchatPublic";
+            }
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
             {
                 ViewBag.role = "Qualité";
@@ -126,10 +126,10 @@ namespace MVCWEB.Controllers
             return View(a);
         }
 
-        public ActionResult CalculFOSCGISI(string nomAgent, string planDate, string accueil, string analyseDemande, string maitriseOutils, string connaissanceProduit, string respectProcess, string pertinenceReponse, string autonomie, string approcheCommerciale, string discours, string priseConge,string identificationClient, string qualificationDemande, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult CalculFOSCGISI(string nomAgent, string planDate, string accueil, string analyseDemande, string maitriseOutils, string connaissanceProduit, string respectProcess, string pertinenceReponse, string FCR ,string autonomie, string approcheCommerciale, string discours, string priseConge,string identificationClient, string qualificationDemande, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
-            float total = 47;
-            List<string> NEList = new List<string>(new string[] { connaissanceProduit, approcheCommerciale });
+            float total = 53;
+            List<string> NEList = new List<string>(new string[] { connaissanceProduit,FCR, approcheCommerciale });
            
             float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(analyseDemande, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(maitriseOutils, CultureInfo.InvariantCulture.NumberFormat) +
             float.Parse(respectProcess, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(autonomie, CultureInfo.InvariantCulture.NumberFormat) +
@@ -153,6 +153,7 @@ namespace MVCWEB.Controllers
             a.connaissanceProduit = float.Parse(connaissanceProduit, CultureInfo.InvariantCulture.NumberFormat);
             a.respectProcess = float.Parse(respectProcess, CultureInfo.InvariantCulture.NumberFormat);
             a.pertinenceReponse = float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCR = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
             a.autonomie = float.Parse(autonomie, CultureInfo.InvariantCulture.NumberFormat);
             a.approcheCommerciale = float.Parse(approcheCommerciale, CultureInfo.InvariantCulture.NumberFormat);
             a.discours = float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
@@ -173,13 +174,13 @@ namespace MVCWEB.Controllers
             return RedirectToAction("listeSites", "Superviseur");
         }
 
-        public ActionResult SaveEvalFOSCGISI(string nomAgent, string planDate, string accueil, string analyseDemande, string maitriseOutils, string connaissanceProduit, string respectProcess, string pertinenceReponse, string autonomie, string approcheCommerciale, string discours, string priseConge, string identificationClient, string qualificationDemande, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult SaveEvalFOSCGISI(string nomAgent, string planDate, string accueil, string analyseDemande, string maitriseOutils, string connaissanceProduit, string respectProcess, string pertinenceReponse, string FCR ,string autonomie, string approcheCommerciale, string discours, string priseConge, string identificationClient, string qualificationDemande, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
             var userConnected = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
             Employee emp = serviceEmployee.getByPseudoName(nomAgent.ToLower());
             GrilleEvaluationFO a = new GrilleEvaluationFO();
-            float total = 47;
-            List<string> NEList = new List<string>(new string[] { connaissanceProduit, approcheCommerciale });
+            float total = 53;
+            List<string> NEList = new List<string>(new string[] { connaissanceProduit,FCR, approcheCommerciale });
 
             float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(analyseDemande, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(maitriseOutils, CultureInfo.InvariantCulture.NumberFormat) +
              float.Parse(respectProcess, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(autonomie, CultureInfo.InvariantCulture.NumberFormat) +
@@ -201,6 +202,7 @@ namespace MVCWEB.Controllers
             a.maitriseOutils = float.Parse(maitriseOutils, CultureInfo.InvariantCulture.NumberFormat);
             a.connaissanceProduit = float.Parse(connaissanceProduit, CultureInfo.InvariantCulture.NumberFormat);
             a.respectProcess = float.Parse(respectProcess, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCR = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
             a.pertinenceReponse = float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat);
             a.autonomie = float.Parse(autonomie, CultureInfo.InvariantCulture.NumberFormat);
             a.approcheCommerciale = float.Parse(approcheCommerciale, CultureInfo.InvariantCulture.NumberFormat);
@@ -223,48 +225,34 @@ namespace MVCWEB.Controllers
             service.SaveChange();
             var eval = new EvaluationSCGISIViewModel();
             eval.agentName = nomAgent;
-            //try
-            //{
-            //    SmtpMail oMail = new SmtpMail("TryIt");
-            //    EASendMail.SmtpClient oSmtp = new EASendMail.SmtpClient();
 
-            //    // l"adresse Email d'emetteur 
-            //    oMail.From = "Sana.BENSALAH@infopro-digital.com";
+            string SenderMail = "alerte.infoprod@infopro-digital.com";
+            string receiverMail = emp.Email;
+            MailAddress to = new MailAddress(receiverMail);
+            MailAddress from = new MailAddress(SenderMail);
 
-            //    //adresse destinataire
-            //    oMail.To = emp.Email;
-            //    // Objet Mail
+            MailMessage message = new MailMessage(from, to);
+            message.Subject = "Notification Nouvelle Evaluation";
+            message.IsBodyHtml = true;
+            message.Body = "<html><head></head><body><p>Bonjour,</p><p>Nous vous informons qu'un audit qualité viens d'être enregistré, vous pouvez le consulter sur l’interface INFO-PROD QUALITE </p><p>En attendant le débriefe de l’évaluateur</p><p>Cordialement.</p></body></html>";
 
-            //    oMail.Subject = "Evaluation pour " + username;
-            //    //contenu du mail designed avec HTML
-            //    //oMail.HtmlBody = "<table><tr><td><h3 style='color:red;'>Résultat Evaluation:</h3><div><h5 style='color:#1E88E5;'>Date et temps d'évaluation :</h5><h5>" + dateCreationtest + "</h5></div><h5 style='color:#1E88E5;'>Acceuil / Presentation  :  " + acceuil+ "</h5><h5 style='color:#1E88E5;'>Objet d'appel : " + objetAppel+ "</h5><h5 style='color:#1E88E5;'>Présentation de l'offre / valider la satisfaction client: " + a.presentationOffre + "</h5><h5 style='color:#1E88E5;'>Gestion des objections : " + a.gestionObjection+ "</h5><h5 style='color:#1E88E5;'>Verrouillage et conclusion du contact : " + a.vCContrat+ "</h5><h5 style='color:#1E88E5;'>Proposition Cross : " + a.pCross+ "</h5><h5 style='color:#1E88E5;'>Discours : " + a.discours+ "</h5><h5 style='color:#1E88E5;'>Attitude : " + a.attitude+ "</h5><h5 style='color:#1E88E5;'>votre score est <font clolor ='red;'>" + a.pourcentageNotes + " %</font></h5>";
+            SmtpClient client = new SmtpClient("smtp.info.local", 587)
+            {
+                UseDefaultCredentials = true,
+                // Credentials = new NetworkCredential("alerte.infoprod@infopro-digital.com", "Welcome01"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true
+            };
+            // code in brackets above needed if authentication required 
+            try
+            {
+                client.Send(message);
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
-            //    oMail.HtmlBody = "<html><head><head><style>#customers {font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;border-collapse: collapse;width: 100 %;}#customers td, #customers th {border: 1px solid #ddd;padding: 8px;}#customers tr:nth-child(even){background-color: #f2f2f2;}#customers tr:hover {background-color: #ddd;}#customers th {padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;}</style></head></head><body><p>Bonjour,<p><p>Vous avez une évaluation de la part du qualité </p><p>Cordialement.</p></body></html>";
-            //    // oMail.HtmlBody = "<html><head><head><style>#customers {font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;border-collapse: collapse;width: 100 %;}#customers td, #customers th {border: 1px solid #ddd;padding: 8px;}#customers tr:nth-child(even){background-color: #f2f2f2;}#customers tr:hover {background-color: #ddd;}#customers th {padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;}</style></head></head><body><h5 style='color:red;'>Nom Complet de l'enregistrement</h5><a href='#'><h7 style='color:blue;'>" + enregistrement + "</h7></a><br /><br/><table id='customers'><tr><th>Date Evaluation</th><th>Acceuil / Présentation</th><th>Objet d'appel</th><th>Présentation de l'offre / valider la satisfaction client</th> <th>Gestion objections</th><th>Verrouillage et conclusion du contact</th><th>Proposition Cross</th><th>Discours</th><th>Attitude</th><th>Prise de congé</th><th>Score</th></tr><tr><td>" + dateTest + "</td><td>" + acceuil + "</td><td>" + objetAppel + "</td><td>" + a.presentationOffre + "</td><td>" + a.gestionObjection + "</td><td>" + a.vCContrat + "</td><td>" + a.pCross + "</td><td>" + a.discours + "</td><td>" + a.attitude + "</td><td>" + a.priseConge + "</td><td style='color:red;'>" + a.pourcentageNotes + "%" + "</td></tr></table></body></html>";
-            //    // Set email body
-            //    //oMail.TextBody = "Vous venez d'étre évalué sur vos enregistrements ";
-
-            //    // Instance du serveur SMTP et commpe parametre son Adresse.
-            //    SmtpServer oServer = new SmtpServer("smtp.info.local");
-
-            //    // username , password d'émetteur
-            //    oServer.User = "Sana.BENSALAH@infopro-digital.com";
-            //    oServer.Password = "Welcome01";
-
-            //    // associer ou port  25 ou bien 587.
-            //    oServer.Port = 587;
-
-            //    // detect TLS connection automatically
-            //    oServer.ConnectType = SmtpConnectType.ConnectSSLAuto;
-            //    oSmtp.SendMail(oServer, oMail);
-
-            //    ViewBag.msg = "mail sent";
-            //}
-            //catch (SmtpException)
-            //{
-            //    ViewBag.msg = "mail not sent";
-            //    return RedirectToAction("Promo");
-            //}
             if (Request.IsAjaxRequest())
             {
                 return PartialView("EnvoiMailResult", eval);
@@ -282,6 +270,10 @@ namespace MVCWEB.Controllers
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2009))
+            {
+                ViewBag.role = "Agent Qualité_AchatPublic";
             }
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
             {
@@ -561,51 +553,37 @@ namespace MVCWEB.Controllers
             serviceBO.SaveChange();
             var eval = new EvaluationSCGISIViewModel();
             eval.agentName = nomAgent;
-            //try
-            //{
-            //    SmtpMail oMail = new SmtpMail("TryIt");
-            //    EASendMail.SmtpClient oSmtp = new EASendMail.SmtpClient();
 
-            //    // l"adresse Email d'emetteur 
-            //    oMail.From = "Sana.BENSALAH@infopro-digital.com";
+            string SenderMail = "alerte.infoprod@infopro-digital.com";
+            string receiverMail = emp.Email;
+            MailAddress to = new MailAddress(receiverMail);
+            MailAddress from = new MailAddress(SenderMail);
 
-            //    //adresse destinataire
-            //    oMail.To = emp.Email;
-            //    // Objet Mail
+            MailMessage message = new MailMessage(from, to);
+            message.Subject = "Notification Nouvelle Evaluation";
+            message.IsBodyHtml = true;
+            message.Body = "<html><head></head><body><p>Bonjour,</p><p>Nous vous informons qu'un audit qualité viens d'être enregistré, vous pouvez le consulter sur l’interface INFO-PROD QUALITE </p><p>En attendant le débriefe de l’évaluateur</p><p>Cordialement.</p></body></html>";
 
-            //    oMail.Subject = "Evaluation pour " + username;
-            //    //contenu du mail designed avec HTML
-            //    //oMail.HtmlBody = "<table><tr><td><h3 style='color:red;'>Résultat Evaluation:</h3><div><h5 style='color:#1E88E5;'>Date et temps d'évaluation :</h5><h5>" + dateCreationtest + "</h5></div><h5 style='color:#1E88E5;'>Acceuil / Presentation  :  " + acceuil+ "</h5><h5 style='color:#1E88E5;'>Objet d'appel : " + objetAppel+ "</h5><h5 style='color:#1E88E5;'>Présentation de l'offre / valider la satisfaction client: " + a.presentationOffre + "</h5><h5 style='color:#1E88E5;'>Gestion des objections : " + a.gestionObjection+ "</h5><h5 style='color:#1E88E5;'>Verrouillage et conclusion du contact : " + a.vCContrat+ "</h5><h5 style='color:#1E88E5;'>Proposition Cross : " + a.pCross+ "</h5><h5 style='color:#1E88E5;'>Discours : " + a.discours+ "</h5><h5 style='color:#1E88E5;'>Attitude : " + a.attitude+ "</h5><h5 style='color:#1E88E5;'>votre score est <font clolor ='red;'>" + a.pourcentageNotes + " %</font></h5>";
+            SmtpClient client = new SmtpClient("smtp.info.local", 587)
+            {
+                UseDefaultCredentials = true,
+                // Credentials = new NetworkCredential("alerte.infoprod@infopro-digital.com", "Welcome01"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true
+            };
+            // code in brackets above needed if authentication required 
+            try
+            {
+                client.Send(message);
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
-            //    oMail.HtmlBody = "<html><head><head><style>#customers {font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;border-collapse: collapse;width: 100 %;}#customers td, #customers th {border: 1px solid #ddd;padding: 8px;}#customers tr:nth-child(even){background-color: #f2f2f2;}#customers tr:hover {background-color: #ddd;}#customers th {padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;}</style></head></head><body><p>Bonjour,<p><p>Vous avez une évaluation de la part du qualité </p><p>Cordialement.</p></body></html>";
-            //    // oMail.HtmlBody = "<html><head><head><style>#customers {font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;border-collapse: collapse;width: 100 %;}#customers td, #customers th {border: 1px solid #ddd;padding: 8px;}#customers tr:nth-child(even){background-color: #f2f2f2;}#customers tr:hover {background-color: #ddd;}#customers th {padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;}</style></head></head><body><h5 style='color:red;'>Nom Complet de l'enregistrement</h5><a href='#'><h7 style='color:blue;'>" + enregistrement + "</h7></a><br /><br/><table id='customers'><tr><th>Date Evaluation</th><th>Acceuil / Présentation</th><th>Objet d'appel</th><th>Présentation de l'offre / valider la satisfaction client</th> <th>Gestion objections</th><th>Verrouillage et conclusion du contact</th><th>Proposition Cross</th><th>Discours</th><th>Attitude</th><th>Prise de congé</th><th>Score</th></tr><tr><td>" + dateTest + "</td><td>" + acceuil + "</td><td>" + objetAppel + "</td><td>" + a.presentationOffre + "</td><td>" + a.gestionObjection + "</td><td>" + a.vCContrat + "</td><td>" + a.pCross + "</td><td>" + a.discours + "</td><td>" + a.attitude + "</td><td>" + a.priseConge + "</td><td style='color:red;'>" + a.pourcentageNotes + "%" + "</td></tr></table></body></html>";
-            //    // Set email body
-            //    //oMail.TextBody = "Vous venez d'étre évalué sur vos enregistrements ";
-
-            //    // Instance du serveur SMTP et commpe parametre son Adresse.
-            //    SmtpServer oServer = new SmtpServer("smtp.info.local");
-
-            //    // username , password d'émetteur
-            //    oServer.User = "Sana.BENSALAH@infopro-digital.com";
-            //    oServer.Password = "Welcome01";
-
-            //    // associer ou port  25 ou bien 587.
-            //    oServer.Port = 587;
-
-            //    // detect TLS connection automatically
-            //    oServer.ConnectType = SmtpConnectType.ConnectSSLAuto;
-            //    oSmtp.SendMail(oServer, oMail);
-
-            //    ViewBag.msg = "mail sent";
-            //}
-            //catch (SmtpException)
-            //{
-            //    ViewBag.msg = "mail not sent";
-            //    return RedirectToAction("Promo");
-            //}
             if (Request.IsAjaxRequest())
             {
-                return PartialView("EnvoiMailResult", eval);
+                return PartialView("EnvoiMailPartialView", eval);
             }
             return RedirectToAction("Acceuil", "Directory");
 
@@ -635,6 +613,10 @@ namespace MVCWEB.Controllers
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2009))
+            {
+                ViewBag.role = "Agent Qualité_AchatPublic";
             }
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
             {
@@ -704,6 +686,7 @@ namespace MVCWEB.Controllers
                     test.connaissanceProduit = item.connaissanceProduit;
                     test.respectProcess = item.respectProcess;
                     test.pertinenceReponse = item.pertinenceReponse;
+                    test.FCR = item.FCR;
                     test.autonomie = item.autonomie;
                     test.approcheCommerciale = item.approcheCommerciale;
                     test.discours = item.discours;
@@ -770,6 +753,7 @@ namespace MVCWEB.Controllers
                     test.connaissanceProduit = item.connaissanceProduit;
                     test.respectProcess = item.respectProcess;
                     test.pertinenceReponse = item.pertinenceReponse;
+                    test.FCR = item.FCR;
                     test.autonomie = item.autonomie;
                     test.approcheCommerciale = item.approcheCommerciale;
                     test.discours = item.discours;
@@ -1047,6 +1031,7 @@ namespace MVCWEB.Controllers
                     test.connaissanceProduit = item.connaissanceProduit;
                     test.respectProcess = item.respectProcess;
                     test.pertinenceReponse = item.pertinenceReponse;
+                    test.FCR = item.FCR;
                     test.autonomie = item.autonomie;
                     test.approcheCommerciale = item.approcheCommerciale;
                     test.discours = item.discours;
@@ -1107,6 +1092,7 @@ namespace MVCWEB.Controllers
                     test.connaissanceProduit = item.connaissanceProduit;
                     test.respectProcess = item.respectProcess;
                     test.pertinenceReponse = item.pertinenceReponse;
+                    test.FCR = item.FCR;
                     test.autonomie = item.autonomie;
                     test.approcheCommerciale = item.approcheCommerciale;
                     test.discours = item.discours;
@@ -1288,7 +1274,7 @@ namespace MVCWEB.Controllers
 
         #region Archive Front/Back Agent Qualité_CustomerService
 
-        [Authorize(Roles = "Agent Qualité_Diffusion")]
+        [Authorize(Roles = "Agent Qualité_Diffusion,Agent Qualité_AchatPublic")]
         public ActionResult ArchiveAgentQualiteFOSCGISI()
         {
             EvaluationSCGISIViewModel evaluation = new EvaluationSCGISIViewModel();
@@ -1298,6 +1284,16 @@ namespace MVCWEB.Controllers
 
             evaluation.userName = employee.UserName;
             evaluation.pseudoNameEmp = employee.pseudoName;
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
+            {
+                ViewBag.role = "Agent Qualité_Diffusion";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2009))
+            {
+                ViewBag.role = "Agent Qualité_AchatPublic";
+            }
+
             if (employee.Content != null)
             {
                 String strbase64 = Convert.ToBase64String(employee.Content);
@@ -1326,6 +1322,7 @@ namespace MVCWEB.Controllers
                     test.connaissanceProduit = item.connaissanceProduit;
                     test.respectProcess = item.respectProcess;
                     test.pertinenceReponse = item.pertinenceReponse;
+                    test.FCR = item.FCR;
                     test.autonomie = item.autonomie;
                     test.approcheCommerciale = item.approcheCommerciale;
                     test.discours = item.discours;
@@ -1389,6 +1386,7 @@ namespace MVCWEB.Controllers
                     test.connaissanceProduit = item.connaissanceProduit;
                     test.respectProcess = item.respectProcess;
                     test.pertinenceReponse = item.pertinenceReponse;
+                    test.FCR = item.FCR;
                     test.autonomie = item.autonomie;
                     test.approcheCommerciale = item.approcheCommerciale;
                     test.discours = item.discours;
@@ -1596,8 +1594,8 @@ namespace MVCWEB.Controllers
         [Authorize(Roles = "Qualité")]
         public ActionResult EditFOSCGISI(int? id, GrilleEvaluationFO evaluation)
         {
-            float total = 47;
-            List<float> NEList = new List<float>(new float[] { evaluation.connaissanceProduit, evaluation.approcheCommerciale});
+            float total = 53;
+            List<float> NEList = new List<float>(new float[] { evaluation.connaissanceProduit,evaluation.FCR, evaluation.approcheCommerciale});
 
             float notes = evaluation.accueil + evaluation.analyseDemande + evaluation.maitriseOutils +
               evaluation.respectProcess + evaluation.pertinenceReponse + evaluation.autonomie +
@@ -1793,10 +1791,10 @@ namespace MVCWEB.Controllers
         public JsonResult GetReportsFOSCGISI(string username, string dateDebut, string dateFin)
         {
             float totAccueil = 0, totAnalyseDemande = 0, totMaitriseOutils = 0, totConnaissanceProduit = 0, totRespectProcess = 0,
-                totPertinenceReponse = 0, totAutonomie = 0, totApprocheCommerciale = 0, totIdentificationClient = 0, totQualificationDemande = 0,
+                totPertinenceReponse = 0, totFCR = 0, totAutonomie = 0, totApprocheCommerciale = 0, totIdentificationClient = 0, totQualificationDemande = 0,
                 totDiscours = 0, totPriseCongé = 0, totNotes = 0;
 
-            float  NbreConnaissanceProduit = 0, NbreApprocheCommerciale = 0;
+            float  NbreConnaissanceProduit = 0,NbreFCR=0, NbreApprocheCommerciale = 0;
 
             DateTime daterecherchedebut = DateTime.Parse(dateDebut);
             DateTime daterecherchefin = DateTime.Parse(dateFin);
@@ -1825,6 +1823,11 @@ namespace MVCWEB.Controllers
                     totApprocheCommerciale += item.approcheCommerciale;
                     NbreApprocheCommerciale += 1;
                 }
+                if (item.FCR >= 0)
+                {
+                    totFCR += item.FCR;
+                    NbreFCR += 1;
+                }
                 totRespectProcess += item.respectProcess;
                 totPertinenceReponse += item.pertinenceReponse;
                 totAutonomie += item.autonomie;
@@ -1847,7 +1850,12 @@ namespace MVCWEB.Controllers
                 test.approcheCommerciale = (float)Math.Round((totApprocheCommerciale / (NbreApprocheCommerciale * 4)) * 100, 2);
             }
             else { test.approcheCommerciale = -4; }
-           
+            if (NbreFCR != 0)
+            {
+                test.FCR = (float)Math.Round((totFCR / (NbreFCR * 6)) * 100, 2);
+            }
+            else { test.FCR = -4; }
+
 
             if (nbreEvaluations != 0)
             {
@@ -1869,11 +1877,9 @@ namespace MVCWEB.Controllers
                 test.accueil = 0;
                 test.analyseDemande = 0;
                 test.maitriseOutils = 0;
-                test.connaissanceProduit = 0;
                 test.respectProcess = 0;
                 test.pertinenceReponse = 0;
                 test.autonomie = 0;
-                test.approcheCommerciale = 0;
                 test.discours = 0;
                 test.priseConge = 0;
                 test.identificationClient = 0;

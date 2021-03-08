@@ -30,6 +30,9 @@ namespace MyReports.Data.Infrastructure
         IEvaluationQRRepository EvaluationQRRepository { get; }
         IEvaluationKLMORepository EvaluationKLMORepository { get; }
         IEvaluationBPPRepository EvaluationBPPRepository { get; }
+
+        IEvaluationBPPTypologieRepository EvaluationBPPTypologieRepository { get; }
+
         IEvaluationBattonageRepository EvaluationBattonageRepository { get; }
         IEvaluationEnqueteAutoRepository EvaluationEnqueteAutoRepository { get; }
         IEvaluationFOSCGISIRepository EvaluationFOSCGISIRepository { get; }

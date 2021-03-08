@@ -12,6 +12,7 @@ namespace Domain.Entity
     {
         public int Id { get; set; }
         public float accueil { get; set; }
+        public float MajDonnees { get; set; }
         public float decouverteAttentes { get; set; }
         public float utilisationOutils { get; set; }
         public float miseAttente { get; set; }

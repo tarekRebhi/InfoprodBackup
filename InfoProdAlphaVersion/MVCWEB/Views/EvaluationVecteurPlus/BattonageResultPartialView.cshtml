@@ -42,10 +42,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Avancement</b></font> </h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.avancement >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.avancement)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.avancementRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.avancementRs)</h6></a>
                                     }
                                     else
                                     {
@@ -58,10 +68,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nature</b> </font> </h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.nature >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nature)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.natureRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.natureRs)</h6></a>
                                     }
                                     else
                                     {
@@ -74,10 +94,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Typologie</b> </font> </h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.typologie >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typologie)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.typologieRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typologieRs)</h6></a>
                                     }
                                     else
                                     {
@@ -90,10 +120,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Lieu d'Execution</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.lieuExecution >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.lieuExecution)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.lieuExecutionRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.lieuExecutionRs)</h6></a>
                                     }
                                     else
                                     {
@@ -106,10 +146,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Destination</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.destination >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.destination)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.destinationRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.destinationRs)</h6></a>
                                     }
                                     else
                                     {
@@ -121,10 +171,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Code RP</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.codeRP >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.codeRP)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.codeRPRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.codeRPRs)</h6></a>
                                     }
                                     else
                                     {
@@ -136,10 +196,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nom Programme</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.nomProgramme >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nomProgramme)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.nomProgrammeRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nomProgrammeRs)</h6></a>
                                     }
                                     else
                                     {
@@ -151,10 +221,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Post IT</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.postIT >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.postIT)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.postITRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.postITRs)</h6></a>
                                     }
                                     else
                                     {
@@ -166,10 +246,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Object</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.objects >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.objects)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.objectsRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.objectsRs)</h6></a>
                                     }
                                     else
                                     {
@@ -181,10 +271,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Note Clients</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.notreClients >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.notreClients)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.notreClientsRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.notreClientsRs)</h6></a>
                                     }
                                     else
                                     {
@@ -196,10 +296,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>MOA</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.moa >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.moa)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.moaRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.moaRs)</h6></a>
                                     }
                                     else
                                     {
@@ -211,10 +321,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>MOA & Architectes</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.moaArchitectes >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.moaArchitectes)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.moaArchitectesRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.moaArchitectesRs)</h6></a>
                                     }
                                     else
                                     {
@@ -226,10 +346,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Bureaux d'études</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.bureauxEtudes >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.bureauxEtudes)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.bureauxEtudesRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.bureauxEtudesRs)</h6></a>
                                     }
                                     else
                                     {
@@ -241,10 +371,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Bailleur Sociaux</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.bailleurSociaux >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.bailleurSociaux)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.bailleurSociauxRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.bailleurSociauxRs)</h6></a>
                                     }
                                     else
                                     {
@@ -256,10 +396,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Mairie</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.mairie >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.mairie)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.mairieRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.mairieRs)</h6></a>
                                     }
                                     else
                                     {
@@ -275,10 +425,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Surface Plancher</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.surfacePlancher >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.surfacePlancher)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.surfacePlancherRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.surfacePlancherRs)</h6></a>
                                     }
                                     else
                                     {
@@ -290,10 +450,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Surface Terrain</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.surfaceTerrain >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.surfaceTerrain)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.surfaceTerrainRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.surfaceTerrainRs)</h6></a>
                                     }
                                     else
                                     {
@@ -305,10 +475,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Surface par Typologie</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.surfaceTypologie >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.surfaceTypologie)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.surfaceTypologieRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.surfaceTypologieRs)</h6></a>
                                     }
                                     else
                                     {
@@ -320,10 +500,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nombre de Batiment</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.nombreBatiment >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreBatiment)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.nombreBatimentRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreBatimentRs)</h6></a>
                                     }
                                     else
                                     {
@@ -335,10 +525,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nombre d'Etage</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.nombreEtage >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreEtage)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.nombreEtageRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreEtageRs)</h6></a>
                                     }
                                     else
                                     {
@@ -350,10 +550,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Ascenseur Oui/Non</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.ascenseur >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.ascenseur)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.ascenseurRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.ascenseurRs)</h6></a>
                                     }
                                     else
                                     {
@@ -365,10 +575,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nombre d'ascenseur</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.nombreAscenseur >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreAscenseur)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.nombreAscenseurRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreAscenseurRs)</h6></a>
                                     }
                                     else
                                     {
@@ -380,7 +600,7 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Date Accord</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.dateAccords >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateAccords)</h6></a>
@@ -390,15 +610,36 @@
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
                                     }
                                 </div>
+                                <div class="col-xs-2">
+                                    @if (Model.dateAccordsRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateAccordsRs)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Date PC</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.datePC >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.datePC)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.datePCRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.datePCRs)</h6></a>
                                     }
                                     else
                                     {
@@ -411,10 +652,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Date de Consultation</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.dateConsultation >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateConsultation)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.dateConsultationRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateConsultationRs)</h6></a>
                                     }
                                     else
                                     {
@@ -426,10 +677,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Date de Travaux</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.dateTravaux >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateTravaux)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.dateTravauxRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateTravauxRs)</h6></a>
                                     }
                                     else
                                     {
@@ -441,10 +702,20 @@
                         <div class="row">
                             <div class="col-1">
                                 <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Date de Livraison</b></font></h6>
-                                <div class="col-xs-4">
+                                <div class="col-xs-2">
                                     @if (Model.dateLivraison >= 0)
                                     {
                                         <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateLivraison)</h6></a>
+                                    }
+                                    else
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">-</h6></a>
+                                    }
+                                </div>
+                                <div class="col-xs-2">
+                                    @if (Model.dateLivraisonRs >= 0)
+                                    {
+                                        <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.dateLivraisonRs)</h6></a>
                                     }
                                     else
                                     {
@@ -460,11 +731,19 @@
                 @{
 
                     String str = Model.pourcentageNotes.ToString("N2");
+                    String strRs = Model.pourcentageNotesRs.ToString("N2");
                 }
-
-                <p>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h5 style="text-align:center"><b>Score: <font color="red">@str %</font></b> </h5>
+                    </div>
+                    <div class="col-xs-6">
+                        <h5 style="text-align:center"><b>Score: <font color="red">@strRs %</font></b> </h5>
+                    </div>
+                </div>
+                @*<p>
                     <h5 style="text-align:center"><b>Score: <font color="red">@str %</font></b> </h5>
-                </p>
+                </p>*@
                 <div class="text-right">
 
                 </div>

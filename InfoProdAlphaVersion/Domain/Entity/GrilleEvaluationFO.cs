@@ -16,6 +16,7 @@ namespace Domain.Entity
         public float connaissanceProduit { get; set; }
         public float respectProcess { get; set; }
         public float pertinenceReponse { get; set; }
+        public float FCR { get; set; }
         public float autonomie { get; set; }
         public float approcheCommerciale { get; set; }
         public float discours { get; set; }

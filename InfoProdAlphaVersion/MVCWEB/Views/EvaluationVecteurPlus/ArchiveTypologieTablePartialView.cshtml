@@ -1,0 +1,759 @@
+﻿@model IEnumerable<MVCWEB.Models.EvaluationVecteurPlusViewModel>
+<div id="details"></div>
+<div id="comments"></div>
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+    <h5><b>Nombre des Evaluations</b></h5>
+</div>
+
+<table id="historiqueEmp" class="table datatable-basic">
+    <thead>
+        <tr style="font-weight:bold;">
+            <th style="font-weight:bold;">Date </th>
+            <th style="font-weight:bold;">Score</th>
+            <th style="font-weight:bold;">Resultat</th>
+            <th style="font-weight:bold;">Récepteur de l'évaluation</th>
+            <th hidden> Nombre Logements </th>
+            <th hidden> </th>
+            <th hidden> Nombre sociaux </th>
+            <th hidden> </th>
+            <th hidden> Type Commerce </th>
+            <th hidden> </th>
+            <th hidden> Type Industrie </th>
+            <th hidden> </th>
+            <th hidden> Type d'établissement santé </th>
+            <th hidden> </th>
+            <th hidden> Type d'accueil (Santé) </th>
+            <th hidden> </th>
+            <th hidden> Capacité d'accueil (Santé) </th>
+            <th hidden> </th>
+            <th hidden> Type d'établissement HR </th>
+            <th hidden> </th>
+            <th hidden> Nombre d'étoile (HR) </th>
+            <th hidden> </th>
+            <th hidden> Type d'enseignement </th>
+            <th hidden> </th>
+            <th hidden> Capacité d'accueil (Enseignement) </th>
+            <th hidden> </th>
+            <th hidden> Type de loisirs </th>
+            <th hidden> </th>
+            <th hidden> Frigorifique (Stockage) </th>
+            <th hidden> </th>
+            <th hidden> Plateforme Logistique (Stockage) </th>
+            <th hidden> </th>
+            <th style="font-weight:bold;">Commentaires</th>
+            <th style="font-weight:bold;">Notes</th>
+            <th style="font-weight:bold;">Enregistrement</th>
+            <th style="font-weight:bold;">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <a>@item.dateTempEvaluation.Day/@item.dateTempEvaluation.Date.Month/@item.dateTempEvaluation.Date.Year</a>
+                </td>
+                @{
+
+                    String str = item.note.ToString("N2");
+                }
+
+                <td><font color="red">@str%</font></td>
+
+                @{
+
+                    String strRs = item.noteRs.ToString("N2");
+                }
+                <td><font color="red">@strRs%</font></td>
+                <td>@item.agentName</td> <td hidden>
+     @if (item.nombreLogements >= 0)
+    {
+        @item.nombreLogements
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.nombreLogementsRs >= 0)
+    {
+        @item.nombreLogementsRs
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.nombreSociaux >= 0)
+    {
+        @item.nombreSociaux
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.nombreSociauxRs >= 0)
+    {
+        @item.nombreSociauxRs
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeCommerce >= 0)
+    {
+        @item.typeCommerce
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeCommerceRs >= 0)
+    {
+        @item.typeCommerceRs
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeIndustrie >= 0)
+    {
+        @item.typeIndustrie
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeIndustrieRs >= 0)
+    {
+        @item.typeIndustrieRs
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeEtablissementSante >= 0)
+    {
+        @item.typeEtablissementSante
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeEtablissementSanteRs >= 0)
+    {
+        @item.typeEtablissementSanteRs
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeAcceuil >= 0)
+    {
+        @item.typeAcceuil
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.typeAcceuilRs >= 0)
+    {
+        @item.typeAcceuilRs
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.capaciteAcceuilSante >= 0)
+    {
+        @item.capaciteAcceuilSante
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+<td hidden>
+    @if (item.capaciteAcceuilSanteRs >= 0)
+    {
+        @item.capaciteAcceuilSanteRs
+    }
+    else
+    {
+        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+    }
+</td>
+
+
+                <td hidden>
+                    @if (item.typeEtablissementHR >= 0)
+                    {
+                        @item.typeEtablissementHR
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.typeEtablissementHRRs >= 0)
+                    {
+                        @item.typeEtablissementHRRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+                <td hidden>
+                    @if (item.nombreEtoile >= 0)
+                    {
+                        @item.nombreEtoile
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nombreEtoileRs >= 0)
+                    {
+                        @item.nombreEtoileRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+                <td hidden>
+                    @if (item.typeEnseignement >= 0)
+                    {
+                        @item.typeEnseignement
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.typeEnseignementRs >= 0)
+                    {
+                        @item.typeEnseignementRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+
+                <td hidden>
+                    @if (item.capaciteAcceuilEnseignement >= 0)
+                    {
+                        @item.capaciteAcceuilEnseignement
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.capaciteAcceuilEnseignementRs >= 0)
+                    {
+                        @item.capaciteAcceuilEnseignementRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+
+                <td hidden>
+                    @if (item.typeLoisirs >= 0)
+                    {
+                        @item.typeLoisirs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.typeLoisirsRs >= 0)
+                    {
+                        @item.typeLoisirsRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+                <td hidden>
+                    @if (item.frigorifique >= 0)
+                    {
+                        @item.frigorifique
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.frigorifiqueRs >= 0)
+                    {
+                        @item.frigorifiqueRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+                <td hidden>
+                    @if (item.plateformeLogistique >= 0)
+                    {
+                        @item.plateformeLogistique
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.plateformeLogistiqueRs >= 0)
+                    {
+                        @item.plateformeLogistiqueRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+                <td hidden>
+                    @item.commentaireQualite
+                </td>
+                <td hidden>
+                    @item.commentaireAgent
+                </td>
+
+                <td>
+                    @*<button type="button" class="btn btn-info btn-sm" data-popup="popover" data-html="true" data-trigger="focus" data-content="Présentation et Identification : @item.presentationIdentification <br> Objet Appel : @item.objetAppel <br> Nature/Type/Lieu/Destination : @item.validationNature <br> Calendrier : @item.calendrier <br> Envergure : @item.envergure <br> Questions par typologie : @item.complétudeQuestions <br> Ajout Intervenants : @item.confirmationIntervenants <br> Enchainement logique des questions : @item.enchainementQuestions <br> Traitement des objections : @item.traitementObjections <br> Reformulation : @item.reformulation <br> Transcription des information : @item.transcriptionsInformations <br> Codes appropriés : @item.codesAppropriés <br> Note client : @item.noteClient <br> Discours : @item.discours <br> Attitude : @item.attitude <br> Prise de congé : @item.priseConge">Voir Notes <i class="icon-chevron-right"></i></button>*@
+
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" style="background-color: aqua;color:#000;">Voir Notes <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
+                                <li>
+                                    Nombre Logements :
+                                    <span>
+                                        @if (item.nombreLogements >= 0)
+                                        {@item.nombreLogements }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.nombreLogementsRs >= 0)
+                                        {@item.nombreLogementsRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Nombre sociaux :
+                                    <span>
+                                        @if (item.nombreSociaux >= 0)
+                                        {@item.nombreSociaux }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.nombreSociauxRs >= 0)
+                                        {@item.nombreSociauxRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                <li>
+                                    Type Commerce :
+                                    <span>
+                                        @if (item.typeCommerce >= 0)
+                                        {@item.typeCommerce }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typeCommerceRs >= 0)
+                                        {@item.typeCommerceRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Type Industrie :
+                                    <span>
+                                        @if (item.typeIndustrie >= 0)
+                                        {@item.typeIndustrie }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typeIndustrieRs >= 0)
+                                        {@item.typeIndustrieRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Type d'établissement santé :
+                                    <span>
+                                        @if (item.typeEtablissementSante >= 0)
+                                        {@item.typeEtablissementSante }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typeEtablissementSanteRs >= 0)
+                                        {@item.typeEtablissementSanteRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Type d'accueil (Santé) :
+                                    <span>
+                                        @if (item.typeAcceuil >= 0)
+                                        {@item.typeAcceuil }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typeAcceuilRs >= 0)
+                                        {@item.typeAcceuilRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Capacité d'accueil (Santé) :
+                                    <span>
+                                        @if (item.capaciteAcceuilSante >= 0)
+                                        {@item.capaciteAcceuilSante }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.capaciteAcceuilSanteRs >= 0)
+                                        {@item.capaciteAcceuilSanteRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Type d'établissement HR :
+                                    <span>
+                                        @if (item.typeEtablissementHR >= 0)
+                                        {@item.typeEtablissementHR }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typeEtablissementHRRs >= 0)
+                                        {@item.typeEtablissementHRRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Nombre d'étoile (HR) :
+                                    <span>
+                                        @if (item.nombreEtoile >= 0)
+                                        {@item.nombreEtoile }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.nombreEtoileRs >= 0)
+                                        {@item.nombreEtoileRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Type d'enseignement :
+                                    <span>
+                                        @if (item.typeEnseignement >= 0)
+                                        {@item.typeEnseignement }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typeEnseignementRs >= 0)
+                                        {@item.typeEnseignementRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Capacité d'accueil (Enseignement) :
+                                    <span>
+                                        @if (item.capaciteAcceuilEnseignement >= 0)
+                                        {@item.capaciteAcceuilEnseignement }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.capaciteAcceuilEnseignementRs >= 0)
+                                        {@item.capaciteAcceuilEnseignementRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Type de loisirs :
+                                    <span>
+                                        @if (item.typeLoisirs >= 0)
+                                        {@item.typeLoisirs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typeLoisirsRs >= 0)
+                                        {@item.typeLoisirsRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Frigorifique (Stockage) :
+                                    <span>
+                                        @if (item.frigorifique >= 0)
+                                        {@item.frigorifique }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.frigorifiqueRs >= 0)
+                                        {@item.frigorifiqueRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                                <li>
+                                    Plateforme Logistique (Stockage) :
+                                    <span>
+                                        @if (item.plateformeLogistique >= 0)
+                                        {@item.plateformeLogistique }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.plateformeLogistiqueRs >= 0)
+                                        {@item.plateformeLogistiqueRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </td>
+
+                <td>
+                    <button class="btn btn-warning" id="test6" data-com="@item.commentaireQualite" data-reponse="@item.commentaireAgent">Details&nbsp;<i class="icon-popout"></i></button>
+                </td>
+                <td>
+                    @if (item.enregistrementFullName != null)
+                    {
+                        <aside type="button" class="btn bg-teal-400" id="test5" data-id="@item.enregistrementFullName" data-FullName="@item.enregistrementUrl" data-directory="@item.enregistrementDirectory">Ecouter&nbsp;<i class="icon-play"></i></aside>
+                    }
+                </td>
+                @*<td>
+                        @using (Html.BeginForm("EditBPP", "EvaluationVecteurPlus", new { id = item.Id }, FormMethod.Get, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <input type="submit" value="Modifier" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        }
+                    </td>*@
+                <td>
+                    <ul class="icons-list">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-menu9"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="@Url.Action("EditTypologie", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-edit"></i> Modifier</a>
+                                </li>
+                                <li>
+                                    @*<a href="@Url.Action("DeleteBPP", "EvaluationVecteurPlus", new { id = item.Id })"><i class="glyphicon glyphicon-trash"></i> Supprimer</a>*@
+                                    <a>
+                                        <article id="delete" data-id="@item.Id" data-title="Supprimer Employé" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> Supprimer</article>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+                    }
+    </tbody>
+</table>
+<br />
+<div id="explorer1"></div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('aside').on('click', function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var fullname = $buttonClicked.attr('data-FullName');
+                var directoryName = $buttonClicked.attr('data-directory');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindCustomEnregistrement',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'name': id,
+                        'fullName': fullname,
+                        'DirectoryName': directoryName
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#details").is(":empty") == false) {
+                            $('#details').removeData("#detailsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#details').html(data);
+                        }
+                        else {
+
+                            $('#details').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#detailsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+
+            $(document).on("click", "#test6", function () {
+                var $buttonClicked = $(this);
+                var comqualite = $buttonClicked.attr('data-com');
+                var comagent = $buttonClicked.attr('data-reponse');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindComments',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'CommentQualite': comqualite,
+                        'CommentAgent': comagent
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#comments").is(":empty") == false) {
+                            $('#comments').removeData("#commentsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#comments').html(data);
+                        }
+                        else {
+
+                            $('#comments').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#commentsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+        })
+</script>
+<script>
+        $(function () {
+            $('[data-popup="popover"]').popover();
+            $('[data-popup="tooltip"]').tooltip();
+        });
+</script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            //  $(document).on("click", "#delete", function () {
+            $("article").on("click", function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                $.ajax({
+                    url: '/EvaluationVecteurPlus/FindEvaluationTypologie',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "html",
+                    async: true,
+                    success: function (data) {
+                        $('#explorer1').html(data);
+                        $('#alerteSuppression').modal('show');
+                    },
+
+
+
+                });
+
+
+            })
+        })
+
+</script>

@@ -76,7 +76,7 @@ namespace Services
 
         public void DeleteEvaluations(int? id, int? empId)
         {
-            uow.EvaluationBPPRepository.DeleteEvaluations(id, empId);
+            uow.EvaluationBPPTypologieRepository.DeleteEvaluations(id, empId);
         }
 
         public List<GrilleEvaluationBPP> GetEvaluationsEmployeeBetweenTwoDates(int id, DateTime dateDebut, DateTime dateFin)

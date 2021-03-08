@@ -74,6 +74,11 @@
                             list9.Add(new SelectListItem { Text = "OK", Value = "5" });
                             list9.Add(new SelectListItem { Text = "KO", Value = "0" });
 
+                            List<SelectListItem> list10 = new List<SelectListItem>();
+                            list10.Add(new SelectListItem { Text = "OK", Value = "6" });
+                            list10.Add(new SelectListItem { Text = "KO", Value = "0" });
+                            list10.Add(new SelectListItem { Text = "NE", Value = "-6" });
+
                         }
                         <div class="row">
                             <div class="col-md-6">
@@ -165,6 +170,12 @@
                                         @*@Html.EditorFor(model => model.complétudeQuestions, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.complétudeQuestions, "", new { @class = "text-danger" })*@
                                         @Html.DropDownListFor(model => model.pertinenceReponse, list6, @Model.pertinenceReponse)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">FCR:</label>
+                                    <div class="col-md-8">                                        
+                                        @Html.DropDownListFor(model => model.FCR, list10, @Model.FCR)
                                     </div>
                                 </div>
                             </div>

@@ -20,6 +20,7 @@
                 <th hidden>Connaissance du produit</th>
                 <th hidden>Respect des process de travail</th>
                 <th hidden>Pertinence de la réponse</th>
+                <th hidden>FCR</th>
                 <th hidden>Autonomie</th>
                 <th hidden>Approche Commerciale</th>
                 <th hidden>Discours/empathie/attitude</th>
@@ -72,6 +73,16 @@
                     </td>
                     <td hidden>
                             @item.pertinenceReponse
+                    </td>
+                    <td hidden>
+                        @if (item.FCR >= 0)
+                        {
+                            @item.FCR
+                        }
+                        else
+                        {
+                            <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                        }
                     </td>
                     <td hidden>
                             @item.autonomie
@@ -140,6 +151,15 @@
                                     <li>
                                         Pertinence de la réponse:
                                         <span>@item.pertinenceReponse</span>
+                                    </li>
+                                    <li>
+                                        FCR:
+                                        <span>
+                                            @if (item.FCR >= 0)
+                                            {@item.FCR }
+                                            else
+                                            {<label>-</label>}
+                                        </span>
                                     </li>
                                     <li>
                                         Autonomie:

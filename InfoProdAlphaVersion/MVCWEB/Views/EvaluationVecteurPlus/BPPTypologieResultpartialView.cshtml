@@ -1,0 +1,431 @@
+﻿@model MVCWEB.Models.EvaluationVecteurPlusViewModel
+<div class="modal fade" id="BPPTypologieResult" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-image:url('../../Content/template/Layout 1/.JPG');">
+            <div class="modal-header" style="background-color:#26A69A;">
+                <button type="button" id="fermer" class="close" data-dismiss="modal">&times;</button>
+                <h5><font color="white">Resultat : Evaluation BPP Typologie Vecteur Plus</font></h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h6><font color="black"> <b>Date et temps d'évaluation</b></font></h6>
+                    </div>
+                    <div class="col-lg-4">
+                        <a><h6>@Html.DisplayFor(modelItem => modelItem.dateTempEvaluation)</h6></a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nom Agent:</b></font></h6>
+                        <div class="col-lg-4">
+                            <a><h6>@Html.DisplayFor(modelItem => modelItem.agentName)</h6></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nombre Logements</b></font></h6>
+
+                        <div class="col-xs-2">
+                            @if (Model.nombreLogements >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreLogements)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.nombreLogementsRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreLogementsRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nombre sociaux</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.nombreSociaux >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreSociaux)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.nombreSociauxRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreSociauxRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Type Commerce</b> </font> </h6>
+                        <div class="col-xs-2">
+                            @if (Model.typeCommerce >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeCommerce)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.typeCommerceRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeCommerceRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Type Industrie</b></font> </h6>
+                        <div class="col-xs-2">
+                            @if (Model.typeIndustrie >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeIndustrie)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.typeIndustrieRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeIndustrieRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Type d'établissement santé</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.typeEtablissementSante >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeEtablissementSante)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.typeEtablissementSanteRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeEtablissementSanteRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Type d'accueil (Santé)</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.typeAcceuil >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeAcceuil)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.typeAcceuilRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeAcceuilRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Capacité d'accueil (Santé)</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.capaciteAcceuilSante >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.capaciteAcceuilSante)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.capaciteAcceuilSanteRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.capaciteAcceuilSanteRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Type d'établissement HR</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.typeEtablissementHR >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeEtablissementHR)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.typeEtablissementHRRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeEtablissementHRRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Nombre d'étoile (HR)</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.nombreEtoile >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreEtoile)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.nombreEtoileRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.nombreEtoileRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Type d'enseignement</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.typeEnseignement >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeEnseignement)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.typeEnseignementRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeEnseignementRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Capacité d'accueil (Enseignement)</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.capaciteAcceuilEnseignement >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.capaciteAcceuilEnseignement)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.capaciteAcceuilEnseignementRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.capaciteAcceuilEnseignementRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Type de loisirs</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.typeLoisirs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeLoisirs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.typeLoisirsRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.typeLoisirsRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Frigorifique (Stockage)</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.frigorifique >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.frigorifique)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.frigorifiqueRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.frigorifiqueRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Plateforme Logistique (Stockage)</b></font></h6>
+                        <div class="col-xs-2">
+                            @if (Model.plateformeLogistique >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.plateformeLogistique)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                        <div class="col-xs-2">
+                            @if (Model.plateformeLogistiqueRs >= 0)
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.plateformeLogistiqueRs)</h6></a>
+                            }
+                            else
+                            {
+                                <a><h6 style="width:35%" class="col-xs-1 control-label">---</h6></a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                                
+                <br />
+                @{
+
+                    String str = Model.pourcentageNotes.ToString("N2");
+                }
+                @{
+
+                    String str2 = Model.pourcentageNotesRs.ToString("N2");
+                }
+
+                <p>
+                    <h5 style="text-align:center"><b>Score: <font color="red">@str % </font></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Resultat: <font color="red">@str2 %</font></b> </h5>
+                  
+                </p>
+               
+
+                <p>
+                    
+                </p>
+                <div class="text-right">
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer" style="background-color:#26A69A;">
+            <button type="button" class="btn btn-link" data-dismiss="modal">Fermer</button>
+
+        </div>
+    </div>
+</div>
+
+

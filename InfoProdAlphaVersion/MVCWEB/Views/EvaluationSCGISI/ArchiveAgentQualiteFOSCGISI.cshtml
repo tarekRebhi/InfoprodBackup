@@ -1,8 +1,16 @@
-﻿
-@model MVCWEB.Models.EvaluationSCGISIViewModel
+﻿@model MVCWEB.Models.EvaluationSCGISIViewModel
 
-@{
+@if (ViewBag.role == "Agent Qualité_Diffusion")
+{
+    ViewBag.Title = "Archive Fo Sc GISI";
+
     Layout = "~/Views/Shared/_Layout_Diffusion.cshtml";
+}
+@if (ViewBag.role == "Agent Qualité_AchatPublic")
+{
+    ViewBag.Title = "Archive Fo Sc GISI";
+
+    Layout = "~/Views/Shared/_Layout_AchatPublic.cshtml";
 }
 
 @section extract {

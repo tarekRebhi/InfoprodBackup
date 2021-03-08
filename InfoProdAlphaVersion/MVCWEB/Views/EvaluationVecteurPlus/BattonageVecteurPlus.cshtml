@@ -80,10 +80,17 @@
             <br />
             <div class="form-group">
                 <label class="col-md-4" style="font-weight: bold;">Avancement:</label>
-                <div class="col-xs-8">
+                <div class="col-xs-4">
                     <select class="bootstrap-select" id="avancement" name="avancement" style="height: 25px;">
                         <option value="1">OK</option>
                         <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="avancementRs" name="avancementRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
                         <option value="-1">NE</option>
                     </select>
                 </div>
@@ -92,10 +99,17 @@
 
             <div class="form-group">
                 <label class="col-md-4" style="font-weight: bold;">Nature:</label>
-                <div class="col-xs-8">
+                <div class="col-xs-4">
                     <select class="bootstrap-select" id="nature" name="nature" style="height: 25px;">
                         <option value="1">OK</option>
                         <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="natureRs" name="natureRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
                         <option value="-1">NE</option>
                     </select>
                 </div>
@@ -103,10 +117,17 @@
             <br />
             <div class="form-group">
                 <label class="col-md-4" style="font-weight: bold;">Typologie:</label>
-                <div class="col-xs-8">
+                <div class="col-xs-4">
                     <select class="bootstrap-select" id="typologie" name="typologie" style="height: 25px;">
                         <option value="1">OK</option>
                         <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="typologieRs" name="typologieRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
                         <option value="-1">NE</option>
                     </select>
                 </div>
@@ -114,20 +135,34 @@
             <br />
             <div class="form-group">
                 <label class="col-md-4" style="font-weight: bold;">Lieu d'Execution:</label>
-                <div class="col-xs-8">
+                <div class="col-xs-4">
                     <select class="bootstrap-select" id="lieuExecution" name="lieuExecution" style="height: 25px;">
                         <option value="1">OK</option>
                         <option value="0">KO</option>
                         <option value="-1">NE</option>
                     </select>
                 </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="lieuExecutionRs" name="lieuExecutionRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">Destination:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="destination" name="destination" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="destinationRs" name="destinationRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -135,10 +170,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">Code RP:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="codeRP" name="codeRP" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="codeRPRs" name="codeRPRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -146,10 +188,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">Nom du programme:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="nomProgramme" name="nomProgramme" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="nomProgrammeRs" name="nomProgrammeRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -157,10 +206,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">Post IT:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="postIT" name="postIT" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="postITRs" name="postITRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -168,10 +224,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">Object:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="objects" name="objects" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="objectsRs" name="objectsRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -179,10 +242,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">Note Clients:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="notreClients" name="notreClients" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="notreClientsRs" name="notreClientsRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -190,10 +260,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">MOA:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="moa" name="moa" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="moaRs" name="moaRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -201,10 +278,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">MOA & Architectes:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="moaArchitectes" name="moaArchitectes" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="moaArchitectesRs" name="moaArchitectesRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -212,10 +296,17 @@
                 <br />
                 <div class="form-group">
                     <label class="col-md-4" style="font-weight: bold;">Bureaux d'études:</label>
-                    <div class="col-xs-8">
+                    <div class="col-xs-4">
                         <select class="bootstrap-select" id="bureauxEtudes" name="bureauxEtudes" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
+                            <option value="-1">NE</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="bureauxEtudesRs" name="bureauxEtudesRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
@@ -224,166 +315,262 @@
                 <!--fin col-6-->
             </div>
         </div>
-  
- 
 
 
-    <div class="col-md-6">
+        <div class="col-md-6">
 
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Bailleurs Sociaux:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="bailleurSociaux" name="bailleurSociaux" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Mairie:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="mairie" name="mairie" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Surface de Plancher:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="surfacePlancher" name="surfacePlancher" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Surface Terrain:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="surfaceTerrain" name="surfaceTerrain" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Surface par Typologie:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="surfaceTypologie" name="surfaceTypologie" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Nombre de Batiment:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="nombreBatiment" name="nombreBatiment" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Nombre d'Etage:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="nombreEtage" name="nombreEtage" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="col-md-4" style="font-weight: bold;">Ascenseur Oui/Non:</label>
-            <div class="col-xs-8">
-                <select class="bootstrap-select" id="ascenseur" name="ascenseur" style="height: 25px;">
-                    <option value="1">OK</option>
-                    <option value="0">KO</option>
-                    <option value="-1">NE</option>
-                </select>
-            </div>
-            <br />
             <div class="form-group">
-                <label class="col-md-4" style="font-weight: bold;">Nombre d'ascenseur:</label>
-                <div class="col-xs-8">
-                    <select class="bootstrap-select" id="nombreAscenseur" name="nombreAscenseur" style="height: 25px;">
+                <label class="col-md-4" style="font-weight: bold;">Bailleurs Sociaux:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="bailleurSociaux" name="bailleurSociaux" style="height: 25px;">
                         <option value="1">OK</option>
                         <option value="0">KO</option>
                         <option value="-1">NE</option>
                     </select>
                 </div>
-                <br />
-                <div class="form-group">
-                    <label class="col-md-4" style="font-weight: bold;">Date Accord:</label>
-                    <div class="col-xs-8">
-                        <select class="bootstrap-select" id="dateAccords" name="dateAccords" style="height: 25px;">
-                            <option value="1">OK</option>
-                            <option value="0">KO</option>
-                            <option value="-1">NE</option>
-                        </select>
-                    </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="bailleurSociauxRs" name="bailleurSociauxRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Mairie:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="mairie" name="mairie" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="mairieRs" name="mairieRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Surface de Plancher:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="surfacePlancher" name="surfacePlancher" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="surfacePlancherRs" name="surfacePlancherRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Surface Terrain:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="surfaceTerrain" name="surfaceTerrain" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="surfaceTerrainRs" name="surfaceTerrainRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Surface par Typologie:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="surfaceTypologie" name="surfaceTypologie" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="surfaceTypologieRs" name="surfaceTypologieRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Nombre de Batiment:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="nombreBatiment" name="nombreBatiment" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="nombreBatimentRs" name="nombreBatimentRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Nombre d'Etage:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="nombreEtage" name="nombreEtage" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="nombreEtageRs" name="nombreEtageRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="col-md-4" style="font-weight: bold;">Ascenseur Oui/Non:</label>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="ascenseur" name="ascenseur" style="height: 25px;">
+                        <option value="1">OK</option>
+                        <option value="0">KO</option>
+                        <option value="-1">NE</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="bootstrap-select" id="ascenseurRs" name="ascenseurRs" style="height: 25px;">
+                        <option value="1">OUI</option>
+                        <option value="0">NON</option>
+                        <option value="-1">NE</option>
+                    </select>
                 </div>
                 <br />
                 <div class="form-group">
-                    <label class="col-md-4" style="font-weight: bold;">Date PC:</label>
-                    <div class="col-xs-8">
-                        <select class="bootstrap-select" id="datePC" name="datePC" style="height: 25px;">
+                    <label class="col-md-4" style="font-weight: bold;">Nombre d'ascenseur:</label>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="nombreAscenseur" name="nombreAscenseur" style="height: 25px;">
                             <option value="1">OK</option>
                             <option value="0">KO</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label class="col-md-4" style="font-weight: bold;">Date de Consultation:</label>
-                    <div class="col-xs-8">
-                        <select class="bootstrap-select" id="dateConsultation" name="dateConsultation" style="height: 25px;">
-                            <option value="1">OK</option>
-                            <option value="0">KO</option>
+                    <div class="col-xs-4">
+                        <select class="bootstrap-select" id="nombreAscenseurRs" name="nombreAscenseurRs" style="height: 25px;">
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                             <option value="-1">NE</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4" style="font-weight: bold;">Date de Travaux:</label>
-                    <div class="col-xs-8">
-                        <select class="bootstrap-select" id="dateTravaux" name="dateTravaux" style="height: 25px;">
-                            <option value="1">OK</option>
-                            <option value="0">KO</option>
-                            <option value="-1">NE</option>
-                        </select>
+                    <br />
+                    <div class="form-group">
+                        <label class="col-md-4" style="font-weight: bold;">Date Accord:</label>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateAccords" name="dateAccords" style="height: 25px;">
+                                <option value="1">OK</option>
+                                <option value="0">KO</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateAccordsRs" name="dateAccordsRs" style="height: 25px;">
+                                <option value="1">OUI</option>
+                                <option value="0">NON</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label class="col-md-4" style="font-weight: bold;">Date de Livraison:</label>
-                    <div class="col-xs-8">
-                        <select class="bootstrap-select" id="dateLivraison" name="dateLivraison" style="height: 25px;">
-                            <option value="1">OK</option>
-                            <option value="0">KO</option>
-                            <option value="-1">NE</option>
-                        </select>
+                    <br />
+                    <div class="form-group">
+                        <label class="col-md-4" style="font-weight: bold;">Date PC:</label>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="datePC" name="datePC" style="height: 25px;">
+                                <option value="1">OK</option>
+                                <option value="0">KO</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="datePCRs" name="datePCRs" style="height: 25px;">
+                                <option value="1">OUI</option>
+                                <option value="0">NON</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                    <br />
+                    <div class="form-group">
+                        <label class="col-md-4" style="font-weight: bold;">Date de Consultation:</label>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateConsultation" name="dateConsultation" style="height: 25px;">
+                                <option value="1">OK</option>
+                                <option value="0">KO</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateConsultationRs" name="dateConsultationRs" style="height: 25px;">
+                                <option value="1">OUI</option>
+                                <option value="0">NON</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4" style="font-weight: bold;">Date de Travaux:</label>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateTravaux" name="dateTravaux" style="height: 25px;">
+                                <option value="1">OK</option>
+                                <option value="0">KO</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateTravauxRs" name="dateTravauxRs" style="height: 25px;">
+                                <option value="1">OUI</option>
+                                <option value="0">NON</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label class="col-md-4" style="font-weight: bold;">Date de Livraison:</label>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateLivraison" name="dateLivraison" style="height: 25px;">
+                                <option value="1">OK</option>
+                                <option value="0">KO</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <select class="bootstrap-select" id="dateLivraisonRs" name="dateLivraisonRs" style="height: 25px;">
+                                <option value="1">OUI</option>
+                                <option value="0">NON</option>
+                                <option value="-1">NE</option>
+                            </select>
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
     <!--fin col-6-->
     </div>
     <!--fin row-->
@@ -471,6 +658,7 @@
                         nomAgent: $("#nomAgent").val(),
                         planDate: $("#planDate").val(),
                         type: $("#type").val(),
+                        //
                         nature: $("#nature").val(),
                         typologie: $("#typologie").val(),
                         avancement: $("#avancement").val(),
@@ -498,6 +686,34 @@
                         ascenseur: $("#ascenseur").val(),
                         nombreAscenseur: $("#nombreAscenseur").val(),
                         lieuExecution: $("#lieuExecution").val(),
+                        //
+                        natureRs: $("#natureRs").val(),
+                        typologieRs: $("#typologieRs").val(),
+                        avancementRs: $("#avancementRs").val(),
+                        destinationRs: $("#destinationRs").val(),
+                        codeRPRs: $("#codeRPRs").val(),
+                        nomProgrammeRs: $("#nomProgrammeRs").val(),
+                        postITRs: $("#postITRs").val(),
+                        objectsRs: $("#objectsRs").val(),
+                        notreClientsRs: $("#notreClientsRs").val(),
+                        moaRs: $("#moaRs").val(),
+                        moaArchitectesRs: $("#moaArchitectesRs").val(),
+                        bureauxEtudesRs: $("#bureauxEtudesRs").val(),
+                        bailleurSociauxRs: $("#bailleurSociauxRs").val(),
+                        mairieRs: $("#mairieRs").val(),
+                        dateAccordsRs: $("#dateAccordsRs").val(),
+                        datePCRs: $("#datePCRs").val(),
+                        dateConsultationRs: $("#dateConsultationRs").val(),
+                        dateTravauxRs: $("#dateTravauxRs").val(),
+                        dateLivraisonRs: $("#dateLivraisonRs").val(),
+                        surfacePlancherRs: $("#surfacePlancherRs").val(),
+                        surfaceTerrainRs: $("#surfaceTerrainRs").val(),
+                        surfaceTypologieRs: $("#surfaceTypologieRs").val(),
+                        nombreBatimentRs: $("#nombreBatimentRs").val(),
+                        nombreEtageRs: $("#nombreEtageRs").val(),
+                        ascenseurRs: $("#ascenseurRs").val(),
+                        nombreAscenseurRs: $("#nombreAscenseurRs").val(),
+                        lieuExecutionRs: $("#lieuExecutionRs").val(),
 
                         commentaire: $("#commentaire").val(),
                         enregistrement: $("#listen").val(),
@@ -551,7 +767,35 @@
                         ascenseur: $("#ascenseur").val(),
                         nombreAscenseur: $("#nombreAscenseur").val(),
                         lieuExecution: $("#lieuExecution").val(),
-
+                        //
+                        natureRs: $("#natureRs").val(),
+                        typologieRs: $("#typologieRs").val(),
+                        avancementRs: $("#avancementRs").val(),
+                        destinationRs: $("#destinationRs").val(),
+                        codeRPRs: $("#codeRPRs").val(),
+                        nomProgrammeRs: $("#nomProgrammeRs").val(),
+                        postITRs: $("#postITRs").val(),
+                        objectsRs: $("#objectsRs").val(),
+                        notreClientsRs: $("#notreClientsRs").val(),
+                        moaRs: $("#moaRs").val(),
+                        moaArchitectesRs: $("#moaArchitectesRs").val(),
+                        bureauxEtudesRs: $("#bureauxEtudesRs").val(),
+                        bailleurSociauxRs: $("#bailleurSociauxRs").val(),
+                        mairieRs: $("#mairieRs").val(),
+                        dateAccordsRs: $("#dateAccordsRs").val(),
+                        datePCRs: $("#datePCRs").val(),
+                        dateConsultationRs: $("#dateConsultationRs").val(),
+                        dateTravauxRs: $("#dateTravauxRs").val(),
+                        dateLivraisonRs: $("#dateLivraisonRs").val(),
+                        surfacePlancherRs: $("#surfacePlancherRs").val(),
+                        surfaceTerrainRs: $("#surfaceTerrainRs").val(),
+                        surfaceTypologieRs: $("#surfaceTypologieRs").val(),
+                        nombreBatimentRs: $("#nombreBatimentRs").val(),
+                        nombreEtageRs: $("#nombreEtageRs").val(),
+                        ascenseurRs: $("#ascenseurRs").val(),
+                        nombreAscenseurRs: $("#nombreAscenseurRs").val(),
+                        lieuExecutionRs: $("#lieuExecutionRs").val(),
+                        //
                         commentaire: $("#commentaire").val(),
                         enregistrement: $("#listen").val(),
                         enregistrementUrl: $("#listen2").val(),
@@ -566,7 +810,7 @@
             })
         })
 
-    </script>
+</script>
 
 }
 

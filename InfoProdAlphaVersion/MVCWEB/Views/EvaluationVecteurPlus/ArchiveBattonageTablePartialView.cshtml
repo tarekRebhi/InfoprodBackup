@@ -11,35 +11,63 @@
         <tr style="font-weight:bold;">
             <th style="font-weight:bold;">Date </th>
             <th style="font-weight:bold;">Score</th>
+            <th style="font-weight:bold;">Resultat</th>
             <th style="font-weight:bold;">Type</th>
             <th style="font-weight:bold;">Récepteur de l'évaluation</th>
             <th hidden> avancement  </th>
+            <th hidden> </th>
             <th hidden> nature  </th>
-            <th hidden> typologie  </th> 
-            <th hidden> lieuExecution </th>  
+            <th hidden> </th>
+            <th hidden> typologie  </th>
+            <th hidden> </th>
+            <th hidden> lieuExecution </th>
+            <th hidden> </th>
             <th hidden> destination  </th>
+            <th hidden> </th>
             <th hidden> codeRP  </th>
+            <th hidden> </th>
             <th hidden> Nom Programme  </th>
+            <th hidden> </th>
             <th hidden> Post IT  </th>
+            <th hidden> </th>
             <th hidden> Object  </th>
+            <th hidden> </th>
             <th hidden> Note Clients  </th>
+            <th hidden> </th>
             <th hidden> moa  </th>
+            <th hidden> </th>
             <th hidden> moaArchitectes  </th>
+            <th hidden> </th>
             <th hidden> bureauxEtudes  </th>
+            <th hidden> </th>
             <th hidden> bailleurSociaux  </th>
+            <th hidden> </th>
             <th hidden> Mairie  </th>
+            <th hidden> </th>
             <th hidden> surfacePlancher  </th>
+            <th hidden> </th>
             <th hidden> surfaceTerrain  </th>
+            <th hidden> </th>
             <th hidden> surfaceTypologie </th>
+            <th hidden> </th>
             <th hidden> nombreBatiment </th>
+            <th hidden> </th>
             <th hidden> nombreEtage </th>
+            <th hidden> </th>
             <th hidden> ascenseur </th>
+            <th hidden> </th>
             <th hidden> nombreAscenseur  </th>
+            <th hidden> </th>
             <th hidden> dateAccords </th>
+            <th hidden> </th>
             <th hidden> datePC  </th>
+            <th hidden> </th>
             <th hidden> dateConsultation  </th>
+            <th hidden> </th>
             <th hidden> dateTravaux  </th>
+            <th hidden> </th>
             <th hidden> dateLivraison  </th>
+            <th hidden> </th>
             <th style="font-weight:bold;">Commentaires</th>
             <th hidden>Réponse Agent</th>
             <th style="font-weight:bold;">Notes</th>
@@ -61,12 +89,28 @@
                 }
 
                 <td><font color="red">@str%</font></td>
+
+                @{
+
+                    String strRs = item.noteRs.ToString("N2");
+                }
+                <td><font color="red">@strRs%</font></td>
                 <td>@item.type</td>
                 <td>@item.agentName</td>
                 <td hidden>
                     @if (item.avancement >= 0)
                     {
                         @item.avancement
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.avancementRs >= 0)
+                    {
+                        @item.avancementRs
                     }
                     else
                     {
@@ -84,9 +128,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.natureRs >= 0)
+                    {
+                        @item.natureRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.typologie >= 0)
                     {
                         @item.typologie
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.typologieRs >= 0)
+                    {
+                        @item.typologieRs
                     }
                     else
                     {
@@ -104,9 +168,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.lieuExecutionRs >= 0)
+                    {
+                        @item.lieuExecutionRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.destination >= 0)
                     {
                         @item.destination
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.destinationRs >= 0)
+                    {
+                        @item.destinationRs
                     }
                     else
                     {
@@ -124,9 +208,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.codeRPRs >= 0)
+                    {
+                        @item.codeRPRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.nomProgramme >= 0)
                     {
                         @item.nomProgramme
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nomProgrammeRs >= 0)
+                    {
+                        @item.nomProgrammeRs
                     }
                     else
                     {
@@ -144,9 +248,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.postITRs >= 0)
+                    {
+                        @item.postITRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.objects >= 0)
                     {
                         @item.objects
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.objectsRs >= 0)
+                    {
+                        @item.objectsRs
                     }
                     else
                     {
@@ -164,9 +288,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.notreClientsRs >= 0)
+                    {
+                        @item.notreClientsRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.moa >= 0)
                     {
                         @item.moa
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.moaRs >= 0)
+                    {
+                        @item.moaRs
                     }
                     else
                     {
@@ -184,9 +328,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.moaArchitectesRs >= 0)
+                    {
+                        @item.moaArchitectesRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.bureauxEtudes >= 0)
                     {
                         @item.bureauxEtudes
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.bureauxEtudesRs >= 0)
+                    {
+                        @item.bureauxEtudesRs
                     }
                     else
                     {
@@ -204,6 +368,16 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.bailleurSociauxRs >= 0)
+                    {
+                        @item.bailleurSociauxRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.mairie >= 0)
                     {
                         @item.mairie
@@ -214,9 +388,30 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.mairieRs >= 0)
+                    {
+                        @item.mairieRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+
+                <td hidden>
                     @if (item.surfacePlancher >= 0)
                     {
                         @item.surfacePlancher
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.surfacePlancherRs >= 0)
+                    {
+                        @item.surfacePlancherRs
                     }
                     else
                     {
@@ -234,9 +429,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.surfaceTerrainRs >= 0)
+                    {
+                        @item.surfaceTerrainRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.surfaceTypologie >= 0)
                     {
                         @item.surfaceTypologie
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.surfaceTypologieRs >= 0)
+                    {
+                        @item.surfaceTypologieRs
                     }
                     else
                     {
@@ -254,9 +469,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.nombreBatimentRs >= 0)
+                    {
+                        @item.nombreBatimentRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.nombreEtage >= 0)
                     {
                         @item.nombreEtage
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nombreEtageRs >= 0)
+                    {
+                        @item.nombreEtageRs
                     }
                     else
                     {
@@ -274,9 +509,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.ascenseurRs >= 0)
+                    {
+                        @item.ascenseurRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.nombreAscenseur >= 0)
                     {
                         @item.nombreAscenseur
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.nombreAscenseurRs >= 0)
+                    {
+                        @item.nombreAscenseurRs
                     }
                     else
                     {
@@ -294,6 +549,16 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.dateAccordsRs >= 0)
+                    {
+                        @item.dateAccordsRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.datePC >= 0)
                     {
                         @item.datePC
@@ -304,9 +569,29 @@
                     }
                 </td>
                 <td hidden>
+                    @if (item.datePCRs >= 0)
+                    {
+                        @item.datePCRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
                     @if (item.dateConsultation >= 0)
                     {
                         @item.dateConsultation
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.dateConsultationRs >= 0)
+                    {
+                        @item.dateConsultationRs
                     }
                     else
                     {
@@ -325,9 +610,31 @@
 
                 </td>
                 <td hidden>
+                    @if (item.dateTravauxRs >= 0)
+                    {
+                        @item.dateTravauxRs
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+
+                </td>
+
+                <td hidden>
                     @if (item.dateLivraison >= 0)
                     {
                         @item.dateLivraison
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.dateLivraisonRs >= 0)
+                    {
+                        @item.dateLivraisonRs
                     }
                     else
                     {
@@ -356,6 +663,12 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.avancementRs >= 0)
+                                        {@item.avancementRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Nature:
@@ -365,11 +678,23 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.natureRs >= 0)
+                                        {@item.natureRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 <li>
                                     Typologie:
                                     <span>
                                         @if (item.typologie >= 0)
                                         {@item.typologie }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.typologieRs >= 0)
+                                        {@item.typologieRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -382,12 +707,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.lieuExecutionRs >= 0)
+                                        {@item.lieuExecutionRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Destination :
                                     <span>
                                         @if (item.destination >= 0)
                                         {@item.destination }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.destinationRs >= 0)
+                                        {@item.destinationRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -400,12 +737,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.codeRPRs >= 0)
+                                        {@item.codeRPRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Nom Programme :
                                     <span>
                                         @if (item.nomProgramme >= 0)
                                         {@item.nomProgramme }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.nomProgrammeRs >= 0)
+                                        {@item.nomProgrammeRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -418,12 +767,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.postITRs >= 0)
+                                        {@item.postITRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Object :
                                     <span>
                                         @if (item.objects >= 0)
                                         {@item.objects }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.objectsRs >= 0)
+                                        {@item.objectsRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -436,12 +797,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.notreClientsRs >= 0)
+                                        {@item.notreClientsRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     MOA:
                                     <span>
                                         @if (item.moa >= 0)
                                         {@item.moa }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.moaRs >= 0)
+                                        {@item.moaRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -454,12 +827,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.moaArchitectesRs >= 0)
+                                        {@item.moaArchitectesRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Bureaux d'Etudes:
                                     <span>
                                         @if (item.bureauxEtudes >= 0)
                                         {@item.bureauxEtudes }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.bureauxEtudesRs >= 0)
+                                        {@item.bureauxEtudesRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -472,6 +857,12 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.bailleurSociauxRs >= 0)
+                                        {@item.bailleurSociauxRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Mairie :
@@ -481,12 +872,25 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.mairieRs >= 0)
+                                        {@item.mairieRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
+
                                 <li>
                                     Surface Plancher:
                                     <span>
                                         @if (item.surfacePlancher >= 0)
                                         {@item.surfacePlancher }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.surfacePlancherRs >= 0)
+                                        {@item.surfacePlancherRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -499,12 +903,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.surfaceTerrainRs >= 0)
+                                        {@item.surfaceTerrainRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Surface par Typologie :
                                     <span>
                                         @if (item.surfaceTypologie >= 0)
                                         {@item.surfaceTypologie }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.surfaceTypologieRs >= 0)
+                                        {@item.surfaceTypologieRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -517,12 +933,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.nombreBatimentRs >= 0)
+                                        {@item.nombreBatimentRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Nombre d'etage:
                                     <span>
                                         @if (item.nombreEtage >= 0)
                                         {@item.nombreEtage }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.nombreEtageRs >= 0)
+                                        {@item.nombreEtageRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -535,12 +963,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.ascenseurRs >= 0)
+                                        {@item.ascenseurRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Nombre d'ascenseur:
                                     <span>
                                         @if (item.nombreAscenseur >= 0)
                                         {@item.nombreAscenseur }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.nombreAscenseurRs >= 0)
+                                        {@item.nombreAscenseurRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -553,12 +993,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.dateAccordsRs >= 0)
+                                        {@item.dateAccordsRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Date PC:
                                     <span>
                                         @if (item.datePC >= 0)
                                         {@item.datePC }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.datePCRs >= 0)
+                                        {@item.datePCRs }
                                         else
                                         {<label>-</label>}
                                     </span>
@@ -571,6 +1023,12 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.dateConsultationRs >= 0)
+                                        {@item.dateConsultationRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Date de Travaux:
@@ -580,12 +1038,24 @@
                                         else
                                         {<label>-</label>}
                                     </span>
+                                    <span>
+                                        @if (item.dateTravauxRs >= 0)
+                                        {@item.dateTravauxRs }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
                                 </li>
                                 <li>
                                     Date de Livraison:
                                     <span>
                                         @if (item.dateLivraison >= 0)
                                         {@item.dateLivraison }
+                                        else
+                                        {<label>-</label>}
+                                    </span>
+                                    <span>
+                                        @if (item.dateLivraisonRs >= 0)
+                                        {@item.dateLivraisonRs }
                                         else
                                         {<label>-</label>}
                                     </span>

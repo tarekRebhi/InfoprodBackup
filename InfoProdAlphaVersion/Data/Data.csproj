@@ -256,6 +256,18 @@
     <Compile Include="Migrations\202007211017299_AppSortantsSamRc.Designer.cs">
       <DependentUpon>202007211017299_AppSortantsSamRc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101201401445_ModifGrilleBattonage.cs" />
+    <Compile Include="Migrations\202101201401445_ModifGrilleBattonage.Designer.cs">
+      <DependentUpon>202101201401445_ModifGrilleBattonage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102091427204_ajout grille typologie.cs" />
+    <Compile Include="Migrations\202102091427204_ajout grille typologie.Designer.cs">
+      <DependentUpon>202102091427204_ajout grille typologie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102160834483_Ajout 2 item grilles FO et FOSAMRC.cs" />
+    <Compile Include="Migrations\202102160834483_Ajout 2 item grilles FO et FOSAMRC.Designer.cs">
+      <DependentUpon>202102160834483_Ajout 2 item grilles FO et FOSAMRC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\EvaluationPRVRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -271,6 +283,7 @@
     <Compile Include="Repository\EvaluationBOSAMRCRepository.cs" />
     <Compile Include="Repository\EvaluationBOSCGISIRepository.cs" />
     <Compile Include="Repository\EvaluationBPPRepository.cs" />
+    <Compile Include="Repository\EvaluationBPPTypologieRepository.cs" />
     <Compile Include="Repository\EvaluationEnqueteAutoRepository.cs" />
     <Compile Include="Repository\EvaluationFOSAMRCRepository.cs" />
     <Compile Include="Repository\EvaluationFOSCGISIRepository.cs" />
@@ -290,6 +303,7 @@
     <Compile Include="Repository\IEvaluationBOSAMRCRepository.cs" />
     <Compile Include="Repository\IEvaluationBOSCGISIRepository.cs" />
     <Compile Include="Repository\IEvaluationBPPRepository.cs" />
+    <Compile Include="Repository\IEvaluationBPPTypologieRepository.cs" />
     <Compile Include="Repository\IEvaluationEnqueteAutoRepository.cs" />
     <Compile Include="Repository\IEvaluationFOSAMRCRepository.cs" />
     <Compile Include="Repository\IEvaluationKLMORepository.cs" />
@@ -445,6 +459,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007211017299_AppSortantsSamRc.resx">
       <DependentUpon>202007211017299_AppSortantsSamRc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101201401445_ModifGrilleBattonage.resx">
+      <DependentUpon>202101201401445_ModifGrilleBattonage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102091427204_ajout grille typologie.resx">
+      <DependentUpon>202102091427204_ajout grille typologie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102160834483_Ajout 2 item grilles FO et FOSAMRC.resx">
+      <DependentUpon>202102160834483_Ajout 2 item grilles FO et FOSAMRC.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -86,6 +86,7 @@
     <Compile Include="Entity\GrilleEvaluationKLMO.cs" />
     <Compile Include="Entity\GrilleEvaluationPRV.cs" />
     <Compile Include="Entity\GrilleEvaluationQR.cs" />
+    <Compile Include="Entity\GrilleEvaluationBPPTypologie.cs" />
     <Compile Include="Entity\Groupe.cs" />
     <Compile Include="Entity\GroupesEmployees.cs" />
     <Compile Include="Entity\Indicateur.cs" />

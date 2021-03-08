@@ -261,19 +261,51 @@
                                     <a href="@Url.Action("listeSitesAgentQualite", "Superviseur")"><i class="glyphicon glyphicon-volume-up"></i> <span>Accès aux Enregistrements </span></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Ref_SC_AchatPublic", "Directory")"><i class="glyphicon glyphicon-book"></i> <span>Grille d'écoute et Référentiel</span></a>
+                                    <a href="#"><i class="glyphicon glyphicon-book"></i> <span>Grille d'écoute et Référentiel</span></a>
+                                    <ul>
+                                        <li>
+                                            <a href="@Url.Action("Ref_SC_AchatPublic", "Directory")">Achat Public Référentiel </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">DIFFUSION</a>
+                                            <ul>                                                
+                                                <li>
+                                                    <a href="@Url.Action("Ref_FO_SCDiff", "Directory")">FrontOffice SC GISI Référentiel </a>
+                                                </li>
+                                            </ul>
+                                        </li>                                        
+                                    </ul>
                                 </li>
 
                                 <li>
                                     <a href="#"><i class="glyphicon glyphicon-briefcase"></i> <span>Historique</span></a>
                                     <ul>
                                         <li>
-                                            <a href="@Url.Action("HistoriqueAchatPublic", "EvaluationAchatPublic")">Par Collaborateur</a>
+                                            <a href="#">Par Collaborateur</a>
+                                            <ul>
+                                                <li><a href="@Url.Action("HistoriqueAchatPublic", "EvaluationAchatPublic")">Achat Public</a></li>
+                                                <li>
+                                                    <a href="#">DIFFUSION</a>
+                                                    <ul>                                                        
+                                                        <li><a href="@Url.Action("HistoriqueFOSCGISI", "EvaluationSCGISI")">Front Office SC GISI</a></li>                                                        
+                                                    </ul>
+                                                </li>                                                
+                                            </ul>
                                         </li>
 
                                         <li>
-                                            <a href="@Url.Action("ArchiveAgentQualiteAchatPublic", "EvaluationAchatPublic")">Mon Historique</a>
+                                            <a href="#">Mon Historique</a>
+                                            <ul>
+                                                <li><a href="@Url.Action("ArchiveAgentQualiteAchatPublic", "EvaluationAchatPublic")">Achat Public</a></li>
+                                                <li>
+                                                    <a href="#">DIFFUSION</a>
+                                                    <ul>                                                        
+                                                        <li><a href="@Url.Action("ArchiveAgentQualiteFOSCGISI", "EvaluationSCGISI")">Front Office SC GISI</a></li>                                                        
+                                                    </ul>
+                                                </li>                                                
+                                            </ul>
                                         </li>
+
                                     </ul>
                                 </li>
                                 <li>

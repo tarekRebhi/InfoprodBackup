@@ -279,48 +279,34 @@ namespace MVCWEB.Controllers
             service.SaveChange();
             var eval = new EvaluationEvaluationSCAutoViewModel();
             eval.agentName = nomAgent;
-            //try
-            //{
-            //    SmtpMail oMail = new SmtpMail("TryIt");
-            //    EASendMail.SmtpClient oSmtp = new EASendMail.SmtpClient();
 
-            //    // l"adresse Email d'emetteur 
-            //    oMail.From = "Sana.BENSALAH@infopro-digital.com";
+            string SenderMail = "alerte.infoprod@infopro-digital.com";
+            string receiverMail = emp.Email;
+            MailAddress to = new MailAddress(receiverMail);
+            MailAddress from = new MailAddress(SenderMail);
 
-            //    //adresse destinataire
-            //    oMail.To = emp.Email;
-            //    // Objet Mail
+            MailMessage message = new MailMessage(from, to);
+            message.Subject = "Notification Nouvelle Evaluation";
+            message.IsBodyHtml = true;
+            message.Body = "<html><head></head><body><p>Bonjour,</p><p>Nous vous informons qu'un audit qualité viens d'être enregistré, vous pouvez le consulter sur l’interface INFO-PROD QUALITE </p><p>En attendant le débriefe de l’évaluateur</p><p>Cordialement.</p></body></html>";
 
-            //    oMail.Subject = "Evaluation pour " + username;
-            //    //contenu du mail designed avec HTML
-            //    //oMail.HtmlBody = "<table><tr><td><h3 style='color:red;'>Résultat Evaluation:</h3><div><h5 style='color:#1E88E5;'>Date et temps d'évaluation :</h5><h5>" + dateCreationtest + "</h5></div><h5 style='color:#1E88E5;'>Acceuil / Presentation  :  " + acceuil+ "</h5><h5 style='color:#1E88E5;'>Objet d'appel : " + objetAppel+ "</h5><h5 style='color:#1E88E5;'>Présentation de l'offre / valider la satisfaction client: " + a.presentationOffre + "</h5><h5 style='color:#1E88E5;'>Gestion des objections : " + a.gestionObjection+ "</h5><h5 style='color:#1E88E5;'>Verrouillage et conclusion du contact : " + a.vCContrat+ "</h5><h5 style='color:#1E88E5;'>Proposition Cross : " + a.pCross+ "</h5><h5 style='color:#1E88E5;'>Discours : " + a.discours+ "</h5><h5 style='color:#1E88E5;'>Attitude : " + a.attitude+ "</h5><h5 style='color:#1E88E5;'>votre score est <font clolor ='red;'>" + a.pourcentageNotes + " %</font></h5>";
+            SmtpClient client = new SmtpClient("smtp.info.local", 587)
+            {
+                UseDefaultCredentials = true,
+                // Credentials = new NetworkCredential("alerte.infoprod@infopro-digital.com", "Welcome01"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true
+            };
+            // code in brackets above needed if authentication required 
+            try
+            {
+                client.Send(message);
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
-            //    oMail.HtmlBody = "<html><head><head><style>#customers {font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;border-collapse: collapse;width: 100 %;}#customers td, #customers th {border: 1px solid #ddd;padding: 8px;}#customers tr:nth-child(even){background-color: #f2f2f2;}#customers tr:hover {background-color: #ddd;}#customers th {padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;}</style></head></head><body><p>Bonjour,<p><p>Vous avez une évaluation de la part du qualité </p><p>Cordialement.</p></body></html>";
-            //    // oMail.HtmlBody = "<html><head><head><style>#customers {font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;border-collapse: collapse;width: 100 %;}#customers td, #customers th {border: 1px solid #ddd;padding: 8px;}#customers tr:nth-child(even){background-color: #f2f2f2;}#customers tr:hover {background-color: #ddd;}#customers th {padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;}</style></head></head><body><h5 style='color:red;'>Nom Complet de l'enregistrement</h5><a href='#'><h7 style='color:blue;'>" + enregistrement + "</h7></a><br /><br/><table id='customers'><tr><th>Date Evaluation</th><th>Acceuil / Présentation</th><th>Objet d'appel</th><th>Présentation de l'offre / valider la satisfaction client</th> <th>Gestion objections</th><th>Verrouillage et conclusion du contact</th><th>Proposition Cross</th><th>Discours</th><th>Attitude</th><th>Prise de congé</th><th>Score</th></tr><tr><td>" + dateTest + "</td><td>" + acceuil + "</td><td>" + objetAppel + "</td><td>" + a.presentationOffre + "</td><td>" + a.gestionObjection + "</td><td>" + a.vCContrat + "</td><td>" + a.pCross + "</td><td>" + a.discours + "</td><td>" + a.attitude + "</td><td>" + a.priseConge + "</td><td style='color:red;'>" + a.pourcentageNotes + "%" + "</td></tr></table></body></html>";
-            //    // Set email body
-            //    //oMail.TextBody = "Vous venez d'étre évalué sur vos enregistrements ";
-
-            //    // Instance du serveur SMTP et commpe parametre son Adresse.
-            //    SmtpServer oServer = new SmtpServer("smtp.info.local");
-
-            //    // username , password d'émetteur
-            //    oServer.User = "Sana.BENSALAH@infopro-digital.com";
-            //    oServer.Password = "Welcome01";
-
-            //    // associer ou port  25 ou bien 587.
-            //    oServer.Port = 587;
-
-            //    // detect TLS connection automatically
-            //    oServer.ConnectType = SmtpConnectType.ConnectSSLAuto;
-            //    oSmtp.SendMail(oServer, oMail);
-
-            //    ViewBag.msg = "mail sent";
-            //}
-            //catch (SmtpException)
-            //{
-            //    ViewBag.msg = "mail not sent";
-            //    return RedirectToAction("Promo");
-            //}
             if (Request.IsAjaxRequest())
             {
                 return PartialView("EnvoiMailResult", eval);
@@ -899,10 +885,10 @@ namespace MVCWEB.Controllers
             }
             return View(a);
         }
-        public ActionResult CalculSAMRCFOAuto(string nomAgent, string planDate, string accueil, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult CalculSAMRCFOAuto(string nomAgent, string planDate, string accueil, string MajDonnees, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
-            float total = 40;
-            List<string> NEList = new List<string>(new string[] { miseAttente, tempsAttente});
+            float total = 43;
+            List<string> NEList = new List<string>(new string[] { miseAttente,MajDonnees,tempsAttente});
             var a = new EvaluationEvaluationSCAutoViewModel();
             float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) +
                 float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat) +
@@ -921,6 +907,7 @@ namespace MVCWEB.Controllers
             }
        
             a.accueil = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat);
+            a.MajDonnees = float.Parse(MajDonnees, CultureInfo.InvariantCulture.NumberFormat);
             a.decouverteAttentes = float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat);
             a.utilisationOutils = float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat);
             a.miseAttente = float.Parse(miseAttente, CultureInfo.InvariantCulture.NumberFormat);
@@ -945,13 +932,13 @@ namespace MVCWEB.Controllers
             return RedirectToAction("listeSites", "Superviseur");
         }
 
-        public ActionResult SaveEvalSAMRCFOAuto(string nomAgent, string planDate, string accueil, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult SaveEvalSAMRCFOAuto(string nomAgent, string planDate,string MajDonnees, string accueil, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
             var userConnected = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
             Employee emp = serviceEmployee.getByPseudoName(nomAgent.ToLower());
             GrilleEvaluationFOSAMRC a = new GrilleEvaluationFOSAMRC();
-            float total = 40;
-            List<string> NEList = new List<string>(new string[] { miseAttente, tempsAttente });
+            float total = 43;
+            List<string> NEList = new List<string>(new string[] { miseAttente, MajDonnees ,tempsAttente });
 
             float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) + 
                 float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat) +
@@ -969,6 +956,7 @@ namespace MVCWEB.Controllers
                 }
             }
             a.accueil = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat);
+            a.MajDonnees = float.Parse(MajDonnees, CultureInfo.InvariantCulture.NumberFormat);
             a.decouverteAttentes = float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat);
             a.utilisationOutils = float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat);
             a.miseAttente = float.Parse(miseAttente, CultureInfo.InvariantCulture.NumberFormat);
@@ -1255,6 +1243,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
                     test.miseAttente = item.miseAttente;
@@ -1321,6 +1310,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
                     test.miseAttente = item.miseAttente;
@@ -1418,6 +1408,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
                     test.miseAttente = item.miseAttente;
@@ -1477,6 +1468,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
                     test.miseAttente = item.miseAttente;
@@ -1959,8 +1951,8 @@ namespace MVCWEB.Controllers
         [Authorize(Roles = "Qualité")]
         public ActionResult EditSAMRCFO(int? id, GrilleEvaluationFOSAMRC evaluation)
         {
-            float total = 40;
-            List<float> NEList = new List<float>(new float[] { evaluation.miseAttente, evaluation.tempsAttente });
+            float total = 43;
+            List<float> NEList = new List<float>(new float[] { evaluation.miseAttente,evaluation.MajDonnees, evaluation.tempsAttente });
             float notes = evaluation.accueil + evaluation.decouverteAttentes + evaluation.utilisationOutils +
               evaluation.pertinenceReponse + evaluation.conclusionContact + evaluation.discours +
               evaluation.attitude + evaluation.historisation + evaluation.priseConge;
@@ -3192,11 +3184,11 @@ namespace MVCWEB.Controllers
         }
         public JsonResult GetReportsSAMRCFO(string username, string dateDebut, string dateFin)
         {
-            float totAccueil = 0, totDecouverteAttentes = 0, totUtilisationOutils = 0, totMiseAttente = 0,
+            float totAccueil = 0,totMajDonnees=0, totDecouverteAttentes = 0, totUtilisationOutils = 0, totMiseAttente = 0,
                 totTempsAttente = 0, totPertinenceReponse = 0, totConclusionContact = 0, totDiscours = 0, totAttitude = 0,
                 totHistorisation = 0 ,totPriseConge = 0, totNotes = 0;
 
-            float NbreMiseAttente = 0, NbreTempsAttente = 0;
+            float NbreMiseAttente = 0, NbreMajDonnees = 0, NbreTempsAttente = 0;
                
             DateTime daterecherchedebut = DateTime.Parse(dateDebut);
             DateTime daterecherchefin = DateTime.Parse(dateFin);
@@ -3212,7 +3204,7 @@ namespace MVCWEB.Controllers
             foreach (var item in historstions)
             {
                 totNotes += item.note;
-                totAccueil += item.accueil;
+                totAccueil += item.accueil;                
                 totDecouverteAttentes += item.decouverteAttentes;
                 totUtilisationOutils += item.utilisationOutils;
                 totPertinenceReponse += item.pertinenceReponse;
@@ -3227,6 +3219,11 @@ namespace MVCWEB.Controllers
                     totMiseAttente += item.miseAttente;
                     NbreMiseAttente += 1;
                 }
+                if (item.MajDonnees >= 0)
+                {
+                    totMajDonnees += item.MajDonnees;
+                    NbreMajDonnees += 1;
+                }                 
                 if (item.tempsAttente >= 0)
                 {
                     totTempsAttente += item.tempsAttente;
@@ -3242,6 +3239,12 @@ namespace MVCWEB.Controllers
                 test.miseAttente = (float)Math.Round((totMiseAttente / (NbreMiseAttente * 2)) * 100, 2);
             }
             else { test.miseAttente = -2; }
+            if (NbreMajDonnees != 0)
+            {
+                test.MajDonnees = (float)Math.Round((totMajDonnees / (NbreMajDonnees * 3)) * 100, 2);
+            }
+            else { test.MajDonnees = -3; }
+           
             if (NbreTempsAttente != 0)
             {
                 test.tempsAttente = (float)Math.Round((totTempsAttente / (NbreTempsAttente * 2)) * 100, 2);

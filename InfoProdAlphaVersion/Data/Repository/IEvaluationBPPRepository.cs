@@ -10,7 +10,7 @@ namespace Data.Repository
 {
     public interface IEvaluationBPPRepository : IRepositoryBase<GrilleEvaluationBPP>
     {
-         List<GrilleEvaluationBPP> GetEvaluationsByEmployee(int id);
+        List<GrilleEvaluationBPP> GetEvaluationsByEmployee(int id);
         List<GrilleEvaluationBPP> GetEvaluationsBySenderId(int id);
        // List<GrilleEvaluationBPP> GetEvaluationsEmployeeByDate(int id, DateTime date);
         List<GrilleEvaluationBPP> GetEvaluationsEmployeeBetweenTwoDates(int id, DateTime dateDebut, DateTime dateFin);

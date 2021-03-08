@@ -12,6 +12,12 @@
 
     Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
 }
+@if (ViewBag.role == "Agent Qualité_AchatPublic")
+{
+    ViewBag.Title = "HistoriqueFOSCGISI";
+
+    Layout = "~/Views/Shared/_Layout_AchatPublic.cshtml";
+}
 @if (ViewBag.role == "Manager")
 {
     ViewBag.Title = "HistoriqueFOSCGISI";

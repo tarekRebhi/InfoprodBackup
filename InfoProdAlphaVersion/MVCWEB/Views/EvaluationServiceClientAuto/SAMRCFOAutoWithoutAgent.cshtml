@@ -84,7 +84,22 @@
             </div>
         </div>
     </div>
+<br />
+    <div class="row" id="MajDonneesRow">
+    <div class="col-1">
+        <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>MAJ des coordonnées Client</b></font></h6>
 
+        <div class="col-xs-4">
+            <select class="bootstrap-select" id="MajDonnees" name="MajDonnees" style="height: 25px;">
+
+                <option value="3">OK</option>
+                <option value="0">KO</option>
+                <option value="-3">NE</option>
+            </select>
+        </div>
+    </div>
+</div>
+      <br />
     <br />
     <div class="row" id="decouverteAttentesScriptRow">
         <div class="col-1">
@@ -178,7 +193,7 @@
 
     <div class="row" id="attitudeRow">
         <div class="col-1">
-            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Empathie / Attitude</b></font></h6>
+            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Empathie / Attitude / Personnalisation</b></font></h6>
             <div class="col-xs-4">
                 <select class="bootstrap-select" id="attitude" name="attitude" style="height: 45px;">
                     <option value="4">OK</option>
@@ -289,6 +304,7 @@
                         planDate: $("#planDate").val(),
 
                         accueil: $("#accueil").val(),
+                        MajDonnees: $("#MajDonnees").val(),
                         decouverteAttentes: $("#decouverteAttentes").val(),
                         utilisationOutils: $("#utilisationOutils").val(),
                         miseAttente: $("#miseAttente").val(),
@@ -329,6 +345,7 @@
                         planDate: $("#planDate").val(),
 
                         accueil: $("#accueil").val(),
+                        MajDonnees: $("#MajDonnees").val(),
                         decouverteAttentes: $("#decouverteAttentes").val(),
                         utilisationOutils: $("#utilisationOutils").val(),
                         miseAttente: $("#miseAttente").val(),

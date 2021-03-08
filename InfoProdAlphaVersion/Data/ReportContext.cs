@@ -49,6 +49,7 @@ namespace Data
         public DbSet<GrilleEvaluationQR> GrilleEvaluationQRs { get; set; }
         public DbSet<GrilleEvaluationKLMO> GrilleEvaluationKLMOes { get; set; }
         public DbSet<GrilleEvaluationBPP> GrilleEvaluationBPPs { get; set; }
+        public DbSet<GrilleEvaluationBPPTypologie> GrilleEvaluationBPPTypologies { get; set; }
         public DbSet<GrilleEvaluationEnqueteAuto> GrilleEvaluationEnqueteAutoes { get; set; }
         public DbSet<GrilleEvaluationFO> GrilleEvaluationFOSCGISI { get; set; }
         public DbSet<GrilleEvaluationBO> GrilleEvaluationBOSCGISI { get; set; }
