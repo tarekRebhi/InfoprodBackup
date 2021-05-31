@@ -5722,6 +5722,23 @@
     <Content Include="Views\EvaluationVecteurPlus\ArchiveTypologieEvaluationsAgentQualite.cshtml" />
     <Content Include="Views\EvaluationVecteurPlus\ReportsTypologie.cshtml" />
     <Content Include="Views\Directory\Ref_Typologie_VecteurPlus.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\ArchiveHLAuto.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\ArchiveHLAutoQualitePartialView.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\EditHLAuto.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\HLAutoResult.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\HLAuto.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\HLAutoWithoutAgent.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\ReportsHLAuto.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\HistoriqueHLAutoPartialView.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\HistoriqueHLAuto.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\_AlerteDeSuppressionHLAuto.cshtml" />
+    <Content Include="Views\Directory\Ref_HLAuto.cshtml" />
+    <Content Include="Views\Shared\_Layout_Qualite_HL.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\ArchiveAgentQualiteHLAuto.cshtml" />
+    <Content Include="Views\Shared\_Layout_agent_HL.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\HistoriqueTableHLAgentPartialView.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\HistoriqueAgent_HL.cshtml" />
+    <Content Include="Views\EvaluationServiceClientAuto\ReponseEvaluationHL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

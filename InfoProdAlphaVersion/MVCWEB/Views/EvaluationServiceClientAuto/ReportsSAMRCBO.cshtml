@@ -44,20 +44,12 @@
             <h6 class="no-margin-top"><a href="task_manager_detailed.html"># Moyenne Items</a></h6>
             <div class="row">
                 <div class="col-md-4">
-
                     <div class="form-group">
                         <label class="col-md-7" style="font-weight: bold;">Identification du client :</label>
                         <div class="col-md-3" id="IdentificationClient">
                         </div>
                     </div>
-                    <br />
-                    <div class="form-group">
-                        <label class="col-md-7" style="font-weight:bold;">Qualification des demandes:</label>
-                        <div class="col-md-3" id="QualificationDemandes">
-                        </div>
-                    </div>
-
-                </div>
+                </div><br />                
 
                 <div class="col-md-4">
                     <div class="form-group">
@@ -65,15 +57,31 @@
                         <div class="col-md-3" id="PertinenceReponse">
                         </div>
                     </div>
+                </div><br />
 
-                    <br />
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="col-md-7" style="font-weight:bold;">Historisation:</label>
+                        <div class="col-md-3" id="Historisation">
+                        </div>
+                    </div>
+                </div><br />
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="col-md-7" style="font-weight:bold;">FCR:</label>
+                        <div class="col-md-3" id="FCR">
+                        </div>
+                    </div>
+                </div><br />
+                
+                <div class="col-md-4">
                     <div class="form-group">
                         <label class="col-md-7" style="font-weight:bold;">Discours:</label>
                         <div class="col-md-3" id="Discours">
                         </div>
                     </div>
-
-                </div>
+                </div><br />
 
             </div>
         </div>
@@ -171,21 +179,23 @@
                     },
                     async: true,
                     success: function (data) {
-                        var identificationClient = data.identificationClient + "%";
-                        var qualificationDemandes = data.qualificationDemandes + "%";
+                        var identificationClient = data.identificationClient + "%";                        
                         var pertinenceReponse = data.pertinenceReponse + "%";
+                        var historisation = data.historisation + "%";
+                        var fcr = data.FCR + "%";
                         var discours = data.discours + "%";
                         var note = data.note;
                         var NbreEvaluations = data.nbreEvaluations;
                         $("#Details").show();
                         $("#Graphs").show();
-                        $("#IdentificationClient").html(identificationClient);
-                        $("#QualificationDemandes").html(qualificationDemandes);
+                        $("#IdentificationClient").html(identificationClient);                        
                         $("#PertinenceReponse").html(pertinenceReponse);
+                        $("#Historisation").html(historisation);
+                        $("#FCR").html(fcr);
                         $("#Discours").html(discours);
 
-                        var namesList = ["Identification du client", "Qualification des demandes", "Pertinence du Réponse", "Discours"];
-                        var values = [data.identificationClient, data.qualificationDemandes, data.pertinenceReponse, data.discours];
+                        var namesList = ["Identification du client", "Pertinence du Réponse","Historisation","FCR", "Discours"];
+                        var values = [data.identificationClient, data.pertinenceReponse,data.historisation,data.FCR, data.discours];
 
                         var valuesList = [];
                         $.each(values, function (i, t) {

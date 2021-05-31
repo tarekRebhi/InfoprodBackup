@@ -1,0 +1,334 @@
+﻿@model IEnumerable<MVCWEB.Models.EvaluationEvaluationSCAutoViewModel>
+<div id="details"></div>
+<div id="comments"></div>
+<div class="content-group" style="margin-left:600px">
+    <h5 class="text-semibold no-margin"><i class="icon-calendar5 position-left text-slate"></i> @ViewBag.nbreEvaluations</h5>
+    <h5><b>Nombre des Evaluations</b></h5>
+</div>
+
+<table id="historiqueEmp" class="table datatable-basic">
+    <thead>
+        <tr style="font-weight:bold;">
+            <th style="font-weight:bold;">Date </th>
+            <th style="font-weight:bold;">Score</th>
+            <th style="font-weight:bold;">Réceprteur de l'évaluation</th>
+            <th hidden>Accueil</th>
+            <th hidden>Identification</th>
+            <th hidden>Découverte des attentes</th>
+            <th hidden>Utilisation des Outils</th>
+            <th hidden>Mise en attente</th>
+            <th hidden>Temps d'attente</th>
+            <th hidden>Pertinence de la réponse</th>
+            <th hidden>Conclusion du contact</th>
+            <th hidden>Discours</th>
+            <th hidden>Empathie / Attitude / Personnalisation</th>
+            <th hidden>Historisation</th>
+            <th hidden>FCR</th>
+            <th hidden>Prise Congé</th>
+            <th style="font-weight:bold;">Commentaires</th>
+            <th hidden>Réponse Agent</th>
+            <th style="font-weight:bold;">Notes</th>
+            <th style="font-weight:bold;">Enregistrement</th>
+            <th style="font-weight:bold;">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <a>@item.dateTempEvaluation.Day/@item.dateTempEvaluation.Date.Month/@item.dateTempEvaluation.Date.Year</a>
+                </td>
+                @{
+
+                    String str = item.note.ToString("N2");
+                }
+
+                <td><font color="red">@str%</font></td>
+
+                <td>@item.agentName</td>
+                <td hidden>
+                    @item.accueil
+                </td>
+                <td hidden>
+                    @item.identificationClient
+                </td>
+                <td hidden>
+                    @if (item.MajDonnees >= 0)
+                    {
+                        @item.MajDonnees
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @item.decouverteAttentes
+                </td>
+                <td hidden>
+                    @item.utilisationOutils
+                </td>
+                <td hidden>
+                    @if (item.miseAttente >= 0)
+                    {
+                        @item.miseAttente
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @if (item.tempsAttente >= 0)
+                    {
+                        @item.tempsAttente
+                    }
+                    else
+                    {
+                        <h6 style="width:35%" class="col-xs-1 control-label">-</h6>
+                    }
+                </td>
+                <td hidden>
+                    @item.pertinenceReponse
+                </td>
+                <td hidden>
+                    @item.conclusionContact
+                </td>
+                <td hidden>
+                    @item.discours
+                </td>
+                <td hidden>
+                    @item.attitude
+                </td>
+                <td hidden>
+                    @item.historisation
+                </td>
+                <td hidden>
+                    @item.FCR
+                </td>
+                <td hidden>
+                    @item.priseConge
+                </td>
+
+                <td hidden>
+                    @item.commentaireQualite
+                </td>
+                <td hidden>
+                    @item.commentaireAgent
+                </td>
+
+                <td>
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" style="background-color: aqua;color:#000;">Voir Notes <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
+                                <li>
+                                    Accueil: <span>@item.accueil</span>
+                                </li>
+                                <li>
+                                    Identification: <span>@item.identificationClient</span>
+                                </li>
+                                <li>
+                                    MAJ des coordonnées Client: <span>@item.MajDonnees</span>
+                                </li>
+                                <li>
+                                    Découverte des attentes: <span> @item.decouverteAttentes</span>
+                                </li>
+                                <li>
+                                    Utilisation des Outils: <span> @item.utilisationOutils </span>
+                                </li>
+                                <li>
+                                    Mise en attente: <span> @item.miseAttente  </span>
+                                </li>
+                                <li>
+                                    Temps d'attente: <span> @item.tempsAttente  </span>
+                                </li>
+                                <li>
+                                    Pertinence de la réponse: <span> @item.pertinenceReponse  </span>
+                                </li>
+                                <li>
+                                    Conclusion du contact: <span> @item.conclusionContact  </span>
+                                </li>
+
+                                <li>
+                                    Discours : <span> @item.discours</span>
+                                </li>
+                                <li>
+                                    Empathie / Attitude / Personnalisation : <span> @item.attitude</span>
+                                </li>
+                                <li>
+                                    Historisation: <span> @item.historisation  </span>
+                                </li>
+                                <li>
+                                    FCR: <span>@item.FCR</span>
+                                </li>
+                                <li>
+                                    Prise de congé : <span> @item.priseConge</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </td>
+
+                <td>
+                    <button class="btn btn-warning" id="test6" data-com="@item.commentaireQualite" data-reponse="@item.commentaireAgent">Details&nbsp;<i class="icon-popout"></i></button>
+                </td>
+                <td>
+                    @if (item.enregistrementFullName != null)
+                    {
+                        <aside type="button" class="btn bg-teal-400" id="test5" data-id="@item.enregistrementFullName" data-FullName="@item.enregistrementUrl" data-directory="@item.enregistrementDirectory">Ecouter&nbsp;<i class="icon-play"></i></aside>
+                    }
+                </td>
+
+                <td>
+                    <ul class="icons-list">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-menu9"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="@Url.Action("EditHLAuto", "EvaluationServiceClientAuto", new { id = item.Id })"><i class="glyphicon glyphicon-edit"></i> Modifier</a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <article id="delete" data-id="@item.Id" data-title="Supprimer" data-toggle="modal"><i class="glyphicon glyphicon-trash"></i> Supprimer</article>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+                    }
+    </tbody>
+</table>
+<br />
+<div id="explorer1"></div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('aside').on('click', function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var fullname = $buttonClicked.attr('data-FullName');
+                var directoryName = $buttonClicked.attr('data-directory');
+                $.ajax({
+                    url: '/EvaluationServiceClientAuto/FindCustomEnregistrement',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'name': id,
+                        'fullName': fullname,
+                        'DirectoryName': directoryName
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#details").is(":empty") == false) {
+                            $('#details').removeData("#detailsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#details').html(data);
+                        }
+                        else {
+
+                            $('#details').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#detailsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+
+            $(document).on("click", "#test6", function () {
+                var $buttonClicked = $(this);
+                var comqualite = $buttonClicked.attr('data-com');
+                var comagent = $buttonClicked.attr('data-reponse');
+                $.ajax({
+                    url: '/EvaluationServiceClientAuto/FindComments',
+                    type: 'GET',
+                    datatype: 'json',
+                    data: {
+                        'CommentQualite': comqualite,
+                        'CommentAgent': comagent
+                    },
+                    async: false,
+                    success: function (data) {
+                        if ($("#comments").is(":empty") == false) {
+                            $('#comments').removeData("#commentsFile");
+                            $("div.modal-backdrop.fade.in").remove();
+                            $('#comments').html(data);
+                        }
+                        else {
+                            $('#comments').html(data);
+                        }
+
+                        //$('.modal fade in').remove();
+                        //$('#detailsFile').empty();
+                        //$('#details').html(data);
+                        $('#commentsFile').modal(({
+                            backdrop: 'static',
+                            keyboard: false
+                        }));
+                        //$('#errorFile2').modal('show');
+
+                        //alert("utilisateur"+" "+$("#typeGenerator").val()+" "+""+ $("#datePicker").val())
+                    },
+                    //complete: function () {
+                    //    $('#loadimage').hide();
+                    //    $('#details').show();
+
+                    //}
+                });
+            })
+        })
+</script>
+<script>
+        $(function () {
+            $('[data-popup="popover"]').popover();
+            $('[data-popup="tooltip"]').tooltip();
+        });
+</script>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            // $(document).on("click", "#delete", function () {
+            $("article").on("click", function () {
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                $.ajax({
+                    url: '/EvaluationServiceClientAuto/FindEvaluationHLAuto',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "html",
+                    async: true,
+                    success: function (data) {
+                        $('#explorer1').html(data);
+                        $('#alerteSuppression').modal('show');
+                    },
+
+
+
+                });
+
+
+            })
+        })
+
+</script>

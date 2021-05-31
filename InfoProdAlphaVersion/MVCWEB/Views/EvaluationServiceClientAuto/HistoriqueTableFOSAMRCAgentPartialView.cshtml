@@ -15,6 +15,7 @@
                 <th style="font-weight:bold;">Score</th>
                 <th style="font-weight:bold;">Emetteur de l'évaluation</th>
                 <th hidden>Accueil</th>
+                <th hidden>Identification</th>
                 <th hidden>Découverte des attentes</th>
                 <th hidden>Utilisation des Outils</th>
                 <th hidden>Mise en attente</th>
@@ -22,8 +23,9 @@
                 <th hidden>Pertinence de la réponse</th>
                 <th hidden>Conclusion du contact</th>
                 <th hidden>Discours</th>
-                <th hidden>Empathie / Attitude</th>
+                <th hidden>Empathie / Attitude / Personnalisation</th>
                 <th hidden>Historisation</th>
+                <th hidden>FCR</th>
                 <th hidden>Prise de congé</th>
                 <th style="font-weight:bold;">Commentaires</th>
                 <th hidden>Réponse Agent</th>
@@ -50,6 +52,10 @@
                     <td hidden>
                       
                             @item.accueil 
+                    </td>
+                    <td hidden>
+
+                        @item.identificationClient
                     </td>
                     <td hidden>
                             @item.decouverteAttentes
@@ -94,6 +100,10 @@
                         @item.historisation
                     </td>
                     <td hidden>
+
+                        @item.FCR
+                    </td>
+                    <td hidden>
                             @item.priseConge
                     </td>
 
@@ -116,9 +126,15 @@
                                         @item.accueil   
                                         </span>
                                     <li>
+                                    <li>
+                                        Identification:
+                                        <span>
+                                            @item.identificationClient
+                                        </span>
+                                    <li>
                                         Découverte des attentes:
                                         <span>
-                                           @item.decouverteAttentes 
+                                            @item.decouverteAttentes
                                         </span>
                                     </li>
                                     <li>
@@ -165,7 +181,7 @@
                                     </li>
                                
                                     <li>
-                                        Empathie / Attitude:
+                                        Empathie / Attitude /Personnalisation:
                                         <span>
                                           @item.attitude 
                                         </span>
@@ -176,6 +192,12 @@
                                             @item.historisation
                                         </span>
                                     </li>
+                                    <li>
+                                        FCR:
+                                        <span>
+                                            @item.FCR
+                                        </span>
+                                    <li>
                                     <li>
                                         Prise de congé:
                                         <span>

@@ -84,8 +84,25 @@
             </div>
         </div>
     </div>
-
     <br/>
+
+
+    <div class="row" id="identificationRow">
+    <div class="col-1">
+        <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Identification</b></font></h6>
+
+        <div class="col-xs-4">
+            <select class="bootstrap-select" id="identification" name="identification" style="height: 25px;">
+
+                <option value="3">OK</option>
+                <option value="0">KO</option>
+                <option value="1.5">AA</option>
+            </select>
+        </div>
+    </div>
+</div>
+<br />
+
 <div class="row" id="MajDonneesRow">
     <div class="col-1">
         <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>MAJ des coordonnées Client</b></font></h6>
@@ -216,6 +233,21 @@
         </div>
     </div>
 </div>
+    <br/>
+
+
+    <div class="row" id="FCRRow">
+    <div class="col-1">
+        <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>FCR</b></font></h6>
+        <div class="col-xs-4">
+            <select class="bootstrap-select" id="FCR" name="FCR" style="height: 45px;">
+                <option value="4">OK</option>
+                <option value="0">KO</option>
+            </select>
+        </div>
+    </div>
+</div>
+<br />
 
     <div class="row" id="priseCongeRow">
         <div class="col-1">
@@ -304,6 +336,7 @@
                         planDate: $("#planDate").val(),
 
                         accueil: $("#accueil").val(),
+                        identification: $("#identification").val(),
                         MajDonnees: $("#MajDonnees").val(),
                         decouverteAttentes: $("#decouverteAttentes").val(),
                         utilisationOutils: $("#utilisationOutils").val(),
@@ -314,6 +347,7 @@
                         discours: $("#discours").val(),
                         attitude: $("#attitude").val(),
                         historisation: $("#historisation").val(),
+                        FCR: $("#FCR").val(),
                         priseConge: $("#priseConge").val(),
 
                         commentaire: $("#commentaire").val(),
@@ -345,6 +379,7 @@
                         planDate: $("#planDate").val(),
 
                         accueil: $("#accueil").val(),
+                        identification: $("#identification").val(),
                         MajDonnees: $("#MajDonnees").val(),
                         decouverteAttentes: $("#decouverteAttentes").val(),
                         utilisationOutils: $("#utilisationOutils").val(),
@@ -355,6 +390,7 @@
                         discours: $("#discours").val(),
                         attitude: $("#attitude").val(),
                         historisation: $("#historisation").val(),
+                        FCR: $("#FCR").val(),
                         priseConge: $("#priseConge").val(),
 
                         commentaire: $("#commentaire").val(),

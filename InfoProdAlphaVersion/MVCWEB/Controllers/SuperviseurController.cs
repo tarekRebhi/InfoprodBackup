@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace RecordsMVC.Controllers
 {
-    [Authorize(Roles = "Qualité, Agent Qualité,  Agent Qualité_CustomerService,Agent Qualité_Diffusion,Agent Qualité_AchatPublic,Agent Qualité_PRV")]
+    [Authorize(Roles = "Qualité, Agent Qualité,  Agent Qualité_CustomerService, Agent Qualité_HL ,Agent Qualité_Diffusion,Agent Qualité_AchatPublic,Agent Qualité_PRV")]
     public class SuperviseurController : Controller
     {
         // GET: Superviseur
@@ -144,6 +144,10 @@ namespace RecordsMVC.Controllers
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
             if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -187,6 +191,11 @@ namespace RecordsMVC.Controllers
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 8))
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
+            }
+
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
             }
 
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
@@ -295,6 +304,11 @@ namespace RecordsMVC.Controllers
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
 
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -380,6 +394,12 @@ namespace RecordsMVC.Controllers
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
+
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -437,6 +457,10 @@ namespace RecordsMVC.Controllers
             if (ManagerConnected.Roles.Any(b => b.UserId == ManagerConnected.Id && b.RoleId == 8))
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (ManagerConnected.Roles.Any(b => b.UserId == ManagerConnected.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
             }
             if (ManagerConnected.Roles.Any(b => b.UserId == ManagerConnected.Id && b.RoleId == 9))
             {
@@ -581,6 +605,11 @@ namespace RecordsMVC.Controllers
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
 
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -716,6 +745,10 @@ namespace RecordsMVC.Controllers
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
 
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
@@ -758,7 +791,10 @@ namespace RecordsMVC.Controllers
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
-
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -2009,6 +2045,10 @@ namespace RecordsMVC.Controllers
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -2096,7 +2136,10 @@ namespace RecordsMVC.Controllers
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
-
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -2165,7 +2208,10 @@ namespace RecordsMVC.Controllers
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
             }
-
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
             if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 9))
             {
                 ViewBag.role = "Agent Qualité_Diffusion";
@@ -2208,6 +2254,10 @@ namespace RecordsMVC.Controllers
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 8))
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
             }
             if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 9))
             {

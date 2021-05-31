@@ -5,6 +5,12 @@
 
     Layout = "~/Views/Shared/_Layout_CustomerService.cshtml";
 }
+@if (ViewBag.role == "Agent Qualité_HL")
+{
+    ViewBag.Title = "ListeSitesAgentQualite";
+
+    Layout = "~/Views/Shared/_Layout_Qualite_HL.cshtml";
+}
 @if (ViewBag.role == "Agent Qualité")
 {
     ViewBag.Title = "ListeSitesAgentQualite";

@@ -188,6 +188,13 @@ namespace MyFinance.Data.Infrastructure
             get { return evaluationBOSAMRCRepository = new EvaluationBOSAMRCRepository(dbFactory); }
         }
 
+        private IEvaluationHLAutoRepository evaluationHLAutoRepository;
+        public IEvaluationHLAutoRepository EvaluationHLAutoRepository
+        {
+            get { return evaluationHLAutoRepository = new EvaluationHLAutoRepository(dbFactory); }
+        }
+
+
         private IEvaluationAchatPublicRepository evaluationAchatPublicRepository;
         public IEvaluationAchatPublicRepository EvaluationAchatPublicRepository
         {

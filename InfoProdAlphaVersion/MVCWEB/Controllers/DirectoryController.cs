@@ -19,7 +19,7 @@ using System.Web.Mvc;
 
 namespace MVCWEB.Controllers
 {
-    [Authorize(Roles = "Qualité,Manager,Agent,Agent Qualité,Agent Qualité_CustomerService,Agent Qualité_Diffusion,Agent Qualité_AchatPublic,SuperManager,Agent_CustomerService, Agent_SAMRC,Agent_QR,Agent_KLMO,Agent_PRV,Agent Qualité_PRV")]
+    [Authorize(Roles = "Qualité,Manager,Agent,Agent Qualité,Agent Qualité_CustomerService,Agent Qualité_HL,Agent Qualité_Diffusion,Agent Qualité_AchatPublic,SuperManager,Agent_CustomerService, Agent_SAMRC,Agent_QR,Agent_KLMO,Agent_PRV,Agent Qualité_PRV,Agent_HL")]
 
     public class DirectoryController : Controller
     {
@@ -1535,6 +1535,48 @@ namespace MVCWEB.Controllers
 
             return View(directory);
         }
+
+        [Authorize(Roles = "Qualité,Manager,Agent Qualité_CustomerService,Agent Qualité_HL,Agent_SAMRC,Agent_HL")]
+        public ActionResult Ref_HLAuto()
+        {
+            Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            var directory = new DirectoryViewModel();
+            directory.empId = "" + emp.Id;
+
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 8))
+            {
+                ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 1009))
+            {
+                ViewBag.role = "Agent_SAMRC";
+            }
+            if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 2016))
+            {
+                ViewBag.role = "Agent_HL";
+            }
+            directory.userName = emp.UserName;
+            directory.pseudoNameEmp = emp.pseudoName;
+            if (emp.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(emp.Content);
+                String Url = "data:" + emp.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                directory.Url = Url;
+
+            }
+
+            return View(directory);
+        }
+        
         [Authorize(Roles = "Qualité,Manager,Agent Qualité_CustomerService,Agent_SAMRC")]
         public ActionResult Ref_BO_SCSAMRC()
         {
@@ -1545,7 +1587,7 @@ namespace MVCWEB.Controllers
             if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 8))
             {
                 ViewBag.role = "Agent Qualité_CustomerService";
-            }
+            }            
             if (emp.Roles.Any(b => b.UserId == emp.Id && b.RoleId == 4))
             {
                 ViewBag.role = "Qualité";

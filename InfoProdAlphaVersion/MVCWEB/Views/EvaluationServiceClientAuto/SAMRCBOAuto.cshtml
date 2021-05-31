@@ -93,35 +93,44 @@
                 </select>
             </div>
         </div>
-    </div>
-
-    <br />
-    <div class="row" id="qualificationDemandesRow">
-        <div class="col-1">
-            <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Qualification des demandes sur CRM</b></font></h6>
-            <div class="col-xs-4">
-                <select class="bootstrap-select" id="qualificationDemandes" name="qualificationDemandes" style="height: 35px;">
-
-                    <option value="5">OK</option>
-                    <option value="0">KO</option>
-                    <option value="2.5">AA</option>
-                </select>
-            </div>
-        </div>
-    </div>
+    </div>    
     <br />
     <div class="row" id="pertinenceReponseRow">
         <div class="col-1">
             <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Compréhension de la demande et Pertinence de la réponse</b> </font> </h6>
             <div class="col-xs-4">
                 <select class="bootstrap-select" id="pertinenceReponse" name="pertinenceReponse" style="height: 45px;">
-                    <option value="15">OK</option>
+                    <option value="10">OK</option>
                     <option value="0">KO</option>
-                    <option value="7.5">AA</option>
+                    <option value="5">AA</option>
                 </select>
             </div>
         </div>
+    </div><br/>
+<div class="row" id="historisationRow">
+    <div class="col-1">
+        <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Historisation</b> </font> </h6>
+        <div class="col-xs-4">
+            <select class="bootstrap-select" id="historisation" name="historisation" style="height: 45px;">
+                <option value="5">OK</option>
+                <option value="0">KO</option>
+                <option value="2.5">AA</option>
+            </select>
+        </div>
     </div>
+</div><br />
+<div class="row" id="FCRRow">
+    <div class="col-1">
+        <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>FCR</b> </font> </h6>
+        <div class="col-xs-4">
+            <select class="bootstrap-select" id="FCR" name="FCR" style="height: 45px;">
+                <option value="5">OK</option>
+                <option value="0">KO</option>
+                <option value="2.5">AA</option>
+            </select>
+        </div>
+    </div>
+</div><br />
     <div class="row" id="discoursRow">
         <div class="col-1">
             <h6 style="width:25%" class="col-xs-1 control-label"><font color="black"><b>Discours et rédaction de la réponse</b> </font> </h6>
@@ -211,9 +220,10 @@
                         nomAgent: $("#nomAgent").val(),
                         planDate: $("#planDate").val(),
 
-                        identificationClient: $("#identificationClient").val(),
-                        qualificationDemandes: $("#qualificationDemandes").val(),
+                        identificationClient: $("#identificationClient").val(),                        
                         pertinenceReponse: $("#pertinenceReponse").val(),
+                        historisation: $("#historisation").val(),
+                        FCR: $("#FCR").val(),
                         discours: $("#discours").val(),
                         numIntervention: $("#numIntervention").val(),
 
@@ -246,8 +256,9 @@
                         planDate: $("#planDate").val(),
 
                         identificationClient: $("#identificationClient").val(),
-                        qualificationDemandes: $("#qualificationDemandes").val(),
                         pertinenceReponse: $("#pertinenceReponse").val(),
+                        historisation: $("#historisation").val(),
+                        FCR: $("#FCR").val(),
                         discours: $("#discours").val(),
                         numIntervention: $("#numIntervention").val(),
 

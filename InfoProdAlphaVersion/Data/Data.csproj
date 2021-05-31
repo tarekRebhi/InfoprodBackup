@@ -268,6 +268,18 @@
     <Compile Include="Migrations\202102160834483_Ajout 2 item grilles FO et FOSAMRC.Designer.cs">
       <DependentUpon>202102160834483_Ajout 2 item grilles FO et FOSAMRC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103081114031_update SamRc FO.cs" />
+    <Compile Include="Migrations\202103081114031_update SamRc FO.Designer.cs">
+      <DependentUpon>202103081114031_update SamRc FO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103120815366_GrilleEvaluation HL Auto.cs" />
+    <Compile Include="Migrations\202103120815366_GrilleEvaluation HL Auto.Designer.cs">
+      <DependentUpon>202103120815366_GrilleEvaluation HL Auto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105060751087_modif grille BOSAMRC.cs" />
+    <Compile Include="Migrations\202105060751087_modif grille BOSAMRC.Designer.cs">
+      <DependentUpon>202105060751087_modif grille BOSAMRC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\EvaluationPRVRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -287,6 +299,7 @@
     <Compile Include="Repository\EvaluationEnqueteAutoRepository.cs" />
     <Compile Include="Repository\EvaluationFOSAMRCRepository.cs" />
     <Compile Include="Repository\EvaluationFOSCGISIRepository.cs" />
+    <Compile Include="Repository\EvaluationHLAutoRepository.cs" />
     <Compile Include="Repository\EvaluationKLMORepository.cs" />
     <Compile Include="Repository\EvaluationPRVRepository.cs" />
     <Compile Include="Repository\EvaluationRepository.cs" />
@@ -306,6 +319,7 @@
     <Compile Include="Repository\IEvaluationBPPTypologieRepository.cs" />
     <Compile Include="Repository\IEvaluationEnqueteAutoRepository.cs" />
     <Compile Include="Repository\IEvaluationFOSAMRCRepository.cs" />
+    <Compile Include="Repository\IEvaluationHLAutoRepository.cs" />
     <Compile Include="Repository\IEvaluationKLMORepository.cs" />
     <Compile Include="Repository\IEvaluationPRVRepository.cs" />
     <Compile Include="Repository\IEvaluationRepository.cs" />
@@ -468,6 +482,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202102160834483_Ajout 2 item grilles FO et FOSAMRC.resx">
       <DependentUpon>202102160834483_Ajout 2 item grilles FO et FOSAMRC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103081114031_update SamRc FO.resx">
+      <DependentUpon>202103081114031_update SamRc FO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103120815366_GrilleEvaluation HL Auto.resx">
+      <DependentUpon>202103120815366_GrilleEvaluation HL Auto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105060751087_modif grille BOSAMRC.resx">
+      <DependentUpon>202105060751087_modif grille BOSAMRC.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

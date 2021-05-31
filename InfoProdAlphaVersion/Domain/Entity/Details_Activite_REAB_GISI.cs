@@ -33,7 +33,11 @@ namespace Domain.Entity
         [StringLength(60)]
         public string TEL { get; set; }
         public int? AI { get; set; }
+
+
         public DateTime? AI_DATE { get; set; }
+
+
         [Column(TypeName = "NVARCHAR")]
         [StringLength(255)]
         public string AI_AGENT { get; set; }

@@ -50,6 +50,12 @@
                 </div>
                 <br />
                 <div class="form-group">
+                    <label class="col-md-7" style="font-weight: bold;">Identification:</label>
+                    <div class="col-md-3" id="identification">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
                     <label class="col-md-7" style="font-weight:bold;">MAJ des coordonnées Client:</label>
                     <div class="col-md-3" id="MajDonnees">
                     </div>
@@ -68,17 +74,15 @@
                     
                     </div>
                 </div>
-                <br />
+            </div>
+
+            <div class="col-md-4">
                 <div class="form-group">
                     <label class="col-md-7" style="font-weight:bold;">Mise en attente:</label>
                     <div class="col-md-3" id="miseAttente">
                     </div>
                 </div>
-
-            </div>
-
-            <div class="col-md-4">
-
+                <br/>
                 <div class="form-group">
                     <label class="col-md-7" style="font-weight:bold;">Temps d'attente:</label>
                     <div class="col-md-3" id="tempsAttente">
@@ -115,6 +119,12 @@
                 <div class="form-group">
                     <label class="col-md-7" style="font-weight:bold;">Historisation:</label>
                     <div class="col-md-3" id="historisation"> 
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="col-md-7" style="font-weight:bold;">FCR:</label>
+                    <div class="col-md-3" id="FCR">
                     </div>
                 </div>
                 <br />
@@ -222,6 +232,7 @@
                         var note = data.note;
                         var NbreEvaluations = data.nbreEvaluations;
                         var accueil = data.accueil + "%";
+                        var identification = data.identificationClient + "%";
                         if (data.MajDonnees >= 0) {
                             var MajDonnees = data.MajDonnees + "%";
                         }
@@ -241,11 +252,13 @@
                         var discours = data.discours + "%";
                         var attitude = data.attitude + "%";
                         var historisation = data.historisation + "%";
+                        var FCR = data.FCR + "%";
                         var priseConge = data.priseConge + "%";
                         //Affichage
                         $("#Details").show();
                         $("#Graphs").show();
                         $("#accueil").html(accueil);
+                        $("#identification").html(identification);
                         $("#MajDonnees").html(MajDonnees);
                         $("#decouverteAttentes").html(decouverteAttentes);
                         $("#utilisationOutils").html(utilisationOutils);
@@ -256,13 +269,14 @@
                         $("#discours").html(discours);
                         $("#attitude").html(attitude);
                         $("#historisation").html(historisation);
+                        $("#FCR").html(FCR);
                         $("#priseConge").html(priseConge);
 
-                        var namesList = ["Accueil", "MAJ des coordonnées Client", "Découverte Attentes", "utilisation Outils", "Mise en Attente", "Temps d'attente",
-             "Pertinence du Réponse", "Conclusion du Contact", "Discours", "Attitude","Historisation","Prise de Congé"];
-                        var values = [data.accueil, data.MajDonnees, data.decouverteAttentes, data.utilisationOutils, data.miseAttente,
+                        var namesList = ["Accueil","Identification", "MAJ des coordonnées Client", "Découverte Attentes", "utilisation Outils", "Mise en Attente", "Temps d'attente",
+             "Pertinence du Réponse", "Conclusion du Contact", "Discours", "Attitude","Historisation","FCR","Prise de Congé"];
+                        var values = [data.accueil,data.identificationClient, data.MajDonnees, data.decouverteAttentes, data.utilisationOutils, data.miseAttente,
                             data.tempsAttente, data.pertinenceReponse, data.conclusionContact, data.discours, data.attitude,
-                            data.historisation, data.priseConge];
+                            data.historisation,data.FCR, data.priseConge];
 
                         var valuesList = [];
                         $.each(values, function (i, t) {

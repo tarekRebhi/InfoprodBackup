@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,6 +11,7 @@ namespace Domain.Entity
     {
         public int Id { get; set; }
         public float accueil { get; set; }
+        public float Identification { get; set; }
         public float MajDonnees { get; set; }
         public float decouverteAttentes { get; set; }
         public float utilisationOutils { get; set; }
@@ -22,6 +22,7 @@ namespace Domain.Entity
         public float discours { get; set; }
         public float attitude { get; set; }
         public float historisation { get; set; }
+        public float FCRSAMRC { get; set; }
         public float priseConge { get; set; }
 
 

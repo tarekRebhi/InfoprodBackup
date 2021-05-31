@@ -204,6 +204,10 @@ namespace MVCWEB.Controllers
                 {
                     return RedirectToAction("HistoriqueAgent_SAMRC", "EvaluationServiceClientAuto");
                 }
+                else if (UserManager.IsInRole(emp.Id, "Agent_HL"))
+                {
+                    return RedirectToAction("HistoriqueAgent_HL", "EvaluationServiceClientAuto");
+                }
                 else if (UserManager.IsInRole(emp.Id, "Qualité"))
                 {
                     return RedirectToAction("listeSites", "Superviseur");
@@ -213,6 +217,10 @@ namespace MVCWEB.Controllers
                     return RedirectToAction("listeSitesAgentQualite", "Superviseur");
                 }
                 else if (UserManager.IsInRole(emp.Id, "Agent Qualité_CustomerService"))
+                {
+                    return RedirectToAction("listeSitesAgentQualite", "Superviseur");
+                }
+                else if (UserManager.IsInRole(emp.Id, "Agent Qualité_HL"))
                 {
                     return RedirectToAction("listeSitesAgentQualite", "Superviseur");
                 }

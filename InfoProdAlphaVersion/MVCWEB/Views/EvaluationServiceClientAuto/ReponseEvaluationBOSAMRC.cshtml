@@ -38,21 +38,29 @@
                                 @Html.EditorFor(model => model.identificationClient, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.identificationClient, "", new { @class = "text-danger" })
                             </div>
-                        </div>
-
-                        <div class="form-group" hidden>
-                            @Html.LabelFor(model => model.qualificationDemandes, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.qualificationDemandes, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.qualificationDemandes, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                        </div>                        
 
                         <div class="form-group" hidden>
                             @Html.LabelFor(model => model.pertinenceReponse, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.pertinenceReponse, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.pertinenceReponse, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.Historisation, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Historisation, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Historisation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" hidden>
+                            @Html.LabelFor(model => model.FCR, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FCR, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FCR, "", new { @class = "text-danger" })
                             </div>
                         </div>
 

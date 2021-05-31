@@ -34,13 +34,16 @@ namespace MVCWEB.Models
         public float conclusionContact { get; set; }
         public float attitude { get; set; }
         public float historisation { get; set; }
+        public float FCR { get; set; }
+
         //champs SAM RC Auto BO
-        public float identificationClient { get; set; }
+
         public float qualificationDemandes { get; set; }
         public string numIntervention { get; set; }
         //champs en commun
         public float discours { get; set; }
         public float priseConge { get; set; }
+        public float identificationClient { get; set; }
 
         //Autres Champs en commun
         public DateTime dateTempEvaluation { get; set; }

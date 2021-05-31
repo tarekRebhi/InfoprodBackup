@@ -38,6 +38,9 @@ namespace MyReports.Data.Infrastructure
         IEvaluationFOSCGISIRepository EvaluationFOSCGISIRepository { get; }
         IEvaluationBOSCGISIRepository EvaluationBOSCGISIRepository { get; }
         IEvaluationFOSAMRCRepository EvaluationFOSAMRCRepository { get; }
+
+        IEvaluationHLAutoRepository EvaluationHLAutoRepository { get; }
+
         IEvaluationBOSAMRCRepository EvaluationBOSAMRCRepository { get; }
         IEvaluationAchatPublicRepository EvaluationAchatPublicRepository { get; }
 

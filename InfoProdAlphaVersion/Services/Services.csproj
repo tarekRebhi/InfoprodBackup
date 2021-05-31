@@ -63,6 +63,7 @@
     <Compile Include="EvaluationEnqueteAutoService.cs" />
     <Compile Include="EvaluationFOSAMRCService.cs" />
     <Compile Include="EvaluationFOSCGISIService.cs" />
+    <Compile Include="EvaluationHLAutoService.cs" />
     <Compile Include="EvaluationKLMOService.cs" />
     <Compile Include="EvaluationPRVService.cs" />
     <Compile Include="EvaluationQRService.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="IEvaluationEnqueteAutoService.cs" />
     <Compile Include="IEvaluationFOSAMRCService.cs" />
     <Compile Include="IEvaluationFOSCGISIService.cs" />
+    <Compile Include="IEvaluationHLAutoService.cs" />
     <Compile Include="IEvaluationKLMOService.cs" />
     <Compile Include="IEvaluationPRVService.cs" />
     <Compile Include="IEvaluationQRService.cs" />

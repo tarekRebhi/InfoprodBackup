@@ -14,6 +14,8 @@ namespace Domain.Entity
         public float identificationClient { get; set; }
         public float qualificationDemandes { get; set; }
         public float pertinenceReponse { get; set; }
+        public float Historisation { get; set; }
+        public float FCR { get; set; }
         public float discours { get; set; }
 
 

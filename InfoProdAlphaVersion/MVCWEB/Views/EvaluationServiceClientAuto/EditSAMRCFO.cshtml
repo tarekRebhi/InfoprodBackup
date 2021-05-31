@@ -71,6 +71,10 @@
                             list8.Add(new SelectListItem { Text = "KO", Value = "0" });
                             list8.Add(new SelectListItem { Text = "NE", Value = "-3" });
 
+                            List<SelectListItem> list9 = new List<SelectListItem>();
+                            list9.Add(new SelectListItem { Text = "OK", Value = "4" });
+                            list9.Add(new SelectListItem { Text = "KO", Value = "0" });
+
 
                         }
                         <div class="row">
@@ -123,6 +127,14 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-md-4" style="font-weight: bold;">Identification:</label>
+                                    <div class="col-md-8">
+                                        @*@Html.EditorFor(model => model.presentationIdentification, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.DropDownListFor(model => model.Identification, list6, @Model.Identification)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-md-4" style="font-weight: bold;">MAJ des coordonnées Client:</label>
                                     <div class="col-md-8">
                                         @*@Html.EditorFor(model => model.presentationIdentification, new { htmlAttributes = new { @class = "form-control" } })*@
@@ -163,19 +175,19 @@
                                             @Html.ValidationMessageFor(model => model.envergure, "", new { @class = "text-danger" })*@
                                         @Html.DropDownListFor(model => model.tempsAttente, list4, @Model.tempsAttente)
                                     </div>
-                                </div>
+                                </div>                                
 
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Pertinence de la réponse:</label>
                                     <div class="col-md-8">
                                         @*@Html.EditorFor(model => model.complétudeQuestions, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.complétudeQuestions, "", new { @class = "text-danger" })*@
+                @Html.ValidationMessageFor(model => model.complétudeQuestions, "", new { @class = "text-danger" })*@
                                         @Html.DropDownListFor(model => model.pertinenceReponse, list5, @Model.pertinenceReponse)
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Conclusion du contact:</label>
                                     <div class="col-md-8">
@@ -208,6 +220,16 @@
                                         @*@Html.EditorFor(model => model.reformulation, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.reformulation, "", new { @class = "text-danger" })*@
                                         @Html.DropDownListFor(model => model.historisation, list5, @Model.historisation)
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">FCR:</label>
+                                    <div class="col-md-8">
+                                        @*@Html.EditorFor(model => model.reformulation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.reformulation, "", new { @class = "text-danger" })*@
+                                        @Html.DropDownListFor(model => model.FCRSAMRC, list9, @Model.FCRSAMRC)
 
                                     </div>
                                 </div>

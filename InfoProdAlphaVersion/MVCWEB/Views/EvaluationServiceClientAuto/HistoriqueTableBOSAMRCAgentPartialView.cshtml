@@ -15,9 +15,10 @@
                 <th style="font-weight:bold;">Score</th>
                 <th style="font-weight:bold;">Numéro Ticket</th>
                 <th style="font-weight:bold;">Emetteur de l'évaluation</th>
-                <th hidden>Identification du client CRM</th>
-                <th hidden>Qualification des demandes sur CRM</th>
+                <th hidden>Identification du client CRM</th>                
                 <th hidden>Compréhension de la demande </th>
+                <th hidden>Historisation </th>
+                <th hidden>FCR </th>
                 <th hidden>Discours et rédaction de la réponse</th>  
                 <th style="font-weight:bold;">Commentaires</th>
                 <th hidden>Réponse Agent</th>
@@ -43,12 +44,15 @@
                     <td>@item.senderName</td>
                     <td hidden>
                         @item.identificationClient
-                    </td>
-                    <td hidden>
-                        @item.qualificationDemandes
-                    </td>
+                    </td>                    
                     <td hidden>
                         @item.pertinenceReponse
+                    </td>
+                    <td hidden>
+                        @item.historisation
+                    </td>
+                    <td hidden>
+                        @item.FCR
                     </td>
                     <td hidden>
                         @item.discours
@@ -69,11 +73,15 @@
                                 <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
                                     <li>
                                         Identification du client CRM: <span>@item.identificationClient</span>
-                                    <li>
-                                        Qualification des demandes sur CRM: <span> @item.qualificationDemandes</span>
-                                    </li>
+                                    </li>                                    
                                     <li>
                                         Pertinence de la réponse: <span> @item.pertinenceReponse </span>
+                                    </li>
+                                    <li>
+                                        Historisation: <span> @item.historisation </span>
+                                    </li>
+                                    <li>
+                                        FCR: <span> @item.FCR </span>
                                     </li>
                                     <li>
                                         Discours et rédaction de la réponse: <span> @item.discours  </span>

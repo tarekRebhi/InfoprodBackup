@@ -21,7 +21,7 @@ using System.Data.Entity;
 
 namespace MVCWEB.Controllers
 {
-    [Authorize(Roles = "Qualité,Agent Qualité_CustomerService,Agent_CustomerService,Agent_SAMRC")]
+    [Authorize(Roles = "Qualité,Agent Qualité_CustomerService,Agent Qualité_HL,Agent_CustomerService,Agent_SAMRC,Agent_HL,Agent Qualité_Diffusion")]
     public class EvaluationServiceClientAutoController : Controller
     {
         private ReportContext db = new ReportContext();
@@ -31,6 +31,7 @@ namespace MVCWEB.Controllers
         IGrilleEvaluationService serviceDiff;
         IEvaluationEnqueteAutoService service;
         IEvaluationFOSAMRCService serviceFOSAMRCS;
+        IEvaluationHLAutoService serviceHLAuto;
         IEvaluationBOSAMRCService serviceBOSAMRC;
         IGroupeEmployeeService serviceGroupeEmp;
         IGroupeService serviceGroupe;
@@ -45,8 +46,9 @@ namespace MVCWEB.Controllers
             serviceDiff = new GrilleEvaluationService();
             service = new EvaluationEnqueteAutoService();
             serviceFOSAMRCS = new EvaluationFOSAMRCService();
+            serviceHLAuto = new EvaluationHLAutoService();
             serviceBOSAMRC = new EvaluationBOSAMRCService();
-             serviceGroupeEmp = new GroupesEmployeService();
+            serviceGroupeEmp = new GroupesEmployeService();
             serviceGroupe = new GroupeService();
         }
         public EvaluationServiceClientAutoController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
@@ -94,7 +96,7 @@ namespace MVCWEB.Controllers
         #endregion
 
         #region Evaluation Enquete Auto 
-        [Authorize(Roles = "Qualité, Agent Qualité_CustomerService")]
+        [Authorize(Roles = "Qualité, Agent Qualité_CustomerService,Agent Qualité_Diffusion")]
 
         public ActionResult EnqueteAuto(string enregistrementFullName, string enregistrementUrl, string enregistrementDirectory, string agentName)
         {
@@ -803,7 +805,6 @@ namespace MVCWEB.Controllers
 
         #region Evaluation SC SAM/RC Auto Front office 
         [Authorize(Roles = "Qualité, Agent Qualité_CustomerService")]
-
         public ActionResult SAMRCFOAuto(string enregistrementFullName, string enregistrementUrl, string enregistrementDirectory, string agentName)
         {
 
@@ -885,14 +886,14 @@ namespace MVCWEB.Controllers
             }
             return View(a);
         }
-        public ActionResult CalculSAMRCFOAuto(string nomAgent, string planDate, string accueil, string MajDonnees, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult CalculSAMRCFOAuto(string nomAgent, string planDate, string accueil, string identification, string MajDonnees, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string FCR, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
-            float total = 43;
+            float total = 50;
             List<string> NEList = new List<string>(new string[] { miseAttente,MajDonnees,tempsAttente});
             var a = new EvaluationEvaluationSCAutoViewModel();
-            float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) +
+            float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) +
                 float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat) +
-                float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
+                float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
 
             foreach (var i in NEList)
             {
@@ -907,6 +908,7 @@ namespace MVCWEB.Controllers
             }
        
             a.accueil = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat);
+            a.identificationClient = float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat);
             a.MajDonnees = float.Parse(MajDonnees, CultureInfo.InvariantCulture.NumberFormat);
             a.decouverteAttentes = float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat);
             a.utilisationOutils = float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat);
@@ -917,6 +919,7 @@ namespace MVCWEB.Controllers
             a.discours = float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
             a.attitude = float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat);
             a.historisation = float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCR = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
             a.priseConge = float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
 
             a.dateTempEvaluation = DateTime.Parse(planDate);
@@ -932,17 +935,17 @@ namespace MVCWEB.Controllers
             return RedirectToAction("listeSites", "Superviseur");
         }
 
-        public ActionResult SaveEvalSAMRCFOAuto(string nomAgent, string planDate,string MajDonnees, string accueil, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult SaveEvalSAMRCFOAuto(string nomAgent, string planDate,string MajDonnees, string accueil, string identification, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string FCR, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
             var userConnected = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
             Employee emp = serviceEmployee.getByPseudoName(nomAgent.ToLower());
             GrilleEvaluationFOSAMRC a = new GrilleEvaluationFOSAMRC();
-            float total = 43;
+            float total = 50;
             List<string> NEList = new List<string>(new string[] { miseAttente, MajDonnees ,tempsAttente });
 
-            float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) + 
+            float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) + 
                 float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat) +
-                float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
+                float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
 
             foreach (var i in NEList)
             {
@@ -956,6 +959,7 @@ namespace MVCWEB.Controllers
                 }
             }
             a.accueil = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat);
+            a.Identification = float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat);
             a.MajDonnees = float.Parse(MajDonnees, CultureInfo.InvariantCulture.NumberFormat);
             a.decouverteAttentes = float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat);
             a.utilisationOutils = float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat);
@@ -966,6 +970,7 @@ namespace MVCWEB.Controllers
             a.discours = float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
             a.attitude = float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat);
             a.historisation = float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCRSAMRC = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
             a.priseConge = float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
 
             a.dateTempEvaluation = DateTime.Parse(planDate);
@@ -1072,20 +1077,22 @@ namespace MVCWEB.Controllers
             }
             return View(a);
         }
-
-     
-        public ActionResult CalculSAMRCBOAuto(string nomAgent, string planDate, string identificationClient, string qualificationDemandes, string pertinenceReponse, string discours, string numIntervention, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+             
+        public ActionResult CalculSAMRCBOAuto(string nomAgent, string planDate, string identificationClient, string FCR,string historisation, string pertinenceReponse, string discours, string numIntervention, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
             float total = 30;
-            float notes = float.Parse(identificationClient, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(qualificationDemandes, CultureInfo.InvariantCulture.NumberFormat) 
-                + float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
+            float notes = float.Parse(identificationClient, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat)
+                + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) 
+                + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
 
           
             var a = new EvaluationEvaluationSCAutoViewModel();
             a.identificationClient = float.Parse(identificationClient, CultureInfo.InvariantCulture.NumberFormat);
-            a.qualificationDemandes = float.Parse(qualificationDemandes, CultureInfo.InvariantCulture.NumberFormat);
+            //a.qualificationDemandes = float.Parse(qualificationDemandes, CultureInfo.InvariantCulture.NumberFormat);            
             a.pertinenceReponse = float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat);
+            a.historisation = float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat);
             a.discours = float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCR = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
      
             a.numIntervention = numIntervention;
 
@@ -1102,20 +1109,22 @@ namespace MVCWEB.Controllers
             return RedirectToAction("listeSites", "Superviseur");
         }
 
-        public ActionResult SaveEvalSAMRCBOAuto(string nomAgent, string planDate, string identificationClient, string qualificationDemandes, string pertinenceReponse, string discours, string numIntervention, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        public ActionResult SaveEvalSAMRCBOAuto(string nomAgent, string planDate, string identificationClient,string FCR,string historisation, string pertinenceReponse, string discours, string numIntervention, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
         {
             var userConnected = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
             Employee emp = serviceEmployee.getByPseudoName(nomAgent.ToLower());
             GrilleEvaluationBOSAMRC a = new GrilleEvaluationBOSAMRC();
 
             float total = 30;
-            float notes = float.Parse(identificationClient, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(qualificationDemandes, CultureInfo.InvariantCulture.NumberFormat)
-                + float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
+            float notes = float.Parse(identificationClient, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat)
+                + float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
 
             a.identificationClient = float.Parse(identificationClient, CultureInfo.InvariantCulture.NumberFormat);
-            a.qualificationDemandes = float.Parse(qualificationDemandes, CultureInfo.InvariantCulture.NumberFormat);
+            //a.qualificationDemandes = float.Parse(qualificationDemandes, CultureInfo.InvariantCulture.NumberFormat);
             a.pertinenceReponse = float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat);
             a.discours = float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCR = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
+            a.Historisation = float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat);
 
             a.numIntervention = numIntervention;               
 
@@ -1243,6 +1252,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
                     test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
@@ -1253,6 +1263,7 @@ namespace MVCWEB.Controllers
                     test.discours = item.discours;
                     test.attitude = item.attitude;
                     test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
                     test.priseConge = item.priseConge;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1310,6 +1321,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
                     test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
@@ -1320,6 +1332,7 @@ namespace MVCWEB.Controllers
                     test.discours = item.discours;
                     test.attitude = item.attitude;
                     test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
                     test.priseConge = item.priseConge;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1408,6 +1421,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
                     test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
@@ -1418,6 +1432,7 @@ namespace MVCWEB.Controllers
                     test.discours = item.discours;
                     test.attitude = item.attitude;
                     test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
                     test.priseConge = item.priseConge;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1468,6 +1483,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
                     test.MajDonnees = item.MajDonnees;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
@@ -1478,6 +1494,7 @@ namespace MVCWEB.Controllers
                     test.discours = item.discours;
                     test.attitude = item.attitude;
                     test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
                     test.priseConge = item.priseConge;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1588,9 +1605,11 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.identificationClient = item.identificationClient;
-                    test.qualificationDemandes = item.qualificationDemandes;
+                    //test.qualificationDemandes = item.qualificationDemandes;
                     test.pertinenceReponse = item.pertinenceReponse;
                     test.discours = item.discours;
+                    test.FCR = item.FCR;
+                    test.historisation = item.Historisation;
                     test.numIntervention = item.numIntervention;                   
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1648,9 +1667,11 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.identificationClient = item.identificationClient;
-                    test.qualificationDemandes = item.qualificationDemandes;
+                    //test.qualificationDemandes = item.qualificationDemandes;
                     test.pertinenceReponse = item.pertinenceReponse;
                     test.discours = item.discours;
+                    test.FCR = item.FCR;
+                    test.historisation = item.Historisation;
                     test.numIntervention = item.numIntervention;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1691,8 +1712,7 @@ namespace MVCWEB.Controllers
             return RedirectToAction("HistoriqueSAMRCBO");
         }
         #endregion
-
-
+        
         #region Archive SAM RC BO Auto par Resp Qualité
         //Archive evaluations par Responsable Qualité
         [Authorize(Roles = "Qualité")]
@@ -1740,9 +1760,11 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.identificationClient = item.identificationClient;
-                    test.qualificationDemandes = item.qualificationDemandes;
+                    //test.qualificationDemandes = item.qualificationDemandes;
                     test.pertinenceReponse = item.pertinenceReponse;
                     test.discours = item.discours;
+                    test.FCR = item.FCR;
+                    test.historisation = item.Historisation;
                     test.numIntervention = item.numIntervention;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1796,6 +1818,8 @@ namespace MVCWEB.Controllers
                     test.qualificationDemandes = item.qualificationDemandes;
                     test.pertinenceReponse = item.pertinenceReponse;
                     test.discours = item.discours;
+                    test.FCR = item.FCR;
+                    test.historisation = item.Historisation;
                     test.numIntervention = item.numIntervention;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -1918,8 +1942,7 @@ namespace MVCWEB.Controllers
             return RedirectToAction("HistoriqueEnqueteAuto");
         }
         #endregion
-
-
+        
         #region Edit et delete SAMRCFO
         [Authorize(Roles = "Qualité")]
 
@@ -1951,11 +1974,11 @@ namespace MVCWEB.Controllers
         [Authorize(Roles = "Qualité")]
         public ActionResult EditSAMRCFO(int? id, GrilleEvaluationFOSAMRC evaluation)
         {
-            float total = 43;
+            float total = 50;
             List<float> NEList = new List<float>(new float[] { evaluation.miseAttente,evaluation.MajDonnees, evaluation.tempsAttente });
-            float notes = evaluation.accueil + evaluation.decouverteAttentes + evaluation.utilisationOutils +
+            float notes = evaluation.accueil + evaluation.Identification + evaluation.decouverteAttentes + evaluation.utilisationOutils +
               evaluation.pertinenceReponse + evaluation.conclusionContact + evaluation.discours +
-              evaluation.attitude + evaluation.historisation + evaluation.priseConge;
+              evaluation.attitude + evaluation.historisation + evaluation.FCRSAMRC + evaluation.priseConge;
 
             foreach (var i in NEList)
             {
@@ -2120,6 +2143,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
                     test.miseAttente = item.miseAttente;
@@ -2129,6 +2153,7 @@ namespace MVCWEB.Controllers
                     test.discours = item.discours;
                     test.attitude = item.attitude;
                     test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
                     test.priseConge = item.priseConge;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -2184,6 +2209,7 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
                     test.decouverteAttentes = item.decouverteAttentes;
                     test.utilisationOutils = item.utilisationOutils;
                     test.miseAttente = item.miseAttente;
@@ -2193,6 +2219,7 @@ namespace MVCWEB.Controllers
                     test.discours = item.discours;
                     test.attitude = item.attitude;
                     test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
                     test.priseConge = item.priseConge;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -2269,9 +2296,11 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.identificationClient = item.identificationClient;
-                    test.qualificationDemandes = item.qualificationDemandes;
+                    //test.qualificationDemandes = item.qualificationDemandes;
                     test.pertinenceReponse = item.pertinenceReponse;
                     test.discours = item.discours;
+                    test.FCR = item.FCR;
+                    test.historisation = item.Historisation;
                     test.numIntervention = item.numIntervention;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -2327,9 +2356,11 @@ namespace MVCWEB.Controllers
                     EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
                     test.Id = item.Id;
                     test.identificationClient = item.identificationClient;
-                    test.qualificationDemandes = item.qualificationDemandes;
+                    //test.qualificationDemandes = item.qualificationDemandes;
                     test.pertinenceReponse = item.pertinenceReponse;
                     test.discours = item.discours;
+                    test.FCR = item.FCR;
+                    test.historisation = item.Historisation;
                     test.numIntervention = item.numIntervention;
 
                     test.dateTempEvaluation = item.dateTempEvaluation;
@@ -2370,6 +2401,7 @@ namespace MVCWEB.Controllers
             return RedirectToAction("GetArchiveAgentQualiteSAMRCBO");
         }
         #endregion
+        
         #region Ecouter et Details
         [HttpGet]
         public ActionResult FindCustomEnregistrement(String name, String fullName, String DirectoryName)
@@ -3184,9 +3216,9 @@ namespace MVCWEB.Controllers
         }
         public JsonResult GetReportsSAMRCFO(string username, string dateDebut, string dateFin)
         {
-            float totAccueil = 0,totMajDonnees=0, totDecouverteAttentes = 0, totUtilisationOutils = 0, totMiseAttente = 0,
+            float totAccueil = 0, totIdentification = 0, totMajDonnees =0, totDecouverteAttentes = 0, totUtilisationOutils = 0, totMiseAttente = 0,
                 totTempsAttente = 0, totPertinenceReponse = 0, totConclusionContact = 0, totDiscours = 0, totAttitude = 0,
-                totHistorisation = 0 ,totPriseConge = 0, totNotes = 0;
+                totHistorisation = 0 , totFCR = 0 ,totPriseConge = 0, totNotes = 0;
 
             float NbreMiseAttente = 0, NbreMajDonnees = 0, NbreTempsAttente = 0;
                
@@ -3204,7 +3236,8 @@ namespace MVCWEB.Controllers
             foreach (var item in historstions)
             {
                 totNotes += item.note;
-                totAccueil += item.accueil;                
+                totAccueil += item.accueil;
+                totIdentification += item.Identification;
                 totDecouverteAttentes += item.decouverteAttentes;
                 totUtilisationOutils += item.utilisationOutils;
                 totPertinenceReponse += item.pertinenceReponse;
@@ -3212,6 +3245,7 @@ namespace MVCWEB.Controllers
                 totDiscours += item.discours;
                 totAttitude += item.attitude;
                 totHistorisation += item.historisation;
+                totFCR += item.FCRSAMRC;
                 totPriseConge += item.priseConge;
 
                 if (item.miseAttente >= 0)
@@ -3255,6 +3289,7 @@ namespace MVCWEB.Controllers
             {
                 test.note = (float)Math.Round((totNotes / (nbreEvaluations * 100)) * 100, 2);
                 test.accueil = (float)Math.Round((totAccueil / (nbreEvaluations * 2)) * 100, 2);
+                test.identificationClient = (float)Math.Round((totIdentification / (nbreEvaluations * 3)) * 100, 2);
                 test.decouverteAttentes = (float)Math.Round((totDecouverteAttentes / (nbreEvaluations * 4)) * 100, 2);
                 test.utilisationOutils = (float)Math.Round((totUtilisationOutils / (nbreEvaluations * 5)) * 100, 2);
                 test.pertinenceReponse = (float)Math.Round((totPertinenceReponse / (nbreEvaluations * 6)) * 100, 2);
@@ -3262,12 +3297,14 @@ namespace MVCWEB.Controllers
                 test.discours = (float)Math.Round((totDiscours / (nbreEvaluations * 4)) * 100, 2);
                 test.attitude = (float)Math.Round((totAttitude / (nbreEvaluations * 4)) * 100, 2);
                 test.historisation = (float)Math.Round((totHistorisation / (nbreEvaluations * 6)) * 100, 2);
+                test.FCR = (float)Math.Round((totFCR / (nbreEvaluations * 4)) * 100, 2);
                 test.priseConge = (float)Math.Round((totPriseConge / (nbreEvaluations * 2)) * 100, 2);
             }
             else
             {
                 test.note = 0;
                 test.accueil = 0;
+                test.identificationClient = 0;
                 test.decouverteAttentes = 0;
                 test.utilisationOutils = 0;
                 test.pertinenceReponse = 0;
@@ -3275,13 +3312,14 @@ namespace MVCWEB.Controllers
                 test.discours = 0;
                 test.attitude = 0;
                 test.historisation = 0;
+                test.FCR = 0;
                 test.priseConge = 0;
             }
             return Json(test, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
-        #region Reports SAM RC Front Office
+        #region Reports SAM RC Back Office
         public ActionResult ReportsSAMRCBO()
         {
             List<Employee> logins = new List<Employee>();
@@ -3343,7 +3381,7 @@ namespace MVCWEB.Controllers
      
         public JsonResult GetReportsSAMRCBO(string username, string dateDebut, string dateFin)
         {
-            float totIdentificationClient = 0, totQualificationDemandes = 0, totPertinenceReponse = 0, totDiscours = 0, totNotes = 0;
+            float totIdentificationClient = 0, totPertinenceReponse = 0, totDiscours = 0,totFCR=0,totHistorisation=0, totNotes = 0;
           
             DateTime daterecherchedebut = DateTime.Parse(dateDebut);
             DateTime daterecherchefin = DateTime.Parse(dateFin);
@@ -3360,9 +3398,11 @@ namespace MVCWEB.Controllers
             {
                 totNotes += item.note;
                 totIdentificationClient += item.identificationClient;
-                totQualificationDemandes += item.qualificationDemandes;
+                //totQualificationDemandes += item.qualificationDemandes;
                 totPertinenceReponse += item.pertinenceReponse;
                 totDiscours += item.discours;
+                totFCR += item.FCR;
+                totHistorisation = item.Historisation;
             }
 
             EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
@@ -3371,9 +3411,11 @@ namespace MVCWEB.Controllers
             {
                 test.note = (float)Math.Round((totNotes / (nbreEvaluations * 100)) * 100, 2);
                 test.identificationClient = (float)Math.Round((totIdentificationClient / (nbreEvaluations * 5)) * 100, 2);
-                test.qualificationDemandes = (float)Math.Round((totQualificationDemandes / (nbreEvaluations * 5)) * 100, 2);
-                test.pertinenceReponse = (float)Math.Round((totPertinenceReponse / (nbreEvaluations * 15)) * 100, 2);
+                //test.qualificationDemandes = (float)Math.Round((totQualificationDemandes / (nbreEvaluations * 5)) * 100, 2);
+                test.pertinenceReponse = (float)Math.Round((totPertinenceReponse / (nbreEvaluations * 10)) * 100, 2);
                 test.discours = (float)Math.Round((totDiscours / (nbreEvaluations * 5)) * 100, 2);
+                test.FCR = (float)Math.Round((totFCR / (nbreEvaluations * 5)) * 100, 2);
+                test.historisation = (float)Math.Round((totHistorisation / (nbreEvaluations * 5)) * 100, 2);
             }
             else
             {
@@ -3382,6 +3424,8 @@ namespace MVCWEB.Controllers
                 test.qualificationDemandes = 0;
                 test.pertinenceReponse = 0;
                 test.discours = 0;
+                test.FCR = 0;
+                test.historisation = 0;
             }
             //if (Request.IsAjaxRequest())
             //{
@@ -3392,6 +3436,1195 @@ namespace MVCWEB.Controllers
             return Json(test, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        //HL Auto 
+
+        #region Evaluation SC HL Auto 
+        [Authorize(Roles = "Qualité, Agent Qualité_CustomerService,Agent Qualité_HL")]
+        public ActionResult HLAuto(string enregistrementFullName, string enregistrementUrl, string enregistrementDirectory, string agentName)
+        {
+
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 8))
+            {
+                ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+            var a = new EvaluationViewModel();
+
+            a.enregistrementFullName = enregistrementFullName;
+            a.enregistrementUrl = enregistrementUrl;
+            a.enregistrementDirectory = enregistrementDirectory;
+            a.agentName = agentName;
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            a.empId = "" + employee.Id;
+
+            a.userName = employee.UserName;
+            a.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                a.Url = Url;
+            }
+            return View(a);
+        }
+
+        public ActionResult HLAutoWithoutAgent(string enregistrementFullName, string enregistrementUrl, string enregistrementDirectory, string siteName)
+        {
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            var a = new EvaluationViewModel();
+            List<SelectListItem> agents = new List<SelectListItem>();
+            List<Employee> logins = new List<Employee>();
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 8))
+            {
+                ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+
+            a.enregistrementFullName = enregistrementFullName;
+            a.enregistrementUrl = enregistrementUrl;
+            a.enregistrementDirectory = enregistrementDirectory;
+
+            Groupe gr = serviceGroupe.getByNom(siteName);
+            logins = serviceGroupeEmp.getListEmployeeByGroupeId(gr.Id);
+
+            var us = logins.Select(o => o).Distinct().ToList();
+            var ordredpseudoNames = us.OrderBy(u => u.pseudoName).ToList();
+            int j = 0;
+            string agentName = "";
+            while (j < logins.Count)
+            {
+                string tv = "TV." + logins[j].IdHermes;
+                if (enregistrementFullName.Contains(tv))
+                {
+                    agentName = logins[j].UserName;
+                }
+                j++;
+            }
+            a.agentName = agentName;
+            a.empId = "" + user.Id;
+            a.userName = user.UserName;
+            a.pseudoNameEmp = user.pseudoName;
+            if (user.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(user.Content);
+                String Url = "data:" + user.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                a.Url = Url;
+            }
+            return View(a);
+        }
+
+        public ActionResult CalculHLAuto(string nomAgent, string planDate, string accueil, string identification, string MajDonnees, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string FCR, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        {
+            float total = 50;
+            List<string> NEList = new List<string>(new string[] { miseAttente, MajDonnees, tempsAttente });
+            var a = new EvaluationEvaluationSCAutoViewModel();
+            float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) +
+                float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat) +
+                float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
+
+            foreach (var i in NEList)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    total += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {
+                    notes += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+            }
+
+            a.accueil = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat);
+            a.identificationClient = float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat);
+            a.MajDonnees = float.Parse(MajDonnees, CultureInfo.InvariantCulture.NumberFormat);
+            a.decouverteAttentes = float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat);
+            a.utilisationOutils = float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat);
+            a.miseAttente = float.Parse(miseAttente, CultureInfo.InvariantCulture.NumberFormat);
+            a.tempsAttente = float.Parse(tempsAttente, CultureInfo.InvariantCulture.NumberFormat);
+            a.pertinenceReponse = float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat);
+            a.conclusionContact = float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat);
+            a.discours = float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
+            a.attitude = float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat);
+            a.historisation = float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCR = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
+            a.priseConge = float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
+
+            a.dateTempEvaluation = DateTime.Parse(planDate);
+            a.agentName = nomAgent;
+            a.note = notes;
+            a.pourcentageNotes = (notes / total) * 100;
+            a.type = "SAM HL Auto";
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("HLAutoResult", a);
+            }
+            return RedirectToAction("listeSites", "Superviseur");
+        }
+
+        public ActionResult SaveEvalHLAuto(string nomAgent, string planDate, string MajDonnees, string accueil, string identification, string decouverteAttentes, string utilisationOutils, string miseAttente, string tempsAttente, string pertinenceReponse, string conclusionContact, string discours, string attitude, string historisation, string FCR, string priseConge, string commentaire, string enregistrement, string enregistrementUrl, string enregistrementDirectory)
+        {
+            var userConnected = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            Employee emp = serviceEmployee.getByPseudoName(nomAgent.ToLower());
+            GrilleEvaluationHLAuto a = new GrilleEvaluationHLAuto();
+            float total = 50;
+            List<string> NEList = new List<string>(new string[] { miseAttente, MajDonnees, tempsAttente });
+
+            float notes = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat) +
+                float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat) +
+                float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat) + float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
+
+            foreach (var i in NEList)
+            {
+                if (float.Parse(i, CultureInfo.InvariantCulture.NumberFormat) < 0)
+                {
+                    total += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                else
+                {
+                    notes += float.Parse(i, CultureInfo.InvariantCulture.NumberFormat);
+                }
+            }
+            a.accueil = float.Parse(accueil, CultureInfo.InvariantCulture.NumberFormat);
+            a.Identification = float.Parse(identification, CultureInfo.InvariantCulture.NumberFormat);
+            a.MajDonnees = float.Parse(MajDonnees, CultureInfo.InvariantCulture.NumberFormat);
+            a.decouverteAttentes = float.Parse(decouverteAttentes, CultureInfo.InvariantCulture.NumberFormat);
+            a.utilisationOutils = float.Parse(utilisationOutils, CultureInfo.InvariantCulture.NumberFormat);
+            a.miseAttente = float.Parse(miseAttente, CultureInfo.InvariantCulture.NumberFormat);
+            a.tempsAttente = float.Parse(tempsAttente, CultureInfo.InvariantCulture.NumberFormat);
+            a.pertinenceReponse = float.Parse(pertinenceReponse, CultureInfo.InvariantCulture.NumberFormat);
+            a.conclusionContact = float.Parse(conclusionContact, CultureInfo.InvariantCulture.NumberFormat);
+            a.discours = float.Parse(discours, CultureInfo.InvariantCulture.NumberFormat);
+            a.attitude = float.Parse(attitude, CultureInfo.InvariantCulture.NumberFormat);
+            a.historisation = float.Parse(historisation, CultureInfo.InvariantCulture.NumberFormat);
+            a.FCRSAMRC = float.Parse(FCR, CultureInfo.InvariantCulture.NumberFormat);
+            a.priseConge = float.Parse(priseConge, CultureInfo.InvariantCulture.NumberFormat);
+
+            a.dateTempEvaluation = DateTime.Parse(planDate);
+            a.employeeId = emp.Id;
+            a.senderId = userConnected.Id;
+            a.note = (notes / total) * 100;
+            a.type = "SC HL Auto";
+            a.commentaireQualite = commentaire;
+            a.enregistrementFullName = enregistrement;
+            a.enregistrementUrl = enregistrementUrl;
+            a.enregistrementDirectory = enregistrementDirectory;
+
+            serviceHLAuto.Add(a);
+            serviceHLAuto.SaveChange();
+            var eval = new EvaluationEvaluationSCAutoViewModel();
+            eval.agentName = nomAgent;
+            //Envoi du Mail automatiquement
+            string SenderMail = "alerte.infoprod@infopro-digital.com";
+            string receiverMail = emp.Email;
+            MailAddress to = new MailAddress(receiverMail);
+            MailAddress from = new MailAddress(SenderMail);
+
+            MailMessage message = new MailMessage(from, to);
+            message.Subject = "Notification Nouvelle Evaluation";
+            message.IsBodyHtml = true;
+            message.Body = "<html><head></head><body><p>Bonjour,</p><p>Nous vous informons qu'un audit qualité viens d'être enregistré, vous pouvez le consulter sur l’interface INFO-PROD QUALITE </p><p>En attendant le débriefe de l’évaluateur</p><p>Cordialement.</p></body></html>";
+
+            SmtpClient client = new SmtpClient("smtp.info.local", 587)
+            {
+                UseDefaultCredentials = true,
+                // Credentials = new NetworkCredential("alerte.infoprod@infopro-digital.com", "Welcome01"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = true
+            };
+            // code in brackets above needed if authentication required 
+            try
+            {
+                client.Send(message);
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("EnvoiMailResult", eval);
+            }
+            return RedirectToAction("Acceuil", "Directory");
+
+        }
+        #endregion
+
+        #region Historique HL Auto Par Collaborateur
+        [Authorize(Roles = "Qualité, Agent Qualité_CustomerService,Agent Qualité_HL,Manager")]
+
+        public ActionResult HistoriqueHLAuto()
+        {
+            List<Employee> logins = new List<Employee>();
+            EvaluationViewModel evaluation = new EvaluationViewModel();
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 8))
+            {
+                ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2))
+            {
+                ViewBag.role = "Manager";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 6))
+            {
+                ViewBag.role = "Manager";
+            }
+
+
+            string d = "CUSTOMER SERVICE";
+            Groupe gr = serviceGroupe.getByNom(d);
+            List<Employee> emp = serviceGroupeEmp.getListEmployeeByGroupeId(gr.Id);
+            foreach (var e in emp)
+            {
+                if (!logins.Exists(l => l.UserName == e.UserName))
+                {
+                    logins.Add(e);
+                }
+            }
+            var employees = logins.OrderBy(a => a.UserName).ToList();
+            foreach (var test in employees)
+            {
+                if (!test.UserName.Equals(user.UserName) && test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 3 || r.RoleId == 1009 || r.RoleId == 10 || r.RoleId == 2016))
+                {
+                    evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
+
+                }
+            }
+
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+        public ActionResult GetHistoHLAuto(string username)
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                var historstions = serviceHLAuto.GetEvaluationsByEmployee(emp.Id);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
+                    test.MajDonnees = item.MajDonnees;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("HistoriqueHLAutoPartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("HistoriqueHLAuto");
+        }
+
+        public ActionResult GetHistoHLAutoByDate(string username, string dateDebut, string dateFin)
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+                DateTime daterecherchefin = DateTime.Parse(dateFin);
+
+
+                var historstions = serviceHLAuto.GetEvaluationsEmployeeBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
+                    test.MajDonnees = item.MajDonnees;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("HistoriqueHLAutoPartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("HistoriqueHLAuto");
+        }
+        #endregion
+
+        #region Archive HL Auto par Resp Qualité
+        //Archive evaluations par Responsable Qualité
+        [Authorize(Roles = "Qualité")]
+        public ActionResult ArchiveHLAuto()
+        {
+            EvaluationEvaluationSCAutoViewModel evaluation = new EvaluationEvaluationSCAutoViewModel();
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            var logins = serviceEmployee.GetAll();
+            var employees = logins.Select(o => o).Distinct().ToList();
+
+            foreach (var test in employees)
+            {
+                if (test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 4 || r.RoleId == 8||r.RoleId==2015))
+                {
+                    evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
+
+                }
+            }
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+
+        public ActionResult GetArchiveQualiteHLAuto(string username)
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                var historstions = serviceHLAuto.GetEvaluationsBySenderId(emp.Id);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
+                    test.MajDonnees = item.MajDonnees;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveHLAutoQualitePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("ArchiveHLAuto");
+        }
+
+        public ActionResult GetArchiveQualiteHLAutoByDate(string username, string dateDebut, string dateFin)
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+                DateTime daterecherchefin = DateTime.Parse(dateFin);
+                var historstions = serviceHLAuto.GetEvaluationsSenderBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
+                    test.MajDonnees = item.MajDonnees;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee reciever = serviceEmployee.getById(item.employeeId);
+                        test.agentName = reciever.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveHLAutoQualitePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("ArchiveHLAuto");
+        }
+        #endregion
+
+        #region Archive HL Auto Agent Qualité_CustomerService
+        [Authorize(Roles = "Agent Qualité_CustomerService,Agent Qualité_HL")]
+        public ActionResult ArchiveAgentQualiteHLAuto()
+        {
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 8))
+            {
+                ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2015))
+            {
+                ViewBag.role = "Agent Qualité_HL";
+            }
+            EvaluationEvaluationSCAutoViewModel evaluation = new EvaluationEvaluationSCAutoViewModel();
+            
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+        public ActionResult GetArchiveAgentQualiteHLAuto()
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+
+                var historstions = serviceHLAuto.GetEvaluationsBySenderId(emp.Id);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee receiver = serviceEmployee.getById(item.employeeId);
+                        test.agentName = receiver.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveHLAutoQualitePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("GetArchiveAgentQualiteHLAuto");
+        }
+
+        public ActionResult GetArchiveAgentQualiteHLAutoByDate(string dateDebut, string dateFin)
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+                DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+                DateTime daterecherchefin = DateTime.Parse(dateFin);
+                var historstions = serviceHLAuto.GetEvaluationsSenderBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.identificationClient = item.Identification;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+                    if (item.employeeId != null)
+                    {
+                        test.employeeId = item.employeeId;
+                        Employee receiver = serviceEmployee.getById(item.employeeId);
+                        test.agentName = receiver.UserName;
+                    }
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("ArchiveHLAutoQualitePartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("GetArchiveAgentQualiteHLAuto");
+        }
+        #endregion
+
+        #region historiqueAgent HL
+        [Authorize(Roles = "Agent_HL")]
+        public ActionResult HistoriqueAgent_HL()
+        {
+            EvaluationViewModel evaluation = new EvaluationViewModel();
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            if (user.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(user.Content);
+                String empConnectedImage = "data:" + user.ContentType + ";base64," + strbase64;
+                ViewBag.empConnectedImage = empConnectedImage;
+            }
+            ViewBag.ConnectedUsername = user.UserName;
+            ViewBag.pseudoNameEmpConnected = user.pseudoName;
+
+            return View(evaluation);
+        }
+        public ActionResult GetHistoAgentHL()
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+
+                var historstions = serviceHLAuto.GetEvaluationsByEmployee(emp.Id);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.MajDonnees = item.MajDonnees;
+                    test.identificationClient = item.Identification;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("HistoriqueTableHLAgentPartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("HistoriqueAgent_HL");
+        }
+                
+        public ActionResult GetHistoAgentHLByDate(string dateDebut, string dateFin)
+        {
+            List<EvaluationEvaluationSCAutoViewModel> a = new List<EvaluationEvaluationSCAutoViewModel>();
+            try
+            {
+                Employee emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+                DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+                DateTime daterecherchefin = DateTime.Parse(dateFin);
+                var historstions = serviceHLAuto.GetEvaluationsEmployeeBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+                ViewBag.nbreEvaluations = historstions.Count();
+                foreach (var item in historstions)
+                {
+                    EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+                    test.Id = item.Id;
+                    test.accueil = item.accueil;
+                    test.MajDonnees = item.MajDonnees;
+                    test.identificationClient = item.Identification;
+                    test.decouverteAttentes = item.decouverteAttentes;
+                    test.utilisationOutils = item.utilisationOutils;
+                    test.miseAttente = item.miseAttente;
+                    test.tempsAttente = item.tempsAttente;
+                    test.pertinenceReponse = item.pertinenceReponse;
+                    test.conclusionContact = item.conclusionContact;
+                    test.discours = item.discours;
+                    test.attitude = item.attitude;
+                    test.historisation = item.historisation;
+                    test.FCR = item.FCRSAMRC;
+                    test.priseConge = item.priseConge;
+
+                    test.dateTempEvaluation = item.dateTempEvaluation;
+                    test.type = item.type;
+                    test.note = item.note;
+                    test.commentaireQualite = item.commentaireQualite;
+                    test.commentaireAgent = item.commentaireAgent;
+                    test.enregistrementFullName = item.enregistrementFullName;
+                    test.enregistrementUrl = item.enregistrementUrl;
+                    test.enregistrementDirectory = item.enregistrementDirectory;
+
+                    if (item.senderId != null)
+                    {
+                        test.senderId = item.senderId;
+                        Employee sender = serviceEmployee.getById(item.senderId);
+                        test.senderName = sender.UserName;
+                    }
+
+                    a.Add(test);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("HistoriqueTableHLAgentPartialView", a);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(e.Data);
+                return PartialView("SelectError");
+            }
+
+            return RedirectToAction("HistoriqueAgent_HL");
+        }
+                
+        public ActionResult ReponseEvaluationHL(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GrilleEvaluationHLAuto evaluation = db.GrilleEvaluationHLAutos.Find(id);
+            EvaluationEvaluationSCAutoViewModel eval = new EvaluationEvaluationSCAutoViewModel();
+            eval.dateTempEvaluation = evaluation.dateTempEvaluation;
+            eval.commentaireQualite = evaluation.commentaireQualite;
+
+            var emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+
+            if (emp.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(emp.Content);
+                String empConnectedImage = "data:" + emp.ContentType + ";base64," + strbase64;
+                ViewBag.empConnectedImage = empConnectedImage;
+            }
+            ViewBag.nameEmpConnected = emp.UserName;
+            ViewBag.pseudoNameEmpConnected = emp.pseudoName;
+            return View(evaluation);
+        }
+        // POST: Evaluation/Edit/5
+        [HttpPost, ActionName("ReponseEvaluationHL")]
+        [Authorize(Roles = "Agent_HL")]
+        public ActionResult ReponseEvaluationHL(int? id, GrilleEvaluationHLAuto evaluation)
+        {
+            if (ModelState.IsValid)
+            {
+
+                db.Entry(evaluation).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("HistoriqueAgent_HL");
+            }
+            return View(evaluation);
+        }
+                       
+        #endregion
+
+        #region Edit et delete HL AUTO
+        [Authorize(Roles = "Qualité")]
+
+        public ActionResult EditHLAuto(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GrilleEvaluationHLAuto evaluation = db.GrilleEvaluationHLAutos.Find(id);
+            EvaluationVecteurPlusViewModel eval = new EvaluationVecteurPlusViewModel();
+            eval.dateTempEvaluation = evaluation.dateTempEvaluation;
+            eval.commentaireQualite = evaluation.commentaireQualite;
+
+            var emp = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+
+            if (emp.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(emp.Content);
+                String empConnectedImage = "data:" + emp.ContentType + ";base64," + strbase64;
+                ViewBag.empConnectedImage = empConnectedImage;
+            }
+            ViewBag.nameEmpConnected = emp.UserName;
+            ViewBag.pseudoNameEmpConnected = emp.pseudoName;
+            return View(evaluation);
+        }
+        // POST: Evaluation/Edit/5
+        [HttpPost, ActionName("EditHLAuto")]
+        [Authorize(Roles = "Qualité")]
+        public ActionResult EditHLAuto(int? id, GrilleEvaluationHLAuto evaluation)
+        {
+            float total = 50;
+            List<float> NEList = new List<float>(new float[] { evaluation.miseAttente, evaluation.MajDonnees, evaluation.tempsAttente });
+            float notes = evaluation.accueil + evaluation.Identification + evaluation.decouverteAttentes + evaluation.utilisationOutils +
+              evaluation.pertinenceReponse + evaluation.conclusionContact + evaluation.discours +
+              evaluation.attitude + evaluation.historisation + evaluation.FCRSAMRC + evaluation.priseConge;
+
+            foreach (var i in NEList)
+            {
+                if (i < 0)
+                {
+                    total += i;
+                }
+                else
+                {
+                    notes += i;
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                evaluation.note = (notes / total) * 100;
+                db.Entry(evaluation).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("HistoriqueHLAuto");
+            }
+            return View(evaluation);
+        }
+        [Authorize(Roles = "Qualité")]
+        [HttpGet]
+        public ActionResult FindEvaluationHLAuto(int? Id)
+        {
+            GrilleEvaluationHLAuto item = serviceHLAuto.getById(Id);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_AlerteDeSuppressionHLAuto", item);
+            }
+
+            else
+            {
+                return View(item);
+            }
+        }
+        [Authorize(Roles = "Qualité")]
+        public ActionResult DeleteHLAuto(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GrilleEvaluationHLAuto evaluation = serviceHLAuto.getById(id);
+            int? empId = evaluation.employeeId;
+            serviceHLAuto.DeleteEvaluations(id, empId);
+            serviceHLAuto.SaveChange();
+            return RedirectToAction("HistoriqueHLAuto");
+        }
+
+        #endregion
+
+        #region Reports HL Auto
+        public ActionResult ReportsHLAuto()
+        {
+            List<Employee> logins = new List<Employee>();
+            EvaluationViewModel evaluation = new EvaluationViewModel();
+            var user = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 8))
+            {
+                ViewBag.role = "Agent Qualité_CustomerService";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 4))
+            {
+                ViewBag.role = "Qualité";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 2))
+            {
+                ViewBag.role = "Manager";
+            }
+            if (user.Roles.Any(b => b.UserId == user.Id && b.RoleId == 6))
+            {
+                ViewBag.role = "Manager";
+            }
+
+
+            string d = "CUSTOMER SERVICE";
+            Groupe gr = serviceGroupe.getByNom(d);
+            List<Employee> emp = serviceGroupeEmp.getListEmployeeByGroupeId(gr.Id);
+            foreach (var e in emp)
+            {
+                if (!logins.Exists(l => l.UserName == e.UserName))
+                {
+                    logins.Add(e);
+                }
+            }
+            var employees = logins.OrderBy(a => a.UserName).ToList();
+            foreach (var test in employees)
+            {
+                if (!test.UserName.Equals(user.UserName) && test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 10))
+                {
+                    evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
+
+                }
+            }
+
+            Employee employee = UserManager.FindById(Int32.Parse(User.Identity.GetUserId()));
+            evaluation.empId = "" + employee.Id;
+
+            evaluation.userName = employee.UserName;
+            evaluation.pseudoNameEmp = employee.pseudoName;
+            if (employee.Content != null)
+            {
+                String strbase64 = Convert.ToBase64String(employee.Content);
+                String Url = "data:" + employee.ContentType + ";base64," + strbase64;
+                ViewBag.url = Url;
+                evaluation.Url = Url;
+
+            }
+            return View(evaluation);
+        }
+        public JsonResult GetReportsHLAuto(string username, string dateDebut, string dateFin)
+        {
+            float totAccueil = 0, totIdentification = 0, totMajDonnees = 0, totDecouverteAttentes = 0, totUtilisationOutils = 0, totMiseAttente = 0,
+                totTempsAttente = 0, totPertinenceReponse = 0, totConclusionContact = 0, totDiscours = 0, totAttitude = 0,
+                totHistorisation = 0, totFCR = 0, totPriseConge = 0, totNotes = 0;
+
+            float NbreMiseAttente = 0, NbreMajDonnees = 0, NbreTempsAttente = 0;
+
+            DateTime daterecherchedebut = DateTime.Parse(dateDebut);
+            DateTime daterecherchefin = DateTime.Parse(dateFin);
+
+            var historstions = serviceHLAuto.GetEvaluationsBetweenTwoDates(daterecherchedebut, daterecherchefin);
+            if (username != "")
+            {
+                Employee emp = serviceEmployee.getByLogin(username);
+                historstions = serviceHLAuto.GetEvaluationsEmployeeBetweenTwoDates(emp.Id, daterecherchedebut, daterecherchefin);
+            }
+            float nbreEvaluations = historstions.Count();
+            ViewBag.nbreEvaluations = nbreEvaluations;
+            foreach (var item in historstions)
+            {
+                totNotes += item.note;
+                totAccueil += item.accueil;
+                totIdentification += item.Identification;
+                totDecouverteAttentes += item.decouverteAttentes;
+                totUtilisationOutils += item.utilisationOutils;
+                totPertinenceReponse += item.pertinenceReponse;
+                totConclusionContact += item.conclusionContact;
+                totDiscours += item.discours;
+                totAttitude += item.attitude;
+                totHistorisation += item.historisation;
+                totFCR += item.FCRSAMRC;
+                totPriseConge += item.priseConge;
+
+                if (item.miseAttente >= 0)
+                {
+                    totMiseAttente += item.miseAttente;
+                    NbreMiseAttente += 1;
+                }
+                if (item.MajDonnees >= 0)
+                {
+                    totMajDonnees += item.MajDonnees;
+                    NbreMajDonnees += 1;
+                }
+                if (item.tempsAttente >= 0)
+                {
+                    totTempsAttente += item.tempsAttente;
+                    NbreTempsAttente += 1;
+                }
+
+            }
+
+            EvaluationEvaluationSCAutoViewModel test = new EvaluationEvaluationSCAutoViewModel();
+
+            if (NbreMiseAttente != 0)
+            {
+                test.miseAttente = (float)Math.Round((totMiseAttente / (NbreMiseAttente * 2)) * 100, 2);
+            }
+            else { test.miseAttente = -2; }
+            if (NbreMajDonnees != 0)
+            {
+                test.MajDonnees = (float)Math.Round((totMajDonnees / (NbreMajDonnees * 3)) * 100, 2);
+            }
+            else { test.MajDonnees = -3; }
+
+            if (NbreTempsAttente != 0)
+            {
+                test.tempsAttente = (float)Math.Round((totTempsAttente / (NbreTempsAttente * 2)) * 100, 2);
+            }
+            else { test.tempsAttente = -2; }
+            test.nbreEvaluations = Convert.ToInt32(nbreEvaluations);
+            if (nbreEvaluations != 0)
+            {
+                test.note = (float)Math.Round((totNotes / (nbreEvaluations * 100)) * 100, 2);
+                test.accueil = (float)Math.Round((totAccueil / (nbreEvaluations * 2)) * 100, 2);
+                test.identificationClient = (float)Math.Round((totIdentification / (nbreEvaluations * 3)) * 100, 2);
+                test.decouverteAttentes = (float)Math.Round((totDecouverteAttentes / (nbreEvaluations * 4)) * 100, 2);
+                test.utilisationOutils = (float)Math.Round((totUtilisationOutils / (nbreEvaluations * 5)) * 100, 2);
+                test.pertinenceReponse = (float)Math.Round((totPertinenceReponse / (nbreEvaluations * 6)) * 100, 2);
+                test.conclusionContact = (float)Math.Round((totConclusionContact / (nbreEvaluations * 3)) * 100, 2);
+                test.discours = (float)Math.Round((totDiscours / (nbreEvaluations * 4)) * 100, 2);
+                test.attitude = (float)Math.Round((totAttitude / (nbreEvaluations * 4)) * 100, 2);
+                test.historisation = (float)Math.Round((totHistorisation / (nbreEvaluations * 6)) * 100, 2);
+                test.FCR = (float)Math.Round((totFCR / (nbreEvaluations * 4)) * 100, 2);
+                test.priseConge = (float)Math.Round((totPriseConge / (nbreEvaluations * 2)) * 100, 2);
+            }
+            else
+            {
+                test.note = 0;
+                test.accueil = 0;
+                test.identificationClient = 0;
+                test.decouverteAttentes = 0;
+                test.utilisationOutils = 0;
+                test.pertinenceReponse = 0;
+                test.conclusionContact = 0;
+                test.discours = 0;
+                test.attitude = 0;
+                test.historisation = 0;
+                test.FCR = 0;
+                test.priseConge = 0;
+            }
+            return Json(test, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -101,6 +101,7 @@
             <li><a href="@Url.Action("SAMRCFOAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i>SAM/RC Auto (Front Office) </a></li>                 
             <li><a href="@Url.Action("FrontOfficeSCGISI", "EvaluationSCGISI", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-point-up"></i> SC GISI (Front Office)</a></li>
             <li><a href="@Url.Action("AchatPublic", "EvaluationAchatPublic", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i> Achat Public</a></li>
+            <li><a href="@Url.Action("HLAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i>SC HL Auto</a></li>
         </ul>
     </div>
 }
@@ -111,6 +112,7 @@
         <ul class="dropdown-menu dropdown-menu-right">
             <li><a href="@Url.Action("EnqueteAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-point-up"></i>Enquete Automobile </a></li>
             <li><a href="@Url.Action("SAMRCFOAuto", "EvaluationServiceClientAuto", new { enregistrementFullName = item.Name, enregistrementUrl = item.FullName, enregistrementDirectory = item.DirectoryName, agentName = Model.agentName })"><i class="icon-pointer"></i>SAM/RC Auto (Front Office) </a></li>           
+
         </ul>
     </div>
 }

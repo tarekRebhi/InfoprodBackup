@@ -40,6 +40,16 @@
 
                 <div class="row">
                     <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Identification</b></font></h6>
+
+                        <div class="col-xs-4">
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.identificationClient)</h6></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
                         <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>MAJ des coordonnées Client</b></font></h6>
                         <div class="col-xs-4">
                             <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.MajDonnees)</h6></a>
@@ -131,7 +141,7 @@
                 </div>
                 <div class="row">
                     <div class="col-1">
-                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Empathie / Attitude</b></font></h6>
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>Empathie / Attitude / Personnalisation</b></font></h6>
                         <div class="col-xs-4">
                           
                                 <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.attitude)</h6></a>
@@ -146,6 +156,18 @@
                         <div class="col-xs-4">
 
                             <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.historisation)</h6></a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1">
+                        <h6 style="width:50%" class="col-xs-1 control-label"><font color="black"><b>FCR</b></font></h6>
+
+                        <div class="col-xs-4">
+
+                            <a><h6 style="width:35%" class="col-xs-1 control-label">@Html.DisplayFor(modelItem => modelItem.FCR)</h6></a>
 
                         </div>
                     </div>

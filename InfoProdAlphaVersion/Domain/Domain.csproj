@@ -83,6 +83,7 @@
     <Compile Include="Entity\GrilleEvaluationEnqueteAuto.cs" />
     <Compile Include="Entity\GrilleEvaluationFO.cs" />
     <Compile Include="Entity\GrilleEvaluationFOSAMRC.cs" />
+    <Compile Include="Entity\GrilleEvaluationHLAuto.cs" />
     <Compile Include="Entity\GrilleEvaluationKLMO.cs" />
     <Compile Include="Entity\GrilleEvaluationPRV.cs" />
     <Compile Include="Entity\GrilleEvaluationQR.cs" />

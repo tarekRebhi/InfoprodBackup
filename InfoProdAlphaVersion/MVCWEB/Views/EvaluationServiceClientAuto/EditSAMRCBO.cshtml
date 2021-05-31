@@ -42,9 +42,9 @@
                             list2.Add(new SelectListItem { Text = "AA", Value = "2,5" });
 
                             List<SelectListItem> list3 = new List<SelectListItem>();
-                            list3.Add(new SelectListItem { Text = "OK", Value = "15" });
+                            list3.Add(new SelectListItem { Text = "OK", Value = "10" });
                             list3.Add(new SelectListItem { Text = "KO", Value = "0" });
-                            list3.Add(new SelectListItem { Text = "AA", Value = "7,5" });
+                            list3.Add(new SelectListItem { Text = "AA", Value = "5" });
                         
                         }
                         <div class="row">
@@ -104,37 +104,52 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-4" style="font-weight:bold;">Qualification des demandes sur CRM:</label>
-                                    <div class="col-md-8">
-                                        @*@Html.EditorFor(model => model.objetAppel, new { htmlAttributes = new { @class = "form-control" } })*@
-                                        @Html.DropDownListFor(model => model.qualificationDemandes, list2, @Model.qualificationDemandes)
-                                    </div>
-                                </div>   
                             </div>
                             <div class="col-md-6">
-
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Compréhension de la demande et Pertinence de la réponse:</label>
                                     <div class="col-md-8">
                                         @*@Html.EditorFor(model => model.validationNature, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.validationNature, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.validationNature, "", new { @class = "text-danger" })*@
                                         @Html.DropDownListFor(model => model.pertinenceReponse, list3, @Model.pertinenceReponse)
                                     </div>
                                 </div>
-
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">Historisation:</label>
+                                    <div class="col-md-8">
+                                        @*@Html.EditorFor(model => model.calendrier, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.calendrier, "", new { @class = "text-danger" })*@
+                                        @Html.DropDownListFor(model => model.Historisation, list2, @Model.Historisation)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4" style="font-weight:bold;">FCR:</label>
+                                    <div class="col-md-8">
+                                        @*@Html.EditorFor(model => model.calendrier, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.calendrier, "", new { @class = "text-danger" })*@
+                                        @Html.DropDownListFor(model => model.FCR, list2, @Model.FCR)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-md-4" style="font-weight:bold;">Discours et rédaction de la réponse:</label>
                                     <div class="col-md-8">
                                         @*@Html.EditorFor(model => model.calendrier, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.calendrier, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.calendrier, "", new { @class = "text-danger" })*@
                                         @Html.DropDownListFor(model => model.discours, list2, @Model.discours)
                                     </div>
                                 </div>
-                               
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label style="font-weight:bold;">Commentaire Responsable Qualité:</label>
                             <div class="input-group col-md-12">
@@ -150,6 +165,10 @@
                                 @Html.ValidationMessageFor(model => model.commentaireAgent, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        </div>
+                        </div>
+
+                       
 
                         <div class="form-group" hidden>
                             @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -194,8 +213,8 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
+            
+        
                             }
     <script>
         $('#datePicker')

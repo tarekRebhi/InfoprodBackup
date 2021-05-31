@@ -54,6 +54,7 @@ namespace Data
         public DbSet<GrilleEvaluationFO> GrilleEvaluationFOSCGISI { get; set; }
         public DbSet<GrilleEvaluationBO> GrilleEvaluationBOSCGISI { get; set; }
         public DbSet<GrilleEvaluationFOSAMRC> GrilleEvaluationFOSAMRCs { get; set; }
+        public DbSet<GrilleEvaluationHLAuto> GrilleEvaluationHLAutos { get; set; }
         public DbSet<GrilleEvaluationBOSAMRC> GrilleEvaluationBOSAMRCs { get; set; }
         public DbSet<GrilleEvaluationBattonage> GrilleEvaluationBattonages { get; set; }
         public DbSet<GrilleEvaluationAchatPublic> GrilleEvaluationAchatPublics { get; set; }
@@ -64,6 +65,8 @@ namespace Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Add(new DateTime2Convention());
+            /*modelBuilder.Entity<Details_Activite_REAB_GISI>()
+                .Property(c => c.AI_DATE).HasColumnType("datetime2");*/
         }
         public static ReportContext Create()
         {

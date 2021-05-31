@@ -13,6 +13,7 @@
             <th style="font-weight:bold;">Score</th>
             <th style="font-weight:bold;">Réceprteur de l'évaluation</th>
             <th hidden>Accueil</th>
+            <th hidden>Identification</th>
             <th hidden>Découverte des attentes</th>
             <th hidden>Utilisation des Outils</th>
             <th hidden>Mise en attente</th>
@@ -20,8 +21,9 @@
             <th hidden>Pertinence de la réponse</th>
             <th hidden>Conclusion du contact</th>
             <th hidden>Discours</th>
-            <th hidden>Empathie / Attitude</th>
+            <th hidden>Empathie / Attitude / Personnalisation</th>
             <th hidden>Historisation</th>
+            <th hidden>FCR</th>
             <th hidden>Prise Congé</th>
             <th style="font-weight:bold;">Commentaires</th>
             <th hidden>Réponse Agent</th>
@@ -48,6 +50,9 @@
                 <td>@item.agentName</td>
                 <td hidden>
                     @item.accueil
+                </td>
+                <td hidden>
+                    @item.identificationClient
                 </td>
                 <td hidden>
                     @if (item.MajDonnees >= 0)
@@ -101,6 +106,9 @@
                     @item.historisation
                 </td>
                 <td hidden>
+                    @item.FCR
+                </td>
+                <td hidden>
                     @item.priseConge
                 </td>
 
@@ -118,6 +126,9 @@
                             <ul class="dropdown-menu dropdown-menu-right" style="width:250px;">
                                 <li>
                                     Accueil: <span>@item.accueil</span>                                    
+                                </li>
+                                <li>
+                                    Identification: <span>@item.identificationClient</span>
                                 </li>
                                 <li>
                                     MAJ des coordonnées Client: <span>@item.MajDonnees</span>
@@ -145,10 +156,13 @@
                                     Discours : <span> @item.discours</span>
                                 </li>
                                 <li>
-                                    Empathie / Attitude : <span> @item.attitude</span>
+                                    Empathie / Attitude / Personnalisation : <span> @item.attitude</span>
                                 </li>
                                 <li>
                                     Historisation: <span> @item.historisation  </span>
+                                </li>
+                                <li>
+                                    FCR: <span>@item.FCR</span>
                                 </li>
                                 <li>
                                     Prise de congé : <span> @item.priseConge</span>

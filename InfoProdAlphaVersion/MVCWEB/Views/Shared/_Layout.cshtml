@@ -381,7 +381,13 @@
         <!-- Custom scripts for this page-->
         <script src="/Content/Template1/js/sb-admin-datatables.min.js"></script>
         <script src="/Content/Template1/js/sb-admin-charts.min.js"></script>
-        @RenderSection("Scripts",false)
+        @*@RenderSection("Scripts",false)
+        @RenderSection("extract", false)
+        @RenderSection("testProfile", false)
+        @RenderSection("sidebarProfile", false)
+        @RenderSection("pagetitle", false)
+        @RenderSection("pagetitlebody", false)*@
+        @*@extract; testProfile; sidebarProfile; pagetitle; pagetitlebody
         @*<script type="text/javascript">
                 $(document).ready ( function () {
                     $(document).on("click", "#test", function () {
