@@ -176,7 +176,7 @@ namespace MVCWEB.Controllers
                 else if (UserManager.IsInRole(emp.Id, "SuperManager"))
                 {
                    // Session["SuperMangerRole"] = "SuperMangerRole";
-                    return RedirectToAction("IndexManagerGroupes", "Home");
+                    return RedirectToAction("SuiviTempsALLHermesUsers", "AttendanceHermes");
 
                 }
                 //Agent: Agent_BPP

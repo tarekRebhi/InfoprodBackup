@@ -5739,6 +5739,7 @@
     <Content Include="Views\EvaluationServiceClientAuto\HistoriqueTableHLAgentPartialView.cshtml" />
     <Content Include="Views\EvaluationServiceClientAuto\HistoriqueAgent_HL.cshtml" />
     <Content Include="Views\EvaluationServiceClientAuto\ReponseEvaluationHL.cshtml" />
+    <Content Include="Views\AttendanceHermes\SuiviTempsAllHermesUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

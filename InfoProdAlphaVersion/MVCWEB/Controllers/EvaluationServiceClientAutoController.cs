@@ -4498,7 +4498,7 @@ namespace MVCWEB.Controllers
             var employees = logins.OrderBy(a => a.UserName).ToList();
             foreach (var test in employees)
             {
-                if (!test.UserName.Equals(user.UserName) && test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 10))
+                if (!test.UserName.Equals(user.UserName) && test.Roles.Any(r => r.UserId == test.Id && r.RoleId == 2016))
                 {
                     evaluation.employees.Add(new SelectListItem { Text = test.UserName, Value = test.UserName });
 

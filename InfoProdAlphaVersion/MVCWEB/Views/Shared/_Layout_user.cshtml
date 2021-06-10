@@ -278,8 +278,8 @@
                                     String GMTPROMO = @HttpContext.Current.Session["GMT-PROMO"].ToString();
                                     String SuperMangerRole = @HttpContext.Current.Session["SuperMangerRole"].ToString();
                                 }*@
-                                <li class="active"><a href="@Url.Action("IndexManagerGroupes", "Home")"><i class="icon-home4"></i> <span>Accueil</span></a></li>
-                                <li>
+                                <li class="active"><a href="@Url.Action("SuiviTempsALLHermesUsers", "AttendanceHermes")"><i class="icon-home4"></i> <span>Accueil</span></a></li>
+                                @*<li>
                                     <a href="#"><i class="glyphicon glyphicon-user"></i> <span>Suivi des Agents</span></a>
                                     <ul>
                                         <li>
@@ -299,8 +299,8 @@
                                         </li>
 
                                     </ul>
-                                </li>
-                                <li>
+                                </li>*@
+                                @*<li>
                                     <a href="#"><i class="glyphicon glyphicon-stats"></i> <span>Suivi des Activités</span></a>
                                     <ul>
                                         <li><a href="@Url.Action("ManagerJournalierActivity", "Home")">Journalier </a></li>
@@ -310,9 +310,9 @@
                                         <li><a href="@Url.Action("ManagerAnnuelleActivity", "Home")">Annuel</a></li>
 
                                     </ul>
-                                </li>
+                                </li>*@
 
-                                <li>
+                                @*<li>
                                     <a href="#"><i class="glyphicon glyphicon-th-list"></i> <span>Suivi Traitement des Campagnes</span></a>
                                     <ul>
                                         @*<li>
@@ -332,7 +332,7 @@
                                             {
                                                 <a href="@Url.Action("GMT_PROMO_Qualif", "DetailsActivites")"> @GMTPROMO</a>
                                             }
-                                        </li>*@
+                                        </li>
 
                      <li><a href="@Url.Action("GISI_REAB_Qualif", "DetailsActivites")">GISI-REAB </a></li>
                     <li><a href="@Url.Action("GISI_PROMO_Qualif", "DetailsActivites")">GISI-PROMO</a></li>
@@ -340,9 +340,9 @@
                     <li><a href="@Url.Action("GMT_PROMO_Qualif", "DetailsActivites")">GMT-PROMO</a></li>
 
                                     </ul>
-                                </li>
+                                </li>*@
 
-                                <li>
+                                @*<li>
                                     <a href="#"><i class="glyphicon glyphicon-check"></i> <span>Suivi des Accords</span></a>
                                     <ul>
                                         @*<li>
@@ -362,14 +362,14 @@
                                             {
                                                 <a href="@Url.Action("GMTPROMO", "Accords")"> @GMTPROMO</a>
                                             }
-                                        </li>*@
+                                        </li>
                                         <li><a href="@Url.Action("GISIREAB", "Accords")">GISI-REAB </a></li>
                     <li><a href="@Url.Action("GISIPROMO", "Accords")">GISI-PROMO</a></li>
                     <li><a href="@Url.Action("GMTREAB", "Accords")">GMT-REAB</a></li>
                     <li><a href="@Url.Action("GMTPROMO", "Accords")">GMT-PROMO</a></li>
                                     </ul>
-                                </li>
-                                <li>
+                                </li>*@
+                                @*<li>
                                     <a href="#"><i class="glyphicon glyphicon-import"></i> <span>Suivi des Injections</span></a>
                                     <ul>
                                         <li>
@@ -392,7 +392,7 @@
                                                     {
                                                         <a href="@Url.Action("GMT_PROMO_Injection", "DetailsActivitesInjection")"> @GMTPROMO</a>
                                                     }
-                                                </li>*@
+                                                </li>
                                                 <li><a href="@Url.Action("GISI_REAB_Injection", "DetailsActivitesInjection")">GISI-REAB </a></li>
                             <li><a href="@Url.Action("GISI_PROMO_Injection", "DetailsActivitesInjection")">GISI-PROMO</a></li>
                             <li><a href="@Url.Action("GMT_REAB_Injection", "DetailsActivitesInjection")">GMT-REAB</a></li>
@@ -402,24 +402,24 @@
                                         <li><a href="@Url.Action("Index", "DT_INJECTED")">Par Titres</a></li>
                                         <li> <a href="@Url.Action("Index", "Objectifs")"> Paramètres des Objectifs</a> </li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("SuiviTemps", "AttendanceHermes")"><i class="icon-table2"></i> <span>Suivi du Temps</span></a>
-                                </li>
+                                </li>*@
+                                @*<li>
+                                    <a href="@Url.Action("SuiviTempsALLHermesUsers", "AttendanceHermes")"><i class="icon-table2"></i> <span>Suivi du Temps</span></a>
+                                </li>*@
 
-                                <li>
+                                @*<li>
                                     <a href="@Url.Action("Index", "Alerte")"><i class="glyphicon glyphicon-alert"></i> <span>Alertes</span></a>
                                     <ul>
                                         <li><a href="@Url.Action("IndexAgentManager", "Alerte")">Eléments Envoyés</a></li>
                                         <li><a href="@Url.Action("CreateAlerteManager", "Alerte")">Nouvelle Alerte</a></li>
 
                                     </ul>
-                                </li>
+                                </li>*@
                                 @*<li>
                                     <a href="@Url.Action("Calendar", "Home")"><i class="icon-calendar3"></i> <span>Planifications</span></a>
 
                                 </li>*@
-                                <li>
+                                @*<li>
                                     <a href="@Url.Action("Historique", "Evaluation")"><i class="glyphicon glyphicon-briefcase"></i> <span>Historique des Evaluations</span></a>
 
                                 </li>
@@ -434,7 +434,7 @@
                                         </li>
                                     </ul>
 
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
                     </div>
